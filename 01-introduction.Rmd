@@ -1,0 +1,61 @@
+# Introduction {#intro}
+
+TODO
+
+
+## Descriptive 
+
+TODO
+
+
+## Predictive
+
+TODO
+
+
+## Prescriptive
+
+TODO
+
+## Data sets {#data}
+
+We have strived to use data sets throughout the book that represent real world applications. An introduction to each data set, as well as it's source and how to import it, is given in the following subsections. 
+
+### Ames Iowa housing data {-}
+
+__TODO__: introduce theoretical business problem
+
+Suppose that you are an analyst working for a local real estate firm in Ames, Iowa. You have been asked to develop a model to help real estate agents
+
+@ames-cock-2011 describes a data set containing the sale of individual residential property in Ames, Iowa from 2006 to 2010. The data set contains 2930 observations and a large number of explanatory variables involved in assessing home values. These data offer a contemporary alternative to the often used Boston housing data described in @harrison1978hedonic.
+
+The Ames housing data, which we refer to as simply the `ames` data, are available in the `AmesHousing` package [@pkg-AmesHousing] which is available from CRAN:
+```{r, eval=FALSE}
+install.packages("AmesHousing")
+```
+The raw data are also available from Kaggle: https://www.kaggle.com/c/house-prices-advanced-regression-techniques. In the code chunk below, we use the `make_ames()` function from `AmesHousing` to create a processed version of the data. For full details on the difference between the processed and raw versions of the `ames` data, see the help file `?AmesHousing::make_ames`.
+```{r}
+ames <- AmesHousing::make_ames()
+dim(ames)
+table(sapply(ames, class))
+```
+The function `make_ames()` returns a `"tibble"` object, rather than just an R data frame. For more information on *tibbles*, see the corresponding vignette available in the `tibble` package [@R-tibble] `browseVignettes(package = "tibble")`. Running the code chunk above, we see that there are `r nrow(ames)` observations on `r ncol(ames)` variables (46 are factors, 23 are integer valued, and 12 are numeric).
+
+### Employee attrition data {-}
+
+__TODO__: introduce theoretical business problem
+
+Due to the continuing concerns organizations have with attracting and retaining top talent, the [IBM Watson Analytics Lab](https://www.ibm.com/communities/analytics/watson-analytics-blog) published an employee attrition data set that allows analysts to explore factors that lead to employee attrition and investigate important questions such as ‘show me a breakdown of distance from home by job role and attrition’ or ‘compare average monthly income by education and attrition’.
+
+The employee attrition data, which we refer to as simply the `churn` data, are available in the `rsample` package [@pkg-rsample] which is available from CRAN:
+```{r, eval=FALSE}
+install.packages("rsample")
+```
+
+The raw data are also available from IBM Watson Analytics Lab: https://www.ibm.com/communities/analytics/watson-analytics-blog/hr-employee-attrition/. In the code chunk below, we import the attrition data from `rsample`. 
+```{r}
+churn <- rsample::attrition
+dim(churn)
+dplyr::glimpse(churn)
+```
+Running the code chunk above, we see that there are `r nrow(churn)` observations on `r ncol(churn)` variables, which consist of a mixture of integers, factors, and ordered factors data types). 

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</title>
+  <meta name="description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
+  
+  <meta name="twitter:description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics." />
+  
+
+<meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
+
+
+<meta name="date" content="2018-07-27">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="index.html">
+<link rel="next" href="intro.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="extra.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Business Analytics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Set global options for the book</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-for"><i class="fa fa-check"></i>Who this book is for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-not-for"><i class="fa fa-check"></i>Who this book is not for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-really-not-for"><i class="fa fa-check"></i>Who this book is really not for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-this-book-is-organized"><i class="fa fa-check"></i>How this book is organized</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#conventions-used-in-this-book"><i class="fa fa-check"></i>Conventions used in this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-code-examples"><i class="fa fa-check"></i>Using code examples</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#feedback"><i class="fa fa-check"></i>Feedback</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information"><i class="fa fa-check"></i>Software information</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html"><i class="fa fa-check"></i>Who are these Guys?</a><ul>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html#bradley-c.-boehmke"><i class="fa fa-check"></i>Bradley C. Boehmke</a></li>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html#brandon-m.-greenwell"><i class="fa fa-check"></i>Brandon M. Greenwell</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>2.1</b> Descriptive</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#predictive"><i class="fa fa-check"></i><b>2.2</b> Predictive</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#prescriptive"><i class="fa fa-check"></i><b>2.3</b> Prescriptive</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#data-sets"><i class="fa fa-check"></i><b>2.4</b> Data sets</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#ames-iowa-housing-data"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>2.5</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>2.6</b> Measures of location</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>2.6.1</b> The sample mean</a></li>
+<li class="chapter" data-level="2.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>2.6.2</b> The sample median</a></li>
+<li class="chapter" data-level="2.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>2.6.3</b> The mean or the median</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>2.7</b> Measures of spread</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>2.7.1</b> The empirical rule</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>2.8</b> Percentiles</a></li>
+<li class="chapter" data-level="2.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>2.9</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="2.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>2.10</b> Outlier detection</a></li>
+<li class="chapter" data-level="2.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>2.11</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="2.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>2.11.1</b> Contingency tables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>2.12</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>3</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="3.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>3.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>3.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>3.2.2</b> Categorical Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>3.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>3.3.1</b> Scatter plots</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>3.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>3.4.1</b> Facetting</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>3.5</b> Data quality</a></li>
+<li class="chapter" data-level="3.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>3.6</b> Further reading</a></li>
+<li class="chapter" data-level="3.7" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="4.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>4.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>4.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="4.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="4.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>4.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="4.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>4.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="4.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>4.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="4.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>4.1.6</b> Confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>4.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="4.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> Two-sample t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>4.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="4.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>4.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="4.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>4.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="4.6" data-path="inference.html"><a href="inference.html#the-nonparametric-bootstrap"><i class="fa fa-check"></i><b>4.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>4.6.1</b> Bootstrap confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>4.7</b> Further reading</a></li>
+<li class="chapter" data-level="4.8" data-path="inference.html"><a href="inference.html#exercises-1"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="5.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.2" data-path="unsupervised.html"><a href="unsupervised.html#principal-components-analysis"><i class="fa fa-check"></i><b>5.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>5.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="5.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="5.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>5.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="5.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>5.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="5.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>5.2.5</b> PCA with mixed data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>5.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="5.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>5.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="5.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="5.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>5.3.4</b> Clustering with mixed data</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Predictive Analytics</b></span><ul>
+<li class="chapter" data-level="5.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>5.4</b> Regression problems</a></li>
+<li class="chapter" data-level="5.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>5.5</b> Classification problems</a></li>
+<li class="chapter" data-level="5.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>5.6</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="5.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>5.7</b> General modeling process</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>5.7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_split"><i class="fa fa-check"></i><b>5.7.2</b> Data splitting</a></li>
+<li class="chapter" data-level="5.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>5.7.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="5.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>5.7.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="5.7.5" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_tune"><i class="fa fa-check"></i><b>5.7.5</b> Model tuning</a></li>
+<li class="chapter" data-level="5.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>5.7.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="5.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_eval"><i class="fa fa-check"></i><b>5.7.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="5.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>5.7.8</b> Interpreting predictive models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>6</b> Linear regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>6.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.2" data-path="linear-regression.html"><a href="linear-regression.html#the-idea"><i class="fa fa-check"></i><b>6.2</b> The Idea</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>6.2.1</b> Simple linear regression</a></li>
+<li class="chapter" data-level="6.2.2" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>6.2.2</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="6.2.3" data-path="linear-regression.html"><a href="linear-regression.html#assumptions"><i class="fa fa-check"></i><b>6.2.3</b> Assumptions</a></li>
+<li class="chapter" data-level="6.2.4" data-path="linear-regression.html"><a href="linear-regression.html#advantages-disadvantages"><i class="fa fa-check"></i><b>6.2.4</b> Advantages &amp; Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="linear-regression.html"><a href="linear-regression.html#basic-implementation"><i class="fa fa-check"></i><b>6.3</b> Basic implementation</a></li>
+<li class="chapter" data-level="6.4" data-path="linear-regression.html"><a href="linear-regression.html#predictive-accuracy"><i class="fa fa-check"></i><b>6.4</b> Predictive accuracy</a></li>
+<li class="chapter" data-level="6.5" data-path="linear-regression.html"><a href="linear-regression.html#adding-more-predictors"><i class="fa fa-check"></i><b>6.5</b> Adding more predictors</a></li>
+<li class="chapter" data-level="6.6" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>6.6</b> Model concerns</a></li>
+<li class="chapter" data-level="6.7" data-path="linear-regression.html"><a href="linear-regression.html#dimension-reduction-with-pca"><i class="fa fa-check"></i><b>6.7</b> Dimension reduction with PCA</a></li>
+<li class="chapter" data-level="6.8" data-path="linear-regression.html"><a href="linear-regression.html#dimension-reduction-with-pls"><i class="fa fa-check"></i><b>6.8</b> Dimension reduction with PLS</a></li>
+<li class="chapter" data-level="6.9" data-path="linear-regression.html"><a href="linear-regression.html#variable-importance"><i class="fa fa-check"></i><b>6.9</b> Variable importance</a></li>
+<li class="chapter" data-level="6.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>6.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>7</b> (APPENDIX) Appendix {-}</a><ul>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="author" class="section level1 unnumbered">
+<h1>Who are these Guys?</h1>
+<p>This book is…</p>
+<div id="bradley-c.-boehmke" class="section level2 unnumbered">
+<h2>Bradley C. Boehmke</h2>
+<p>Brad Boehmke is a Data Scientist at 84.51°, where he and his team develop algorithmic processes, solutions, and tools that enable 84.51° and its analysts to efficiently extract insights from data and provide solution alternatives to decision-makers. Brad is also an adjunct professor at the University of Cincinnati, Wake Forest, and Air Force Institute of Technology. He’s an active contributor to the R community through package development (i.e. <code>anomalyDetection</code>, <code>sure</code>, <code>vip</code>) and giving back via advanced machine learning education available at the <a href="http://uc-r.github.io/">UC Business Analytics R Programming Guide</a>. You can follow Brad on Twitter (<a href="https://twitter.com/bradleyboehmke" class="uri">https://twitter.com/bradleyboehmke</a>) and GitHub (<a href="https://github.com/bradleyboehmke" class="uri">https://github.com/bradleyboehmke</a>).</p>
+</div>
+<div id="brandon-m.-greenwell" class="section level2 unnumbered">
+<h2>Brandon M. Greenwell</h2>
+<p>Brandon Greenwell is…</p>
+<p>You can follow me on Twitter (<a href="https://twitter.com/bgreenwell8" class="uri">https://twitter.com/bgreenwell8</a>) and GitHub (<a href="https://github.com/bgreenwell" class="uri">https://github.com/bgreenwell</a>).</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["abar.pdf", "abar.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,979 @@
+# (PART) Predictive Analytics {-} 
+
+# Fundamental concepts {#fundamentalconcepts}
+
+```{r ch6-setup, include=FALSE}
+
+# Set the graphical theme
+ggplot2::theme_set(ggplot2::theme_light())
+
+# Set global knitr chunk options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  warning = FALSE, 
+  message = FALSE, 
+  collapse = TRUE, 
+  fig.align = "center"
+)
+```
+
+Predictive analytics continues to grow in importance for many organizations across nearly all domains. A ___predictive model___ is used for tasks that involve the prediction of a given output using other variables and their values (_features_) in the data set. Or as stated by @apm, predictive modeling is _"the process of developing a mathematical tool or model that generates an accurate prediction"_ (p. 2).  The learning algorithm in a predictive attempts to discover and model the relationship among the ___target___ response (the variable being predicted) and the other features (aka predictor variables). Examples of predictive modeling include:
+
+* using customer attributes to predict the probability of the customer churning in the next 6 weeks,
+* using home attributes to predict the sales price,
+* using employee attributes to predict the likelihood of attrition,
+* using patient attributes and symptoms to predict the risk of readmission,
+* using production attributes to predict time to market.
+
+Each of these examples have a defined learning task.  They each intend to use attributes ($X$) to predict an outcome measurement ($Y$).
+
+```{block, type = "note"}
+Throughout this section we will use various terms interchangeably for:
+
+- $X$: "predictor variables", "independent variables", "attributes", "features", "predictors"
+- $Y$: "target variable", "dependent variable", "response", "outcome measurement"
+
+```
+
+The predictive modeling examples above describe what is known as _supervised learning_.  The supervision refers to the fact that the target values provide a supervisory role, which indicates to the learner the task it needs to learn. Specifically, given a set of data, the learning algorithm attempts to optimize a function (the algorithmic steps) to find the combination of feature values that results in a predicted value that is as close to the actual target output as possible.
+
+```{block, type = "note"}
+In supervised learning, the training data you feed the algorithm includes the desired solutions.  Consequently, the solutions can be used to help _supervise_ the training process to find the optimal algorithm parameters.
+```
+
+Supervised learning problems revolve around two primary themes: regression and classification.
+
+## Regression problems
+
+When the objective of our supervised learning is to predict a numeric outcome, we refer to this as a ___regression problem___ (not to be confused with linear regression modeling).  Regression problems revolve around predicting output that falls on a continuous numeric spectrum. In the examples above predicting home sales prices and time to market reflect a regression problem because the output is numeric and continuous.  This means, given the combination of predictor values, the response value could fall anywhere along the continuous spectrum.  Figure \@ref(fig:regression-problem) illustrates average home sales prices as a function of two home features: year built and total square footage. Depending on the combination of these two features, the expected home sales price could fall anywhere along the plane.
+
+```{r regression-problem, echo=FALSE, fig.cap="Average home sales price as a function of year built and total square footage."}
+df <- AmesHousing::make_ames()
+x <- matrix(sort(df$Gr_Liv_Area)[floor(seq(1, nrow(df), length.out = 15))], 15, 1)
+y <- matrix(sort(df$Year_Built)[floor(seq(1, nrow(df), length.out = 15))], 1, 15)
+z <- sweep(
+  x = 25051 + 3505*(log(x^.9) %*% log(y)) - 5*as.vector(x) , 
+  MARGIN = 2,
+  STATS = matrix(c(.92, .95, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, .95), 1, 15),
+  FUN = `*`
+)
+par(mar = c(0.1, 0.1, 0.1, 0.1))  # remove extra white space
+persp(
+  x = x, 
+  y = y,
+  z = z,
+  xlab = "Square footage",
+  ylab = "Year built",
+  zlab = "Sale price",
+  theta = -45, 
+  phi = 25,
+  col = viridis::viridis(100)
+)
+
+# library(plotly)
+# plot_ly(x = as.vector(x), y = as.vector(y), z = z, showscale = FALSE) %>%  
+#     add_surface() %>%
+#     layout(
+#         scene = list(
+#             xaxis = list(title = "Feature: square footage"),
+#             yaxis = list(title = "Feature: year built"),
+#             zaxis = list(title = "Response: sale price")
+#         )
+#     )
+```
+
+
+## Classification problems
+
+When the objective of our supervised learning is to predict a categorical response, we refer to this as a ___classification problem___.  Classification problems most commonly revolve around predicting a binary or multinomial response measure such as:
+
+* did a customer redeem a coupon (yes/no, 1/0),
+* did a customer churn (yes/no, 1/0),
+* did a customer click on our online ad (yes/no, 1/0),
+* classifying customer reviews:
+    * binary: positive vs negative
+    * multinomial: extremely negative to extremely positive on a 0-5 Likert scale
+    
+
+
+```{r classification-problem, echo=FALSE, out.width="40%", out.height="40%", eval=FALSE}
+library(DiagrammeR)
+
+grViz("
+  
+  digraph boxes_and_circles {
+    node [shape = circle]
+    x1; x2; x3;
+    
+    node [shape = box]
+    Model;
+
+    node [shape = triangle]
+    Yes; No;
+
+    x1->Model; x2->Model; x3->Model; Model->No; Model->Yes;
+}")   
+
+```
+
+
+However, when we apply predictive models for classification problems, rather than predict a particular class (i.e. "yes" or "no"), we often predict the _probability_ of a particular class (i.e. yes: .65, no: .35).  Then the class with the highest probability becomes the predicted class.  Consequently, even though we are performing a classification problem, we are still predicting a numeric output (probability).  However, the essence of the problem still makes it a classification problem.
+
+## Algorithm Comparison Guide
+
+__TODO: do we want something along these lines here?__
+
+Although there are supervised learning algorithms that can be applied to regression problems but not classification and vice versa, the supervised predictive models we cover in this book can be applied to both.[^rc_models]  These algorithms have become the most popular predictive analytic techniques in recent years. 
+
+Although the chapters that follow will go into detail on each algorithm, the following provides a quick reference guide that compares and contrasts some of their features. 
+
+<table style="font-size:13px;">
+<col width="30%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<thead>
+<tr class="header">
+<th align="left">Characteristics</th>
+<th align="left">Generalized Linear Models (GLM)</th>
+<th align="left">Regularized GLM</th>
+<th align="left">Multivariate Adaptive Regression Splines</th>
+<th align="left">Random Forest</th>
+<th align="left">Gradient Boosting Machine</th>
+<th align="left">Deep Learning</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="odd">
+<td align="left" valign="top">
+  Captures non-linear relationships
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+</tr>
+
+<tr class="odd">
+<td align="left" valign="top">
+  Allows n < p
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+</tr>
+
+<tr class="even">
+<td align="left" valign="top">
+  Provides automatic feature selection
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+</tr>
+
+<tr class="odd">
+<td align="left" valign="top">
+  Handles missing values
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+</tr>
+
+<tr class="even">
+<td align="left" valign="top">
+  No feature pre-processing required
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+</tr>
+
+<tr class="odd">
+<td align="left" valign="top">
+  Robust to outliers
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+</tr>
+
+<tr class="even">
+<td align="left" valign="top">
+  Easy to tune
+</td>
+<td align="left" valign="center"> 
+  NA
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+</tr>
+
+<tr class="odd">
+<td align="left" valign="top">
+  Computational speed
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+</tr>
+
+<tr class="even">
+<td align="left" valign="top">
+  Predictive power
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" /></svg>
+</td>
+<td align="left" valign="center"> 
+  <svg height="10" width="10"><circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" /></svg>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+
+## General modeling process
+
+Predictive modeling is a very iterative process.  If performed and interpreted correctly, we can have great confidence in our outcomes. If not, the results will be useless. Approaching predictive modeling correctly means approaching it strategically by spending our data wisely on learning and validation procedures, properly pre-processing variables, minimizing data leakage, tuning hyperparameters, and assessing model performance (Figure \@ref(fig:06-modeling-process)). Before introducing specific algorithms, this section introduces concepts that are commonly required in the supervised predictive modeling process and that you'll see briskly covered in each chapter. 
+
+```{r 06-modeling-process, echo=FALSE, out.height="90%", out.width="90%", fig.cap="General predictive modeling process."}
+knitr::include_graphics("illustrations/modeling_process2.png")
+```
+
+### Prerequisites {#reg_perf_prereq}
+
+This section leverages the following packages.
+
+```{r sml-prep, cache=FALSE}
+library(rsample)
+library(caret)
+library(dplyr)
+```
+
+To illustrate some of the concepts, we will use the Ames Housing data and employee attrition data introduced in Section \@ref(data).   
+
+```{r 06-import}
+# ames data
+ames <- AmesHousing::make_ames()
+
+# attrition data
+churn <- rsample::attrition
+```
+
+
+### Data splitting {#reg-perf-split}
+
+#### Spending our data wisely
+
+A major goal of the predictive modeling process is to find an algorithm $f(x)$ that most accurately predicts future values ($y$) based on a set of inputs ($x$).  In other words, we want an algorithm that not only fits well to our past data, but more importantly, one that predicts a future outcome accurately.  This is called the ___generalizability___ of our algorithm.  How we _"spend"_ our data will help us understand how well our algorithm generalizes to unseen data.  
+
+To provide an accurate understanding of the generalizability of our final optimal model, we split our data into training and test data sets:
+
+*  __Training Set__: these data are used to train our algorithms and tune hyper-parameters.
+*  __Test Set__: having chosen a final model, these data are used to estimate its prediction error (generalization error). These data should _not be used during model training!_
+
+```{r, echo=FALSE, fig.align='center', fig.cap="Splitting data into training and test sets.", out.width=175}
+knitr::include_graphics("illustrations/data_split.png")
+```
+
+Given a fixed amount of data, typical recommendations for splitting your data into training-testing splits include 60% (training) - 40% (testing), 70%-30%, or 80%-20%. Generally speaking, these are appropriate guidelines to follow; however, it is good to keep in mind that as your overall data set gets smaller,
+
+* spending too much in training ($>80\%$) won't allow us to get a good assessment of predictive performance.  We may find a model that fits the training data very well, but is not generalizable (overfitting),
+* sometimes too much spent in testing ($>40\%$) won't allow us to get a good assessment of model parameters
+
+In today's data-rich environment, typically, we are not lacking in the quantity of observations, so a 70-30 split is often sufficient.  The two most common ways of splitting data include ___simple random sampling___ and ___stratified sampling___.
+
+
+#### Simple random sampling
+
+The simplest way to split the data into training and test sets is to take a simple random sample. This does not control for any data attributes, such as the percentage of data represented in your response variable ($y$). There are multiple ways to split our data.  Here we show four options to produce a 70-30 split (note that setting the seed value allows you to reproduce your randomized splits):
+
+```{block, type = "note"}
+Sampling is a random process so setting the random number generator with a common seed allows for reproducible results.  Throughout this book we will use the number _123_ often for reproducibility but the number itself has no special meaning.
+```
+
+```{r splitting}
+# base R
+set.seed(123)
+index_1 <- sample(1:nrow(ames), round(nrow(ames) * 0.7))
+train_1 <- ames[index_1, ]
+test_1  <- ames[-index_1, ]
+
+# caret package
+set.seed(123)
+index_2 <- createDataPartition(ames$Sale_Price, p = 0.7, list = FALSE)
+train_2 <- ames[index_2, ]
+test_2  <- ames[-index_2, ]
+
+# rsample package
+set.seed(123)
+split_1  <- initial_split(ames, prop = 0.7)
+train_3  <- training(split_1)
+test_3   <- testing(split_1)
+```
+
+Since this sampling approach will randomly sample across the distribution of $y$ (`Sale_Price` in our example), you will typically result in a similar distribution between your training and test sets as illustrated below.
+
+```{r 06-distributions, echo=FALSE, fig.cap="Distribution comparison between the training (black) test (red) sets.", fig.height=3, fig.width=9}
+library(ggplot2)
+
+p1 <- ggplot(train_1, aes(x = Sale_Price)) + 
+    geom_density(trim = TRUE) + 
+    geom_density(data = test_1, trim = TRUE, col = "red") +
+  ggtitle("Base R")
+
+p2 <- ggplot(train_2, aes(x = Sale_Price)) + 
+    geom_density(trim = TRUE) + 
+    geom_density(data = test_2, trim = TRUE, col = "red") +
+    theme(axis.title.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y = element_blank()) +
+    ggtitle("caret") 
+
+p3 <- ggplot(train_3, aes(x = Sale_Price)) + 
+    geom_density(trim = TRUE) + 
+    geom_density(data = test_3, trim = TRUE, col = "red") +
+    theme(axis.title.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y = element_blank()) +
+    ggtitle("rsample")
+
+gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
+```
+
+
+
+#### Stratified sampling
+
+However, if we want to explicitly control our sampling so that our training and test sets have similar $y$ distributions, we can use stratified sampling.  This is more common with classification problems where the reponse variable may be imbalanced (90% of observations with response "Yes" and 10% with response "No"). However, we can also apply to regression problems for data sets that have a small sample size and where the response variable deviates strongly from normality.  With a continuous response variable, stratified sampling will break $y$ down into quantiles and randomly sample from each quantile.  Consequently, this will help ensure a balanced representation of the response distribution in both the training and test sets.
+
+The easiest way to perform stratified sampling on a response variable is to use the __rsample__ package, where you specify the response variable to `strata`fy. The following illustrates that in our original employee attrition data we have an imbalanced response (No: 84%, Yes: 16%). By enforcing stratified sampling both our training and testing sets have approximately equal response distributions. 
+
+```{r stratified sampling}
+# orginal response distribution
+table(churn$Attrition) %>% prop.table()
+
+# stratified sampling with the rsample package
+set.seed(123)
+split_strat  <- initial_split(churn, prop = 0.7, strata = "Attrition")
+train_strat  <- training(split_strat)
+test_strat   <- testing(split_strat)
+
+# consistent response ratio between train & test
+table(train_strat$Attrition) %>% prop.table()
+table(test_strat$Attrition) %>% prop.table()
+```
+
+
+
+### Feature engineering {#reg_perf_feat}
+
+___Feature engineering___ generally refers to the process of adding, deleting, and transforming the variables to be applied to your predictive modeling algorithms.  Feature engineering is a significant process and requires you to spend substantial time understanding your data...or as Leo Breiman said _"live with your data before you plunge into modeling"_ [@breiman2001statistical].
+
+Although this section primarily focuses on applying predictive modeling algorithms, feature engineering can make or break an algorithm's predictive ability. We will not cover all the potential ways of implementing feature engineering; however, we will cover a few fundamental pre-processing tasks that can significantly improve modeling performance. To learn more about feature engineering check out [Feature Engineering for Machine Learning](http://shop.oreilly.com/product/0636920049081.do) by @zheng2018feature and Max Kuhn's upcoming book [Feature Engineering and Selection: A Practical Approach for Predictive Models](http://www.feat.engineering/).
+
+#### Response Transformation
+
+Although not a requirement, normalizing the distribution of the response variable by using a _transformation_ can lead to a big improvement, especially for parametric models. As we saw in Figure \@ref(fig:06-distributions), our response variable `Sale_Price` is right skewed.  To normalize, we have a few options:
+
+__Option 1__: normalize with a log transformation as discussed in \@ref(empirical-rule). This will transform most right skewed distributions to be approximately normal.
+
+```{r y_log}
+# log transformation
+train_log_y <- log(train_1$Sale_Price)
+test_log_y  <- log(test_1$Sale_Price)
+```
+
+If your reponse has negative values then a log transformation will produce `NaN`s.  If these negative values are small (between -0.99 and 0) then you can apply `log1p`, which adds 1 to the value prior to applying a log transformation. If your data consists of negative equal to or less than -1, use the Yeo Johnson transformation mentioned next.
+
+```{r neg_log, error=TRUE}
+log(-.5)
+log1p(-.5)
+```
+
+
+__Option 2__: use a Box Cox transformation. A Box Cox transformation is more flexible than a log transformation and will find the transformation from a family of [power transforms](https://en.wikipedia.org/wiki/Power_transform#Box%E2%80%93Cox_transformation) that will transform the variable as close as possible to a normal distribution. At the core of the Box Cox transformation is an exponent, lambda ($\lambda$), which varies from -5 to 5. All values of $\lambda$ are considered and the optimal value for the given data is selected; The “optimal value” is the one which results in the best approximation of a normal distribution curve. The transformation of Y has the form:
+
+$$
+ \begin{equation} 
+ y(\lambda) =
+\begin{cases}
+   \frac{y^\lambda-1}{\lambda}, & \text{if}\ \lambda \neq 0 \\
+   \log y, & \text{if}\ \lambda = 0.
+\end{cases}
+\end{equation}
+$$
+
+
+```{block, type = "rmdwarning"}
+Be sure to compute the `lambda` on the training set and apply that same `lambda` to both the training and test set to minimize data leakage.
+```
+
+```{r y_boxcox}
+# Box Cox transformation
+lambda  <- forecast::BoxCox.lambda(train_1$Sale_Price)
+train_bc_y <- forecast::BoxCox(train_1$Sale_Price, lambda)
+test_bc_y  <- forecast::BoxCox(test_1$Sale_Price, lambda)
+```
+
+We can see that in this example, the log transformation and Box Cox transformation both do about equally well in transforming our reponse variable to be normally distributed.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Response variable transformations.", fig.height=3, fig.width=9}
+library(dplyr)
+data.frame(
+  Normal = train_1$Sale_Price,
+  Log_Transform = train_log_y,
+  BoxCox_Transform = train_bc_y
+) %>%
+  gather(Transform, Value) %>%
+  mutate(Transform = factor(Transform, levels = c("Normal", "Log_Transform", "BoxCox_Transform"))) %>% 
+  ggplot(aes(Value, fill = Transform)) +
+  geom_histogram(show.legend = FALSE, bins = 40) +
+  facet_wrap(~ Transform, scales = "free_x")
+```
+
+Note that when you model with a transformed response variable, your predictions will also be in the transformed value.  You will likely want to re-transform your predicted values back to their normal state so that decision-makers can interpret the results.  The following code can do this for you:
+
+
+```{r inverse_bc}
+# log transform a value
+y <- log(10)
+
+# re-transforming the log-transformed value
+exp(y)
+
+# Box Cox transform a value
+y <- forecast::BoxCox(10, lambda)
+
+# Inverse Box Cox function
+inv_box_cox <- function(x, lambda) {
+  if (lambda == 0) exp(x) else (lambda*x + 1)^(1/lambda) 
+}
+
+# re-transforming the Box Cox-transformed value
+inv_box_cox(y, lambda)
+```
+
+```{block, type = "tip"}
+If your response has negative values, you can use the Yeo-Johnson transformation. To apply, use `car::powerTransform` to identify the lambda, `car::yjPower` to apply the transformation, and `VGAM::yeo.johnson` to apply the transformation and/or the inverse transformation. 
+```
+
+#### Predictor Transformation
+
+##### One-hot encoding
+
+Many models require all predictor variables to be numeric.  Consequently, we need to transform any categorical variables into numeric representations so that these algorithms can compute.  Some packages automate this process (i.e. `h2o`, `glm`, `caret`) while others do not (i.e. `glmnet`, `keras`).  Furthermore, there are many ways to encode categorical variables as numeric representations (i.e. one-hot, ordinal, binary, sum, Helmert).
+
+The most common is referred to as one-hot encoding, where we transpose our categorical variables so that each level of the feature is represented as a boolean value.  For example, one-hot encoding variable `x` in the following:
+
+```{r one-hot, echo=FALSE}
+set.seed(123)
+ex1 <- data.frame(id = 1:8, x = sample(letters[1:3], 8, replace = TRUE))
+knitr::kable(ex1)
+```
+
+results in the following representation:
+
+```{r one-hot2, echo=FALSE}
+one_hot <- dummyVars( ~ ., ex1, fullRank = FALSE)
+ex2 <- predict(one_hot, ex1)
+knitr::kable(ex2)
+```
+
+This is called less than _full rank_ encoding where we retain all variables for each level of `x`.  However, this creates perfect collinearity which causes problems with some predictive modeling algorithms (i.e. generalized regression models, neural networks).  Alternatively, we can create full-rank one-hot encoding by dropping one of the levels (level `a` has been dropped):
+
+```{r one-hot3, echo=FALSE}
+one_hot <- dummyVars( ~ ., ex1, fullRank = TRUE)
+ex3 <- predict(one_hot, ex1)
+knitr::kable(ex3)
+```
+
+If you needed to manually implement one-hot encoding yourself you can with `caret::dummyVars`.  Sometimes you may have a feature level with very few observations and all these observations show up in the test set but not the training set.  The benefit of using `dummyVars` on the full data set and then applying the result to both the train and test data sets is that it will guarantee that the same features are represented in both the train and test data.
+
+```{r one-hot4}
+# full rank one-hot encode - recommended for generalized linear models and
+# neural networks
+full_rank  <- dummyVars( ~ ., data = ames, fullRank = TRUE)
+train_oh   <- predict(full_rank, train_1)
+test_oh    <- predict(full_rank, test_1)
+
+# less than full rank --> dummy encoding
+dummy    <- dummyVars( ~ ., data = ames, fullRank = FALSE)
+train_oh <- predict(dummy, train_1)
+test_oh  <- predict(dummy, test_1)
+```
+
+
+```{block, type="tip"}
+Since one-hot encoding adds new features it can significantly increase the dimensionality of our data.  If you have a data set with many categorical variables and those categorical variables in turn have many unique levels, the number of features can explode.  In these cases you may want to explore ordinal encoding of your data.
+```
+
+#### Standardizing
+
+Some models (i.e. generalized linear models, regularized models, neural networks) require that the predictor variables have the same units. **Centering** and **scaling** can be used for this purpose and is often referred to as ___standardizing___ the features.  Standardizing numeric variables results in zero mean and unit variance, which provides a common comparable unit of measure across all the variables.
+
+Some packages have built-in arguments (i.e. `glmnet`, `caret`) to standardize and some do not (i.e. `glm`, `keras`). If you need to manually standardize your variables you can use the `preProcess` function provided by the `caret` package.  For example, here we center and scale our Ames predictor variables.
+
+```{block, type = "warning"}
+It is important that you standardize the test data based on the training mean and variance values of each feature.  This minimizes data leakage.
+```
+
+```{r}
+# identify only the predictor variables
+features <- setdiff(names(train_1), "Sale_Price")
+
+# pre-process estimation based on training features
+pre_process <- preProcess(
+  x      = train_1[, features],
+  method = c("center", "scale")    
+  )
+
+# apply to both training & test
+train_x <- predict(pre_process, train_1[, features])
+test_x  <- predict(pre_process, test_1[, features])
+```
+
+
+#### Alternative Feature Transformation
+
+There are some alternative transformations that you can perform:
+
+* Normalizing the predictor variables with a Box Cox transformation can improve parametric model performance.
+
+* Collapsing highly correlated variables with PCA can reduce the number of features and increase the stability of generalize linear models.  However, this reduces the amount of information at your disposal and we show you how to use regularization as a better alternative to PCA.  
+
+* Removing near-zero or zero variance variables.  Variables with vary little variance tend to not improve model performance and can be removed.
+
+```{block, type = "tip"}
+`preProcess` provides many other transformation options which you can read more about [here](https://topepo.github.io/caret/pre-processing.html).
+```
+
+
+For example, the following normalizes predictors with a Box Cox transformation, center and scales continuous variables, performs principal component analysis to reduce the predictor dimensions, and removes predictors with near zero variance.
+
+```{r, eval=FALSE}
+# identify only the predictor variables
+features <- setdiff(names(train_1), "Sale_Price")
+
+# pre-process estimation based on training features
+pre_process <- preProcess(
+  x      = train_1[, features],
+  method = c("BoxCox", "center", "scale", "pca", "nzv")    
+  )
+
+# apply to both training & test
+train_x <- predict(pre_process, train_1[, features])
+test_x  <- predict(pre_process, test_1[, features])
+```
+
+
+### Basic model formulation {#model-form}
+
+There are ___many___ packages to perform predictive modeling and there are almost always more than one to perform each algorithm (i.e. there are over 20 packages to perform random forests).  There are pros and cons to each package; some may be more computationally efficient while others may have more hyperparameter tuning options.  Future chapters will expose you to many of the packages and algorithms that perform and scale best to most organization's problems and data sets.  Just realize there are *more ways than one to skin a* `r emo::ji("scream_cat")`.
+
+For example, these three functions will all produce the same linear regression model output.
+
+```{r, eval=FALSE}
+lm.lm    <- lm(Sale_Price ~ ., data = train_1)
+lm.glm   <- glm(Sale_Price ~ ., data = train_1, family = gaussian)
+lm.caret <- train(Sale_Price ~ ., data = train_1, method = "lm")
+```
+
+
+One thing you will notice throughout this section is that we can specify our model formulation in different ways.  In the above examples we use the _model formulation_ (`Sale_Price ~ .` which says explain `Sale_Price` based on all features) approach.  An alternative approach you will see throughout this section is the matrix formulation approach.
+
+_Matrix formulation_ requires that we separate our response variable from our features.  For example, in the regularization chaper we'll use `glmnet` which requires our features (`x`) and response (`y`) variable to be specified separately:
+
+```{r, eval=FALSE}
+# get feature names
+features <- setdiff(names(train_1), "Sale_Price")
+
+# create feature and response set
+train_x <- train_1[, features]
+train_y <- train_1$Sale_Price
+
+# example of matrix formulation
+glmnet.m1 <- glmnet(x = train_x, y = train_y)
+```
+
+### Model tuning {#tune}
+
+Hyperparameters control the level of model complexity.  Some algorithms have many tuning parameters while others have only one or two.  Tuning can be a good thing as it allows us to transform our model to better align with patterns within our data. For example, Figure \@ref(fig:less-flexible) shows how the more flexible model aligns more closely to the data than the fixed linear model.
+
+```{r less-flexible, echo=FALSE, fig.height=3, fig.cap="Tuning allows for more flexible patterns to be fit."}
+p1 <- ggplot(pdp::boston, aes(crim, cmedv)) +
+  geom_point(size = 1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_log10("x") +
+  scale_y_log10("y") +
+  ggtitle("Too restrictive")
+
+p2 <- ggplot(pdp::boston, aes(crim, cmedv)) +
+  geom_point(size = 1) +
+  geom_smooth(se = FALSE) +
+  scale_x_log10("x") +
+  scale_y_log10("y") +
+  ggtitle("More flexible")
+
+
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+```
+
+However, highly tunable models can also be dangerous because they allow us to overfit our model to the training data, which will not generalize well to future unseen data.
+
+```{r over-flexible, echo=FALSE, fig.height=3, fig.width=9, fig.cap="Highly tunable models can overfit if we are not careful."}
+p1 <- ggplot(pdp::boston, aes(crim, cmedv)) +
+  geom_point(size = 1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_log10("x") +
+  scale_y_log10("y") +
+  ggtitle("Too restrictive")
+
+p2 <- ggplot(pdp::boston, aes(crim, cmedv)) +
+  geom_point(size = 1) +
+  geom_smooth(se = FALSE) +
+  scale_x_log10("x") +
+  scale_y_log10("y") +
+  ggtitle("More flexible")
+
+p3 <- ggplot(pdp::boston, aes(crim, cmedv)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = .05) +
+  scale_x_log10("x") +
+  scale_y_log10("y") +
+  ggtitle("Overfit")
+
+gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
+```
+
+
+Throughout this section we will demonstrate how to tune the different parameters for each model.  One way to perform hyperparameter tuning is to fiddle with hyperparameters manually until you find a great combination of hyperparameter values that result in high predictive accuracy. However, this would be very tedious work. An alternative approach is to perform a ___grid search___. A grid search is an automated approach to searching across many combinations of hyperparameter values. Throughout this guide you will be exposed to different approaches to performing grid searches.
+
+
+### Cross Validation for Generalization {#cv}
+
+Our goal is to not only find a model that performs well on training data but to find one that performs well on _future unseen data_.  So although we can tune our model to reduce some error metric to near zero on our training data, this may not generalize well to future unseen data.  Consequently, our goal is to find a model and its hyperparameters that will minimize error on held-out data.
+
+Let's go back to this image...
+
+```{r bias-var, echo=FALSE, fig.height=3, fig.width=9, fig.cap="Bias versus variance."}
+p1 <- ggplot(pdp::boston, aes(crim, cmedv)) +
+  geom_point(size = 1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_log10("x") +
+  scale_y_log10("y") +
+  ggtitle("Too restrictive")
+
+p2 <- ggplot(pdp::boston, aes(crim, cmedv)) +
+  geom_point(size = 1) +
+  geom_smooth(se = FALSE) +
+  scale_x_log10("x") +
+  scale_y_log10("y") +
+  ggtitle("More flexible")
+
+p3 <- ggplot(pdp::boston, aes(crim, cmedv)) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = .05) +
+  scale_x_log10("x") +
+  scale_y_log10("y") +
+  ggtitle("Overfit")
+
+gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
+```
+
+The model on the left is considered rigid and consistent.  If we provided it a new training sample with slightly different values, the model would not change much, if at all.  Although it is consistent, the model does not accurately capture the underlying relationship.  This is considered a model with high ___bias___.
+
+The model on the right is far more inconsistent.  Even with small changes to our training sample, this model would likely change significantly.  This is considered a model with high ___variance___.
+
+The model in the middle balances the two and, likely, will minimize the error on future unseen data compared to the high bias and high variance models.  This is our goal.
+
+__TODO__: Create our own illustration
+
+```{r bias-variance-tradeoff, echo=FALSE, out.height="80%", out.width="80%", fig.cap="Bias-variance tradeoff."}
+knitr::include_graphics("illustrations/bias_var.png")
+```
+
+To find the model that balances the ___bias-variance tradeoff___, we search for a model that minimizes a *k*-fold cross-validation error metric.  Figure \@ref(fig:06-cv) illustrates *k*-fold cross-validation, which is a resampling method that randomly divides the training data into *k* groups (aka folds) of approximately equal size. The model is fit on $k-1$ folds and then the held-out validation fold is used to compute the error.  This procedure is repeated *k* times; each time, a different group of observations is treated as the validation set. This process results in *k* estimates of the test error ($\epsilon_1, \epsilon_2, \dots, \epsilon_k$). Thus, the _k_-fold CV estimate is computed by averaging these values, which provides us with an approximation of the error to expect on unseen data.
+
+```{r 06-cv, echo=FALSE, fig.height=3, fig.cap="Illustration of the k-fold cross validation process."}
+knitr::include_graphics("illustrations/cv.png")
+```
+
+Many of the algorithms we cover in this guide have built-in cross validation capabilities.  One typically uses a 5 or 10 fold CV ($k = 5$ or $k = 10$).  For example, `glmnet` implements CV with the `nfolds` argument:
+
+```{r, eval=FALSE}
+# example of 10 fold CV in h2o
+example.cv <- cv.glmnet(
+  x = train_x,
+  y = train_y,
+  nfolds = 10
+)
+```
+
+
+
+### Model evaluation {#reg-perf-eval}
+
+This leads us to our next topic, evaluating performance.  Historically, the performance of a predictive model was largely based on goodness-of-fit tests and assessment of residuals. Unfortunately, misleading conclusions may follow from predictive models that pass these kind of assessments [@breiman2001statistical]. Today, it has become widely accepted that a more sound approach to assessing model performance is to assess the predictive accuracy via ___loss functions___.  Loss functions are metrics that compare the predicted values to the actual value (often referred to as the error or residual).  There are many loss functions to choose when assessing the performance of a predictive model; each providing a unique understanding of the predictive accuracy and differing between regression and classification models.  The most common include:
+
+#### Regression models
+
+* __MSE__: Mean squared error is the average of the squared error ($MSE = \frac{1}{n} \sum^n_{i=1}(y_i - \hat y_i)^2$). The squared component results in larger errors having larger penalties.  This (along with RMSE) is the most common error metric to use. __Objective: minimize__
+
+* __RMSE__: Root mean squared error.  This simply takes the square root of the MSE metric ($RMSE = \sqrt{\frac{1}{n} \sum^n_{i=1}(y_i - \hat y_i)^2}$) so that your error is in the same units as your response variable. If your response variable units are dollars, the units of MSE are dollars-squared, but the RMSE will be in dollars. __Objective: minimize__
+
+* __Deviance__: Short for mean residual deviance. In essence, it provides a measure of _goodness-of-fit_ of the model being evaluated when compared to the null model (intercept only).  If the response variable distribution is gaussian, then it is equal to MSE.  When not, it usually gives a more useful estimate of error. __Objective: minimize__
+
+* __MAE__: Mean absolute error. Similar to MSE but rather than squaring, it just takes the mean absolute difference between the actual and predicted values ($MAE = \frac{1}{n} \sum^n_{i=1}(\vert y_i - \hat y_i \vert)$). __Objective: minimize__
+
+* __RMSLE__: Root mean squared logarithmic error. Similiar to RMSE but it performs a log() on the actual and predicted values prior to computing the difference ($RMSLE = \sqrt{\frac{1}{n} \sum^n_{i=1}(log(y_i + 1) - log(\hat y_i + 1))^2}$). When your response variable has a wide range of values, large repsonse values with large errors can dominate the MSE/RMSE metric. RMSLE minimizes this impact so that small response values with large errors can have just as meaningful of an impact as large response values with large errors. __Objective: minimize__
+
+* __$R^2$__: This is a popular metric that represents the proportion of the variance in the dependent variable that is predictable from the independent variable. Unfortunately, it has several limitations. For example, two models built from two different data sets could have the exact same RMSE but if one has less variability in the response variable then it would have a lower $R^2$ than the other. You should not place too much emphasis on this metric. __Objective: maximize__
+
+
+Most models we assess in this guide will report most, if not all, of these metrics.  We will emphasize MSE and RMSE but its good to realize that certain situations warrant emphasis on some more than others.
+
+
+#### Classification models
+
+* __Misclassification__: This is the overall error.  For example, say you are predicting 3 classes ( _high_, _medium_, _low_ ) and each class has 25, 30, 35 observations respectively (90 observations total). If you misclassify 3 observations of class _high_, 6 of class _medium_, and 4 of class _low_, then you misclassified 13 out of 90 observations resulting in a 14% misclassification rate. __Objective: minimize__
+
+* __Mean per class error__: This is the average error rate for each class. For the above example, this would be the mean of $\frac{3}{25}, \frac{6}{30}, \frac{4}{35}$, which is 12%. If your classes are balanced this will be identical to misclassification. __Objective: minimize__
+
+* __MSE__: Mean squared error. Computes the distance from 1.0 to the probability suggested. So, say we have three classes, A, B, and C, and your model predicts a probabilty of 0.91 for A, 0.07 for B, and 0.02 for C. If the correct answer was A the $MSE = 0.09^2 = 0.0081$, if it is B $MSE = 0.93^2 = 0.8649$, if it is C $MSE = 0.98^2 = 0.9604$. The squared component results in large differences in probabilities for the true class having larger penalties. __Objective: minimize__
+
+* __Cross-entropy (aka Log Loss or Deviance)__: Similar to MSE but it incorporates a log of the predicted probability multiplied by the true class.  Consequently, this metric disproportionately punishes predictions where we predict a small probability for the true class, which is another way of saying having high confidence in the wrong answer is really bad. __Objective: minimize__
+
+* __Gini index__: Mainly used with tree-based methods and commonly referred to as a measure of _purity_ where a small value indicates that a node contains predominantly observations from a single class. __Objective: minimize__
+
+
+
+When applying classification models, we often use a _confusion matrix_ to evaluate certain performance measures. A confusion matrix is simply a matrix that compares actual categorical levels (or events) to the predicted categorical levels. When we predict the right level, we refer to this as a _true positive_.  However, if we predict a level or event that did not happen this is called a _false positive_ (i.e. we predicted a customer would redeem a coupon and they did not). Alternatively, when we do not predict a level or event and it does happen that this is called a _false negative_ (i.e. a customer that we did not predict to redeem a coupon does). 
+
+```{r confusion-matrix, echo=FALSE, out.height="100%", out.width="100%", fig.cap="Confusion matrix."}
+knitr::include_graphics("illustrations/confusion-matrix.png")
+```
+
+We can extract different levels of performance from these measures.  For example, given the classification matrix below we can assess the following:
+
+* __Accuracy__: Overall, how often is the classifier correct? Opposite of misclassification above. Example: $\frac{TP + TN}{total} = \frac{100+50}{165} = 0.91$.  __Objective: maximize__ 
+
+* __Precision__: How accurately does the classifier predict events? This metric is concerned with maximizing the true positives to false positive ratio. In other words, for the number of predictions that we made, how many were correct?  Example: $\frac{TP}{TP + FP} = \frac{100}{100+10} = 0.91$.  __Objective: maximize__
+
+* __Sensitivity (aka recall)__: How accurately does the classifier classify actual events? This metric is concerned with maximizing the true positives to false negatives ratio. In other words, for the events that occurred, how many did we predict?  Example: $\frac{TP}{TP + FN} = \frac{100}{100+5} = 0.95$.  __Objective: maximize__
+
+* __Specificity__: How accurately does the classifier classify actual non-events? Example: $\frac{TN}{TN + FP} = \frac{50}{50+10} = 0.83$.  __Objective: maximize__
+
+```{r confusion-matrix2, echo=FALSE, out.height="50%", out.width="50%", fig.cap="Example confusion matrix."}
+knitr::include_graphics("illustrations/confusion-matrix2.png")
+```
+
+* __AUC__: Area under the curve. A good classifier will have high precision and sensitivity.  This means the classifier does well when it predicts an event will and will not occur, which minimizes false positives and false negatives.  To capture this balance, we often use a ROC curve that plots the false positive rate along the x-axis and the true positive rate along the y-axis.  A line that is diagonal from the lower left corner to the upper right corner represents a random guess. The higher the line is in the upper left-hand corner, the better.  AUC computes the area under this curve. __Objective: maximize__
+
+```{r roc, echo=FALSE, out.height="75%", out.width="75%", fig.cap="ROC curve."}
+knitr::include_graphics("illustrations/roc.png")
+```
+
+
+### Interpreting predictive models
+
+In his seminal 2001 paper [@breiman2001statistical], Leo Breiman popularized the phrase: _“the multiplicity of good models.”_ The phrase means that for the same set of input variables and prediction targets, complex predictive modeling algorithms can produce multiple accurate models with very similar, but not the exact same, internal architectures. 
+
+Figure \@ref(fig:error-surface) is a depiction of a non-convex error surface that is representative of the error function for a predictive model with two inputs — say, a customer’s income and a customer’s age, and an output, such as the same customer’s probability of redeeming a coupon. This non-convex error surface with no obvious global minimum implies there are many different ways complex predictive models could learn to weigh a customer’s income and age to make a good decision about if they are likely to redeem a coupon. Each of these different weightings would create a different function for making coupon redemption (and therefore marketing) decisions, and each of these different functions would have different explanations.
+
+
+```{r error-surface, echo=FALSE, fig.cap="Non-convex error surface with many local minimas."}
+error <- c(
+  c(8.83,8.89,8.81,8.87,8.9,8.87),
+  c(8.89,8.94,8.85,8.94,8.96,8.92),
+  c(8.84,8.9,8.82,8.92,8.93,8.91),
+  c(8.79,8.85,8.79,8.9,8.94,8.92),
+  c(8.79,8.88,8.81,8.9,8.95,8.92),
+  c(8.8,8.82,8.78,8.91,8.94,8.92),
+  c(8.75,8.78,8.77,8.91,8.95,8.92),
+  c(8.8,8.8,8.77,8.91,8.95,8.94),
+  c(8.74,8.81,8.76,8.93,8.98,8.99),
+  c(8.89,8.99,8.92,9.1,9.13,9.11),
+  c(8.97,8.97,8.91,9.09,9.11,9.11),
+  c(9.04,9.08,9.05,9.25,9.28,9.27),
+  c(9,9.01,9,9.2,9.23,9.2),
+  c(8.99,8.99,8.98,9.18,9.2,9.19),
+  c(8.93,8.97,8.97,9.18,9.2,9.18)
+)
+dim(error) <- c(15, 6)
+x <- seq(20, 90, by = 5)
+y <- c(50, 75, 100, 150, 200, 250)
+par(mar = c(0.1, 0.1, 0.1, 0.1))  # remove extra white space
+persp(
+  x = x, 
+  y = y, 
+  z = error, 
+  xlab = "Age",
+  ylab = "Income",
+  zlab = "Error",
+  theta = -35, 
+  phi = 25,
+  col = viridis::viridis(100),
+  border = NA,
+  expand = 0.8
+)
+
+#
+# Package plotly is causing issues when rendering the book on my end. Using 
+# built-in persp() function for now...
+#
+
+# library(plotly)
+# plot_ly(showscale = FALSE) %>%
+#   add_surface(x = x, y = y, z = ~error) %>%
+#   layout(
+#         scene = list(
+#             xaxis = list(title = "age"),
+#             yaxis = list(title = "income"),
+#             zaxis = list(title = "error")
+#         )
+#     )
+```
+
+
+
+All of this is an obstacle to analysts, as they can experience very similar predictions from different models based on the same feature set. However, these models will have very different logic and structure leading to different interpretations.  Consequently, practitioners should understand how to interpret different types of models.  Throughout this section we will provide you with the a variety of ways to interpret your predictive models so that you understand what is driving model and prediction performance.  This will allow you to be more effective and efficient in applying and understanding mutliple good models. 
+
+
+[^rc_models]: For brevity, in each chapter we demonstrate the particular model on a single regression or classification problem. However, we provide example code of each algorithm applied to a regression and classification problem at [https://github.com/koalaverse/abar](https://github.com/koalaverse/abar).

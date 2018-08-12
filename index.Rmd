@@ -1,0 +1,157 @@
+--- 
+title: "Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods"
+author: "Bradley C. Boehmke and Brandon M. Greenwell"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "A deep-dive into using R for descriptive, predictive, and prescriptive analytics."
+---
+
+# Preface {-}
+
+```{r setup, include=FALSE}
+options(
+  htmltools.dir.version = FALSE, 
+  formatR.indent = 2,
+  width = 55, 
+  digits = 4, 
+  warnPartialMatchAttr = FALSE, 
+  warnPartialMatchDollar = FALSE
+)
+
+knitr::write_bib(c(
+  .packages(), 
+  "AmesHousing",
+  "boot", 
+  "bookdown",
+  "extracat",
+  "GGally",
+  "ggplot2",
+  "knitr", 
+  "mice",
+  "rmarkdown",
+  "scales",
+  "tibble"
+), "packages.bib")
+```
+
+
+**TODO:** 
+
+* Rewrite/fill in each section
+
+* Somewhere we need to highlight that a lot of good tips are given in the code comments as well!!
+
+* Is it "in R" or "with R" in the book title/description? I've seen both in a few places. I'm starting to think "with R" is the better choice? `r emo::ji("thinking")`  I agree...it should be "...with R"
+
+* Damn, do I need to get rid of the `emo::ji`s in this book!?
+
+* Rewrite more specific to this book
+
+Welcome to Advanced Business Analytics in R.  This book provides practical modules for many of the descriptive, predictive, and prescriptive analytic methodologies...
+
+
+## Who this book is for {-}
+
+We intend this work to be a practitioner's guide to the machine learning process and a place where one can come to learn about the approach and to gain intuition about the many commonly used, modern, and powerful methods accepted in the machine learning community. If you are familiar with the analytic methodologies, this book may still serve as a reference for how to work with the various R packages for implementation.  While an abundance of videos, blog posts, and tutorials exist online, I've long been frustrated by the lack of consistency, completeness, and bias towards singular packages for implementation. This is what inspired this book. 
+Part I of this book assumes basic knowledge of statistics (e.g., hypothesis testing, effect sizes, and confidence intervals). Part II assumes knowledge of regression and some knowledge of optimization (e.g., through business calculus). Part III ...
+
+
+## Who this book is not for {-}
+
+**FIXME:** But this book is not just about machine learning?  I know, this was just filler material I copied-n-pasted.
+
+Instead, this book is meant to help R users learn to use the machine learning stack within R, which includes using various R packages such as `glmnet`, `h2o`, `ranger`, `xgboost`, `lime`, and others to effectively model and gain insight from your data. The book favors a hands-on approach, growing an intuitive understanding of machine learning through concrete examples and just a little bit of theory.  While you can read this book without opening R, I highly recommend you experiment with the code examples provided throughout.
+
+
+## Who this book is really not for {-}
+
+TBD.
+
+
+## Why R {-}
+
+R has emerged over the last couple decades as a first-class tool for scientific computing tasks, and has been a consistent leader in implementing fundamental and advanced methodologies for analyzing data. The usefulness of R for data science stems from the large, active, and growing ecosystem of third-party packages: `tidyverse` for common data analysis activities; `glmnet`, `ranger`, `xgboost`, and others for fast and scalable machine learning; `lime`, `pdp`, `DALEX`, and others for machine learning interpretability; and many more tools will be mentioned throughout the pages that follow.  
+
+
+## How this book is organized {-} 
+
+Each chapter of this book focuses on a particular part of the descriptive, predictive, and prescriptive analytic processes along with various packages to perform those processes.  
+
+TBD...
+
+There are many great resources available to learn about machine learning.  At the end of each chapter we provide a *Learn More* section that lists resources that we have found extremely useful for digging deeper into the methodology and applying with code.  
+
+
+## Conventions used in this book {-}
+
+The following typographical conventions are used in this book:
+
+* _italic_: indicates new terms,
+* __bold__: indicates package & file names,
+* `inline code`: indicates commands or other text that could be typed literally by the user (function names are followed by parentheses (i.e. `blogdown::serve_site()`)),
+* use of double-colon operator `::` means accessing an object from a package (i.e. `dplyr::filter()` uses the `filter()` function from the __dplyr__ package),
+* code chunk: indicates commands or other text that could be typed literally by the user. We do not add prompts (`>` and `+`) to R source code in this book, and we comment out the text output with two hashes `##` by default
+
+```{r, first-code-chunk, collapse=TRUE}
+1 + 2
+```
+
+In addition to the general text used throughout, you will notice the following code chunks with images, which signify:
+
+```{block, type = "tip"}
+This block signifies a tip or suggestion
+```
+
+```{block, type = "note"}
+This block signifies a general note
+```
+
+```{block, type = "warning"}
+This block signifies a warning or caution
+```
+
+
+## Using code examples {-}
+
+TBD.
+
+
+## Feedback {-}
+
+Reader comments are greatly appreciated.  To report errors or bugs please post an issue at https://github.com/koalaverse/abar/issues.
+
+
+## Acknowledgments {-} 
+
+TBD
+
+
+## Software information {-} 
+
+An online version of this book is available at __TBD__.  The source of the book is available at https://github.com/koalaverse/abar. The book is powered by https://bookdown.org which makes it easy to turn R markdown files into HTML, PDF, and EPUB.
+
+This book was built with the following packages and R version. 
+
+```{r, collapse=TRUE}
+# packages used
+pkgs <- c(
+  "AmesHousing",
+  "arules",
+  "boot", 
+  "bookdown",
+  "ggplot2",
+  "knitr", 
+  "rmarkdown",
+  "stats",
+  "tibble"
+)
+
+# package & session info
+devtools::session_info(pkgs)
+```

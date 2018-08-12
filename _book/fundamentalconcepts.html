@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</title>
+  <meta name="description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
+  
+  <meta name="twitter:description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics." />
+  
+
+<meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
+
+
+<meta name="date" content="2018-08-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="unsupervised.html">
+<link rel="next" href="linear-regression.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="extra.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Business Analytics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-for"><i class="fa fa-check"></i>Who this book is for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-not-for"><i class="fa fa-check"></i>Who this book is not for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-really-not-for"><i class="fa fa-check"></i>Who this book is really not for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-this-book-is-organized"><i class="fa fa-check"></i>How this book is organized</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#conventions-used-in-this-book"><i class="fa fa-check"></i>Conventions used in this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-code-examples"><i class="fa fa-check"></i>Using code examples</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#feedback"><i class="fa fa-check"></i>Feedback</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information"><i class="fa fa-check"></i>Software information</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html"><i class="fa fa-check"></i>Who are these Guys?</a><ul>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html#bradley-c.-boehmke"><i class="fa fa-check"></i>Bradley C. Boehmke</a></li>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html#brandon-m.-greenwell"><i class="fa fa-check"></i>Brandon M. Greenwell</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>1.1</b> Descriptive</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#predictive"><i class="fa fa-check"></i><b>1.2</b> Predictive</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#prescriptive"><i class="fa fa-check"></i><b>1.3</b> Prescriptive</a></li>
+<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#data"><i class="fa fa-check"></i><b>1.4</b> Data sets</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#ames-iowa-housing-data"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
+<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>1.5</b> Prerequisites</a></li>
+<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>1.6</b> Measures of location</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>1.6.1</b> The sample mean</a></li>
+<li class="chapter" data-level="1.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>1.6.2</b> The sample median</a></li>
+<li class="chapter" data-level="1.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>1.6.3</b> The mean or the median</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>1.7</b> Measures of spread</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>1.7.1</b> The empirical rule</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>1.8</b> Percentiles</a></li>
+<li class="chapter" data-level="1.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>1.9</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="1.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>1.10</b> Outlier detection</a></li>
+<li class="chapter" data-level="1.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>1.11</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>1.11.1</b> Contingency tables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>1.12</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>2</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="2.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>2.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>2.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>2.2.2</b> Categorical Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>2.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.3.1</b> Scatter plots</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>2.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>2.4.1</b> Facetting</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>2.5</b> Data quality</a></li>
+<li class="chapter" data-level="2.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>2.6</b> Further reading</a></li>
+<li class="chapter" data-level="2.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>2.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>3</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="3.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>3.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="3.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>3.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="3.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>3.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="3.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>3.1.6</b> Confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>3.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>3.2.2</b> Two-sample t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>3.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="3.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>3.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="3.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>3.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="3.6" data-path="inference.html"><a href="inference.html#the-nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>3.6.1</b> Bootstrap confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>3.7</b> Further reading</a></li>
+<li class="chapter" data-level="3.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>3.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>4</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="4.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>4.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>4.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="4.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>4.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="4.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>4.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="4.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>4.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="4.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>4.2.5</b> PCA with mixed data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>4.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>4.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="4.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>4.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="4.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="4.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>4.3.4</b> Clustering with mixed data</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Predictive Analytics</b></span></li>
+<li class="chapter" data-level="5" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html"><i class="fa fa-check"></i><b>5</b> Fundamental concepts</a><ul>
+<li class="chapter" data-level="5.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#regression-problems"><i class="fa fa-check"></i><b>5.1</b> Regression problems</a></li>
+<li class="chapter" data-level="5.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#classification-problems"><i class="fa fa-check"></i><b>5.2</b> Classification problems</a></li>
+<li class="chapter" data-level="5.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>5.3</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="5.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#general-modeling-process"><i class="fa fa-check"></i><b>5.4</b> General modeling process</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_prereq"><i class="fa fa-check"></i><b>5.4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.4.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-split"><i class="fa fa-check"></i><b>5.4.2</b> Data splitting</a></li>
+<li class="chapter" data-level="5.4.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_feat"><i class="fa fa-check"></i><b>5.4.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="5.4.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#model-form"><i class="fa fa-check"></i><b>5.4.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="5.4.5" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#tune"><i class="fa fa-check"></i><b>5.4.5</b> Model tuning</a></li>
+<li class="chapter" data-level="5.4.6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#cv"><i class="fa fa-check"></i><b>5.4.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="5.4.7" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-eval"><i class="fa fa-check"></i><b>5.4.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="5.4.8" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>5.4.8</b> Interpreting predictive models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>6</b> Linear regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>6.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>6.2</b> Simple linear regression</a></li>
+<li class="chapter" data-level="6.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>6.3</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="6.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>6.4</b> Assessing Model Accuracy</a></li>
+<li class="chapter" data-level="6.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>6.5</b> Model concerns</a></li>
+<li class="chapter" data-level="6.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>6.6</b> Principal component regression</a></li>
+<li class="chapter" data-level="6.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>6.7</b> Partial least squares</a></li>
+<li class="chapter" data-level="6.8" data-path="linear-regression.html"><a href="linear-regression.html#model-interpretation"><i class="fa fa-check"></i><b>6.8</b> Model interpretation</a></li>
+<li class="chapter" data-level="6.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>6.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="6.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>6.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>7</b> Logistic regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="7.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>7.2</b> Why logistic regression</a></li>
+<li class="chapter" data-level="7.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>7.3</b> Simple logistic regression</a></li>
+<li class="chapter" data-level="7.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>7.4</b> Multiple logistic regression</a></li>
+<li class="chapter" data-level="7.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>7.5</b> Assessing model accuracy</a></li>
+<li class="chapter" data-level="7.6" data-path="logistic-regression.html"><a href="logistic-regression.html#model-interpretation-1"><i class="fa fa-check"></i><b>7.6</b> Model interpretation</a></li>
+<li class="chapter" data-level="7.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>7.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="7.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>7.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="8" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>8</b> (APPENDIX) Appendix {-}</a><ul>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="fundamentalconcepts" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Fundamental concepts</h1>
+<p>Predictive analytics continues to grow in importance for many organizations across nearly all domains. A <strong><em>predictive model</em></strong> is used for tasks that involve the prediction of a given output using other variables and their values (<em>features</em>) in the data set. Or as stated by <span class="citation">Kuhn and Johnson (<a href="#ref-apm">2013</a>)</span>, predictive modeling is <em>“the process of developing a mathematical tool or model that generates an accurate prediction”</em> (p. 2). The learning algorithm in a predictive attempts to discover and model the relationship among the <strong><em>target</em></strong> response (the variable being predicted) and the other features (aka predictor variables). Examples of predictive modeling include:</p>
+<ul>
+<li>using customer attributes to predict the probability of the customer churning in the next 6 weeks,</li>
+<li>using home attributes to predict the sales price,</li>
+<li>using employee attributes to predict the likelihood of attrition,</li>
+<li>using patient attributes and symptoms to predict the risk of readmission,</li>
+<li>using production attributes to predict time to market.</li>
+</ul>
+<p>Each of these examples have a defined learning task. They each intend to use attributes (<span class="math inline">\(X\)</span>) to predict an outcome measurement (<span class="math inline">\(Y\)</span>).</p>
+<div class="note">
+<p>
+Throughout this section we will use various terms interchangeably for:
+</p>
+<ul>
+<li>
+<span class="math inline"><span class="math inline">\(X\)</span></span>: “predictor variables”, “independent variables”, “attributes”, “features”, “predictors”
+</li>
+<li>
+<span class="math inline"><span class="math inline">\(Y\)</span></span>: “target variable”, “dependent variable”, “response”, “outcome measurement”
+</li>
+</ul>
+</div>
+<p>The predictive modeling examples above describe what is known as <em>supervised learning</em>. The supervision refers to the fact that the target values provide a supervisory role, which indicates to the learner the task it needs to learn. Specifically, given a set of data, the learning algorithm attempts to optimize a function (the algorithmic steps) to find the combination of feature values that results in a predicted value that is as close to the actual target output as possible.</p>
+<div class="note">
+<p>
+In supervised learning, the training data you feed the algorithm includes the desired solutions. Consequently, the solutions can be used to help <em>supervise</em> the training process to find the optimal algorithm parameters.
+</p>
+</div>
+<p>Supervised learning problems revolve around two primary themes: regression and classification.</p>
+<div id="regression-problems" class="section level2">
+<h2><span class="header-section-number">5.1</span> Regression problems</h2>
+<p>When the objective of our supervised learning is to predict a numeric outcome, we refer to this as a <strong><em>regression problem</em></strong> (not to be confused with linear regression modeling). Regression problems revolve around predicting output that falls on a continuous numeric spectrum. In the examples above predicting home sales prices and time to market reflect a regression problem because the output is numeric and continuous. This means, given the combination of predictor values, the response value could fall anywhere along the continuous spectrum. Figure <a href="fundamentalconcepts.html#fig:regression-problem">5.1</a> illustrates average home sales prices as a function of two home features: year built and total square footage. Depending on the combination of these two features, the expected home sales price could fall anywhere along the plane.</p>
+<div class="figure" style="text-align: center"><span id="fig:regression-problem"></span>
+<img src="abar_files/figure-html/regression-problem-1.png" alt="Average home sales price as a function of year built and total square footage." width="672" />
+<p class="caption">
+Figure 5.1: Average home sales price as a function of year built and total square footage.
+</p>
+</div>
+</div>
+<div id="classification-problems" class="section level2">
+<h2><span class="header-section-number">5.2</span> Classification problems</h2>
+<p>When the objective of our supervised learning is to predict a categorical response, we refer to this as a <strong><em>classification problem</em></strong>. Classification problems most commonly revolve around predicting a binary or multinomial response measure such as:</p>
+<ul>
+<li>did a customer redeem a coupon (yes/no, 1/0),</li>
+<li>did a customer churn (yes/no, 1/0),</li>
+<li>did a customer click on our online ad (yes/no, 1/0),</li>
+<li>classifying customer reviews:
+<ul>
+<li>binary: positive vs negative</li>
+<li>multinomial: extremely negative to extremely positive on a 0-5 Likert scale</li>
+</ul></li>
+</ul>
+<p>However, when we apply predictive models for classification problems, rather than predict a particular class (i.e. “yes” or “no”), we often predict the <em>probability</em> of a particular class (i.e. yes: .65, no: .35). Then the class with the highest probability becomes the predicted class. Consequently, even though we are performing a classification problem, we are still predicting a numeric output (probability). However, the essence of the problem still makes it a classification problem.</p>
+</div>
+<div id="algorithm-comparison-guide" class="section level2">
+<h2><span class="header-section-number">5.3</span> Algorithm Comparison Guide</h2>
+<p><strong>TODO: do we want something along these lines here?</strong></p>
+<p>Although there are supervised learning algorithms that can be applied to regression problems but not classification and vice versa, the supervised predictive models we cover in this book can be applied to both.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> These algorithms have become the most popular predictive analytic techniques in recent years.</p>
+<p>Although the chapters that follow will go into detail on each algorithm, the following provides a quick reference guide that compares and contrasts some of their features.</p>
+<table style="font-size:13px;">
+<col width="30%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<thead>
+<tr class="header">
+<th align="left">
+Characteristics
+</th>
+<th align="left">
+Generalized Linear Models (GLM)
+</th>
+<th align="left">
+Regularized GLM
+</th>
+<th align="left">
+Multivariate Adaptive Regression Splines
+</th>
+<th align="left">
+Random Forest
+</th>
+<th align="left">
+Gradient Boosting Machine
+</th>
+<th align="left">
+Deep Learning
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left" valign="top">
+Captures non-linear relationships
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+</tr>
+<tr class="odd">
+<td align="left" valign="top">
+Allows n &lt; p
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+</tr>
+<tr class="even">
+<td align="left" valign="top">
+Provides automatic feature selection
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+</tr>
+<tr class="odd">
+<td align="left" valign="top">
+Handles missing values
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+</tr>
+<tr class="even">
+<td align="left" valign="top">
+No feature pre-processing required
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+</tr>
+<tr class="odd">
+<td align="left" valign="top">
+Robust to outliers
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+</tr>
+<tr class="even">
+<td align="left" valign="top">
+Easy to tune
+</td>
+<td align="left" valign="center">
+NA
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+</tr>
+<tr class="odd">
+<td align="left" valign="top">
+Computational speed
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+</tr>
+<tr class="even">
+<td align="left" valign="top">
+Predictive power
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="red" stroke-width="3" fill="red" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="green" stroke-width="3" fill="green" />
+</svg>
+</td>
+<td align="left" valign="center">
+<svg height="10" width="10">
+<circle cx="5" cy="5" r="5" stroke="yellow" stroke-width="3" fill="yellow" />
+</svg>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="general-modeling-process" class="section level2">
+<h2><span class="header-section-number">5.4</span> General modeling process</h2>
+<p>Predictive modeling is a very iterative process. If performed and interpreted correctly, we can have great confidence in our outcomes. If not, the results will be useless. Approaching predictive modeling correctly means approaching it strategically by spending our data wisely on learning and validation procedures, properly pre-processing variables, minimizing data leakage, tuning hyperparameters, and assessing model performance (Figure <a href="fundamentalconcepts.html#fig:06-modeling-process">5.2</a>). Before introducing specific algorithms, this section introduces concepts that are commonly required in the supervised predictive modeling process and that you’ll see briskly covered in each chapter.</p>
+<div class="figure" style="text-align: center"><span id="fig:06-modeling-process"></span>
+<img src="illustrations/modeling_process2.png" alt="General predictive modeling process." width="90%" height="90%" />
+<p class="caption">
+Figure 5.2: General predictive modeling process.
+</p>
+</div>
+<div id="reg_perf_prereq" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> Prerequisites</h3>
+<p>This section leverages the following packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(rsample)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<p>To illustrate some of the concepts, we will use the Ames Housing data and employee attrition data introduced in Section <a href="intro.html#data">1.4</a>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># ames data</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">ames &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>()</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># attrition data</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">churn &lt;-<span class="st"> </span>rsample<span class="op">::</span>attrition</a></code></pre></div>
+</div>
+<div id="reg-perf-split" class="section level3">
+<h3><span class="header-section-number">5.4.2</span> Data splitting</h3>
+<div id="spending-our-data-wisely" class="section level4">
+<h4><span class="header-section-number">5.4.2.1</span> Spending our data wisely</h4>
+<p>A major goal of the predictive modeling process is to find an algorithm <span class="math inline">\(f(x)\)</span> that most accurately predicts future values (<span class="math inline">\(y\)</span>) based on a set of inputs (<span class="math inline">\(x\)</span>). In other words, we want an algorithm that not only fits well to our past data, but more importantly, one that predicts a future outcome accurately. This is called the <strong><em>generalizability</em></strong> of our algorithm. How we <em>“spend”</em> our data will help us understand how well our algorithm generalizes to unseen data.</p>
+<p>To provide an accurate understanding of the generalizability of our final optimal model, we split our data into training and test data sets:</p>
+<ul>
+<li><strong>Training Set</strong>: these data are used to train our algorithms and tune hyper-parameters.</li>
+<li><strong>Test Set</strong>: having chosen a final model, these data are used to estimate its prediction error (generalization error). These data should <em>not be used during model training!</em></li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-3"></span>
+<img src="illustrations/data_split.png" alt="Splitting data into training and test sets." width="175" />
+<p class="caption">
+Figure 5.3: Splitting data into training and test sets.
+</p>
+</div>
+<p>Given a fixed amount of data, typical recommendations for splitting your data into training-testing splits include 60% (training) - 40% (testing), 70%-30%, or 80%-20%. Generally speaking, these are appropriate guidelines to follow; however, it is good to keep in mind that as your overall data set gets smaller,</p>
+<ul>
+<li>spending too much in training (<span class="math inline">\(&gt;80\%\)</span>) won’t allow us to get a good assessment of predictive performance. We may find a model that fits the training data very well, but is not generalizable (overfitting),</li>
+<li>sometimes too much spent in testing (<span class="math inline">\(&gt;40\%\)</span>) won’t allow us to get a good assessment of model parameters</li>
+</ul>
+<p>In today’s data-rich environment, typically, we are not lacking in the quantity of observations, so a 70-30 split is often sufficient. The two most common ways of splitting data include <strong><em>simple random sampling</em></strong> and <strong><em>stratified sampling</em></strong>.</p>
+</div>
+<div id="simple-random-sampling" class="section level4">
+<h4><span class="header-section-number">5.4.2.2</span> Simple random sampling</h4>
+<p>The simplest way to split the data into training and test sets is to take a simple random sample. This does not control for any data attributes, such as the percentage of data represented in your response variable (<span class="math inline">\(y\)</span>). There are multiple ways to split our data. Here we show four options to produce a 70-30 split (note that setting the seed value allows you to reproduce your randomized splits):</p>
+<div class="note">
+<p>
+Sampling is a random process so setting the random number generator with a common seed allows for reproducible results. Throughout this book we will use the number <em>123</em> often for reproducibility but the number itself has no special meaning.
+</p>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># base R</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">index_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(ames), <span class="kw">round</span>(<span class="kw">nrow</span>(ames) <span class="op">*</span><span class="st"> </span><span class="fl">0.7</span>))</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">train_<span class="dv">1</span> &lt;-<span class="st"> </span>ames[index_<span class="dv">1</span>, ]</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">test_<span class="dv">1</span>  &lt;-<span class="st"> </span>ames[<span class="op">-</span>index_<span class="dv">1</span>, ]</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># caret package</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">index_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(ames<span class="op">$</span>Sale_Price, <span class="dt">p =</span> <span class="fl">0.7</span>, <span class="dt">list =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">train_<span class="dv">2</span> &lt;-<span class="st"> </span>ames[index_<span class="dv">2</span>, ]</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">test_<span class="dv">2</span>  &lt;-<span class="st"> </span>ames[<span class="op">-</span>index_<span class="dv">2</span>, ]</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co"># rsample package</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">split_<span class="dv">1</span>  &lt;-<span class="st"> </span><span class="kw">initial_split</span>(ames, <span class="dt">prop =</span> <span class="fl">0.7</span>)</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">train_<span class="dv">3</span>  &lt;-<span class="st"> </span><span class="kw">training</span>(split_<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">test_<span class="dv">3</span>   &lt;-<span class="st"> </span><span class="kw">testing</span>(split_<span class="dv">1</span>)</a></code></pre></div>
+<p>Since this sampling approach will randomly sample across the distribution of <span class="math inline">\(y\)</span> (<code>Sale_Price</code> in our example), you will typically result in a similar distribution between your training and test sets as illustrated below.</p>
+<div class="figure" style="text-align: center"><span id="fig:06-distributions"></span>
+<img src="abar_files/figure-html/06-distributions-1.png" alt="Distribution comparison between the training (black) test (red) sets." width="864" />
+<p class="caption">
+Figure 5.4: Distribution comparison between the training (black) test (red) sets.
+</p>
+</div>
+</div>
+<div id="stratified-sampling" class="section level4">
+<h4><span class="header-section-number">5.4.2.3</span> Stratified sampling</h4>
+<p>However, if we want to explicitly control our sampling so that our training and test sets have similar <span class="math inline">\(y\)</span> distributions, we can use stratified sampling. This is more common with classification problems where the reponse variable may be imbalanced (90% of observations with response “Yes” and 10% with response “No”). However, we can also apply to regression problems for data sets that have a small sample size and where the response variable deviates strongly from normality. With a continuous response variable, stratified sampling will break <span class="math inline">\(y\)</span> down into quantiles and randomly sample from each quantile. Consequently, this will help ensure a balanced representation of the response distribution in both the training and test sets.</p>
+<p>The easiest way to perform stratified sampling on a response variable is to use the <strong>rsample</strong> package, where you specify the response variable to <code>strata</code>fy. The following illustrates that in our original employee attrition data we have an imbalanced response (No: 84%, Yes: 16%). By enforcing stratified sampling both our training and testing sets have approximately equal response distributions.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># orginal response distribution</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">table</span>(churn<span class="op">$</span>Attrition) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">prop.table</span>()</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">## </a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">##        No       Yes </a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">## 0.8387755 0.1612245</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># stratified sampling with the rsample package</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">split_strat  &lt;-<span class="st"> </span><span class="kw">initial_split</span>(churn, <span class="dt">prop =</span> <span class="fl">0.7</span>, <span class="dt">strata =</span> <span class="st">&quot;Attrition&quot;</span>)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">train_strat  &lt;-<span class="st"> </span><span class="kw">training</span>(split_strat)</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">test_strat   &lt;-<span class="st"> </span><span class="kw">testing</span>(split_strat)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co"># consistent response ratio between train &amp; test</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="kw">table</span>(train_strat<span class="op">$</span>Attrition) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">prop.table</span>()</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">## </a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">##       No      Yes </a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">## 0.838835 0.161165</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="kw">table</span>(test_strat<span class="op">$</span>Attrition) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">prop.table</span>()</a>
+<a class="sourceLine" id="cb4-19" data-line-number="19">## </a>
+<a class="sourceLine" id="cb4-20" data-line-number="20">##        No       Yes </a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">## 0.8386364 0.1613636</a></code></pre></div>
+</div>
+</div>
+<div id="reg_perf_feat" class="section level3">
+<h3><span class="header-section-number">5.4.3</span> Feature engineering</h3>
+<p><strong><em>Feature engineering</em></strong> generally refers to the process of adding, deleting, and transforming the variables to be applied to your predictive modeling algorithms. Feature engineering is a significant process and requires you to spend substantial time understanding your data…or as Leo Breiman said <em>“live with your data before you plunge into modeling”</em> <span class="citation">(Breiman and others <a href="#ref-breiman2001statistical">2001</a>)</span>.</p>
+<p>Although this section primarily focuses on applying predictive modeling algorithms, feature engineering can make or break an algorithm’s predictive ability. We will not cover all the potential ways of implementing feature engineering; however, we will cover a few fundamental pre-processing tasks that can significantly improve modeling performance. To learn more about feature engineering check out <a href="http://shop.oreilly.com/product/0636920049081.do">Feature Engineering for Machine Learning</a> by <span class="citation">Zheng and Casari (<a href="#ref-zheng2018feature">2018</a>)</span> and Max Kuhn’s upcoming book <a href="http://www.feat.engineering/">Feature Engineering and Selection: A Practical Approach for Predictive Models</a>.</p>
+<div id="response-transformation" class="section level4">
+<h4><span class="header-section-number">5.4.3.1</span> Response Transformation</h4>
+<p>Although not a requirement, normalizing the distribution of the response variable by using a <em>transformation</em> can lead to a big improvement, especially for parametric models. As we saw in Figure <a href="fundamentalconcepts.html#fig:06-distributions">5.4</a>, our response variable <code>Sale_Price</code> is right skewed. To normalize, we have a few options:</p>
+<p><strong>Option 1</strong>: normalize with a log transformation as discussed in <a href="intro.html#empirical-rule">1.7.1</a>. This will transform most right skewed distributions to be approximately normal.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># log transformation</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">train_log_y &lt;-<span class="st"> </span><span class="kw">log</span>(train_<span class="dv">1</span><span class="op">$</span>Sale_Price)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">test_log_y  &lt;-<span class="st"> </span><span class="kw">log</span>(test_<span class="dv">1</span><span class="op">$</span>Sale_Price)</a></code></pre></div>
+<p>If your reponse has negative values then a log transformation will produce <code>NaN</code>s. If these negative values are small (between -0.99 and 0) then you can apply <code>log1p</code>, which adds 1 to the value prior to applying a log transformation. If your data consists of negative equal to or less than -1, use the Yeo Johnson transformation mentioned next.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">log</span>(<span class="op">-</span>.<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">## [1] NaN</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">log1p</span>(<span class="op">-</span>.<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">## [1] -0.6931472</a></code></pre></div>
+<p><strong>Option 2</strong>: use a Box Cox transformation. A Box Cox transformation is more flexible than a log transformation and will find the transformation from a family of <a href="https://en.wikipedia.org/wiki/Power_transform#Box%E2%80%93Cox_transformation">power transforms</a> that will transform the variable as close as possible to a normal distribution. At the core of the Box Cox transformation is an exponent, lambda (<span class="math inline">\(\lambda\)</span>), which varies from -5 to 5. All values of <span class="math inline">\(\lambda\)</span> are considered and the optimal value for the given data is selected; The “optimal value” is the one which results in the best approximation of a normal distribution curve. The transformation of Y has the form:</p>
+<p><span class="math display">\[
+ \begin{equation} 
+ y(\lambda) =
+\begin{cases}
+   \frac{y^\lambda-1}{\lambda}, &amp; \text{if}\ \lambda \neq 0 \\
+   \log y, &amp; \text{if}\ \lambda = 0.
+\end{cases}
+\end{equation}
+\]</span></p>
+<div class="rmdwarning">
+<p>
+Be sure to compute the <code>lambda</code> on the training set and apply that same <code>lambda</code> to both the training and test set to minimize data leakage.
+</p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Box Cox transformation</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">lambda  &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">BoxCox.lambda</span>(train_<span class="dv">1</span><span class="op">$</span>Sale_Price)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">train_bc_y &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">BoxCox</span>(train_<span class="dv">1</span><span class="op">$</span>Sale_Price, lambda)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">test_bc_y  &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">BoxCox</span>(test_<span class="dv">1</span><span class="op">$</span>Sale_Price, lambda)</a></code></pre></div>
+<p>We can see that in this example, the log transformation and Box Cox transformation both do about equally well in transforming our reponse variable to be normally distributed.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="abar_files/figure-html/unnamed-chunk-6-1.png" alt="Response variable transformations." width="864" />
+<p class="caption">
+Figure 5.5: Response variable transformations.
+</p>
+</div>
+<p>Note that when you model with a transformed response variable, your predictions will also be in the transformed value. You will likely want to re-transform your predicted values back to their normal state so that decision-makers can interpret the results. The following code can do this for you:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># log transform a value</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># re-transforming the log-transformed value</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw">exp</span>(y)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">## [1] 10</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co"># Box Cox transform a value</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">y &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">BoxCox</span>(<span class="dv">10</span>, lambda)</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co"># Inverse Box Cox function</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">inv_box_cox &lt;-<span class="st"> </span><span class="cf">function</span>(x, lambda) {</a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">  <span class="cf">if</span> (lambda <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="kw">exp</span>(x) <span class="cf">else</span> (lambda<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span>lambda) </a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">}</a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co"># re-transforming the Box Cox-transformed value</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="kw">inv_box_cox</span>(y, lambda)</a>
+<a class="sourceLine" id="cb8-18" data-line-number="18">## [1] 10</a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">## attr(,&quot;lambda&quot;)</a>
+<a class="sourceLine" id="cb8-20" data-line-number="20">## [1] -0.3067918</a></code></pre></div>
+<div class="tip">
+<p>
+If your response has negative values, you can use the Yeo-Johnson transformation. To apply, use <code>car::powerTransform</code> to identify the lambda, <code>car::yjPower</code> to apply the transformation, and <code>VGAM::yeo.johnson</code> to apply the transformation and/or the inverse transformation.
+</p>
+</div>
+</div>
+<div id="predictor-transformation" class="section level4">
+<h4><span class="header-section-number">5.4.3.2</span> Predictor Transformation</h4>
+<div id="one-hot-encoding" class="section level5">
+<h5><span class="header-section-number">5.4.3.2.1</span> One-hot encoding</h5>
+<p>Many models require all predictor variables to be numeric. Consequently, we need to transform any categorical variables into numeric representations so that these algorithms can compute. Some packages automate this process (i.e. <code>h2o</code>, <code>glm</code>, <code>caret</code>) while others do not (i.e. <code>glmnet</code>, <code>keras</code>). Furthermore, there are many ways to encode categorical variables as numeric representations (i.e. one-hot, ordinal, binary, sum, Helmert).</p>
+<p>The most common is referred to as one-hot encoding, where we transpose our categorical variables so that each level of the feature is represented as a boolean value. For example, one-hot encoding variable <code>x</code> in the following:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">id</th>
+<th align="left">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">a</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">c</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">b</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">c</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">c</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">a</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">b</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">c</td>
+</tr>
+</tbody>
+</table>
+<p>results in the following representation:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">id</th>
+<th align="right">x.a</th>
+<th align="right">x.b</th>
+<th align="right">x.c</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>This is called less than <em>full rank</em> encoding where we retain all variables for each level of <code>x</code>. However, this creates perfect collinearity which causes problems with some predictive modeling algorithms (i.e. generalized regression models, neural networks). Alternatively, we can create full-rank one-hot encoding by dropping one of the levels (level <code>a</code> has been dropped):</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">id</th>
+<th align="right">x.b</th>
+<th align="right">x.c</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>If you needed to manually implement one-hot encoding yourself you can with <code>caret::dummyVars</code>. Sometimes you may have a feature level with very few observations and all these observations show up in the test set but not the training set. The benefit of using <code>dummyVars</code> on the full data set and then applying the result to both the train and test data sets is that it will guarantee that the same features are represented in both the train and test data.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># full rank one-hot encode - recommended for generalized linear models and</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co"># neural networks</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">full_rank  &lt;-<span class="st"> </span><span class="kw">dummyVars</span>( <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> ames, <span class="dt">fullRank =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">train_oh   &lt;-<span class="st"> </span><span class="kw">predict</span>(full_rank, train_<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">test_oh    &lt;-<span class="st"> </span><span class="kw">predict</span>(full_rank, test_<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co"># less than full rank --&gt; dummy encoding</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">dummy    &lt;-<span class="st"> </span><span class="kw">dummyVars</span>( <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> ames, <span class="dt">fullRank =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">train_oh &lt;-<span class="st"> </span><span class="kw">predict</span>(dummy, train_<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">test_oh  &lt;-<span class="st"> </span><span class="kw">predict</span>(dummy, test_<span class="dv">1</span>)</a></code></pre></div>
+<div class="tip">
+<p>
+Since one-hot encoding adds new features it can significantly increase the dimensionality of our data. If you have a data set with many categorical variables and those categorical variables in turn have many unique levels, the number of features can explode. In these cases you may want to explore ordinal encoding of your data.
+</p>
+</div>
+</div>
+</div>
+<div id="standardizing" class="section level4">
+<h4><span class="header-section-number">5.4.3.3</span> Standardizing</h4>
+<p>Some models (i.e. generalized linear models, regularized models, neural networks) require that the predictor variables have the same units. <strong>Centering</strong> and <strong>scaling</strong> can be used for this purpose and is often referred to as <strong><em>standardizing</em></strong> the features. Standardizing numeric variables results in zero mean and unit variance, which provides a common comparable unit of measure across all the variables.</p>
+<p>Some packages have built-in arguments (i.e. <code>glmnet</code>, <code>caret</code>) to standardize and some do not (i.e. <code>glm</code>, <code>keras</code>). If you need to manually standardize your variables you can use the <code>preProcess</code> function provided by the <code>caret</code> package. For example, here we center and scale our Ames predictor variables.</p>
+<div class="warning">
+<p>
+It is important that you standardize the test data based on the training mean and variance values of each feature. This minimizes data leakage.
+</p>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># identify only the predictor variables</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">features &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(train_<span class="dv">1</span>), <span class="st">&quot;Sale_Price&quot;</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># pre-process estimation based on training features</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">pre_process &lt;-<span class="st"> </span><span class="kw">preProcess</span>(</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">  <span class="dt">x      =</span> train_<span class="dv">1</span>[, features],</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">  <span class="dt">method =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>)    </a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co"># apply to both training &amp; test</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">train_x &lt;-<span class="st"> </span><span class="kw">predict</span>(pre_process, train_<span class="dv">1</span>[, features])</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">test_x  &lt;-<span class="st"> </span><span class="kw">predict</span>(pre_process, test_<span class="dv">1</span>[, features])</a></code></pre></div>
+</div>
+<div id="alternative-feature-transformation" class="section level4">
+<h4><span class="header-section-number">5.4.3.4</span> Alternative Feature Transformation</h4>
+<p>There are some alternative transformations that you can perform:</p>
+<ul>
+<li><p>Normalizing the predictor variables with a Box Cox transformation can improve parametric model performance.</p></li>
+<li><p>Collapsing highly correlated variables with PCA can reduce the number of features and increase the stability of generalize linear models. However, this reduces the amount of information at your disposal and we show you how to use regularization as a better alternative to PCA.</p></li>
+<li><p>Removing near-zero or zero variance variables. Variables with vary little variance tend to not improve model performance and can be removed.</p></li>
+</ul>
+<div class="tip">
+<p>
+<code>preProcess</code> provides many other transformation options which you can read more about <a href="https://topepo.github.io/caret/pre-processing.html">here</a>.
+</p>
+</div>
+<p>For example, the following normalizes predictors with a Box Cox transformation, center and scales continuous variables, performs principal component analysis to reduce the predictor dimensions, and removes predictors with near zero variance.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># identify only the predictor variables</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">features &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(train_<span class="dv">1</span>), <span class="st">&quot;Sale_Price&quot;</span>)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co"># pre-process estimation based on training features</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">pre_process &lt;-<span class="st"> </span><span class="kw">preProcess</span>(</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">  <span class="dt">x      =</span> train_<span class="dv">1</span>[, features],</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">  <span class="dt">method =</span> <span class="kw">c</span>(<span class="st">&quot;BoxCox&quot;</span>, <span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>, <span class="st">&quot;pca&quot;</span>, <span class="st">&quot;nzv&quot;</span>)    </a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co"># apply to both training &amp; test</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">train_x &lt;-<span class="st"> </span><span class="kw">predict</span>(pre_process, train_<span class="dv">1</span>[, features])</a>
+<a class="sourceLine" id="cb11-12" data-line-number="12">test_x  &lt;-<span class="st"> </span><span class="kw">predict</span>(pre_process, test_<span class="dv">1</span>[, features])</a></code></pre></div>
+</div>
+</div>
+<div id="model-form" class="section level3">
+<h3><span class="header-section-number">5.4.4</span> Basic model formulation</h3>
+<p>There are <strong><em>many</em></strong> packages to perform predictive modeling and there are almost always more than one to perform each algorithm (i.e. there are over 20 packages to perform random forests). There are pros and cons to each package; some may be more computationally efficient while others may have more hyperparameter tuning options. Future chapters will expose you to many of the packages and algorithms that perform and scale best to most organization’s problems and data sets. Just realize there are <em>more ways than one to skin a</em> 🙀.</p>
+<p>For example, these three functions will all produce the same linear regression model output.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">lm.lm    &lt;-<span class="st"> </span><span class="kw">lm</span>(Sale_Price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> train_<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">lm.glm   &lt;-<span class="st"> </span><span class="kw">glm</span>(Sale_Price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> train_<span class="dv">1</span>, <span class="dt">family =</span> gaussian)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">lm.caret &lt;-<span class="st"> </span><span class="kw">train</span>(Sale_Price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> train_<span class="dv">1</span>, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
+<p>One thing you will notice throughout this section is that we can specify our model formulation in different ways. In the above examples we use the <em>model formulation</em> (<code>Sale_Price ~ .</code> which says explain <code>Sale_Price</code> based on all features) approach. An alternative approach you will see throughout this section is the matrix formulation approach.</p>
+<p><em>Matrix formulation</em> requires that we separate our response variable from our features. For example, in the regularization chaper we’ll use <code>glmnet</code> which requires our features (<code>x</code>) and response (<code>y</code>) variable to be specified separately:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># get feature names</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">features &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(train_<span class="dv">1</span>), <span class="st">&quot;Sale_Price&quot;</span>)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co"># create feature and response set</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">train_x &lt;-<span class="st"> </span>train_<span class="dv">1</span>[, features]</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">train_y &lt;-<span class="st"> </span>train_<span class="dv">1</span><span class="op">$</span>Sale_Price</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co"># example of matrix formulation</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">glmnet.m1 &lt;-<span class="st"> </span><span class="kw">glmnet</span>(<span class="dt">x =</span> train_x, <span class="dt">y =</span> train_y)</a></code></pre></div>
+</div>
+<div id="tune" class="section level3">
+<h3><span class="header-section-number">5.4.5</span> Model tuning</h3>
+<p>Hyperparameters control the level of model complexity. Some algorithms have many tuning parameters while others have only one or two. Tuning can be a good thing as it allows us to transform our model to better align with patterns within our data. For example, Figure <a href="fundamentalconcepts.html#fig:less-flexible">5.6</a> shows how the more flexible model aligns more closely to the data than the fixed linear model.</p>
+<div class="figure" style="text-align: center"><span id="fig:less-flexible"></span>
+<img src="abar_files/figure-html/less-flexible-1.png" alt="Tuning allows for more flexible patterns to be fit." width="672" />
+<p class="caption">
+Figure 5.6: Tuning allows for more flexible patterns to be fit.
+</p>
+</div>
+<p>However, highly tunable models can also be dangerous because they allow us to overfit our model to the training data, which will not generalize well to future unseen data.</p>
+<div class="figure" style="text-align: center"><span id="fig:over-flexible"></span>
+<img src="abar_files/figure-html/over-flexible-1.png" alt="Highly tunable models can overfit if we are not careful." width="864" />
+<p class="caption">
+Figure 5.7: Highly tunable models can overfit if we are not careful.
+</p>
+</div>
+<p>Throughout this section we will demonstrate how to tune the different parameters for each model. One way to perform hyperparameter tuning is to fiddle with hyperparameters manually until you find a great combination of hyperparameter values that result in high predictive accuracy. However, this would be very tedious work. An alternative approach is to perform a <strong><em>grid search</em></strong>. A grid search is an automated approach to searching across many combinations of hyperparameter values. Throughout this guide you will be exposed to different approaches to performing grid searches.</p>
+</div>
+<div id="cv" class="section level3">
+<h3><span class="header-section-number">5.4.6</span> Cross Validation for Generalization</h3>
+<p>Our goal is to not only find a model that performs well on training data but to find one that performs well on <em>future unseen data</em>. So although we can tune our model to reduce some error metric to near zero on our training data, this may not generalize well to future unseen data. Consequently, our goal is to find a model and its hyperparameters that will minimize error on held-out data.</p>
+<p>Let’s go back to this image…</p>
+<div class="figure" style="text-align: center"><span id="fig:bias-var"></span>
+<img src="abar_files/figure-html/bias-var-1.png" alt="Bias versus variance." width="864" />
+<p class="caption">
+Figure 5.8: Bias versus variance.
+</p>
+</div>
+<p>The model on the left is considered rigid and consistent. If we provided it a new training sample with slightly different values, the model would not change much, if at all. Although it is consistent, the model does not accurately capture the underlying relationship. This is considered a model with high <strong><em>bias</em></strong>.</p>
+<p>The model on the right is far more inconsistent. Even with small changes to our training sample, this model would likely change significantly. This is considered a model with high <strong><em>variance</em></strong>.</p>
+<p>The model in the middle balances the two and, likely, will minimize the error on future unseen data compared to the high bias and high variance models. This is our goal.</p>
+<p><strong>TODO</strong>: Create our own illustration</p>
+<div class="figure" style="text-align: center"><span id="fig:bias-variance-tradeoff"></span>
+<img src="illustrations/bias_var.png" alt="Bias-variance tradeoff." width="80%" height="80%" />
+<p class="caption">
+Figure 5.9: Bias-variance tradeoff.
+</p>
+</div>
+<p>To find the model that balances the <strong><em>bias-variance tradeoff</em></strong>, we search for a model that minimizes a <em>k</em>-fold cross-validation error metric. Figure <a href="fundamentalconcepts.html#fig:06-cv">5.10</a> illustrates <em>k</em>-fold cross-validation, which is a resampling method that randomly divides the training data into <em>k</em> groups (aka folds) of approximately equal size. The model is fit on <span class="math inline">\(k-1\)</span> folds and then the held-out validation fold is used to compute the error. This procedure is repeated <em>k</em> times; each time, a different group of observations is treated as the validation set. This process results in <em>k</em> estimates of the test error (<span class="math inline">\(\epsilon_1, \epsilon_2, \dots, \epsilon_k\)</span>). Thus, the <em>k</em>-fold CV estimate is computed by averaging these values, which provides us with an approximation of the error to expect on unseen data.</p>
+<div class="figure" style="text-align: center"><span id="fig:06-cv"></span>
+<img src="illustrations/cv.png" alt="Illustration of the k-fold cross validation process."  />
+<p class="caption">
+Figure 5.10: Illustration of the k-fold cross validation process.
+</p>
+</div>
+<p>Many of the algorithms we cover in this guide have built-in cross validation capabilities. One typically uses a 5 or 10 fold CV (<span class="math inline">\(k = 5\)</span> or <span class="math inline">\(k = 10\)</span>). For example, <code>glmnet</code> implements CV with the <code>nfolds</code> argument:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># example of 10 fold CV in h2o</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">example.cv &lt;-<span class="st"> </span><span class="kw">cv.glmnet</span>(</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">x =</span> train_x,</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">y =</span> train_y,</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="dt">nfolds =</span> <span class="dv">10</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">)</a></code></pre></div>
+</div>
+<div id="reg-perf-eval" class="section level3">
+<h3><span class="header-section-number">5.4.7</span> Model evaluation</h3>
+<p>This leads us to our next topic, evaluating performance. Historically, the performance of a predictive model was largely based on goodness-of-fit tests and assessment of residuals. Unfortunately, misleading conclusions may follow from predictive models that pass these kind of assessments <span class="citation">(Breiman and others <a href="#ref-breiman2001statistical">2001</a>)</span>. Today, it has become widely accepted that a more sound approach to assessing model performance is to assess the predictive accuracy via <strong><em>loss functions</em></strong>. Loss functions are metrics that compare the predicted values to the actual value (often referred to as the error or residual). There are many loss functions to choose when assessing the performance of a predictive model; each providing a unique understanding of the predictive accuracy and differing between regression and classification models. The most common include:</p>
+<div id="regression-models" class="section level4">
+<h4><span class="header-section-number">5.4.7.1</span> Regression models</h4>
+<ul>
+<li><p><strong>MSE</strong>: Mean squared error is the average of the squared error (<span class="math inline">\(MSE = \frac{1}{n} \sum^n_{i=1}(y_i - \hat y_i)^2\)</span>). The squared component results in larger errors having larger penalties. This (along with RMSE) is the most common error metric to use. <strong>Objective: minimize</strong></p></li>
+<li><p><strong>RMSE</strong>: Root mean squared error. This simply takes the square root of the MSE metric (<span class="math inline">\(RMSE = \sqrt{\frac{1}{n} \sum^n_{i=1}(y_i - \hat y_i)^2}\)</span>) so that your error is in the same units as your response variable. If your response variable units are dollars, the units of MSE are dollars-squared, but the RMSE will be in dollars. <strong>Objective: minimize</strong></p></li>
+<li><p><strong>Deviance</strong>: Short for mean residual deviance. In essence, it provides a measure of <em>goodness-of-fit</em> of the model being evaluated when compared to the null model (intercept only). If the response variable distribution is gaussian, then it is equal to MSE. When not, it usually gives a more useful estimate of error. <strong>Objective: minimize</strong></p></li>
+<li><p><strong>MAE</strong>: Mean absolute error. Similar to MSE but rather than squaring, it just takes the mean absolute difference between the actual and predicted values (<span class="math inline">\(MAE = \frac{1}{n} \sum^n_{i=1}(\vert y_i - \hat y_i \vert)\)</span>). <strong>Objective: minimize</strong></p></li>
+<li><p><strong>RMSLE</strong>: Root mean squared logarithmic error. Similiar to RMSE but it performs a log() on the actual and predicted values prior to computing the difference (<span class="math inline">\(RMSLE = \sqrt{\frac{1}{n} \sum^n_{i=1}(log(y_i + 1) - log(\hat y_i + 1))^2}\)</span>). When your response variable has a wide range of values, large repsonse values with large errors can dominate the MSE/RMSE metric. RMSLE minimizes this impact so that small response values with large errors can have just as meaningful of an impact as large response values with large errors. <strong>Objective: minimize</strong></p></li>
+<li><p><strong><span class="math inline">\(R^2\)</span></strong>: This is a popular metric that represents the proportion of the variance in the dependent variable that is predictable from the independent variable. Unfortunately, it has several limitations. For example, two models built from two different data sets could have the exact same RMSE but if one has less variability in the response variable then it would have a lower <span class="math inline">\(R^2\)</span> than the other. You should not place too much emphasis on this metric. <strong>Objective: maximize</strong></p></li>
+</ul>
+<p>Most models we assess in this guide will report most, if not all, of these metrics. We will emphasize MSE and RMSE but its good to realize that certain situations warrant emphasis on some more than others.</p>
+</div>
+<div id="classification-models" class="section level4">
+<h4><span class="header-section-number">5.4.7.2</span> Classification models</h4>
+<ul>
+<li><p><strong>Misclassification</strong>: This is the overall error. For example, say you are predicting 3 classes ( <em>high</em>, <em>medium</em>, <em>low</em> ) and each class has 25, 30, 35 observations respectively (90 observations total). If you misclassify 3 observations of class <em>high</em>, 6 of class <em>medium</em>, and 4 of class <em>low</em>, then you misclassified 13 out of 90 observations resulting in a 14% misclassification rate. <strong>Objective: minimize</strong></p></li>
+<li><p><strong>Mean per class error</strong>: This is the average error rate for each class. For the above example, this would be the mean of <span class="math inline">\(\frac{3}{25}, \frac{6}{30}, \frac{4}{35}\)</span>, which is 12%. If your classes are balanced this will be identical to misclassification. <strong>Objective: minimize</strong></p></li>
+<li><p><strong>MSE</strong>: Mean squared error. Computes the distance from 1.0 to the probability suggested. So, say we have three classes, A, B, and C, and your model predicts a probabilty of 0.91 for A, 0.07 for B, and 0.02 for C. If the correct answer was A the <span class="math inline">\(MSE = 0.09^2 = 0.0081\)</span>, if it is B <span class="math inline">\(MSE = 0.93^2 = 0.8649\)</span>, if it is C <span class="math inline">\(MSE = 0.98^2 = 0.9604\)</span>. The squared component results in large differences in probabilities for the true class having larger penalties. <strong>Objective: minimize</strong></p></li>
+<li><p><strong>Cross-entropy (aka Log Loss or Deviance)</strong>: Similar to MSE but it incorporates a log of the predicted probability multiplied by the true class. Consequently, this metric disproportionately punishes predictions where we predict a small probability for the true class, which is another way of saying having high confidence in the wrong answer is really bad. <strong>Objective: minimize</strong></p></li>
+<li><p><strong>Gini index</strong>: Mainly used with tree-based methods and commonly referred to as a measure of <em>purity</em> where a small value indicates that a node contains predominantly observations from a single class. <strong>Objective: minimize</strong></p></li>
+</ul>
+<p>When applying classification models, we often use a <em>confusion matrix</em> to evaluate certain performance measures. A confusion matrix is simply a matrix that compares actual categorical levels (or events) to the predicted categorical levels. When we predict the right level, we refer to this as a <em>true positive</em>. However, if we predict a level or event that did not happen this is called a <em>false positive</em> (i.e. we predicted a customer would redeem a coupon and they did not). Alternatively, when we do not predict a level or event and it does happen that this is called a <em>false negative</em> (i.e. a customer that we did not predict to redeem a coupon does).</p>
+<div class="figure" style="text-align: center"><span id="fig:confusion-matrix"></span>
+<img src="illustrations/confusion-matrix.png" alt="Confusion matrix." width="100%" height="100%" />
+<p class="caption">
+Figure 5.11: Confusion matrix.
+</p>
+</div>
+<p>We can extract different levels of performance from these measures. For example, given the classification matrix below we can assess the following:</p>
+<ul>
+<li><p><strong>Accuracy</strong>: Overall, how often is the classifier correct? Opposite of misclassification above. Example: <span class="math inline">\(\frac{TP + TN}{total} = \frac{100+50}{165} = 0.91\)</span>. <strong>Objective: maximize</strong></p></li>
+<li><p><strong>Precision</strong>: How accurately does the classifier predict events? This metric is concerned with maximizing the true positives to false positive ratio. In other words, for the number of predictions that we made, how many were correct? Example: <span class="math inline">\(\frac{TP}{TP + FP} = \frac{100}{100+10} = 0.91\)</span>. <strong>Objective: maximize</strong></p></li>
+<li><p><strong>Sensitivity (aka recall)</strong>: How accurately does the classifier classify actual events? This metric is concerned with maximizing the true positives to false negatives ratio. In other words, for the events that occurred, how many did we predict? Example: <span class="math inline">\(\frac{TP}{TP + FN} = \frac{100}{100+5} = 0.95\)</span>. <strong>Objective: maximize</strong></p></li>
+<li><p><strong>Specificity</strong>: How accurately does the classifier classify actual non-events? Example: <span class="math inline">\(\frac{TN}{TN + FP} = \frac{50}{50+10} = 0.83\)</span>. <strong>Objective: maximize</strong></p></li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:confusion-matrix2"></span>
+<img src="illustrations/confusion-matrix2.png" alt="Example confusion matrix." width="50%" height="50%" />
+<p class="caption">
+Figure 5.12: Example confusion matrix.
+</p>
+</div>
+<ul>
+<li><strong>AUC</strong>: Area under the curve. A good classifier will have high precision and sensitivity. This means the classifier does well when it predicts an event will and will not occur, which minimizes false positives and false negatives. To capture this balance, we often use a ROC curve that plots the false positive rate along the x-axis and the true positive rate along the y-axis. A line that is diagonal from the lower left corner to the upper right corner represents a random guess. The higher the line is in the upper left-hand corner, the better. AUC computes the area under this curve. <strong>Objective: maximize</strong></li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:roc"></span>
+<img src="illustrations/roc.png" alt="ROC curve." width="75%" height="75%" />
+<p class="caption">
+Figure 5.13: ROC curve.
+</p>
+</div>
+</div>
+</div>
+<div id="interpreting-predictive-models" class="section level3">
+<h3><span class="header-section-number">5.4.8</span> Interpreting predictive models</h3>
+<p>In his seminal 2001 paper <span class="citation">(Breiman and others <a href="#ref-breiman2001statistical">2001</a>)</span>, Leo Breiman popularized the phrase: <em>“the multiplicity of good models.”</em> The phrase means that for the same set of input variables and prediction targets, complex predictive modeling algorithms can produce multiple accurate models with very similar, but not the exact same, internal architectures.</p>
+<p>Figure <a href="fundamentalconcepts.html#fig:error-surface">5.14</a> is a depiction of a non-convex error surface that is representative of the error function for a predictive model with two inputs — say, a customer’s income and a customer’s age, and an output, such as the same customer’s probability of redeeming a coupon. This non-convex error surface with no obvious global minimum implies there are many different ways complex predictive models could learn to weigh a customer’s income and age to make a good decision about if they are likely to redeem a coupon. Each of these different weightings would create a different function for making coupon redemption (and therefore marketing) decisions, and each of these different functions would have different explanations.</p>
+<div class="figure" style="text-align: center"><span id="fig:error-surface"></span>
+<img src="abar_files/figure-html/error-surface-1.png" alt="Non-convex error surface with many local minimas." width="672" />
+<p class="caption">
+Figure 5.14: Non-convex error surface with many local minimas.
+</p>
+</div>
+<p>All of this is an obstacle to analysts, as they can experience very similar predictions from different models based on the same feature set. However, these models will have very different logic and structure leading to different interpretations. Consequently, practitioners should understand how to interpret different types of models. Throughout this section we will provide you with the a variety of ways to interpret your predictive models so that you understand what is driving model and prediction performance. This will allow you to be more effective and efficient in applying and understanding mutliple good models.</p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-apm">
+<p>Kuhn, Max, and Kjell Johnson. 2013. <em>Applied Predictive Modeling</em>. Vol. 26. Springer.</p>
+</div>
+<div id="ref-breiman2001statistical">
+<p>Breiman, Leo, and others. 2001. “Statistical Modeling: The Two Cultures (with Comments and a Rejoinder by the Author).” <em>Statistical Science</em> 16 (3). Institute of Mathematical Statistics: 199–231.</p>
+</div>
+<div id="ref-zheng2018feature">
+<p>Zheng, Alice, and Amanda Casari. 2018. <em>Feature Engineering for Machine Learning: Principles and Techniques for Data Scientists</em>. &quot; O’Reilly Media, Inc.&quot;.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>For brevity, in each chapter we demonstrate the particular model on a single regression or classification problem. However, we provide example code of each algorithm applied to a regression and classification problem at <a href="https://github.com/koalaverse/abar" class="uri">https://github.com/koalaverse/abar</a>.<a href="fundamentalconcepts.html#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="unsupervised.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linear-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["abar.pdf", "abar.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

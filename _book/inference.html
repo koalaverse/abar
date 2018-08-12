@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</title>
+  <meta name="description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
+  
+  <meta name="twitter:description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics." />
+  
+
+<meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
+
+
+<meta name="date" content="2018-07-27">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="visualization.html">
+<link rel="next" href="unsupervised.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="extra.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Business Analytics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-for"><i class="fa fa-check"></i>Who this book is for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-not-for"><i class="fa fa-check"></i>Who this book is not for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-really-not-for"><i class="fa fa-check"></i>Who this book is really not for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-this-book-is-organized"><i class="fa fa-check"></i>How this book is organized</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#conventions-used-in-this-book"><i class="fa fa-check"></i>Conventions used in this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-code-examples"><i class="fa fa-check"></i>Using code examples</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#feedback"><i class="fa fa-check"></i>Feedback</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information"><i class="fa fa-check"></i>Software information</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html"><i class="fa fa-check"></i>Who are these Guys?</a><ul>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html#bradley-c.-boehmke"><i class="fa fa-check"></i>Bradley C. Boehmke</a></li>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html#brandon-m.-greenwell"><i class="fa fa-check"></i>Brandon M. Greenwell</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>1.1</b> Descriptive</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#predictive"><i class="fa fa-check"></i><b>1.2</b> Predictive</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#prescriptive"><i class="fa fa-check"></i><b>1.3</b> Prescriptive</a></li>
+<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#data-sets"><i class="fa fa-check"></i><b>1.4</b> Data sets</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#ames-iowa-housing-data"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
+<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>1.5</b> Prerequisites</a></li>
+<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>1.6</b> Measures of location</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>1.6.1</b> The sample mean</a></li>
+<li class="chapter" data-level="1.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>1.6.2</b> The sample median</a></li>
+<li class="chapter" data-level="1.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>1.6.3</b> The mean or the median</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>1.7</b> Measures of spread</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>1.7.1</b> The empirical rule</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>1.8</b> Percentiles</a></li>
+<li class="chapter" data-level="1.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>1.9</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="1.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>1.10</b> Outlier detection</a></li>
+<li class="chapter" data-level="1.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>1.11</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>1.11.1</b> Contingency tables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>1.12</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>2</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="2.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>2.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>2.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>2.2.2</b> Categorical Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>2.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.3.1</b> Scatter plots</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>2.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>2.4.1</b> Facetting</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>2.5</b> Data quality</a></li>
+<li class="chapter" data-level="2.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>2.6</b> Further reading</a></li>
+<li class="chapter" data-level="2.7" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>2.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>3</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="3.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>3.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="3.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>3.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="3.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>3.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="3.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>3.1.6</b> Confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>3.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>3.2.2</b> Two-sample t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>3.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="3.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>3.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="3.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>3.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="3.6" data-path="inference.html"><a href="inference.html#the-nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>3.6.1</b> Bootstrap confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>3.7</b> Further reading</a></li>
+<li class="chapter" data-level="3.8" data-path="inference.html"><a href="inference.html#exercises-1"><i class="fa fa-check"></i><b>3.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>4</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="4.2" data-path="unsupervised.html"><a href="unsupervised.html#principal-components-analysis"><i class="fa fa-check"></i><b>4.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>4.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="4.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>4.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="4.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>4.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="4.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>4.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="4.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>4.2.5</b> PCA with mixed data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>4.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>4.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="4.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>4.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="4.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="4.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>4.3.4</b> Clustering with mixed data</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Predictive Analytics</b></span><ul>
+<li class="chapter" data-level="4.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>4.4</b> Regression problems</a></li>
+<li class="chapter" data-level="4.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>4.5</b> Classification problems</a></li>
+<li class="chapter" data-level="4.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>4.6</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="4.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>4.7</b> General modeling process</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>4.7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="4.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_split"><i class="fa fa-check"></i><b>4.7.2</b> Data splitting</a></li>
+<li class="chapter" data-level="4.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>4.7.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="4.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>4.7.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="4.7.5" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_tune"><i class="fa fa-check"></i><b>4.7.5</b> Model tuning</a></li>
+<li class="chapter" data-level="4.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>4.7.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="4.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_eval"><i class="fa fa-check"></i><b>4.7.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="4.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>4.7.8</b> Interpreting predictive models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5</b> Linear regression</a><ul>
+<li class="chapter" data-level="5.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.2" data-path="linear-regression.html"><a href="linear-regression.html#the-idea"><i class="fa fa-check"></i><b>5.2</b> The Idea</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>5.2.1</b> Simple linear regression</a></li>
+<li class="chapter" data-level="5.2.2" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>5.2.2</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="5.2.3" data-path="linear-regression.html"><a href="linear-regression.html#assumptions"><i class="fa fa-check"></i><b>5.2.3</b> Assumptions</a></li>
+<li class="chapter" data-level="5.2.4" data-path="linear-regression.html"><a href="linear-regression.html#advantages-disadvantages"><i class="fa fa-check"></i><b>5.2.4</b> Advantages &amp; Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="linear-regression.html"><a href="linear-regression.html#basic-implementation"><i class="fa fa-check"></i><b>5.3</b> Basic implementation</a></li>
+<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html#predictive-accuracy"><i class="fa fa-check"></i><b>5.4</b> Predictive accuracy</a></li>
+<li class="chapter" data-level="5.5" data-path="linear-regression.html"><a href="linear-regression.html#adding-more-predictors"><i class="fa fa-check"></i><b>5.5</b> Adding more predictors</a></li>
+<li class="chapter" data-level="5.6" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>5.6</b> Model concerns</a></li>
+<li class="chapter" data-level="5.7" data-path="linear-regression.html"><a href="linear-regression.html#dimension-reduction-with-pca"><i class="fa fa-check"></i><b>5.7</b> Dimension reduction with PCA</a></li>
+<li class="chapter" data-level="5.8" data-path="linear-regression.html"><a href="linear-regression.html#dimension-reduction-with-pls"><i class="fa fa-check"></i><b>5.8</b> Dimension reduction with PLS</a></li>
+<li class="chapter" data-level="5.9" data-path="linear-regression.html"><a href="linear-regression.html#variable-importance"><i class="fa fa-check"></i><b>5.9</b> Variable importance</a></li>
+<li class="chapter" data-level="5.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>5.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="6" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>6</b> (APPENDIX) Appendix {-}</a><ul>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="inference" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Statistical Inference</h1>
+<blockquote>
+<p>“To consult the statistician after an experiment is finished is often merely to ask him to conduct a post mortem examination. He can perhaps say what the experiment died of.”</p>
+<p>— Sir Ronald Fisher</p>
+</blockquote>
+<p>Suppose you are moving to Ames, Iowa and are considering buying a home. How would you know whether or not the house you are considering is averagely priced, significantly more expensive, or significantly less expensive? With all of the data available on the web, it is possible to gather data selling prices of similar homes in the area. From this data, which we call a <em>reference distribution</em>, it can be determined whether or not the price of a particular home is on par with similar homes in the neighborhood.</p>
+<p>Say, for example, the price of a new home for sale in Ames, Iowa is $610,000. Using historical data, we can compare this price against a reference distribution. This is illustrated in the code chunk below using the <code>ames</code> data frame.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Sale_Price &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>()<span class="op">$</span>Sale_Price
+(<span class="dv">610000</span> <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Sale_Price)) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(Sale_Price)  <span class="co"># compute a z-score</span>
+## [1] 5.372659</code></pre></div>
+<p>So a house costing $610,000 is more than five standard deviations beyond the mean of all the houses sold between the years 2006 and 2010—of course, a more fair comparison would only involve houses with similar features (e.g., a fireplace, finished basement, same neighborhood, etc.).</p>
+<p>Classical statistical inference (e.g., <em>significance testing</em>) is a similar process. An investigator or analyst considers the result from a particular experiment and wants to know whether or not the result is <em>statistically significant</em><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> (e.g., due to the varying experimental conditions), or due to chance alone. In order to make this conclusion, a relative reference set is required that characterizes the outcome if the varying experimental factors truly had no impact on the result. The observed outcome can then be compared to this reference distribution and the statistical significance of the result can be quantified. This approach to statistical inference is called the <em>frequentist</em> approach—in contrast to <em>Bayesian inference</em> which is not discussed in this book.</p>
+<div id="the-frequentist-approach" class="section level2">
+<h2><span class="header-section-number">3.1</span> The frequentist approach</h2>
+<p>The most common methods in statistical inference are based on the frequentist approach to probability. Many of the common statistical tests, like the one-sample <span class="math inline">\(t\)</span>-test, follow the same paradigm: compute a test statistic associated with the population attribute of interest (e.g., the mean), determine it’s <em>sampling distribution</em>, and use the sampling distribution to compute a <span class="math inline">\(p\)</span>-value, construct a <em>confidence interval</em>, etc.</p>
+<p>The sampling distribution of a statistic (e.g., a test statistic), based on a sample of size <span class="math inline">\(n\)</span>, is the distribution obtained after taking every possible sample of size <span class="math inline">\(n\)</span> from the population of interest and computing the sample statistic for each; see, for example, Figure <a href="inference.html#fig:sampling-distribution">3.1</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:sampling-distribution"></span>
+<img src="illustrations/sampling-distribution.png" alt="Frequentist approach to sampling and sampling distributions." width="70%" />
+<p class="caption">
+Figure 3.1: Frequentist approach to sampling and sampling distributions.
+</p>
+</div>
+In some cases, the sampling distribution of the statistic is known, provided certain assumptions are met (like independent observations and normality). For example, consider a random sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> from a normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma ^ 2\)</span>. As it turns out, the statistic
+<span class="math display" id="eq:zobs">\[\begin{equation}
+  z_{obs} = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}},
+  \tag{3.1}
+\end{equation}\]</span>
+has a standard normal distribution. From this sampling distribution, we can formulate a confidence for the true mean <span class="math inline">\(\mu\)</span>, or test specific hypotheses. In practice, <span class="math inline">\(\sigma\)</span> is unknown and is estimated using the sample standard deviation, <span class="math inline">\(s\)</span>. Replacing <span class="math inline">\(\sigma\)</span> with <span class="math inline">\(s\)</span> in Equation <a href="inference.html#eq:zobs">(3.1)</a> results in another statistic, called the <span class="math inline">\(t\)</span>-statistic, and is given by
+<span class="math display" id="eq:tobs">\[\begin{equation}
+  t_{obs} = \frac{\bar{x} - \mu}{s / \sqrt{n}}.
+  \tag{3.2}
+\end{equation}\]</span>
+<p><span class="citation">Student (<a href="#ref-student-probable-1908">1908</a>)</span> showed that <span class="math inline">\(t_{obs}\)</span> follows a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> <em>degrees of freedom</em>.</p>
+<p>In more complicated examples, the sampling distribution of a statistic is not known, or is rather complicated (e.g., the correlation coefficient or the ratio of two means), but can be simulated through a process called the <em>booststrap</em>, which we discuss in <a href="inference.html#the-nonparametric-bootstrap">3.6</a>.</p>
+<div id="the-central-limit-theorem" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> The central limit theorem</h3>
+One of the most common goals in classical statistical inference is to make inference regarding the mean of a population: <span class="math display">\[
+  H_0: \mu = \mu_0 \quad vs. \quad H_1: \mu \ne \mu_0,
+\]</span> where <span class="math inline">\(\mu\)</span> is the true population mean and <span class="math inline">\(\mu_0\)</span> is some hypothetical value. Assume we have a random sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> from the population of interest. If the data are normally distributed, we can test this hypothesis using a standard <span class="math inline">\(t\)</span>-test (discussed later). If the data are not normally distributed, then the <em>central limit theorem</em> (CLM) tells us that the sampling distribution of the sample mean (or more simply the sample total) will be approximately normal for sufficiently large <span class="math inline">\(n\)</span>. How large does <span class="math inline">\(n\)</span> need to be? The answer depends on how far the true distribution deviates from normality! A common rule of thumb, though not always adequate, is that <span class="math inline">\(n &gt; 30\)</span> is sufficient to invoke the CLM. For instance, as we saw in Chapters 2–3, the distribution of <code>Sale_Price</code> is quite skewed to the right. However, the sampling distribution of the mean from this population will be approximately normal provided <span class="math inline">\(n\)</span> is sufficiently large. For example, we simulated 10^{4} sample means from <code>Sale_Price</code> based on sample of various sizes. The resulting sampling distributions are displayed in Figure <a href="inference.html#fig:sale-price-clm">3.2</a>. Clearly, the sampling distribution becomes more bell-shaped and normal looking as the sample size increases; for this population, <span class="math inline">\(n = 30\)</span> seems sufficient.
+<div class="figure" style="text-align: center"><span id="fig:sale-price-clm"></span>
+<img src="abar_files/figure-html/sale-price-clm-1.png" alt="Sampling distribution of mean sale price based on samples of size $n = 5$ (top left), $n = 10$ (top right), $n = 30$ (bottom left), and $n = 100$ (bottom right)." width="70%" />
+<p class="caption">
+Figure 3.2: Sampling distribution of mean sale price based on samples of size <span class="math inline">\(n = 5\)</span> (top left), <span class="math inline">\(n = 10\)</span> (top right), <span class="math inline">\(n = 30\)</span> (bottom left), and <span class="math inline">\(n = 100\)</span> (bottom right).
+</p>
+</div>
+<p>The classical tests and procedures discussed in this chapter assume that we are sampling from populations that are infinitely large. In most cases, however, the populations from which we obtain samples are finite.</p>
+</div>
+<div id="hypothesis-testing" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Hypothesis testing</h3>
+<p>Univariate statistical tests of hypotheses usually concern a single parameter, say <span class="math inline">\(\theta\)</span>. For instance, <span class="math inline">\(\theta\)</span> could be the mean of a single population (i.e., <span class="math inline">\(\theta = \mu\)</span>), or the difference between the means of two populations (i.e., <span class="math inline">\(\theta = \mu_1 - \mu_2\)</span>). The <em>null hypothesis</em>, denoted <span class="math inline">\(H_0\)</span>, represents the status qou of <span class="math inline">\(\theta\)</span> and the alternative hypothesis, denoted <span class="math inline">\(H_1\)</span> or <span class="math inline">\(H_a\)</span>, represents the research hypothesis regarding <span class="math inline">\(\theta\)</span>. For instance, in comparing the means of two populations, we may be interested in testing <span class="math display">\[
+H_0: \mu_1 - \mu_2 = \delta_0 \quad \text{vs.} \quad H_1: \mu_1 - \mu_2 \ne \delta_0,
+\]</span> where <span class="math inline">\(delta_0\)</span> is some hypothetical value (usually <span class="math inline">\(0\)</span> signifying no difference in the means of the two populations). To carry out such tests, we require an estimate of <span class="math inline">\(\theta\)</span>, say <span class="math inline">\(\widehat{\theta}\)</span>, and its corresponding sampling distribution.</p>
+</div>
+<div id="one-sided-versus-two-sided-tests" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> One-sided versus two-sided tests</h3>
+<p>The previous hypothesis test involved a two-sided alternative (i.e., <span class="math inline">\(H_1: \mu_1 - \mu_2 \ne \delta_0\)</span>). Such a test is called a <em>two-sided test</em>. It is possible, though less common, to use a one-sided alternative of the form <span class="math display">\[
+H_1: \theta &lt; \theta_0 \quad \text{or} \quad H_1: \theta &gt; \theta_0
+\]</span> A word of caution regarding one-sided alternatives is to avoid them! These are more common in experimental studies where <em>a priori</em> information is available suggesting that the population attribute of interest is either less than or greater than some hypothetical value. Although the proceeding discussions apply specifically to two-sided tests, the methodology can easily be amended to accommodate one-sided tests.</p>
+</div>
+<div id="type-i-and-type-ii-errors" class="section level3">
+<h3><span class="header-section-number">3.1.4</span> Type I and type II errors</h3>
+<p>Statistical significance testing relies on the <em>presumption of innocence</em>. That is, we fail to reject the null hypothesis unless the data provide sufficient evidence to say otherwise. For example, in the US criminal justice system, the defendant is assumed innocent until proven guilty: <span class="math display">\[
+H_0: \text{Defendant is innocent} \quad \text{vs.} \quad H_1: \text{Defendant is guilty}
+\]</span> Whenever we conduct a statistical test of hypothesis, a decision is made regarding the null hypothesis. Since this is a binary decision, there are four possible outcomes, two of which are errors:</p>
+<ol style="list-style-type: decimal">
+<li><p>Convict the defendant when the defendant is guilty (a good decision)</p></li>
+<li><p>Convict the defendant when the defendant is innocent (a bad decision)</p></li>
+<li><p>Fail to convict the defendant when the defendant is guilty (a bad decision)</p></li>
+<li><p>Fail to convict the defendant when the defendant is innocent (a good decision)</p></li>
+</ol>
+<p>Which decision is worst? Naturally, it would be worse to convict an innocent person than to let a guilty person go free. We call the first type of error a <em>type I error</em>, and the second a <em>type II error</em>. Furthermore, we denote the probability of making a type I error as <span class="math inline">\(\alpha\)</span> and the probability of making a type II error as <span class="math inline">\(\beta\)</span>. The classic approach to statistical testing fixes the probability of making a type I error ahead of time (e.g., <span class="math inline">\(\alpha = 0.05\)</span>), we then do our best to reduce the risk of making a type II error (e.g., collecting sufficient sample size). In order to carry out a test with the goal of mitigating the probability of making a type II error we would conduct a <em>power analysis</em>, which we do not discuss here—the classic reference is <span class="citation">Cohen (<a href="#ref-cohen-statistical-1988">1988</a>)</span>.</p>
+<p><strong>INSERT TABLE HERE</strong></p>
+</div>
+<div id="p-values" class="section level3">
+<h3><span class="header-section-number">3.1.5</span> <span class="math inline">\(p\)</span>-values</h3>
+<p>There are three equivalent approaches to conducting hypothesis tests:</p>
+<ol style="list-style-type: decimal">
+<li><p>The <em>rejection region</em> approach (the least informative).</p></li>
+<li><p>The <span class="math inline">\(p\)</span>-value approach.</p></li>
+<li><p>The <em>confidence interval</em> approach.</p></li>
+</ol>
+<p>The latter two are the most informative as they provide information beyond our decision to simply reject or fail to reject a null hypothesis. This section discusses <span class="math inline">\(p\)</span>-values.</p>
+<p><span class="math inline">\(p\)</span>-values provide a measure of evidence in favor of or against the null hypothesis. The <span class="math inline">\(p\)</span>-value, denoted <span class="math inline">\(p\)</span>, can be thought of as the <em>observed significance level</em>. We would reject the null hypothesis at the <span class="math inline">\(\alpha\)</span> level of significance whenever <span class="math inline">\(p &lt; \alpha\)</span>. Table <a href="inference.html#tab:p-values">3.1</a> provides a general guideline for interpreting <span class="math inline">\(p\)</span>-values.</p>
+<table>
+<caption><span id="tab:p-values">Table 3.1: </span> p-values.</caption>
+<thead>
+<tr class="header">
+<th align="center">Result</th>
+<th align="left">Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(p \le 0.01\)</span></td>
+<td align="left">Very strong evidence against the null</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(0.01 &lt; p \le 0.05\)</span></td>
+<td align="left">Strong evidence against the null</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(0.05 &lt; p \le 0.10\)</span></td>
+<td align="left">Moderate evidence against the null</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(0.10 &lt; p \le 0.20\)</span></td>
+<td align="left">Weak evidence against the null</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(p &gt; 0.20\)</span></td>
+<td align="left">No evidence against the null</td>
+</tr>
+</tbody>
+</table>
+<p>To put another way, <span class="math inline">\(p\)</span>-values tell us the smallest value of <span class="math inline">\(\alpha\)</span> that would result in rejecting the null hypothesis. Keep in mind, however, that it is highly unethical to change <span class="math inline">\(\alpha\)</span> after comparing it to the <span class="math inline">\(p\)</span>-value in order to change the resulting decision of the test—the significance level should be stated before the data are inspected, or even collected, and never be changed thereafter. To compute a <span class="math inline">\(p\)</span>-value, we need to be able to compute probabilities from the sampling distribution of the test statistic under the assumption that the null hypothesis is true. Most statistical tests built into R, however, compute <span class="math inline">\(p\)</span>-values that are provided in the output.</p>
+</div>
+<div id="confidence-intervals" class="section level3">
+<h3><span class="header-section-number">3.1.6</span> Confidence intervals</h3>
+<em>Confidence intervals</em> assign a range of plausible values to the population attribute of interest. A traditional <span class="math inline">\(100\left(1 - \alpha\right)\)</span>% confidence interval for a population parameter <span class="math inline">\(\theta\)</span> has the form
+<span class="math display" id="eq:conf-int">\[\begin{equation}
+  \widehat{\theta} \pm \gamma_{1 - \alpha / 2} \widehat{SE}\left(\widehat{\theta}\right),
+  \tag{3.3}
+\end{equation}\]</span>
+<p>where <span class="math inline">\(\widehat{\theta}\)</span> is an appropriate estimate of <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\gamma_{1 - \alpha / 2}\)</span> is the <span class="math inline">\(1 - \alpha / 2\)</span> quantile from an appropriate reference distribution, and <span class="math inline">\(\widehat{SE}\left(\widehat{\theta}\right)\)</span> is the estimated standard error of <span class="math inline">\(\widehat{\theta}\)</span>. Confidence intervals of the form <a href="inference.html#eq:conf-int">(3.3)</a> are commonly used in practice, but are not always accurate—they assume that the sampling distribution of <span class="math inline">\(\widehat{\theta}\)</span> is symmetric. Later in this chapter, we discuss the <em>nonparametric bootstrap</em>, a simulation-based approach to estimating <span class="math inline">\(\widehat{SE}\left(\widehat{\theta}\right)\)</span> and computing confidence intervals that does not assume a theoretical sampling distribution for <span class="math inline">\(\widehat{\theta}\)</span>.</p>
+</div>
+</div>
+<div id="one--and-two-sample-t-tests" class="section level2">
+<h2><span class="header-section-number">3.2</span> One- and two-sample t-tests</h2>
+<p>One of the most common goals in classical statistical inference is to make inference regarding the mean of a single population (<span class="math inline">\(\theta = \mu\)</span>) or the difference in means between two populations (<span class="math inline">\(\theta = \mu_1 - \mu_2\)</span>). And the corresponding test has the form <span class="math display">\[
+  H_0: \theta = \theta_0 \quad \text{vs.} \quad H_1: \theta \ne \theta_0,
+\]</span> where <span class="math inline">\(\theta_0\)</span> is the hypothesized value of the mean or difference in means.</p>
+<div id="one-sample-t-test" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> One-sample t-test</h3>
+<p>Assume we have a random sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> from the population of interest with sample mean <span class="math inline">\(\bar{x}\)</span> and sample standard deviation <span class="math inline">\(s\)</span>. If the data are normally distributed, we can test this hypothesis using a standard <span class="math inline">\(t\)</span>-test. If the data are not normally distributed, then the <em>central limit theorem</em> (CLM) tells us that the sampling distribution of the sample mean will be approximately normal for sufficiently large <span class="math inline">\(n\)</span>. How large does <span class="math inline">\(n\)</span> need to be? The answer depends on how far the true distribution deviates from normality! A common rule of thumb, though not always sufficient, is that <span class="math inline">\(n &gt; 30\)</span> is required to invoke the CLM.</p>
+The test statistic for the one-sample <span class="math inline">\(t\)</span>-test is <span class="math display">\[
+  t_{obs} = \frac{\bar{x} - \theta_0}{s / \sqrt{n}}.
+\]</span> If the null hypothesis is true, then <span class="math inline">\(t_{obs}\)</span> comes from a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> <em>degrees of freedom</em>. We would reject the null hypothesis if <span class="math inline">\(|t_{obs}| &gt; t_{1 - \alpha / 2, n - 1}\)</span>, where <span class="math inline">\(t_{1 - \alpha / 2, n - 1}\)</span> is the <span class="math inline">\(1 - \alpha / 2\)</span> quantile from a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom. A <span class="math inline">\(100\left(1 - \alpha\right)\)</span>% confidence interval for true mean is given by
+<span class="math display" id="eq:one-sample-t-test-ci">\[\begin{equation}
+  \bar{x} \pm t_{1 - \alpha / 2, n - 1} \times \frac{s}{\sqrt{n}}
+  \tag{3.4}
+\end{equation}\]</span>
+Correspondingly, we would reject the null hypothesis whenever the hypothesized value <span class="math inline">\(\theta_0\)</span> is not contained within <a href="inference.html#eq:one-sample-t-test-ci">(3.4)</a>. A <span class="math inline">\(p\)</span>-value for the test can also be computes as <span class="math inline">\(p = 2 \times Pr\left(T_{n - 1} &gt; |t_{obs}|\right)\)</span>, where <span class="math inline">\(T_{n - 1}\)</span> is a random variable following a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom. In other words, the <span class="math inline">\(p\)</span>-value is the area under the curve of a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom to the right <span class="math inline">\(t_{obs}\)</span>; see Figure <a href="inference.html#fig:t-dist">3.3</a>.
+<div class="figure" style="text-align: center"><span id="fig:t-dist"></span>
+<img src="abar_files/figure-html/t-dist-1.png" alt="$t$-distribution with $n - 1$ degrees of freedom. The shaded area corresponds to the $p$-value of the test." width="70%" />
+<p class="caption">
+Figure 3.3: <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom. The shaded area corresponds to the <span class="math inline">\(p\)</span>-value of the test.
+</p>
+</div>
+<p>To illustrate, the one-sample <span class="math inline">\(t\)</span>-test, we’ll use the <code>ames</code> data set. In Chapters 2–3, we provided both numerical and visual descriptions of <code>Sale_Price</code>. Below, we use R’s built-in <code>t.test</code> function to obtain a 95% confidence interval for the true mean selling price based on a random sample of size <span class="math inline">\(n = 50\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1551</span>)  <span class="co"># for reproducibility</span>
+sp50 &lt;-<span class="st"> </span><span class="kw">sample</span>(Sale_Price, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)
+<span class="kw">t.test</span>(sp50, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)
+## 
+##  One Sample t-test
+## 
+## data:  sp50
+## t = 20.71, df = 49, p-value &lt; 2.2e-16
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  158237.0 192245.7
+## sample estimates:
+## mean of x 
+##  175241.4</code></pre></div>
+<p>Based on the output, a 95% confidence interval for the mean selling price, based on a sample of size <span class="math inline">\(n = 50\)</span> is <span class="math inline">\(\left(1.5823704\times 10^{5}, 1.9224572\times 10^{5}\right)\)</span>. By default, the <code>t.test</code> function uses <span class="math inline">\(\theta_0 = 0\)</span>. To specify a different value, use the <code>mu</code> argument:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(sp50, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>, <span class="dt">mu =</span> <span class="dv">600000</span>)
+## 
+##  One Sample t-test
+## 
+## data:  sp50
+## t = -50.198, df = 49, p-value &lt; 2.2e-16
+## alternative hypothesis: true mean is not equal to 6e+05
+## 95 percent confidence interval:
+##  158237.0 192245.7
+## sample estimates:
+## mean of x 
+##  175241.4</code></pre></div>
+<p>The resulting confidence interval is the same, but the corresponding <span class="math inline">\(p\)</span>-value now correspond to the testing whether or not the population mean significantly differs from the value $<span class="math inline">\(600,000\)</span>; in this case, we would fail to reject the null hypothesis at the <span class="math inline">\(0.05\)</span> level of significance.</p>
+</div>
+<div id="two-sample-t-test" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Two-sample t-test</h3>
+<p>Assume we have a random sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> from one population of interest with sample mean <span class="math inline">\(\bar{x}\)</span> and sample standard deviation <span class="math inline">\(s_x\)</span> and another random sample <span class="math inline">\(y_1, y_2, \dots, y_n\)</span> from a second population of interest with sample mean <span class="math inline">\(\bar{y}\)</span> and sample standard deviation <span class="math inline">\(s_y\)</span>. For the two-sample <span class="math inline">\(t\)</span>-test, <span class="math inline">\(\theta = \mu_x - \mu_y\)</span> and <span class="math inline">\(\theta_0\)</span> is often <span class="math inline">\(0\)</span> (i.e., no difference between the population means). Of course, no two means are exactly equal! What we really care about is whether or not the true difference is small enough to say that the two means are practically the same. The more data we have, the smaller a true difference we are able to detect.</p>
+<p>In performing a two-sample <span class="math inline">\(t\)</span>-test, we have to make an assumption regarding the variance of the two populations. The assumption we make here determines which two-sample <span class="math inline">\(t\)</span>-test will be used:</p>
+<ol style="list-style-type: decimal">
+<li>Pooled variance <span class="math inline">\(t\)</span>-test (<span class="math inline">\(\sigma_1 ^ 2 = \sigma_2 ^ 2\)</span>)</li>
+<li>Welch’s two-sample <span class="math inline">\(t\)</span>-test (<span class="math inline">\(\sigma_1 ^ 2 \ne \sigma_2 ^ 2\)</span>).</li>
+</ol>
+<p>Since the variances of two populations are not typically equal in practice, we discuss Welch’s two-sample <span class="math inline">\(t\)</span>-test. (Even when the population variance are equal, Welch’s <span class="math inline">\(t\)</span>-test can still provide satisfactory results.) The test statistic corresponding to Welch’s <span class="math inline">\(t\)</span>-test is given by <span class="math display">\[
+  t_{obs} = \frac{\bar{x} - \bar{y}}{\sqrt{s_1 ^ 2 / n_1 + s_2 ^ 2 / n_2}}
+\]</span> The trouble with Welch’s <span class="math inline">\(t\)</span>-test is that the <span class="math inline">\(t_obs\)</span> does not come from a <span class="math inline">\(t\)</span>-distribution, but can be approximated by a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(v\)</span> degrees of freedom, where <span class="math inline">\(v\)</span> is given by the <strong>Satterthwaite approximation</strong>: <span class="math display">\[
+  v = TBD.
+\]</span> Fortunately, the degrees of freedom is computed automatically by the <code>t.test</code> function.</p>
+<p>Confidence intervals and <span class="math inline">\(p\)</span>-values can be computed in a manner analogous to the one-sample <span class="math inline">\(t\)</span>-test. For instance, a <span class="math inline">\(100\left(1 - \alpha\right)\)</span>% confidence interval for the true difference <span class="math inline">\(\mu_1 - \mu_2\)</span> is given by <span class="math display">\[
+  \bar{x}_1 + \bar{x}_2 \pm t_{1 - \alpha / 2, v} \times \sqrt{s_1 ^ 2 / n_1 + s_2 ^ 2 / n_2},
+\]</span> where <span class="math inline">\(t_{1 - \alpha / 2, v}\)</span> is the <span class="math inline">\(1 - \alpha / 2\)</span> quantile from a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(v\)</span> degrees of freedom.</p>
+<p><strong>A/B test example</strong></p>
+</div>
+</div>
+<div id="tests-involving-more-than-two-means-anova-models" class="section level2">
+<h2><span class="header-section-number">3.3</span> Tests involving more than two means: ANOVA models</h2>
+<p>TBD.</p>
+</div>
+<div id="testing-for-association-in-contingency-tables" class="section level2">
+<h2><span class="header-section-number">3.4</span> Testing for association in contingency tables</h2>
+<p>TBD.</p>
+</div>
+<div id="nonparametric-tests" class="section level2">
+<h2><span class="header-section-number">3.5</span> Nonparametric tests</h2>
+<p>TBD.</p>
+</div>
+<div id="the-nonparametric-bootstrap" class="section level2">
+<h2><span class="header-section-number">3.6</span> The nonparametric bootstrap</h2>
+<p>The statistical tests discussed so far in this chapter assume a theoretical sampling distribution for the corresponding test statistic <span class="math inline">\(\widehat{\theta}\)</span>, which requires certain assumptions like large sample sizes (when appealing to the CLT) or normality of the population from which the sample was obtained. These assumptions are often difficult to meet in practice. The <em>bootstrap</em> technique <span class="citation">(Efron <a href="#ref-efron-bootstrap-1979">1979</a>)</span> estimates the sampling <span class="math inline">\(\widehat{\theta}\)</span> by direct simulation. In general, bootstrap methods fall into one of two categories, <em>parametric</em> and <em>nonparametric</em>. In this section, we briefly introduce the nonparametric bootstrap. A thorough introduction to the bootstrap and its use in R is provided in <span class="citation">Davison and Hinkley (<a href="#ref-davison-bootstrap-1997">1997</a>)</span>.</p>
+<p>Suppose we have a sample of data <span class="math inline">\(\boldsymbol{x} = \left\{x_1, x_2, \dots, x_n\right\}\)</span> from some population of interest. We can estimate a particular population attribute <span class="math inline">\(\theta\)</span> using a statistic that is a function of the sample, say <span class="math inline">\(\widehat{\theta} = t\left(\boldsymbol{x}\right)\)</span>. In order to make inference regarding <span class="math inline">\(\theta\)</span>, we need to know the complete sampling distribution of <span class="math inline">\(\widehat{\theta}\)</span>.</p>
+<p>The nonparametric bootstrap constructs the sampling distribution of <span class="math inline">\(\widehat{\theta}\)</span> by sampling <strong>with replacement</strong> from the original sample; that is, treating the sample as if it were the population and making repeated resamples from it, each time recomputing the statistic of interest (see Figure <a href="inference.html#fig:bootstrap-distribution">3.4</a>). This is analogous to the frequentist approach displayed in Figure <a href="inference.html#fig:sampling-distribution">3.1</a>. A single <em>bootstrap sample</em> <span class="math display">\[
+  \boldsymbol{x} ^ \star = \left\{x_1 ^ \star, x_2 ^ \star, \dots, x_n ^ \star\right\},
+\]</span> where <span class="math inline">\(x_i ^ \star\)</span> <span class="math inline">\(\left(i = 1, 2, \dots, n\right)\)</span> is drawn from the original sample <span class="math inline">\(\boldsymbol{x}\)</span> with replacement. Since samples are drawn with replacement, each bootstrap sample will contain duplicate values. In fact, on average, <span class="math inline">\(1 - e ^ {-1} \approx 63.21\)</span>% of the original sample ends up in any particular bootstrap sample. The original observations not contained in a particular bootstrap sample are considered <em>out-of-bag</em> and will have important implications when discussing <em>random forests</em> in Chapter ?.</p>
+<div class="figure" style="text-align: center"><span id="fig:bootstrap-distribution"></span>
+<img src="illustrations/bootstrap-distribution.png" alt="Bootstrap distirbution." width="100%" />
+<p class="caption">
+Figure 3.4: Bootstrap distirbution.
+</p>
+</div>
+<p>With each bootstrap sample, we can compute a bootstrap replicate of the statistic <span class="math inline">\(\widehat{\theta}\)</span> <span class="math display">\[
+  \widehat{\theta} ^ \star = t\left(\boldsymbol{x} ^ \star\right).
+\]</span> Given a large number, say <span class="math inline">\(R\)</span>, of bootstrap replicates <span class="math inline">\(\widehat{\theta}_1 ^ \star, \widehat{\theta}_2 ^ \star, \dots, \widehat{\theta}_R ^ \star\)</span> we can form an estimated sampling distribution for the original statistic <span class="math inline">\(\widehat{\theta}\)</span>. For example, a useful estimate of the standard error of <span class="math inline">\(\widehat{\theta}\)</span> is given by <span class="math display">\[
+  \widehat{SE}\left(\widehat{\theta}\right) ^ \star = \sqrt{\frac{1}{R - 1}\sum_{i = 1} ^ R\left(\widehat{\theta}_i ^ \star - \bar{\widehat{\theta} ^ \star}\right)},
+\]</span> where <span class="math display">\[
+\bar{\widehat{\theta} ^ \star} = \frac{1}{R}\sum_{i = 1} ^ R \widehat{\theta}_i ^ \star
+\]</span> is the sample mean of the <span class="math inline">\(R\)</span> bootstrap replicates of <span class="math inline">\(\widehat{\theta}\)</span>.</p>
+<p>Given a vector of values in R, a random sample with replacement can be obtained using the <code>sample</code> function, for example</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+<span class="kw">set.seed</span>(<span class="dv">2233</span>)  <span class="co"># for reproducibility</span>
+<span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+##  [1]  2  4  2  6  9 10  8  5 10  4
+<span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+##  [1]  5  7 10  4  9 10  5  4  4  9</code></pre></div>
+<p>Notice how some values from the original sample get repeated in each bootstrap sample. For example, <code>4</code> shows up three times in the second bootstrap sample.</p>
+<p>To illustrate, we can bootstrap our sample of <span class="math inline">\(n = 50\)</span> values of <code>Sale_Price</code> to form a bootstrap estimate of the sampling distribution for the mean sale price. This is shown in Figure @ref{fig:bootstrap-distribution} and was produced using the code chunk below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1551</span>)  <span class="co"># for reproducibility</span>
+x &lt;-<span class="st"> </span><span class="kw">sample</span>(Sale_Price, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)  <span class="co"># an SRS of size n = 50</span>
+bootreps &lt;-<span class="st"> </span>plyr<span class="op">::</span><span class="kw">rdply</span>(<span class="dt">.n =</span> <span class="dv">10000</span>, <span class="dt">.expr =</span> <span class="kw">mean</span>(<span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>)))
+<span class="kw">ggplot</span>(bootreps, <span class="kw">aes</span>(<span class="dt">x =</span> V1)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">30</span>, <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Bootstrap repliacte&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:bootstrap-distribution-ames"></span>
+<img src="abar_files/figure-html/bootstrap-distribution-ames-1.png" alt="Bootstrap distirbution of mean sale price based on a random sample of size 50 using $R = 10,000$ bootstrap samples." width="80%" />
+<p class="caption">
+Figure 3.5: Bootstrap distirbution of mean sale price based on a random sample of size 50 using <span class="math inline">\(R = 10,000\)</span> bootstrap samples.
+</p>
+</div>
+<p>Compare this to the true sampling distributions of the mean selling price based on various sample sizes illustrated in Figure ?.</p>
+<div id="bootstrap-confidence-intervals" class="section level3">
+<h3><span class="header-section-number">3.6.1</span> Bootstrap confidence intervals</h3>
+<p>Confidence intervals can be obtained directly from the bootstrap distribution of <span class="math inline">\(\widehat{\theta}\)</span>. For example, to obtain an approximate <span class="math inline">\(100\left(1 - \alpha\right)\)</span> confidence interval for <span class="math inline">\(\theta\)</span>, we can use the <span class="math inline">\(\alpha / 2\)</span> and <span class="math inline">\(1 - \alpha / 2\)</span> quantiles from the bootstrap distribution. For the above example, an approximate 95% confidence interval for the mean sale price, we get</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(bootreps<span class="op">$</span>V1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))
+##     2.5%    97.5% 
+## 159294.9 191914.9</code></pre></div>
+<p>This is called the <em>percentile bootstrap interval</em>. Compare this to the results from the <span class="math inline">\(t\)</span>-test procedure, which gave <span class="math inline">\(\left(1.5823704\times 10^{5}, 1.9224572\times 10^{5}\right)\)</span>.</p>
+<p>So how many bootstrap samples are sufficient? The answer, of course, depends on the inferential objectives. Previous studies have shown that far less bootstrap replicates are required when estimating standard errors (e.g., 200) while more are required for computing confidence intervals (e.g., <span class="math inline">\(\ge 1000\)</span>). With the speed of modern computers, however, the number of bootstrap replicates should be made as large possible within reason!</p>
+</div>
+</div>
+<div id="further-reading-1" class="section level2">
+<h2><span class="header-section-number">3.7</span> Further reading</h2>
+<p>TBD.</p>
+</div>
+<div id="exercises-1" class="section level2">
+<h2><span class="header-section-number">3.8</span> Exercises</h2>
+<p>TBD.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-student-probable-1908">
+<p>Student. 1908. “The Probable Error of a Mean.” <em>Biometrika</em> 6 (1): 1–25. doi:<a href="https://doi.org/10.1093/biomet/6.1.1">10.1093/biomet/6.1.1</a>.</p>
+</div>
+<div id="ref-cohen-statistical-1988">
+<p>Cohen, Jacob. 1988. <em>Statistical Power Analysis for the Behavioral Sciences</em>. Taylor &amp; Francis.</p>
+</div>
+<div id="ref-efron-bootstrap-1979">
+<p>Efron, Brad. 1979. “Ames, Iowa: Alternative to the Boston Housing Data as an End of Semester Regression Project.” <em>The Annals of Statistics</em> 7 (1): 1–26.</p>
+</div>
+<div id="ref-davison-bootstrap-1997">
+<p>Davison, A. C., and D. V. Hinkley. 1997. <em>Bootstrap Methods and Their Application</em>. Cambridge Series in Statistical and Probabilistic Mathematics. Cambridge University Press. doi:<a href="https://doi.org/10.1017/CBO9780511802843">10.1017/CBO9780511802843</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Keep in mind that a statistically significant result does not necessarilly imply a <em>practically significant</em> result (recall the importance of specifying effect sizes).<a href="inference.html#fnref1">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="visualization.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="unsupervised.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["abar.pdf", "abar.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

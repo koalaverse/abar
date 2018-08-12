@@ -1,0 +1,925 @@
+# Visual data exploration {#visualization}
+
+```{r 04-setup, include=FALSE}
+# Load required packages
+library(ggplot2)
+
+# Set the graphical theme
+theme_set(theme_light())
+
+# Set global knitr chunk options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  warning = FALSE, 
+  message = FALSE, 
+  collapse = TRUE, 
+  fig.width = 6,
+  fig.asp = 0.618,
+  out.width = "70%",
+  fig.align = "center"
+)
+```
+
+> "Pie charts do not provide efficient detection of geometric objects that convey information about differences of values."
+>
+> --- William S. Cleveland
+
+As mentioned at the beginning of Chapter \@ref(descriptive), the first step in any data analysis problem is to simply "look" at the data. In the previous chapter, we did this using numerical summaries of the data (i.e., descriptive statistics). In this chapter, we discuss graphical summaries of the data---these two tasks go hand in hand. 
+
+One of the biggest strengths of R is its ability to produce high-quality static graphics. While base R can produce high quality graphics with ease, a number of add-on packages provide enhanced graphics capabilities. Two of the most popular packages are `lattice` [@pkg-lattice] and `ggplot2` [@pkg-ggplot2]---both of which are built on top of R's `grid` graphics system. Dynamic and interactive graphics are also readily available through add-on packages like `plotly` [@pkg-plotly]. This chapter makes extensive use of `ggplot2`---a popular package for creating graphics based on *The Grammar of Graphics*; see `help("ggplot2-package", package = "ggplot2")` for details and useful links. 
+
+```{block2, type="note"}
+Although this chapter uses `ggplot2`, the R code for recreating most of the graphs (where possible) using both `lattice` and base R graphics is available on the book's [GitHub repo](https://github.com/koalaverse/abar). One advantage of `lattice` over `ggplot2` is its ability to create 3-dimensional graphics and *shingles* (see `?lattice::cloud` and `?lattice::shingle`, respectively, for additional information).
+```
+
+<!-- Data visualization is a critical tool in the data analysis process. Data visualization tasks can range from generating fundamental distribution plots to understanding the interplay of complex influential variables in machine learning algorithms. In this chapter we focus on the use of visualization for initial *data exploration*.  -->
+
+Visual data exploration (VDE) is critical to understanding your data. When combined with descriptive statistics (Chapter \@ref(descriptive)), VDE provides an effective way to identify relationships and abnormalities (e.g., outliers), and communicate summaries of the data. In fact, sometimes no elaborate analysis is necessary at all as most of the important conclusions <!--required for a decision--> are evident by simply examining the data visually. <!--Other times, data exploration will be used to help guide in the initial stages of predictive modelling (i.e., data cleaning, feature selection, and data splitting).-->
+
+Regardless of the intent, VDE is about investigating the characteristics of your data set. To do this, we typically create numerous plots in an <!--interactive--> iterative fashion. This chapter will show you how to create such plots, and use them to answer fundamental questions about the data. 
+
+
+## Prerequisites
+
+In this chapter we’ll illustrate the key ideas of VDE using the Ames housing data. We'll also use several `tidyverse` packages, including: `dplyr`, for data manipulation; `ggplot2`, for creating graphs; as well as some useful graphical functions from other packages (most of which rely on `ggplot2`).
+
+```{r 04-packages, message=FALSE, warning=FALSE}
+# Load required packages
+library(dplyr)         # for data manipulation
+library(ggplot2)       # for creating graphs
+library(gridExtra)     # for displaying multiple (ggplot2) graphs in one figure
+library(scales)        # for better breaks and labels in ggplot2 axes
+
+# Additional packages that need to be installed: AmesHousing, forcats, GGally, 
+# ggridges, RColorBrewer, reshape2, purrr, and viridis
+```
+
+```{r 04-ames, message=FALSE, warning=FALSE}
+ames <- AmesHousing::make_ames()  # load the Ames housing data
+```
+
+`ggplot2` constructs plots in layers. For example, add points, then add trend lines, etc. A general formula for a `ggplot2` graph is given below. Notice, we always start by using `ggplot()` to construct an empty canvas.
+
+```
+ggplot() +
+  geom_<geom-1-name>(data = <data-1-name>, aes(<aesthetic mappings>), <options>) +
+  geom_<geom-2-name>(data = <data-2-name>, aes(<aesthetic mappings>), <options>) +
+  ...
+```
+
+If all the layers use the same data set (as in most of this chapter), you can provide the data and aesthetics to the `ggplot()` function instead, as in
+
+```
+ggplot(<data-name>, aes(<aesthetic mappings>)) +
+  geom_<geom-1-name>(<options>) +
+  geom_<geom-2-name>(<options>) +
+  ...
+```
+
+## Univariate data
+
+An important first step in VDE is to to understand how individual variables are distributed. Visualizing the distribution of a variable allows us to easily understand and describe many of its features. This is complementary to describing the distribution of a variable using various descriptive statistics, as described in Chapter \@ref(descriptive).
+
+
+### Continuous Variables
+
+A variable is *continuous* if it can take any of an infinite set of ordered values (e.g., income and price). There are several different features we are generally interested in with continuous variables (i.e. measures of location, measures of spread, asymmetry, outliers). Different plots can effectively communicate these different features of continuous variables. 
+
+```{block2, type="note"}
+Techincally, no variable in a data set is truly continuous, as measurements are never recorded with infinite precision. In a *census*, for example, age is typically recorded in years, but typically treated as continuous during analysis. What's important for a variable to be treated as continuous is our willingness to treat the differences between values as *quantitative*. For the purposes of this book, continuous variables are also referred to as numeric or quantitative variables.
+```
+
+
+#### Histograms
+
+One of the most effective ways to visualize the distribution (in particular, the density) of a continuous variable is to use a *histogram*; our first example of a histogram was seen in Figure \@ref(fig:sale-price-hist) for the variable `Sale_Price`. Although rather crude estimates, histograms were indispensable tools in the days before computers were mainstream.
+
+Histograms are often overlooked, yet they offer an efficient means for communicating important features of continuous variables (e.g., skewness). Histograms are just special bar charts! First, the variable is broken into equal sized intervals, called bins, and the number of observations that fall into each bin is counted (these are called frequencies). A histogram is nothing more than a simple bar chart of these frequencies (where each bar represents a different bin). Histograms quickly signal what the most common observations are for the variable being assessed (the higher the bar the more frequent those values are observed in the data); they also signal the shape (spread and symmetry) of the data by illustrating if the observed values cluster towards one end or the other of the distribution.
+
+To get a quick sense of how `Sale_Price` is distributed, we can generate a histogram estimate of its density using `ggplot2`'s `geom_histogram()` function. 
+```{r 04-hist-sale-price-01, fig.height=3, fig.width=5, fig.cap="Default histogram of `Sale_Price`."}
+ggplot(ames, aes(x = Sale_Price)) +
+  geom_histogram()
+```
+Figure \@ref(fig:04-hist-sale-price-01) conveys several important features about the distribution of `Sale_Price`:
+
+- **measures of location** (\@ref(measures-of-location)): the most common values of `Sale_Price` are around \$160K (the median);
+- **measures of spread** (\@ref(measures-of-spread)): `Sale_Price` ranges from near zero to over \$700K;
+- **skewness**: `Sale_Price` is skewed right (a common feature of financial data);
+- **outliers** (\@ref(outliers)): there appears to be some abnormally large values of `Sale_Price`. 
+<!-- - **gaps**: we see a gap in `Sale_Price` roughly between \$650K and \$700K+.  -->
+Some of the analytic techniques we will learn about in later chapters are sensitive to outliers and assume that the data are (at least approximately) symmetric. Histograms, as well may of the graphical displays in this chapter, are invaluable tools for identifying there and other potential problems with our data.
+
+**FIXME:** The footnote in this section does not make sense.
+
+By default, `geom_histogram()` will divide the values of a continuous variable into 30 equally sized bins. Since `Sale_Price` ranges from \$12,789--\$755,000, 30 equally sized bins implies a bin width of $\frac{\left\lfloor{\$755,000 - \$12,789}\right\rfloor}{30} = \$24,740$. So in Figure \@ref(fig:04-hist-sale-price-01), the first bar represents the frequency of `Sale_Price` in the range of (roughly) $\left[\$12,500, \ \$37,500\right]$^[These bounds are approximate since the binning will round to whole numbers (e.g., 12,800 rather than 12,370).], the second bar represents the frequency of `Sale_Price` in the range of (roughly) $\left[\$37,500, \ \$62,300\right]$, and so on.
+
+```{block2, type="tip"}
+The number of bins (or equivalently, the bin width) in a histogram is a *tuning parameter* that should be adjusted specifically for each application. Adjusting the bin width is somewhat subjective and needs to be done carefully (usually by eye). If the bin width is "too small", the histogram will *overfit* the data and display too much noise. If the bin width is "too large", the histogram will *underfit* the data and important features (like outliers) will be missed. 
+```
+
+In `geom_histogram()`, we can use the `binwidth` and `bins` arguments to control the bin width and number of bins, respectively (but only one argument needs to be specified). By adjusting one of these parameters, we can change the crudeness of the histogram estimate of the variable's density. For instance, in the default histogram, the bin with the largest frequency ranged from \$136,000--\$161,000; however, as demonstrated below, we can often do better by manually adjusting the bin width^[The default in `ggplot2` is to always use 30 bins---which will not be optimal for most problems.].
+```{r hist2, fig.height=5, fig.width=8, fig.cap="Adjusting histogram bin width."}
+# Histograms with various bin widths
+
+# Too crude (i.e., under fitting)
+p1 <- ggplot(ames, aes(Sale_Price)) +
+  geom_histogram(binwidth = 100000) +
+  ggtitle("Bin width = $100,000")  
+
+# Less crude
+p2 <- ggplot(ames, aes(Sale_Price)) +
+  geom_histogram(binwidth = 50000) +
+  ggtitle("Bin width = $50,000")
+
+# Just right?
+p3 <- ggplot(ames, aes(Sale_Price)) +
+  geom_histogram(binwidth = 5000) +
+  ggtitle("Bin width = $5,000")
+
+# Too flexible (i.e., over fitting)
+p4 <- ggplot(ames, aes(Sale_Price)) +
+  geom_histogram(binwidth = 1000) +
+  ggtitle("Bin width = $1,000")  
+
+# Display plots in a grid
+grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+The most common value of `Sale_Price` (i.e., the statistical mode) is $135,000 (this is roughly where the peak of each histogram occurs). R does not have a built-in function for finding the most common value in a set of observations, but we can easily find it using a combination of `which.max()` and `table()`. 
+```{r 04-mode}
+which.max(table(ames$Sale_Price))
+```
+
+The mode of a continuous variable is another measure of location \ref(measures-of-location). The mode of a sample is the value that occurs most frequently---this also makes the mode a useful descriptive statistic for categorical data as well. If the sample values are not unique, there will exist multiple modes (i.e., the data are said to be *multimodal*). For continuous data, unlike the sample mean and median, computing the mode is not straightforward (e.g., what is the mode of $x = \left\{0.001, 3.514, 6.799, \dots\right\}$). Fortunately, the modes (or peaks in the density) of a sample are easily seen from density estimates like histograms. Recall that the mean and median of `Sale_Price` were \$180,796.10 and \$160,000, respectively. For *unimodal* distributions (i.e., distributions with only a single peak), the median will often lie between the mean and the mode. For perfectly symmetric distributions, the mean, median, and  mode are all the same (though, this rarely, if ever, happens in practice). This is especially true for right skew data like `Sale_Price`.
+
+As discussed in Chapter \@ref(descriptive), a log transformation is often useful for making right skewed data look more symmetric; taking the square root is also effective for this purpose. While we can simply apply such transformations to the data ourselves, `ggplot2` offers several useful functions for plotting data on various scales; in our case, we can use the `scale_x_log()` and `scale_x_sqrt()` functions to apply a $log_{10}$ and square root transformation, respectively^[Two things to note here: 1) if you want to change the bin width, you need to feed a log or square root transformed number to bin width or, as we did, increase the number of bins using the `bins` argument; and  2) if you have zeros in your data, use `scale_x_continuous(trans = "log1p")`, which adds 1 prior to the log transformation (you cannot take the logarithm of zero!).]. This is demonstrated in the code below which produces Figure \@ref(fig:04-hist-transformed). In this case, the $log_{10}$ transformation was more effective at making the data appear more symmetric.
+
+```{r 04-hist-sales-transformed, fig.width=7, fig.height=3, fig.cap="Histogram of `Sale_Price` using different transformation scales. *Left*: $log_{10}$ scale. *Right*: Square root scale."}
+# Log 10 scale
+p1 <- ggplot(ames, aes(Sale_Price)) +
+  geom_histogram(bins = 50) +
+  scale_x_log10(labels = dollar, breaks = c(50000, 125000, 300000)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Sale_Price (log10 scale)")
+
+# Square root scale
+p2 <- ggplot(ames, aes(Sale_Price)) +
+  geom_histogram(bins = 50) +
+  scale_x_log10(labels = dollar, breaks = c(50000, 125000, 300000)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Sale_Price (square root scale)")
+
+# Display both plots side by side
+grid.arrange(p1, p2, ncol = 2)
+```
+
+Oftentimes, it will be useful to "smooth the histogram" by overlaying a *kernel density estimate*: an alternative to histograms for data assumed to come from a smooth, continuous distribution. To plot a kernel density estimate in `ggplot2`, we use the `geom_density()` function. For example, the following code constructs a simple kernel density estimate for `Sale_Price`. Additionally, we also add a *rug* representation (i.e., one-dimensional marginal distribution) of `Sale_Price` to the $x$-axis using the `geom_rug()` function. Rug displays give additional insight into the spread of the distribution of the continuous variable of interest; by default, rug displays plot one tick mark for each data point, but with lots of data, it may be more useful to plot certain percentiles (e.g., the deciles of the distribution). Rug displays are uses in various plots throughout this book.
+<!--Another useful plot for univariate assessment includes the *smoothed* histogram in which a non-parametric approach is used to estimate the density function. Displaying in density form just means the y-axis is now in a probability scale where the proportion of the given value (or bin of values) to the overall population is displayed. In essence, the y-axis tells you the estimated probability of the x-axis value occurring. This results in a *smoothed* curve known as the density plot that allows us visualize the distribution. Since the focus of a density plot is to view the overall distribution rather than individual bin observations we lose insight into how many observations occur at certain x values. Consequently, it can be helpful to use `geom_rug` with `geom_density` to highlight where clusters, outliers, and gaps of observations are occuring.-->
+
+```{r density, fig.width=9, fig.height=3, fig.cap = "Density plot of sales price."}
+# Kernel density estimate
+p1 <- ggplot(ames, aes(Sale_Price)) +
+  geom_density()
+
+# Add a rug representation to the x-axis
+p2 <- p1 + geom_rug(alpha = 0.1)
+
+# Display both graphs side by side
+grid.arrange(p1, p2, ncol = 2)
+```
+
+```{block2, type="tip"}
+Rug representations can be added to any axis in a plot (as long as that axis represents a continuous variable). In `ggplot2`, we can specify which sides of the plot we want to display a 1-D marginal distribution using the `sides` argument. For example, specifying `sides = "bl"` (the default) will display a rug representation of the data on the bottom and left sides of the plot.
+```
+
+In practice, we suggest using a kernel density estimate in conjunction with a histogram---as they both compliment each other. To overlay a kernel density estimate on top of a histogram, we need to plot the histogram so that the $y$-axis is on the density scale, rather than the frequency scale (which is typically the default for a histogram). In `ggplot2`, this can be done by specifying `aes(y = ..density..)` in the call to `geom_histogram()`). We can then overlay a kernel density estimate by adding the `geom_density()` layer. This is displayed in Figure \@ref(fig:04-histogram-density).
+
+```{r 04-histogram-density, fig.width=6, fig.height=3, fig.cap="Histogram of `Sale_Price` with a kernel density estimate (red curve)."}
+ggplot(ames, aes(Sale_Price)) +
+  geom_histogram(aes(y = ..density..), color = "black", fill = "grey65") +
+  geom_density(color = "red")
+```
+
+
+#### Quantile-quantile plots
+
+Quantile-quantile (Q-Q) plots offer a graphical way for assessing how similar data from two (possibly different) continuous distributions are. The most common use of Q-Q plots is in assessing normality; that is, whether or not it is reasonable to assume a variable is (at least approximately) normally distributed; Q-Q plots in this setting are referred to as normal Q-Q plots. Normal Q-Q plots graph the observed quantiles of the observed data against the similar quantiles from a normal distribution---such plots are often used in assessing the normality assumption in ordinary linear regression (Chapter \ref(regression)). 
+
+```{block2, type="note"}
+Although commonly used to check normality, Q-Q plots can be constructed to graphically check if it is reasonable to assume a continuous variable comes from any parametric distribution!
+```
+
+A normal Q-Q plot for `Sale_Price` is given in the left side of Figure \@ref(fig:04-normal-qq). This graph plots the sample quantiles of `Sale_Price` against the theoretical quantiles of a normal distribution (the default for `stat_qq()`). If `Sale-Price` is normally distributed, the points on the plot should lie (roughly) on a 45$^\circ$ line (imagine trying to cover the points with a "fat pencil"). If the observed data deviate from normality, then the plot will display curvature. The nature of this curvature would be informative into how `Sale_Price` deviates from normality. To produce a Q-Q plot in `ggplot2`, we can use the `stat_qq()` function. The following code chunk produces Figure \@ref(fig:04-normal-qq).
+```{r 04-normal-qq, fig.height=3, fig.width=7, fig.cap="Normal Q-Q plots for `Sale_Price`. *Left*: Original scale. *Right*: Log-transformed scale."}
+# Normal Q-Q plot of Sale_Price
+p1 <- ggplot(ames, aes(sample = Sale_Price)) + 
+  geom_qq()
+
+# Normal Q-Q plot of log(Sale_Price)
+p2 <- ggplot(ames, aes(sample = log(Sale_Price))) + 
+  geom_qq()
+
+# Display both graphs side by side
+grid.arrange(p1, p2, ncol = 2)
+```
+
+Notice how the normal Q-Q plot for `Sale_Price` starts to bend up. This indicates that the distribution of `Sale_Price` has a heavier right tail than expected from a normal distribution (i.e., `Sale_Price` is more positively skewed than what would be expected from normally distributed data). The normal Q-Q plot for `log(Sale_Price)` is a bit more well behaved (aside from the two potential outliers and slight downward curvature in the bottom left of the graph).
+
+<!--We also mentioned how we obtained a new insight regarding a new potential outlier that we did not see earlier. So far our histogram identified potential outliers at the lower end and upper end of the sale price spectrum. Unfortunately histograms are not very good at delineating outliers. Rather, we can use a boxplot which does a better job identifying specific outliers.-->
+
+Histograms (and kernel density estimates), and Q-Q plots are great at visually summarizing the distribution of a continuous variable; especially a variable with many unique values. Unfortunately, histograms are less suitable for continuous data with few unique values, and are not great at displaying outliers (the same goes for Q-Q plots). Fortunately, a simple display of a few descriptive statistics offers a perfect compliment to histograms; this display is referred to as a *box plot*.
+
+
+#### Box plots {#boxplots}
+
+Box plots [@frigge-some-1989]---in particular, Tukey's *box-and-whisker plots* [@tukey-exploratory-1977]---are an effective way to compare a continuous variable between groups. For a single variable, a box of arbitrary width is drawn around the median from the lower quartile $Q_1$ to the upper quartile $Q_3$; this box, which has length $Q_3 - Q_1 = IQR$, contains the middle 50% of the data. The "whiskers" are formed by extending lines from the edges of the box out to $Q_1 - 1.5 \times IQR$ and $Q_3 + 1.5 \times IQR$. Any observations lying beyond the whiskers are flagged as potential outliers and plotted as individual points. An example of a typical box plot for some skew right data is given in Figure  \@ref(fig:04-box-plot-diagram). Can you easily tell from the box plot that these data are skew right? `r emo::ji("thinking")`
+
+```{r 04-box-plot-diagram, echo=FALSE, fig.width=8, fig.height=4, out.width="70%", fig.cap="A typical box plot."}
+# Simulate lognormal data
+set.seed(101)
+x <- rlnorm(80)
+par(mar = c(0.1, 0.1, 0.1, 0.1))
+
+# Construct a basic box plot
+boxplot(
+  x,
+  horizontal = TRUE,
+  axes = FALSE,
+  staplewex = 0.25,
+  pch = 19,
+  cex = 1.2,
+  bty = "n"
+)
+
+# Compute box plot statistics
+Q1 <- quantile(x, probs = 0.25)
+Q3 <- quantile(x, probs = 0.75)
+out <- boxplot(x, plot = FALSE)$out
+
+# Label median
+text(x = median(x), y = 0.75, labels = "Median", cex = 1.25)
+
+# Label lower (Q1) and upper (Q3) quartiles
+text(x = Q1, y = 1.25, labels = expression(Q[1]), cex = 1.25)
+text(x = Q3, y = 1.25, labels = expression(Q[3]), cex = 1.25)
+
+# Label IQR
+pBrackets::brackets(
+  x1 = Q1, 
+  x2 = Q3, 
+  y1 = 1.3, 
+  y2 = 1.3
+)
+text(x = (Q1 + Q3) / 2, y = 1.475, labels = expression(IQR == Q[3] - Q[1]), 
+     cex = 1.25)
+
+# Label minimum and maximum value
+text(x = min(x[!(x %in% out)]), y = 0.75, labels = expression(Q[1] - 1.5 %*% IQR), 
+     cex = 1.25, srt = 90)
+text(x = max(x[!(x %in% out)]), y = 0.75, labels = expression(Q[3] + 1.5 %*% IQR), 
+     cex = 1.25, srt = 90)
+
+# Label (potential) outliers
+pBrackets::brackets(
+  x1 = min(out), 
+  x2 = max(out), 
+  y1 = 1.05, 
+  y2 = 1.05
+)
+text(x = sum(range(out)) / 2, y = 1.275, labels = "Flagged as\nOutliers", 
+     cex = 1.25)
+```
+
+A box plot can be constructed in `ggplot2` using the `geom_boxplot()` layer. In the code chunk below, we use `geom_boxplot()` to construct box plots for both `Sale_Price` and `log10(Sale_Price)` (by specifying a $\log$ scale for the $y$-axis). The results are displayed in Figure \@ref(fig:04-box-plot-sale-price). **Note:** we used $log_{10}$ as the scale because `ggplot2` does not have a natural log scale function. 
+
+```{r 04-box-plot-sale-price, fig.width=7, fig.height=5, out.width="80%", fig.cap="Box plots for `Sale_Price`. *Left:* Original scale. *Right:* $log_{10}$ scale."}
+p1 <- ggplot(ames, aes(x = "var", y = Sale_Price)) +
+  geom_boxplot() +
+  scale_y_continuous(labels = dollar, breaks = quantile(ames$Sale_Price)) +
+  labs(x = "", y = "") +
+  ggtitle("Box plot for Sale_Price")
+p2 <- p1 +
+  scale_y_log10(labels = dollar, breaks = quantile(ames$Sale_Price)) +
+  labs(x = "", y = "") +
+  ggtitle("Box plot for log10(Sale_Price)")
+grid.arrange(p1, p2, ncol = 2)
+```
+
+A modern alternative to Tukey's box plot, called a *violin* `r emo::ji("violin")` *plot*, combines box plots with kernel density estimates; in `ggplot2` nomenclature, `geom_violin()` $\approx$ `geom_boxplot()` + `geom_density()`.
+
+There are two efficient graphs to get an indication of potential outliers in our data. The classic box plot on the left will identify points beyond the whiskers which are beyond $\$1.5 \times IQR$ from the first and third quantile. This illustrates there are several additional observations that we may need to assess as outliers that were not evident in our histogram. However, when looking at a box plot we lose insight into the shape of the distribution. A violin plot on the right provides us a similar chart as the box plot but we lose insight into the quantiles of our data and outliers are not plotted (hence the reason we plot `geom_point()` prior to `geom_violin()`). Violin plots will come in handy later when we start to visualize multiple continuous distributions along side each other.
+
+```{r 04-boxplot-violin, fig.align='center', fig.cap= "Box plot (left) and violin plot (right)."}
+# Box plot (log10 scale)
+p1 <- ggplot(ames, aes("var", Sale_Price)) +
+  geom_boxplot(outlier.alpha = 0.25) +
+  scale_y_log10(
+    labels = dollar, 
+    breaks = quantile(ames$Sale_Price)
+  )
+
+# Violin plot (log10 scale)
+p2 <- ggplot(ames, aes("var", Sale_Price)) +
+  geom_point() +
+  geom_violin() +
+  scale_y_log10(
+    labels = dollar, 
+    breaks = quantile(ames$Sale_Price)
+  )
+
+# DIsplay both plots side by side
+grid.arrange(p1, p2, ncol = 2)
+```
+
+The box plot starts to answer the question of what potential outliers exist in our data. Outliers in data can distort predictions and affect their accuracy. Consequently, it's important to understand if outliers are present and, if so, which observations are considered outliers. <!--Boxplots provide a visual assessment of potential outliers while the `outliers` package provides a number of useful functions to systematically extract these outliers. The most useful function is the `scores` function, which computes normal, t, chi-squared, IQR and MAD scores of the given data which you can use to find observation(s) that lie beyond a given value.
+
+Here, we use the `outliers::score` function to extract those observations beyond the whiskers in our boxplot and then use a stem-and-leaf plot to assess them. A stem-and-leaf plot is a special table where each data value is split into a "stem" (the first digit or digits) and a "leaf" (usually the second digit). Since the decimal point is located 5 digits to the right of the "|"" the last stem of "7" and and first leaf of "5" means an outlier exists at around \$750,000. The last stem of "7" and and second leaf of "6" means an outlier exists at around \$760,000. This is a concise way to see approximately where our outliers are. In fact, we can now see that we have 28 lower end outliers ranging from \$10,000-\$60,000 and 32 upper end outliers ranging from \$450,000-\$760,000.
+
+```{r stem, fig.cap = "Stem-and-leaf plot of outliers."}
+outliers <- outliers::scores(log(ames$Sale_Price), type = "iqr", lim = 1.5)
+stem(ames$Sale_Price[outliers])
+```
+-->
+
+<!-- You may also be interested to see if there are any systematic groupings with how the data is structured. For example, using base R's `plot` function with just the `Sale_Price` will plot the sale price versus the index (row) number of each observation. In the plot below we see a pattern which indicates that groupings of homes with high versus lower sale prices are concentrated together throughout the data set.  -->
+
+<!-- ```{r indexplot, fig.align='center', fig.width=7, fig.height=3, fig.cap="Index plot."} -->
+<!-- plot(ames$Sale_Price, col = rgb(0,0,0, alpha = 0.3)) -->
+<!-- ``` -->
+
+<!-- There are also a couple plots that can come in handy when dealing with smaller data sets. For example, the dot plot below provides more clarity than the histogram for viewing the distribution of `mpg` in the built-in `mtcars` data set with only 32 observations. An alternative to this would be using a strip chart (see `stripchart`).  -->
+
+<!-- ```{r dotplot, fig.width=9, fig.height=4, fig.cap="Dotplot versus histogram for small data sets."} -->
+<!-- p1 <- ggplot(mtcars, aes(x = mpg)) + -->
+<!--   geom_dotplot(method = "histodot", binwidth = 1) + -->
+<!--   ggtitle("dotplot") -->
+
+<!-- p2 <- ggplot(mtcars, aes(x = mpg)) + -->
+<!--   geom_histogram(binwidth = 1) + -->
+<!--   ggtitle("histogram") -->
+
+<!-- grid.arrange(p1, p2, nrow = 1) -->
+<!-- ``` -->
+
+As demonstrated, several plots exist for examining univariate continuous variables. Several examples were provided here but still more exist (i.e. frequency polygon, bean plot, shifted histograms). There is some general advice to follow such as histograms being poor for small data sets, dot plots being poor for large data sets, histograms being poor for identifying outlier cut-offs, box plots being good for outliers but obscuring multimodality. Consequently, it is important to draw a variety of plots. Moreover, it is important to adjust parameters within plots (i.e. bin width, axis transformation for skewed data) to get a comprehensive picture of the variable of concern.
+
+In this section, we have introduced several fundamental, but useful, graphics for continuous variables. This is by no mean an exhaustive list and we will see many different types of graphics throughout the book. In practice, it is often helpful (encouraged, in fact)  to look at many types of graphics for a particular variable. For continuous variables, it is often useful to look at histograms, box plots, Q-Q plots, and a number of other graphics (depending on the situation). A useful graphical summary for a continuous variable is called the *four plot* (**REFERENCE**). A four plot displays a wealth of important information about continuous variables, especially as it relates to typical analytic tasks (e.g.,  density, correlation, outliers, etc.)
+
+```{r 04-four-plot, fig.width=7, fig.height=5, out.width = "100%", fig.cap="ABC."}
+p1 <- ggplot(ames, aes(x = Sale_Price)) +
+  geom_histogram(aes(y = ..density..), size = 1.5) + 
+  geom_density(color = "purple2")
+p2 <- ggplot(ames, aes(x = "", y = Sale_Price)) + 
+  geom_jitter(alpha = 0.1) +
+  geom_boxplot() +
+  coord_flip()
+p3 <- ggplot(ames, aes(sample = Sale_Price)) +
+  geom_qq(alpha = 0.5)
+ames$Index <- seq_len(nrow(ames))  # add row number as a new column
+p4 <- ggplot(ames, aes(x = Index, y = Sale_Price)) +
+  geom_line(alpha = 0.5)
+grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+
+### Categorical Variables
+
+Categorical variables, in contrast to numeric, can only take on a finite number of distinct values. For example, $\left\{Male, Female\right\}$ or $\left\{low, medium, high\right\}$. In statistics, categorical variables are often referred to as *factors*. With categorical variables, as discussed in Chapter \@ref(descriptive), we are often interested in tabulating frequencies and estimating proportions. Graphically, these are easiest to display via bar charts and dot plots. In general, dot plots are referred to bar charts as they can display mostly the same information, but in a more concise plot. 
+
+
+#### Bar charts
+
+In a typical bar chart, each bar represents a different category (e.g., $Male$ or $Female$) and the height of each bar represents the frequency (or proportion) of observations within each category. By default, the $x$-axis typically represents categories; however, as we will see, it is often useful to "flip" bar charts horizontally for readability, especially when the number of categories is large. We have already seen bar charts in the form of a histogram---the difference there being that the bars (i.e., categories) were created by binning a numeric variable into (roughly) equal sized buckets.
+
+<!-- Bar charts are one of the most commonly used data visualizations for categorical variables. Bar charts display the levels of a categorical variable of interest (typically) along the x-axis and the length of the bar illustrates the value along the y-axis. Consequently, the length of the bar is the primary visual cue in a bar chart and in a univariate visualization this length represents counts of cases in that particular level. -->
+
+If we look at the general zoning classification (`MS_Zoning`) for each property sold in our `ames` data set, we see that the majority of all properties fall within one category. We can use `ggplot2`'s `geom_bar()` function to construct simple bar charts. By default, `geom_bar()` simply counts the observations within each category and displays them in a vertical bar chart. A bar chart for `MS_Zoning` is displayed in Figure \@ref(fig:04-bar-chart-01).
+
+```{r 04-bar-chart-01, fig.width=6, fig.height=4, fig.cap="Basic bar chart."}
+ggplot(ames, aes(MS_Zoning)) +
+  geom_bar() + 
+  theme(axis.text.x = element_text(angle = 55, hjust = 1))
+```
+
+```{block2, type="tip"}
+The visual order of categories is important for bar charts and dot plots. By default, `ggplot2` (and most other graphical packages) plot the categories in alphabetical order---which is not visually appealing. In `ggplot2` we can use the `reorder()` function to easily plot the categories of a variable in a particular order, as demonstrated in Figure \ref(04-bar-chart-02). 
+```
+
+`MS_Zoning` is an example of a *nominal* categorical variable; a categorical variable for which there is no logical ordering of the categories (as opposed to `low`, `medium`, and `high`, for example). To get better clarity of nominal variables we can make some refinements. We can also draw bar charts manually using `geom_col()`. To do this, we first need to compute the length of each bar. For frequencies, we can use `dplyr::count()` to tally the number of observations within each category. We can then use `dplyr::mutate()` to convert frequencies to proportions. With this approach, we can use `reorder()` to easily reorder the bar categories from most frequent to least (or vice versa). For readability, we can also apply `coord_flip()` to rotate the bar chart (or any `ggplot2` figure) on its side. These refinements are demonstrated in the code chunk below. 
+
+<!-- For illustration, we'll also use `geom_point()` to construct equivalent dot plots. The dot plots look a little cleaner and you don't have to worry about the bars getting squished together when plotting a large number of categories. -->
+
+```{r 04-bar-chart-02, fig.width=7, fig.height=5, fig.cap="Bar chart and dot plots of `MS_Zoning`. *Left*: Bar chart of frequencies. *Right*: Bar chart of relative frequencies (%)."}
+# Bar chart of frequencies
+p1 <- ames %>% 
+  count(MS_Zoning) %>%
+  ggplot(aes(reorder(MS_Zoning, n), n)) +
+  geom_col() +
+  coord_flip() +  # now x becomes y
+  labs(x = "MS_Zoning", y = "Frequency")  # better labels
+
+# Bar chart of proportions
+p2 <- ames %>% 
+  count(MS_Zoning) %>%
+  mutate(pct = n / sum(n)) %>%  # convert to proportions
+  ggplot(aes(reorder(MS_Zoning, pct), pct)) +
+  geom_col() +
+  coord_flip() +  # now x becomes y
+  labs(x = "MS_Zoning", y = "Relative frequency") +  # better labels
+  scale_y_continuous(labels = scales::percent)
+
+# Dispay both plots side by side
+grid.arrange(p1, p2, ncol = 2)
+```
+
+```{block2, type="note"}
+Note how `dplyr` functions can be expressed sequentially using the forward pipe operator `%>%`, whereas `ggplot2` layers have to be added using `+`!
+```
+
+Now we can see that properties zoned as residential low density make up nearly 80% of all observations . We also see that properties zoned as agricultural (`A_agr`), industrial (`I_all`), commercial (`C_all`), and residential high density make up a very small amount of observations. In fact, below we see that these imbalanced category levels each make up less than 1% of all observations. 
+
+```{r 04-imbalanced}
+ames %>% 
+  count(MS_Zoning) %>%
+  mutate(pct = n / sum(n)) %>%
+  arrange(pct)
+```
+
+Severely imbalanced categories can cause problems in statistical modelling, so it makes sense to sometimes combine the infrequent levels into an `other` category. An easy way to accomplish this is to use `fct_lump()`^[To learn more about managing factors, see @wickham-R-2017 [ch. 15]].  Here we use `n = 2` to retain the top two most frequent categories/levels, and condense the remaining into an `other` category. You can see that `other` still represents less than 10% of all observations.
+
+```{r 04-bar-chart-03, fig.width=6, fig.height=3, fig.cap="Bar chart with collapsed categorical levels."}
+ames %>% 
+  mutate(MS_Zoning = forcats::fct_lump(MS_Zoning, n = 2)) %>% 
+  count(MS_Zoning) %>%
+  mutate(pct = n / sum(n)) %>%
+  ggplot(aes(reorder(MS_Zoning, pct), pct)) +
+  geom_col() +
+  coord_flip()
+```
+
+In some cases, the categories of a categorical variable have a natural ordering (though, the difference between any two categories is not meaningful)---these are called *ordinal* variables. For example, the `Kitchen_Qual` variable in `ames` categorizes kitchen quality into five buckets:
+```{r 04-kitchen-quality-01}
+table(ames$Kitchen_Qual)
+```
+
+```{r 04-kitchen-quality-02, fig.height=3, fig.width=5, fig.cap="Bar chart inadequately capturing ordinal levels."}
+ggplot(ames, aes(Kitchen_Qual)) + 
+  geom_bar()
+```
+
+Here, we might consider ordering the bars using their natural order: `Poor` < `Fair` < `Typical` < `Good` < `Excellent`. One way to plot the categories in a particular order is to use `forcats::fct_relevel()`. From Figure \@ref(fig:04-kitchen-quality-03), it is easier to see that most homes have average to slightly above average quality kitchens.
+
+```{r 04-kitchen-quality-03, fig.height=3, fig.width=5, fig.cap="Bar chart adequately capturing ordinal levels."}
+ames %>%
+  mutate(Kitchen_Qual = forcats::fct_relevel(
+    Kitchen_Qual, "Poor", "Fair", "Typical", "Good", "Excellent")
+  ) %>%
+  ggplot(aes(Kitchen_Qual)) + 
+  geom_bar()
+```
+
+Often our data will have categorical variables that are numerically encoded (typically as integers). For example, in the `ames` data set, the month each home was sold (`Mo_Sold`) was encoded using the integers 1--12. For visual (and in some cases, modelling), we will want to make sure R treats such variables as categorical. This is easiest to accomplish using `as.factor()`. The following example demonstrates the difference; the results are displayed in Figure \@ref(fig:04-month-sold). 
+
+```{r 04-month-sold, fig.width=7, fig.height=5, fig.cap="Bar chart of `Mo_Sold`. *Top*: Numeric. *Bottom*: Factor."}
+# Keeping Mo_Sold as an integer
+p1 <- ggplot(ames, aes(Mo_Sold)) + 
+  geom_bar() + 
+  xlab("Month sold (numeric)")
+
+# Converting Mo_Sold to a factor
+p2 <- ggplot(ames, aes(as.factor(Mo_Sold))) + 
+  geom_bar() + 
+  xlab("Month sold (factor)")
+
+# Display both plots side by side
+grid.arrange(p1, p2, nrow = 2)
+```
+
+
+#### Dot plots
+
+Basic bar charts are great when the number of categories is small. As the number of categories increases, the bars can become squished together and distract attention from the main insights of the visual. Cleveland dot plots (or just dot plots) and *lollipop* charts, like bar charts, are useful for visualizing discrete distributions (e.g., tables or the frequencies of different categories) while being more economical in ink.
+
+For example, if we can use `geom_point()` to construct a dot plot of the relative frequencies of home sales across the `r length(unique(ames$Neighborhood))` within the Ames housing data set. The result is displayed on the left side of Figure \@ref(fig:04-dot-plot-03). 
+
+```{r 04-dot-plot-01, eval = FALSE}
+p1 <- ames %>%  
+  count(Neighborhood) %>%
+  mutate(pct = n / sum(n)) %>%
+  ggplot(aes(pct, reorder(Neighborhood, pct))) +
+  geom_point() +
+  labs(x = "Relative frequency", y = "Neighborhood")
+```
+
+Similar to a dot plot, a lollipop chart minimizes the visual ink but uses a line to draw the readers attention to the specific $x$-axis value of each category. To create a lollipop chart,  we use `geom_segment()` to add lines to the previous plot; we explicitly state that we want the lines to start at `x = 0` and extend to the corresponding relative frequency with `xend = pct`. We also need to include `y = Neighborhood` and `yend = Neighborhood` so that we get one line segment for each neighborhood. The result is displayed on the right side of Figure \@ref(fig:04-dot-plot-03).
+
+```{r 04-dot-plot-02, eval = FALSE}
+p2 <- p + 
+  geom_segment(aes(x = 0, xend = pct, y = Neighborhood, yend = Neighborhood),
+               size = 0.15)
+```
+
+```{r 04-dot-plot-03, echo=FALSE, fig.width=12, fig.height=6, out.width="100%", fig.cap="Relative frequency of home sales accross the different neighborhoods. *Left*: Dot plot. *Right*: Lollipop chart."}
+# Dot plot
+p1 <- ames %>%  
+  count(Neighborhood) %>%
+  mutate(pct = n / sum(n)) %>%
+  ggplot(aes(pct, reorder(Neighborhood, pct))) +
+  geom_point() +
+  labs(x = "Relative frequency", y = "Neighborhood")
+
+# Lollipop chart
+p2 <- p1 + 
+  geom_segment(aes(x = 0, xend = pct, y = Neighborhood, yend = Neighborhood),
+               size = 0.15)
+
+# Display both plots side by side
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+#### Pie charts
+
+Don't use them.
+
+
+## Bivariate data
+
+Beyond understanding the distribution of each individual variable, we often want to investigate associations and relationships between variables. When visualizing the relationship between two or more variables we are generally interested in identifying potential associations, outliers, clusters, gaps, barriers, and change points.
+
+
+### Scatter plots
+
+The easiest way to assess the relationship between two continuous variables is to use a scatter plot, one of the most important statistical graphics. A scatter plot graphs two continuous variables directly against each other (one variable on each axis). 
+
+In this section, we'll use the `geom_point()` function---`ggplot2`'s function for producing scatter plots. In the code chunk below, we use `geom_point()` to obtain a plot of sale price (`Sale_Price`) versus the square footage of above ground living area (`Gr_Liv_Area`). To limit the effect of *over plotting*, a common issue with scatter plot of large data sets, we lower the opacity of the individual points using `alpha = 0.3`^[This option can be specified for any of the `geom_<geom-name>()` functions discussed in this chapter.].
+
+```{r 04-scatter-01,  fig.width=4, fig.height=3, fig.cap="Scatter plot of Sale_Price and Gr_Liv_Area."}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(alpha = 0.2)  # lower opacity
+```
+
+It is fairly evident from Figure \@ref(fig:04-scatter-01) that there is a generally positive association between `Gr_Liv_Area` and `Sale_Price` (this **does not** imply any *causal association* between them). Five potential outliers with `Gr_liv_Area > 4000` are also apparent. We also gain a general understanding of the *joint density* of these two variables (e.g., dense regions/clusters of data points indicate reasonable combinations of `Gr_liv_Area` and `Sale_Price`.) For example, it is not very likely to find a home that will sell for more than $400K that less than 1.5K (sq. ft.) of above ground living area.
+
+<!-- - **clusters**: Give the large number of points there is a lot of overplotting, which is why we incorporated `alpha = 0.3` to increase transparency. This allows us to see the clustering of data points in the center of the variable relationship; -->
+
+<!-- - **barriers**: the outer limits of our point clustering shows us that there are limitations on the sale price for given ranges of square footage. For example, homes with less than 1,000 square feet above ground appear to have a price ceiling of \$200,000 or less. -->
+
+The relationship between `Gr_Liv_Area` and `Sale_Price` appears to be fairly linear, but the variability in `Sale_Price` increases with `Gr_Liv_Area` (probably due to the positive skewness associated with both variables); this non-constant variance is called *heteroscedasticiy* and we will revisit this topic briefly in section **[REFERNCE LINEAR REGRESSION SECTION]**. To help guide our eyes in interpreting trends between two variables, we can add parametric and/or non-parametric trend lines. In Figure \@ref(fig:04-scatter-02), we use `geom_smooth()` to add two different trend lines: 
+
+* `method = "lm"` draw a trend line of the form $\beta_0 + \beta_1$`Gr_Liv_Area`, where the $y$-intercept ($\beta_0$) and the slope ($\beta_1$) are estimated from the observed data;
+
+* `method = "auto"` use the number of observations to choose an appropriate non-parametric smoother (i.e., let the trend be dictated by the observed data).
+
+Note that for both trend lines we used `se = FALSE` to suppress plotting +/-2 standard error bands. Figure \@ref(fig:04-scatter-02) shows that for homes with less than 2,250 square feet the relationship is fairly linear; however, beyond 2,250 square feet we see strong deviations from linearity. For reference, we also included the same plot, but with both axes on the $log_{10}$ scale. Notice how this transformation helps to alleviate, to some extent, the heteroskedacticy noted earlier.
+
+```{r 04-scatter-02, fig.width=8, fig.height=4, fig.cap="Illustrating linear versus nonlinear relationships in scatter plots."}
+# Better colors for the trend lines
+set1 <- RColorBrewer::brewer.pal(n = 9, name = "Set1")
+
+# Scatter plot with trend lines
+p1 <- ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE, color = set1[1]) +
+  geom_smooth(method = "auto", se = FALSE, color = set1[2])
+
+# Scatter plot with trend lines (log10 scale)
+p2 <- ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE, color = set1[1]) +
+  geom_smooth(method = "auto", se = FALSE, color = set1[2]) +
+  scale_x_log10() +
+  scale_y_log10()
+
+# Display plots side by side
+grid.arrange(p1, p2, ncol = 2)
+```
+
+Although we can overcome the issue of over plotting to some extent by lowering the opacity of each individual point, this is often not enough. We can go a step beyond by adding a 2-D kernel density estimate (KDE) using `stat_density_2d()`, or grouping points into hexagonal bins and displaying a heat map of the bin counts using `geom_hex()`. Each of these are illustrated in Figure \@ref(fig:04-scatter-03) which graphs `Sale_Price` versus `Garage_Area`. By incorporating a 2-D KDE (middle) we draw attention to the higher density areas which appear to be located at homes with `Garage_Area = 0`, and homes where `250 < Garage_Area < 500`. Similar observations can be drawn from the hexagonal heat map (right).
+
+```{r 04-scatter-03, fig.width=12, fig.height=3, fig.cap="Avoiding over plotting in scatter plots. *Left*: scatter plot with transparent points. *Middle*: transparent points with 2-D KDE. *Right*: heat map of hexagonal bin counts."}
+# Scatter plot
+p1 <- ggplot(ames, aes(x = Garage_Area, y = Sale_Price)) + 
+  geom_point(alpha = 0.2)
+
+# Scatter plot with 2-D KDE
+p2 <- ggplot(ames, aes(x = Garage_Area, y = Sale_Price)) + 
+  geom_point(alpha = 0.1) +
+  stat_density2d(aes(fill = stat(level)), geom = "polygon") +
+  viridis::scale_fill_viridis(option = "A") +
+  theme(legend.position = "none")
+
+# heat map of hexagonal bin counts
+p3 <- ggplot(ames, aes(x = Garage_Area, y = Sale_Price)) + 
+  geom_hex(bins = 50, show.legend = FALSE) +
+  viridis::scale_fill_viridis(option = "D")  # "D" is the default
+
+# Display plots side by side
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+A scatter plot of a continuous variable against a categorical variable is referred to as a *strip plot*. Strip plots can be useful in practice, but it is generally advisable to use box plots (and there extensions) instead. Below we plot `Sale_Price` against the number of above ground bedrooms (`Bedroom_AbvGr`). Due to the size of this data set, the strip plot (top left) suffers from over plotting. We can use `geom_jitter()` to add a some random variation to points within each category (top right), which allows us to see where heavier concentrations of points exist. Alternatively, we can use box plots and violin plots to compare the distributions of `Sale_Price` to `Bedroom_AbvGr` (bottom row). 
+
+```{r 04-comparing-groups, fig.width=8, fig.height=4, out.width="100%", fig.cap="Comparing a continuous variable accross groups. *Top left*: scatter plot. *Top right*: strip plots. *Bottom left*: box plots. *Bottom right*: violin plots."}
+# Convert to an ordered factor
+ames$Bedroom_AbvGr <- as.ordered(ames$Bedroom_AbvGr)
+
+# Strip plot
+p1 <- ggplot(ames, aes(x = Bedroom_AbvGr, y = Sale_Price)) +
+  geom_point(alpha = 0.2)
+
+# Strip plot (with jittering)
+p2 <- ggplot(ames, aes(x = Bedroom_AbvGr, y = Sale_Price)) +
+  geom_jitter(alpha = 0.2, width = 0.2)
+
+# Box plots
+p3 <- ggplot(ames, aes(x = Bedroom_AbvGr, y = Sale_Price)) +
+  geom_boxplot()
+
+# Violin plots
+p4 <- ggplot(ames, aes(x = Bedroom_AbvGr, y = Sale_Price)) +
+  geom_violin()
+
+# Display plots side by side
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+
+```{block2, type="tip"}
+When constructing box plots of a continuous variable within different groups of a factor, it is sometimes useful to use *notched box plots* (at least from a comparative statistical inference perspective). Whenever `notch = TRUE`, a "notch" is drawn on both sides of each box. If the notches of any two box plots do not overlap, this is evidence that the medians differ; see `?boxplot` for details and a reference. An example is displayed in Figure \@ref(fig:04-notched-box-plot) comparing `Sale_Price` across homes of varying quality (`Overall_Qual`).
+```
+
+```{r 04-notched-box-plot, fig.width=7, fig.height=3, out.width="100%", fig.cap="Notched box plots comparing `Sale_Price` across homes of varying quality (`Overall_Qual`)."}
+ggplot(ames, aes(x = Overall_Qual, y = Sale_Price)) +
+  geom_boxplot(notch = TRUE) +
+  scale_y_continuous(labels = dollar) +
+  coord_flip()
+```
+
+Box plots and violin plots are an effective way to visualize distributional differences in a continuous variable accross groups. A popular alternative is to use what are called *ridge plots* (formerly known as *joy plots*). These plots can be constructed easily using the `ggridges::geom_density_ridges()` function, as shown below; the results are displayed in Figure \@ref(fig:04-ridge-plot).
+
+<!-- Plotting the KDE of a continuous variable within each group can also be an effective way to see how groups differ. For example, we could assess the `Sale_Price` of homes across the overall quality of homes. We can do this with a frequency polygon (left), which display the outline of a histogram. However, since some quality levels have very low counts it is tough to see the distribution of costs within each category. A better approach is to overlay density plots which allows us to see how each quality level's distribution differs from one another.  -->
+
+<!-- ```{r, fig.width=8, fig.height=5, fig.cap="Overlaying density plots."} -->
+<!-- p1 <- ggplot(ames, aes(x = Sale_Price, color = Overall_Qual)) + -->
+<!--   geom_freqpoly() + -->
+<!--   scale_x_log10(breaks = c(50, 150, 400, 750) * 1000, labels = dollar) -->
+
+<!-- p2 <- ggplot(ames, aes(x = Sale_Price, color = Overall_Qual, fill = Overall_Qual)) + -->
+<!--   geom_density(alpha = .15) + -->
+<!--   scale_x_log10(breaks = c(50, 150, 400, 750) * 1000, labels = dollar) -->
+
+<!-- grid.arrange(p1, p2, nrow = 2) -->
+<!-- ``` -->
+
+<!-- When there are many levels in a categorical variable, overlaid plots become difficult to decipher. Rather than overlay plots, we can also use small multiples to compare the distribution of a continuous variable. Ridge plots provide a form of small multiples by partially overlapping distribution plots. They can be quite useful for visualizing changes in continuous distributions over discrete variable levels. In this example we use the `ggri` package which provides an add-on `geom_joy` for `ggplot2`. Now we get a much clearer picture how the sales price differs for each quality level. -->
+
+```{r 04-ridge-plot, fig.width=7, fig.height=4, fig.cap="Ridge plot comparing `Sale_Price` across homes of varying quality (`Overall_Qual`)."}
+ggplot(ames, aes(x = Sale_Price, y = Overall_Qual)) + 
+  ggridges::geom_density_ridges() +
+  scale_x_continuous(labels = dollar)
+```
+
+
+## Multivariate data
+
+#### FIXME: This section still needs cleaned up a bit.
+
+More often than not, we are interested in visualizing the relationship between two or more variables. In the Ames housing data, for example, we might be interested in visualizing the relationship between `Sale_Price` and `Overall_Qual`. The nature of each variable (i.e., continuous or categorical) will often dictate the appropriate type of graphic to use. We start with the simplest case, where we want to visualize the relationship (if any) between two continuous variables.
+
+
+### Facetting
+
+Data are usually multivariate by nature, and the many analytic techniques are designed to capture multivariate relationships. Visual exploration should therefore also incorporate this important aspect. Although we have shown how to visualize one or two variables at a time, we can go a step beyond by adding information about additional variables using color, shape, size, etc.
+
+In Figure \@ref(fig:04-scatter-01), we compared `Sale_Price` with `Gr_Liv_Area` using a simple scatter plot. We can also include information on other variables by using color, shape, and point size. For instance, we can use a different point shape and color to indicate homes with and without central air conditioning (`Central_Air`). Figure \@ref(fig:04-facet-01) illustrates that there are far more homes with central air; furthermore, the homes without central air tend to have less square footage and lower sale prices. <!-- (**Note**: we used a $log_{10}$ for each variable to correct for the positive skewness of both variables.) -->
+
+```{r 04-facet-01, fig.width=7, fig.height=5, fig.cap="Scatter plot of `Sale_Price` and `Gr_Liv_Area` colored and shaped by `Central_Air`."}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, 
+                 color = Central_Air, shape = Central_Air)) +
+  geom_point(alpha = 0.5) +  # lower the opacity of each point
+  theme(legend.position = "top")
+```
+
+Although we lowered the opacity of each point (using `alpha = 0.5`), the over crowded plot makes it difficult to distinguish the relationships between homes with and without air conditioning. Another approach is to use *facetting* (i.e., plot each category in its own panel). In `ggplot2`, we have two options: `facet_wrap()` for a 1-D ribbon of 2-D panels, and `facet_grid()` to form a particular matrix of panels. For this problem, we'll use the former:
+
+```{r 04-facet-02, fig.width=7, fig.height=5, fig.cap="Scatter plot of `Sale_Price` and `Gr_Liv_Area` colored and shaped by `Central_Air`."}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, 
+                 color = Central_Air, shape = Central_Air)) +
+  geom_point(alpha = 0.5) +  # lower the opacity of each point
+  facet_wrap( ~ Central_Air)
+```
+
+However, as before, when there are many levels in a categorical variable it becomes hard to compare differences by only incorporating color or shape features. An alternative is to create small multiples. Below we compare the relationship between `Sale_Price` and `Gr_Liv_Area` and how this relationship differs across the different house styles (`House_Style`).
+
+```{r 04-facet-03, fig.width=8, fig.height=5, fig.cap="Using small multiples to assess three dimensions in a scatter plot."}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price)) +
+  geom_point(alpha = 0.3) +
+  scale_x_log10() +
+  scale_y_log10(labels = dollar) +
+  facet_wrap(~ House_Style, nrow = 2) +
+  theme_bw()
+```
+
+We can start to add several of the features discussed in this chapter to highlight multivariate features. For example, here we assess the relationship between sales price and above ground square footage for homes with and without central air conditioning and across the different housing styles. For each house style and central air category we can see where the values are clustered and how the linear relationship changes. For all home styles, houses with central air have a higher selling price with a steeper slope than those without central air. Also, those plots without density markings and linear lines for the no central air category (red) tell us that there are no more than one observation in these groups; so this identifies gaps across multivariate categories of interest.
+
+```{r 04-facet-04, fig.width=11, fig.height=6, fig.cap="Combining multiple attributes."}
+ggplot(ames, aes(x = Gr_Liv_Area, y = Sale_Price, color = Central_Air, shape = Central_Air)) +
+  geom_point(alpha = 0.3) +
+  geom_density2d(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_log10() +
+  scale_y_log10(labels = dollar) +
+  facet_wrap(~ House_Style, nrow = 2) +
+  ggtitle("Sale Price vs. Above Ground Sq.Ft",
+          subtitle = "How does central air and house style influence this relationship?") +
+  theme_bw()
+```
+
+We can also use faceting (i.e., `facet_wrap()` and `facet_grid()`) to understand how two or more categorical variables are associated with each other. For example, below we assess the quality of kitchens (`Kitchen_Qual`) for homes that sold above average (i.e., `Sale_Price > mean(Sale_Price)`) below average (i.e., `Sale_Price > mean(Sale_Price)`). Not surprisingly, we see that that sold for above average tended to have higher quality kitchens (Figure \@ref(fig:04-facet-05)).
+
+```{r 04-facet-05, fig.height=3, fig.width=8, fig.cap="Kitchen quality for homes that sold below average (left panel) and above average (right panel)."}
+p <- ames %>%
+  mutate(
+    Group = ifelse(
+      Sale_Price > mean(Sale_Price), yes = "Sold above avg.", 
+      no = "Sold below avg."),
+    Kitchen_Qual = forcats::fct_relevel(
+      Kitchen_Qual, "Poor", "Fair", "Typical", "Good", "Excellent")
+  ) %>%
+  ggplot(aes(Kitchen_Qual)) + 
+    geom_bar() +
+    facet_wrap(~ Group)
+p
+```
+
+Figure \@ref(fig:04-facet-06) builds onto Figure \@ref(fig:04-facet-05) using `facet_grid()`. In this example, we assess kitchen quality for homes that sold below average and above average across the different neighborhoods. 
+<!-- This plot allows us to see gaps across the different categorical levels along with which category combinations are most frequent. -->
+
+```{r 04-facet-06, fig.height=10, fig.width=8, fig.cap="Kitchen quality for homes that sold below average (left panel) and above average (right panel) across the different neighborhoods."}
+ames %>%
+  mutate(
+    Group = ifelse(
+      Sale_Price > mean(Sale_Price), yes = "Sold above avg.", 
+      no = "Sold below avg."),
+    Kitchen_Qual = forcats::fct_relevel(
+      Kitchen_Qual, "Poor", "Fair", "Typical", "Good", "Excellent")
+  ) %>%
+  group_by(Neighborhood, Group, Kitchen_Qual) %>%
+  tally() %>%
+  mutate(pct = n / sum(n)) %>%
+  ggplot(aes(Kitchen_Qual, pct)) + 
+  geom_col() +
+  facet_grid(Neighborhood ~ Group) +
+  theme(strip.text.y = element_text(angle = 0, hjust = 0))
+```
+
+
+#### Parallel coordinate plots 
+
+Parallel coordinate plots (PCPs) are also a great way to visualize continuous variables across multiple variables. In PCPs, a vertical axis is drawn for each variable. Then each observation is represented by drawing a line that connects its values on the different axis, creating a multivariate profile. To create a PCP, we can use the `GGally::ggparcoord()` function. By default, `GGally::ggparcoord()` will standardize the variables based on a $z$-score distribution; however, there are many options for scaling (see `?GGally::ggparcoord`). A benefit of using PCPs is that you can visualize observations across both continuous and categorical variables. In the example below we include `Overall_Qual`, an ordered factor with ten levels `"Very Poor" < "Poor" < "Fair" < ... < "Excellent" < "Very Excellent"` having integer values of 1--10. When including a factor variable, `GGally::ggparcoord()` will use the factor integer levels as their corresponding value, so it is important to appropriately order any factors you want to include.
+
+```{r 04-pcp-01, fig.width=7, fig.height=4, fig.cap="Parallel coordinate plot."}
+# Variables of interest
+variables <- c("Sale_Price", "Year_Built", "Year_Remod_Add", "Overall_Qual")
+
+# Parallel coordinate plot
+ames %>%
+  select(variables) %>%
+  GGally::ggparcoord(alpha = 0.05, scale = "center")
+```
+
+The darker bands in the above plot illustrate several features. The observations with higher sales prices tend to be built in more recent years, be remodeled in recent years and be categorized in the top half of the overall quality measures. In contracts, homes with lower sales prices tend to be more out-dated (based on older built and remodel dates) and have lower quality ratings. We also see some homes with exceptionally old build dates that have much newer remodel dates but still have just average quality ratings.
+
+We can make this more explicit by adding a new variable to indicate if a sale price is above average. We can then tell `GGally::ggparcood()` to group by this new variable. Now we clearly see that above average sale prices are related to much newer homes.
+
+```{r 04-pcp-02, fig.width=9, fig.height=4, fig.cap="Refined parallel coordinate plot."}
+ames %>%
+  select(variables) %>%
+  mutate(Above_Avg = Sale_Price > mean(Sale_Price)) %>%
+  GGally::ggparcoord(
+    alpha = 0.05,
+    scale = "center",
+    columns = 1:4,
+    groupColumn = "Above_Avg"
+  )
+```
+
+
+#### Mosaic plots
+
+Mosaic plots are a graphical method for visualizing data from two or more qualitative variables. In this visual the graphics area is divided up into rectangles proportional in size to the counts of the combinations they represent.
+
+```{r mosaic, fig.height=6, fig.width=9, fig.cap = "Mosaic plot."}
+ames2 <- ames %>%
+  mutate(
+    Above_Avg = Sale_Price > mean(Sale_Price),
+    Garage_Type = abbreviate(Garage_Type),
+    Garage_Qual = abbreviate(Garage_Qual)
+  )
+
+par(mfrow = c(1, 2))
+mosaicplot(Above_Avg ~ Garage_Type, data = ames2, las = 1)
+mosaicplot(Above_Avg ~ Garage_Type + Garage_Cars, data = ames2, las = 1)
+```
+
+
+#### Tree maps
+
+Tree maps are also a useful visualization aimed at assessing the hierarchical structure of data. Tree maps are primarily used to assess a numeric value across multiple categories. It can be useful to assess the counts or proportions of a categorical variable nested within other categorical variables. For example, we can use a tree map to visualize the above right mosaic plot that illustrates the number of homes sold above and below average sales price with different garage characteristics. We can see in the tree map that houses with above average prices tend to have attached 2 and 3-car garages. Houses sold below average price have more attached 1-car garages and also have far more detached garages. 
+
+```{r 04-tree-map-01, fig.height=5, fig.width=8, fig.cap = "Treemaps to illustrate hierarchical structures."}
+ames %>% 
+  mutate(Above_Below = ifelse(Sale_Price > mean(Sale_Price), "Above Avg", "Below Avg")) %>%
+  count(Garage_Type, Garage_Cars, Above_Below) %>%
+  treemap::treemap(
+    index = c("Above_Below", "Garage_Type", "Garage_Cars"),
+    vSize = "n"
+  )
+```
+
+
+#### Heat maps
+
+A *heat map* is essentially a false color image of a matrix or data set. Heat maps can be extremely useful in identifying clusters of values; a common use is in plotting a correlation matrix (Figure \@ref(fig:04-heat-map-01)). In the code chunk below we select all the numeric variables in `ames`, compute the correlation matrix between them, and visualize the results with a heat map. Bright/dark spots represent clusters of observations with similar correlations. From Figure \@ref(fig:04-heat-map-01), we can see that `Sale_Price` (3rd row from top) has a relatively weak linear association with variables such as `BsmtFin_Sf_1`, `Bsmt_Unf_SF`, `Longitude`, and `Enclosed_Porch`. The larger correlations values for `Sale_Price` align with variables such as `Garage_Cars`, `Garage_Area`, and `First_Flr_SF`, etc.
+
+```{r 04-heat-map-01, fig.height=8, fig.width=8, fig.cap = "heat map where yellow represents highly correlated values and red represents weakly correlated values."}
+ames %>%
+  select_if(is.numeric) %>%          # select all the numeric columns
+  cor() %>%                          # compute the correlation matrix
+  heatmap(                           
+    symm = TRUE,                     # since correlation matrices are symmetric!
+    col = viridis::inferno(nrow(ames))
+  )  
+```
+
+
+#### Generalized pairs plot
+
+When dealing with a small data set (or subset of a large data set), it can be useful to construct a matrix of plots comparing two-way relationships across a number of variables. In the code chunk below we (i) select `Sale_Price` and all variables names that contain `"sf"` (i.e., all square footage variables), (ii) scale all variables, and (iii) display scatter plots and correlation values with the `GGally::ggpairs()` function. The results are displayed in Figure \@ref(fig:04-ggpairs-01).
+
+```{r 04-ggpairs-01, fig.width=8, fig.height=8, fig.cap="Pairwise scatter plot."}
+ames %>%
+  select(Sale_Price, contains("sf")) %>%  # select column names containing "sf"
+  purrr::map_df(scale) %>%
+  GGally::ggpairs()
+```
+
+
+## Data quality
+
+<!-- Graphical displays can also assist in summarizing certain data quality features. In the previous sections we illustrated how we can identify outliers but  -->
+
+Data quality is an important issue for any project involving analyzing data. Data quality issues deserves an entire book in its own right, and a good reference is the The Quartz guide to bad data [@quartz]. In this section, we discuss one topic of particular importance: visualizing missing data. 
+
+It is important to understand the distribution of missing values (i.e., `NA`) is any data set. So far, we have been using a pre-processed version of the Ames housing data set (via the `AmesHousing::make_ames()` function). However, if we use the raw Ames housing data (via `AmesHousing::ames_raw`), there are actually `r scales::comma(sum(is.na(AmesHousing::ames_raw)))` missing values---there is at least one missing values in each row of the original data! 
+
+```{r}
+sum(is.na(AmesHousing::ames_raw))
+```
+
+It is important to understand the distribution of missing values in a data set in order to determine 1) if any variable(s) should be eliminated prior to analysis, or 2) if any values need to be *imputed*^[Imputation essentially just means filling in missing values with an *intelligent guess*. We do not discuss missing value imputation in this book, but the interested reader is referred to @van-flexible-2012 and the R package `mice` [@R-mice].].
+
+Heat maps are an efficient way to visualize the distribution of missing values for small- to medium-sized data sets. The code `is.na(<data-frame-name>)` will return a matrix of the same dimension as the given dsta frame, but each cell will contain either `TRUE` (if the corresponding value is missing) or `FALSE` (if the corresponding value is not missing). To construct such a plot, we can use R'2 built-in `heatmap()` or `image()` functions, or `ggplot2`'s `geom_raster()` function, among others; we use `geom_raster()` below. This allows us to easily see where the majority of missing values occur (i.e., in the variables `Alley`, `Fireplace Qual`, `Pool QC`, `Fence`, and `Misc Feature`). Due to their high frequency of missingness, these variables would likely need to be removed prior to statiscial analysis, or imputed (i.e., filled in with intelligent guesses). We can also spot obvious patterns of missingness. For example, missing values appear to occur within the same observations across all garage variables. 
+
+```{r 04-heat-map-02, fig.width=7, fig.height=5, out.width="100%", fig.cap = "Heat map of ,issing values in the raw Ames housing data."}
+AmesHousing::ames_raw %>%
+  is.na() %>%
+  reshape2::melt() %>%
+  ggplot(aes(Var2, Var1, fill=value)) + 
+    geom_raster() + 
+    coord_flip() +
+    scale_fill_grey(name = "", labels = c("Present", "Missing")) +
+    labs(x = "", y = "") +
+    theme(axis.text.y  = element_text(size = 4))
+```
+
+Digging a little deeper into these variables, we might notice that `Garage_Cars` and `Garage_Area` contain the value `0` whenever the other `Garage_xx` variables have missing values (i.e. a value of `NA`). This might be because they did not have a way to identify houses with no garages when the data were originally collected; and therefore, all houses with no garage were identified by including nothing. Since this missingness is informative, it would be appropriate to impute `NA` with a new category level (e.g., `"None"`) for these garage variables. Circumstances like this tend to only arise upon careful descriptive and visual examination of the data!
+
+```{r 04-missingness-01}
+AmesHousing::ames_raw %>% 
+  filter(is.na(`Garage Type`)) %>% 
+  select(contains("garage"))
+```
+
+The `visna()` function in R package `extracat` [@R-extracat] allows for easy visualization of missing data patterns. We illustrate this functionality below using the raw Ames housing data (Figure \@ref(fig: 04-missingness-02)). The columns of the heat map represent the `r ncol(AmesHousing::ames_raw)` variables of the raw data and the rows represent the observations. By default, missing values (i.e., `NA`) are inidcated via a blue cell. The variables and patterns have been ordered by the number of `NA`s on both rows and columns (i.e., `sort = "b"`). The bars beneath the columns show the proportion of `NA`s by variable and the bars on the right show the relative frequency of `NA`s.
+
+```{r 04-missingness-02, fig.height=7, fig.width=12, fig.cap="Visualizing missing patterns"}
+extracat::visna(AmesHousing::ames_raw, sort = "b")
+```
+
+Data can be missing for different reasons. Perhaps the values was never recroded (or lost in trabnslation), or it was recorded an error (a common feature of data enetered by hand). Regardless, it is important to identify and attempt to understand how missing values are distributed across a data set as it can provide insight into how to deal with these observations.
+
+
+## Further reading
+
+List some good books, like @cleveland-visualizing-1993!
+
+
+## Exercises
+
+Coming soon!
+
+Can use this to introduce additional plots/geoms!
+
+

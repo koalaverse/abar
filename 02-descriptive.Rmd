@@ -1,0 +1,369 @@
+# (PART) Descriptive Analytics {-} 
+
+# Descriptive Statistics {#descriptive}
+
+```{r 02-setup, include=FALSE}
+# Set global knitr chunk options
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  collapse = TRUE,
+  fig.align = "center", 
+  fit.pos = "!htb",
+  cache = TRUE
+)
+
+# Load required packages
+library(ggplot2)
+theme_set(theme_light())
+```
+
+The first step in any data analysis problem is to describe the data using descriptive statistics and look at the data using appropriate graphical techniques. In this chapter, we will introduce some basic descriptive statistics (e.g., various measures of location and spread) while graphical techniques are discussed in Chapter \@ref(visualization).
+
+Descriptive statistics, in contrast to inferential statistics (Chapter \@ref(inference)), aim to describe a *data sample*, or *sample*. A sample is simply a set of data collected from some population of interest (e.g., the annual salaries of males at a particular company). In this book, we refer to the individual sample points as observations. Typically, the data are collected in a way such that the sample is representative of the population from which it came. Other times, we may have access to the entire population, in which case, our sample comprises a census. In either case, descriptive statistics seek to paint a quantitative picture of the data using simple values such as measures of *location* (i.e., what a typical values looks like) and *dispersion* (i.e., how spread out the data are). Beyond measures of location and spread, we also discuss percentiles and simple ways for detecting *outliers* (i.e., unusually small or large observations). Various other descriptive statistics and useful R packages are introduced in the exercises at the end of the chapter.
+
+
+## Prerequisites
+
+The R package `stats` (which is part of the standard R distribution) provides functions for many of the descriptive statistics discussed in this chapter, plus more. For a complete list of functions, type `library(help = "stats")` into the R console. 
+
+For illustration, we will use two data sets: (1) the Ames housing data set [@ames-cock-2011] (in particular, the column labelled `Sale_Price`) and (2) the Adult data set [@uci]; both of which are described in Chapter \@ref(intro).
+
+```{r 04-prerequisites}
+# Ames housing data
+dim(ames <- AmesHousing::make_ames())  # construct data and print dimensions
+head(Sale_Price <- ames$Sale_Price)  # extract Sale_Price column
+
+# Adult data
+data(AdultUCI, package = "arules")  # load data from arules package
+dim(AdultUCI)  # print dimensions
+```
+
+
+## Measures of location {#measures-of-location}
+
+The first question we might ask of the `ames` data is "What is a typical value for the selling price?" In particular, we are interested in some measure of *central location* or *central tendency*. Such measures try to summarize a set of values with a "typical" number. There are a number of different measures of location, but the simplest and most commonly used is the *arithmetic mean* or *sample mean*.
+
+
+### The sample mean
+
+Suppose we have a set of $n$ observations denoted $x_1, x_2, \dots, x_n$. The sample mean, denoted $\bar{x}$, is defined as the sum of the observations divided $n$:
+\begin{equation}
+\label{eqn:sample-mean}
+  \bar{x} = \frac{1}{n}\sum_{i = 1}^n x_i = \frac{1}{n}\left(x_1 + x_2 + \dots + x_n\right),
+\end{equation}
+where $\sum$ is mathematical notation for summation and simply means "add up the values". Another way to think of the sample mean is as the ``center of gravity'' for a set of observations. That is, if the observations were placed on a number line, like a teeter-totter, the sample mean would be the balancing point. For example, the sample mean of 1.7, 3.3, 7.5, 8.1, and 8.9 is $\bar{x} = 5.9$ which is displayed in Figure \@ref(fig:teeter-totter).
+
+```{r teeter-totter, echo=FALSE, fig.width=5, fig.height=1, fig.cap="The sample mean as the balancing point of a set of five observations."}
+x <- c(1.7, 3.3, 7.5, 8.1, 8.9)
+xbar <- mean(x)
+par(mar = c(0.1, 0.1, 0.1, 0.1))
+plot(NULL, xlim = c(1, 10), ylim = c(0.2, 0.3), axes = FALSE, xlab = "", ylab = "")
+polygon(x = c(xbar - 0.15, xbar, xbar + 0.15, xbar - 0.15), y = c(0.2, 0.25, 0.2, 0.2), 
+        col = "black")
+lines(x = extendrange(x), y = c(0.25, 0.25), lwd = 2)
+text(x = x, y = 0.275, labels = x)
+text(x = x, y = 0.25, labels = "|")
+text(x = xbar, y = 0.275, labels = expression(bar(x)==5.9))
+```
+
+In R, we can obtain the sample mean of a set of observations using the `mean()` function
+
+```{r mean}
+mean(c(1.7, 3.3, 7.5, 8.1, 8.9))
+```
+
+For example, the sample mean of `Sale_Price` can be obtained using
+
+```{r mean-sale-price}
+mean(Sale_Price)
+mean(Sale_Price)  # alternatively
+```
+
+Thus, a typical or central value of selling price for the `ames` data frame would be `r scales::dollar(mean(Sale_Price))`.
+
+```{block2, type="note"}
+Most of the descriptive statistical functions in R include an `na.rm` argument which defaults to `FALSE`. If `na.rm = FALSE`, the return value for these functions will be `NA` (i.e., R's representation of a missing value; see `?NA` for details.) whenever the sample contains at least one `NA`. If set to `TRUE`, then all `NA`s will be removed from the sample prior to computing the statistic. This is illustrated in the following code chunk:
+```
+
+```{r mean-NA}
+x <- c(18, 4, 12, NA, 19)
+mean(x)
+mean(x, na.rm = TRUE)
+(18 + 4 + 12 + 19) / 4  # sanity check
+```
+
+### The sample median
+
+One problem with the sample mean is that it is not *robust* to outliers. To illustrate, suppose we have a sample of size two: $x_1$ and $x_2$ so that $\bar{x} = \left(x_1 + x_2\right) / 2$. Then, regardless of the value of $x_1$, we can change $x_2$ to achieve any value for the sample mean. Since it only takes one of the $n$ observations to arbitrarily change $\bar{x}$, we say that $\bar{x}$ has a finite sample breakdown point (FSBP) of $1 / n$. The higher the FSBP of a sample statistic, the less affected it is to outliers (i.e., the more robust it is). The highest FSBP a sample statistic can obtain is 50%.
+
+A more robust measure of location is given by the *sample median*. Consider a sample of size $n$: $x_1, x_2, \dots, x_n$. Let $x_{\left(i\right)}$ denote the $i$-th observation after the sample has been sorted in ascending order. The sample median, denoted $M$, is defined as 
+\begin{equation*}
+  M = 
+  \begin{cases}
+    x_{\left(m\right)} & \quad \text{if } n \text{ is odd}\\
+    \left(x_{\left(m\right)} + x_{\left(m + 1\right)}\right) / 2 & \quad \text{if } n \text{ is even},
+  \end{cases}
+\end{equation*}
+where $m = \left(n + 1\right) / 2$. In other words, if $n$ is odd, the sample median is just the middle number, otherwise, we take the sample mean of the two middle numbers.
+
+Since the sample median only depends on the middle number (or middle two numbers), it is far more robust than the sample mean. In fact, the sample median has an FSBP of roughly 50%. In other words, close to 50% of the observations have to be outliers in order to affect the sample median. This makes the sample median more useful in practice when dealing with data that contain outliers or come from skewed distributions.
+
+In R, we can compute the sample median using the `median()` function. For the Ames housing data, the median sale price is `r scales::dollar(median(Sale_Price))`, which can be computed using
+```{r sample-median}
+median(Sale_Price)
+median(ames$Sale_Price)  # alternatively
+```
+
+
+### The mean or the median
+
+So which should be used in practice, the sample mean or the sample median? If the data are roughly *symmetric*, then the sample mean and sample median will be approximately equal. In fact, when the sample mean is most useful for reporting, it will typically be close to the sample median. If, however, the data are skewed to the left or right, then the sample mean will tend to get pulled in the same direction. For example, for right (or positively) skewed data, the sample mean will typically be larger than the sample median (sometimes much larger). In these cases, the sample median is a more reliable measure of location. However, there is nothing wrong with reporting both statistics. 
+
+For the `ames` data frame, the sample median was smaller than the sample mean by `r scales::dollar(mean(Sale_Price) - median(Sale_Price))`. This is not surprising since data on housing and sale prices tend to be skewed right which can inflate the sample mean. In this case, the sample median will be a better measure of location than the sample mean. Different approaches to detecting skewness will be discussed in Chapter \@ref(visualization) when we talk about visualizing data.
+
+
+## Measures of spread {#measures-of-spread}
+
+Measures of location by themselves are not very useful. We often want to know how ``spread out'' the data are. This can be summarized using various measures of *spread* or *dispersion*.
+
+The most common measure of spread is the *sample variance*, denoted by $s^2$. The sample variance of a sample is defined as
+\begin{equation*}
+  s ^ 2 = \sum_{i = 1} ^ n \left(x_i - \bar{x}\right) ^ 2 / \left(n - 1\right).
+\end{equation*}
+That is, the sample variance is just the sum of the squared deviations of each observation from the sample mean dived by $n - 1$. The $n - 1$ is used to make $s ^ 2$ an *unbiased estimator*^[An unbiased estimator is one that does not, from sample to sample, systematically underestimate or overestimate a population parameter of interest. The sample mean is another example, as it is provides an unbiased estiamte of the population mean; that is, on average, the sample mean will be equal to the true population mean.] of the population variance. Since the sample variance involves squaring the differences, it does not retain the original units, unlike the sample mean and variance. Oftentimes the positive square root of the sample variance, called the *sample standard deviation*, is used instead. The sample standard deviation, denoted $s$, is more useful because is has the same units as the original observations (e.g., feet, dollars, etc.). 
+
+In R, the sample variance and sample standard deviation can be computed using the functions `var()` and `sd()`, respectively. The following example illustrates their use on the `ames` data frame using the variable `Sale_Price`.
+```{r var}
+var(Sale_Price)  # sample variance
+sd(Sale_Price)  # sample standard deviation
+sqrt(var(Sale_Price))  # sanity check
+```
+
+Since the sample standard deviation retains the original units, we can report this in dollar amount (e.g., the standard deviation of sale prices for homes sold from 2006--2010 is `r scales::dollar(sd(Sale_Price))`).
+
+
+### The empirical rule {#empirical-rule}
+
+It is possible for the distribution of some of the variables in a data sets to exhibit a "bell shape" `r emo::ji("bell")`. For bell-shaped distributions, the *empirical rule*, also known as the *68-95-99.7 rule*, states that (roughly) 68% of the observations should fall within one standard deviation of the mean, 95% should fall within two standard deviations of the mean, and 99.7% should fall within three standard deviations of the mean---this is illustrated in Figure \@ref(fig:empiricial-rule). Therefore, data from bell-shaped distributions can be adequately described my the sample mean and and standard deviation (if it exists). The most important takeaway is that the majority of observations from a bell-shaped distribution should be within a couple of standard deviations from the mean, and it is extremely unlikely for an observation to be beyond three standard deviations from the mean. This provides an intuitive and simple rule for identifying potential outliers (see Section \@ref(outliers)).
+
+```{r empiricial-rule, echo=FALSE, fig.width=7, fig.height=5, fig.cap="The empricial rule for bell-shaped distributions. (In progress!)"}
+# Draw a standard normal distribution
+x <- seq(from = -4, to = 4, length = 500)
+y <- dnorm(x)
+plot(x, y, type = "l", axes = F, xlab = "", ylab = "")
+axis(side = 1, at = c(-5:5), labels = FALSE)
+
+# Add reference lines
+extra <- -0.5
+segments(x0 = -3, y0 = extra, x1 = -3, y1 = dnorm(-3))
+segments(x0 = -2, y0 = extra, x1 = -2, y1 = dnorm(-2))
+segments(x0 = -1, y0 = extra, x1 = -1, y1 = dnorm(-1))
+segments(x0 = 1, y0 = extra, x1 = 1, y1 = dnorm(1))
+segments(x0 = 2, y0 = extra, x1 = 2, y1 = dnorm(2))
+segments(x0 = 3, y0 = extra, x1 = 3, y1 = dnorm(3))
+
+# Add tick mark labels
+mtext(expression(mu), side = 1, at = 0, padj = 1)
+mtext(expression(mu - 3*sigma), side = 1, at = -3, padj = 1)
+mtext(expression(mu - 2*sigma), side = 1, at = -2, padj = 1)
+mtext(expression(mu - sigma), side = 1, at = -1, padj = 1)
+mtext(expression(mu + sigma), side = 1, at = 1, padj = 1)
+mtext(expression(mu + 2*sigma), side = 1, at = 2, padj = 1)
+mtext(expression(mu + 3*sigma), side = 1, at = 3, padj = 1)
+
+# Add brackets
+pBrackets::brackets(-3, 0.2, 3, 0.2, h = 0.05, lwd = 1, col = "grey80")
+pBrackets::brackets(-2, 0.105, 2, 0.105, h = 0.05, lwd = 1, col = "grey80")
+pBrackets::brackets(-1, 0.01, 1, 0.01, h = 0.05, lwd = 1, col = "grey80")
+
+# Add text
+text(0, 0.27, label = "68%")
+text(0, 0.18, label = "95%")
+text(0, 0.08, label = "99.7%")
+```
+
+To reiterate, the empirical rule applies to data that are (at least approximately) bell-shaped. To ascertain the shape of the distribution of a sample, a *histogram* or *kernel density estimate* can be used---these are discussed in Chapter \@ref(visualization). A histogram of the `Sale_Price` data is displayed in the left side of Figure \@ref(fig:sale-price-hist). These data are not bell-shaped, or even symmetric---in fact, `Sale_Price` appears to be skew right. Data that are skew right can often be transformed to appear more bell-shaped by taking a logarithm or square root transformation. A histogram of `log(Sale_Price)` is displayed in the right side of Figure \@ref(fig:sale-price-hist). From the histograms, it is clear that `Sale_Price` is in fact skew right and that taking the logarithm makes the distribution appear more bell-shaped---such transformations are useful for some of the statistical inference procedures discussed in Chapter \@ref(inference) which assume that the data are approximately normally distributed. **FIXME: What other methods in this book assume normality (and therefore symmetry)? For example, regression.**
+
+```{r sale-price-hist, echo=FALSE, fig.width=7, fig.height=2.5, out.width="80%", fig.cap="Histogram estimates of the distribution of `Sale_Price` (left) and `log(Sale_Price)` (right)."}
+p1 <- ggplot(ames, aes(Sale_Price)) +
+  geom_histogram(bins = 30, color = "white") +
+  scale_x_continuous(labels = scales::dollar)
+p2 <- ggplot(ames, aes(log(Sale_Price))) +
+  geom_histogram(bins = 30, color = "white")
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
+
+## Percentiles
+
+The $p$-th percentile of a sample, denoted $x_p$, is the value for which $p$ percent of the observations are less than $x_p$. The median, for example, is the 50-th percentile (i.e., the middle number). Names are given to special groups of percentiles. *Deciles*, for example, divide a sample into ten equally sized buckets. *Quartiles* are the values that divide the data into four equally sized groups---in other words, the quartiles of a sample consists of the 25-th, 50-th, and 75-th percentiles. The quartiles, denoted $Q_1$, $Q_2$, and $Q_3$ ($Q_1$ and $Q_3$ are also referred to as the lower and upper quartiles, respectively), play an important part in many descriptive and graphical analyses. Together with measures of location and spread, the percentiles help describe the shape of the sample (i.e., what its distribution looks like). In fact, one of the most useful graphics for describing a sample is the *boxplot* which is described in Chapter \@ref(visualization). The boxplot is a simple visualization capturing the quartiles, median, as well as the maximum and minimum values and is extremely effective at showing the shape of a set of data (these five summary statistics are collectively known as Tukey's *five-number summary*). A modern alternative to boxplots, called *violin plots*, will also be discussed in Chapter \@ref(visualization). 
+
+The formula for computing the $p$-th percentile for a sample is not unique and many definitions exist. In fact, R includes nine different algorithms (controlled via the `type` argument) for computing percentiles! Therefore, it is important to realize that different software may produce slightly different results when computing percentiles. 
+
+```{block2, type="note"}
+To reproduce the same quantiles provided by SAS^[TBD.], specify `type = 3` in the call to `quantile()`. **FIXME: This needs to be verified!**
+```
+
+The R function for computing percentiles is `quantile()`. Quantiles are essentially the same as percentiles, but specified using decimals rather than percentages. For example, the 5-th percentile is equivalent to the 0.05 quantile. The following code chunk computes the quartiles of `Sale_Price` from the `ames` data frame. We use the default algorithm (i.e., `type = 7`); for specifics, see the help page `?stats::quantile`.
+
+```{r quantile-sale-price}
+quantile(Sale_Price, probs = c(0.25, 0.5, 0.75))
+```
+
+In other words, 25% of the sale prices were below `r scales::dollar(quantile(Sale_Price, probs = 0.25))`, 25% between `r scales::dollar(quantile(Sale_Price, probs = 0.25))` and `r scales::dollar(quantile(Sale_Price, probs = 0.5))`, 25% between `r scales::dollar(quantile(Sale_Price, probs = 0.5))` and `r scales::dollar(quantile(Sale_Price, probs = 0.75))`, and the rest greater than `r scales::dollar(quantile(Sale_Price, probs = 0.75))`.
+
+
+## Robust measures of spread
+
+Since the sample standard deviation relies on squared deviations from the sample mean (a non-robust measure of location), it is also sensitive to outliers. A measure of spread less affected by outliers is the *interquartile range* (IQR). The IQR is defined as the difference between the upper and lower quartiles:
+\begin{equation*}
+  \text{IQR} = Q_3 - Q_1.
+\end{equation*}
+The IQR describes the variability of the middle 50% of the data and has an FSBP of 25%. Therefore, the IQR is a more robust measure of spread than the sample standard deviation.
+
+Perhaps a more useful, but less often used, robust measure of spread is the *median absolute deviation* (MAD). For a sample $x_1, x_2, \dots, x_n$ with sample median $M$, the MAD is given by the median of the absolute value of the deviations from $M$:
+\begin{equation*}
+  \text{MAD} = median\left(\left|x_1 - M\right|, \left|x_2 - M\right|, \dots, \left|x_n - M\right|\right).
+\end{equation*}
+The MAD, like the median, has an FSBP of 50%, meaning nearly half the observations could be outliers without affecting the MAD. Some software, including R by default, actually computes an adjusted version of MAD, called MADN, by multiplying by the constant $1.4826$: $\text{MADN} = 1.4826 \times \text{MAD}$. This adjustment is to make MAD *asymptotically normally consistent* for the population standard deviation $\sigma$. In other words, as the sample size $n$ gets larger, MADN is a good estimator of $\sigma$ for a normally distributed population. In practice, MADN is typically used/reported.
+
+To compute the IQR or MAD(N) in R, we can use the `IQR()` and `mad()` functions, respectively. For the `ames` data frame, the IQR and MAD(N) for `Sale_Price` are computed below. Note that since the IQR is based on the 25-th and 75-th percentiles, the `IQR()` function also includes the option `type` for specifying which algorithm to use for computing $Q_1$ and $Q_3$.
+
+```{r IQR-mad}
+IQR(Sale_Price)
+mad(Sale_Price)  # MADN
+mad(Sale_Price, constant = 1)  # MAD
+mad(Sale_Price, constant = 1) * 1.4826  # sanity check
+```
+
+In practice, it is common (and important) to report some measure of spread whenever reporting measures of location (and vice versa). The standard deviation is often reported with the mean. Whenever the median is used, the IQR or MAD(N) is often reported as well. 
+
+
+## Outlier detection {#outliers}
+
+In this section, we present a few simple rules for detecting potential outliers in univariate data; that is, data on a single variable. In later chapters, we present more sophisticated methods for detecting potential outliers and anomalies in multivariate data (i.e., data on more than one variable).
+
+The empirical rule (Section \@ref(empirical-rule)) probably offers the simplest method for detecting outliers, at least for reasonably bell-shaped data. Recall that for approximately bell-shaped distributions, 95% of the observations should lie within two standard deviations of the mean. Therefore, for approximately bell-shaped distributions, $z$-scores greater than two in absolute value might be considered unusual (a cutoff of 2.24 has been shown to be more useful in practice [@wilcox-applying-2003]). To make this rule more robust, we can compute a modified $z$-score based on the median and MADN. Below, we define a simple function for detecting outliers according to the empirical rule:
+
+```{r detect-outliers-function}
+detect_outliers <- function(x, robust = FALSE, cutoff = 2) {
+  z_score <- if (robust) {
+    (x - median(x)) / mad(x)  # modified z-score
+  } else {
+    (x - mean(x)) / sd(x)  # z-score
+  }
+  sort(x[abs(z_score) > cutoff])
+}
+```
+
+Next, we simulate some data from a standard normal distribution (i.e., a bell-shaped distribution with mean zero and standard deviation one) with two outliers (5 and -100) and test out our `detect_outliers()` function. For a standard normal distribution, we would expect any observations greater than two in absolute value to be unlikely and should be flagged as potential outliers.
+
+```{r detect-outliers-example}
+set.seed(101)  # for reproducibility
+x <- c(rnorm(100), 5, -100)
+detect_outliers(x)
+detect_outliers(x, robust = TRUE)
+detect_outliers(x, cutoff = 2.24)  # following Wilcox (2003)
+```
+
+Notice that five does not get flagged as an outlier when using the standard $z$-score based on the sample mean and standard deviation. This is due to the fact that the extreme value -100 skews these descriptive statistics. Using the robust method, however, returns reasonable results.
+
+Using the empirical rule is rather limited in practice since distributions are often not bell-shaped, or even symmetric---though, as seen with `Sale_Price`, some can be transformed to appear more bell-shaped. A better outlier detection rule can be constructed using the IQR. This is the same method used to flag outliers in boxplots (see Section \@ref(boxplots)). The general rule is to define an observation an outlier if it lies outside the interval $\left(Q_1 - 1.5 \times IQR, Q_2 + 1.5 \times IQR\right)$. While it would be simple to write our own function for detecting outliers using the boxplot method, we can use R's built-in function `boxplot.stats()` (see `?grDevices::boxplot.stats` for details). Notice how this method happens to catch the true outliers!
+
+```{r boxplot-stats}
+boxplot.stats(x)$out
+```
+
+We leave it to Exercise \@ref(ames-outlier) to further explore outliers for the `Sale_Price` variable in the `ames` housing data frame.
+
+
+## Describing categorical data {#categorical}
+
+All of the descriptive statistics discussed thus far are appropriate for *continuous variables*^[Continuous variables, also referred to as quantitative variables, can be further categorized as *interval* or *ratio* variables. Though we do not make such distinction in this book, the interested reader is pointed to **NEED REFERENCE**]---that is, variables that can be measured on a continuum (e.g., the weight of an object measured in grams). Technically, no variable can be truly measured on a continuous scale due to precision limitations with how all variables are measured. So, in a sense, continuous variables in practice are numeric variables that can take on a lot of values. Oftentimes the data we are describing contains *categorical variables*. A categorical variable is a variable whose measurement scale consists of a set of categories (e.g., manufacturer and gender). Such variables are easy to describe using *contingency* or *cross-classification tables* (e.g., tables of frequencies and proportions).
+
+Categorical variables fall into one of two types: *nominal* and *ordinal*. Nominal variables are categorical variables whose categories do no have a natural ordering. The categories of an ordinal variable do have a natural ordering, but no defined distance between the categories. For example, the `AdultUCI` data frame contains the columns `income` (with unique categories `"small"` and `"large"`) and `sex` (with unique categories `"Female"` and `"Male"`). `income` would be an example of an ordered variable (since `"small" < "large"`, but `"large" - "small"` has no meaningful interpretation) while `sex` is nominal.
+
+In R, categorical variables are typically represented using the `"factor"` class, but can also be represented by character strings (i.e., the more general `"character"` class). The `AdultUCI` data set contains several factors:
+
+```{r AdultUCI-factors}
+which(sapply(AdultUCI, is.factor))  # positions and names of factor columns
+which(sapply(AdultUCI, is.character))  # sanity check
+which(sapply(AdultUCI, is.ordered))  # check specifically for ordered factors
+```
+
+To coerce a variable into a nominal or ordinal factor, we can use the functions `as.factor()` and `as.ordered()`, respectively. Some of the techniques discussed in this book can take ordinality into account, so it is good practice to make sure such variables are coerced to ordered factors.
+
+
+### Contingency tables
+
+A *contingency table* is a rectangular table containing the frequencies (or proportions) of observations within the different categories of one or more categorical variables. Contingency tables typically cross-classifiy two categorical variables, but can be used to cross-classifiy more than two. R contains a number of functions for creating such tables, the most useful probably being `xtabs()` since it has a formula interface. To illustrate, we construct a $2 \times 2$ table cross-classifying `income` and `sex` from the `AdultUCI` data frame:
+
+```{r AdultUCI-xtabs}
+(tab <- xtabs(~ sex + income, data = AdultUCI))
+```
+
+This table shows some disparity in income between females and males. In Chapter \@ref(inference), we discuss ways of testing for association between a set of categorical variables.
+
+We can also request that margins (i.e., row/column summaries) be added to the table using the `addmargins()` function:
+
+```{r addmargins}
+addmargins(tab)  # defaults to adding row/column totals
+addmargins(tab, FUN = mean)  # add sample means to the margins instead
+```
+
+We can can convert the frequencies to proportions using the `prop.table()` function:
+
+```{r prop.table}
+prop.table(tab)
+```
+
+In Section \@ref(cramers-v), we discuss a statistic that can be used to quantify the strength of the association between two categorical variables.
+
+
+## Exercises {#exercises}
+
+```{exercise, name="Groupwise descriptive statistics"}
+For the `ames` data set, we computed various measures of spread and location for the variable `Sale_Price`. However, these data span multiple years (2006--2010). Therefore, it might be of interest to see how various descriptive statistics change over time. For this exercise, compute the sample median and MADN for `Sale_Price` stratified by the year in which the house was sold (i.e., `Year_Sold`). **Hint:** use the built-in functions `tapply()` or `by()`; see `?tapply` and `?by` for example usage. Do typical sale prices seem to be different across the five years?
+```
+
+<!-- Solution -->
+```{r include=FALSE}
+# Using tapply
+tapply(ames$Sale_Price, INDEX = ames$Year_Sold, FUN = median)
+tapply(ames$Sale_Price, INDEX = ames$Year_Sold, FUN = mad)
+
+# Using by
+by(ames$Sale_Price, INDICES = ames$Year_Sold, FUN = median)
+by(ames$Sale_Price, INDICES = ames$Year_Sold, FUN = mad)
+```
+
+```{exercise ames-outlier, name="Outlier detection"}
+Use the boxplot outlier detection method on the variable `Sale_Price` from the `ames` housing example. How many outliers are detected using this method? How many outliers are detected using the empirical rule? Does the empirical rule seem appropriate for these data? Why or why not?
+```
+
+<!-- Solution -->
+```{r include=FALSE}
+length(out1 <- boxplot.stats(Sale_Price)$out)
+length(out2 <- detect_outliers(log(Sale_Price)))
+length(out2 <- detect_outliers(log(Sale_Price), robust = TRUE))
+```
+
+```{exercise, name="Kurtosis and skewness"}
+TBD.
+```
+
+```{exercise, name="The `apply()` function"}
+The `votes.repub` data set from the standard R package `cluster` [@pkg-cluster] contains the percentages of votes given to the republican candidate in presidential elections from 1856 to 1976. The rows represent the 50 US states, and the columns represent the 31 elections. The data can be loaded into R using `data(votes.repub, package = "cluster")`. In this case, we may be interested in computing various descriptive statistics for each state across all years. Since the data are stored in rectangular format (i.e., state are in rows and years are in columns) we can efficiently compute descriptive statistics for each state using R's built-in `apply()` function (see `?apply` for details). Using `apply()`, compute the sample mean percentage of votes and standard deviation for each state, taking care to handle `NA`'s appropriately. Which state had the highest average percentage of votes? Which had the lowest?
+```
+
+```{exercise, name="Trimmed mean"}
+TBD.
+```
+
+```{exercise, name="Sample variance `r emo::ji('scream')`"} 
+Show that the formula for the sample is equivalent to
+$$
+  s^2 = \left(\frac{1}{n} \sum_{i = 1}^n x_i^2\right) - \bar{x}^2.
+$$
+```

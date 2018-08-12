@@ -1,0 +1,15 @@
+# Who are these Guys? {#author .unnumbered}
+
+This book is...
+
+
+## Bradley C. Boehmke {-}
+
+Brad Boehmke is a Data Scientist at 84.51°, where he and his team develop algorithmic processes, solutions, and tools that enable 84.51° and its analysts to efficiently extract insights from data and provide solution alternatives to decision-makers. Brad is also an adjunct professor at the University of Cincinnati, Wake Forest, and Air Force Institute of Technology. He's an active contributor to the R community through package development (i.e. `anomalyDetection`, `sure`, `vip`) and giving back via advanced machine learning education available at the [UC Business Analytics R Programming Guide](http://uc-r.github.io/).  You can follow Brad on Twitter (https://twitter.com/bradleyboehmke) and GitHub (https://github.com/bradleyboehmke). 
+
+
+## Brandon M. Greenwell {-}
+
+Brandon Greenwell is...
+
+You can follow me on Twitter (https://twitter.com/bgreenwell8) and GitHub (https://github.com/bgreenwell). 
