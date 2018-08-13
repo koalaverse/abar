@@ -468,7 +468,7 @@ plot(cv_model_pls)
 ```
 
 
-## Model interpretation {#lm-model-interp}
+## Feature Interpretation {#lm-model-interp}
 
 Once we've found the model that minimizes the predictive accuracy, our next goal is to interpret the model structure.  Linear regression models provide a very intuitive model structure as they assume a ___monotonic linear relationship___ between the predictor variables and the response. The _linear_ relationship part of that statement just means, for a given predictor variable, it assumes for every one unit change in a given predictor variable there is a constant change in the response. As discussed earlier in the chapter, this constant change is provided by the given coefficient for a predictor. The _monotonic_ relationship means that a given predictor variable will always have a positive or negative relationship.  But how do we determine the most influential variables?
 

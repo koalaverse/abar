@@ -289,7 +289,7 @@ plot(cv_model_pls)
 
 
 
-## Model interpretation
+## Feature interpretation
 
 Similar to linear regression, once our preferred logistic regression model is identified, next we need to interpret how the features are influencing the results.  As with normal linear regression models, variable importance for logistic regression models are computed with the absolute value of the *t*-statistic for each model parameter is used. Using `vip` we can extract our top 20 influential variables.  Figure \@ref(fig:glm-vip) illustrates that `OverTime` is the most influential followed by `JobSatisfaction`, `NumCompaniesWorked`, and `EnvironmentSatisfaction`.
 
