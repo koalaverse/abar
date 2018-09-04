@@ -1,0 +1,274 @@
+# Random Forests {#RF}
+
+```{r ch11-setup, include=FALSE}
+
+# Set the graphical theme
+ggplot2::theme_set(ggplot2::theme_light())
+
+# Set global knitr chunk options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  warning = FALSE, 
+  message = FALSE, 
+  collapse = TRUE, 
+  fig.align = "center",
+  fig.height = 3.5
+)
+```
+
+The previous chapters covered parametric models where the algorithm is based on estimated parameters (i.e. coefficients). ___Tree-based models___, however, are non-parametric models and work by stratifying and segmenting the predictor space into a number of smaller regions based on a set of splitting rules. Simpler tree-based methods such as decision trees can be easy to interpret; however, typically lack predictive performance.  More sophisticated tree-based models such as random forests and gradient boosting machines become more complex, are less intutititve, but tend to have very good predictive accuracy. This chapter will get you familiar with the idea of decision trees, bagging, and random forests.  In the next chapter we ... 
+
+
+
+## Prerequisites
+
+For this chapter we will use the following packages:
+
+```{r ch11-pkgs}
+library(rsample)      # data splitting 
+library(randomForest) # basic implementation
+library(ranger)       # a faster implementation of randomForest
+library(caret)        # automating the tuning process
+```
+
+
+To illustrate the various modeling concepts we will use the Ames Housing data; however, at the end of the chapter we will also apply a random forest model to the employee attrition data.
+
+```{r ch11-data}
+# Create training (70%) and test (30%) sets for the AmesHousing::make_ames() data.
+# Use set.seed for reproducibility
+
+set.seed(123)
+ames_split <- initial_split(AmesHousing::make_ames(), prop = .7)
+ames_train <- training(ames_split)
+ames_test  <- testing(ames_split)
+```
+
+
+## The basic idea
+
+### Decision trees
+
+There are many methodologies for constructing decision trees but one of the oldest is known as the **c**lassification **a**nd **r**egression **t**ree (CART) approach developed by @breiman2017classification. Basic regression trees _partition_ a data set into smaller subgroups and then fit a simple _constant_ for each observation in the subgroup.  The partitioning is achieved by successive binary partitions (aka _recursive partitioning_) based on the different predictors. After partitioning has been performed, the model predicts the output based on the average response values for all observations that fall in that subgroup (regression problem) or based on the class that has majority representation (classification problem). 
+
+For example, consider we want to predict the miles per gallon a car will average based on cylinders (cyl) and horsepower (hp). All observations go through this tree, are assessed at a particular node, and proceed to the left if the answer is "yes" or proceed to the right if the answer is "no".  So, first, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch.  Next, the left branch is further partitioned by horsepower.  Those 6 or 8 cylinder observations with horsepower equal to or greater than 192 proceed to the left branch; those with less than 192 hp proceed to the right.  These branches lead to _terminal nodes_ or _leafs_ which contain our predicted response value.  Basically, all observations (cars in this example) that do not have 6 or 8 cylinders (far right branch) average 27 mpg.  All observations that have 6 or 8 cylinders and have more than 192 hp (far left branch) average 13 mpg.
+
+```{r, echo=FALSE, fig.cap="Predicting mpg based on cyl & hp using a simple decision tree.", out.height="70%", out.width="70%"}
+knitr::include_graphics("illustrations/ex_regression_tree.png")
+```
+
+This simple example can be generalized to state we have a given response variable $Y$ and two inputs $X_1$ and $X_2$.  The recursive partitioning results in three regions ($R_1, R_2, R_3$) where the model predicts *Y* with a constant $c_m$ for region $R_m$:
+
+\begin{equation}
+(\#eq:regression_tree)
+  \hat f(X) = \sum^3_{m=1} c_mI{(X_1, X_2) \in R_m},
+\end{equation}
+
+However, an important question remains of how to grow a decision tree.
+
+### Deciding on splits
+
+First, its important to realize the partitioning of variables are done in a top-down, _greedy_ fashion.  This just means that a partition performed earlier in the tree will not change based on later partitions.  But how are these partions made?  The model begins with the entire data set, *S*, and searches every distinct value of every input variable to find the predictor and split value that partitions the data into two regions ($R_1$ and $R_2$) such that the overall error is minimized (typically MSE for regression problems and Cross-entropy or Gini index for classification problems - see Section \@ref(reg-perf-eval)).
+
+Having found the best split, we partition the data into the two resulting regions and repeat the splitting process on each of the two regions.  This process is continued until some stopping criterion is reached.  What results is, typically, a very deep, complex tree that may produce good predictions on the training set, but is likely to overfit the data, leading to poor performance on unseen data.  
+
+For example, using the well-known Boston housing data set [@harrison1978hedonic], three decision trees are created based on three different samples of the data.  You can see that the first few partitions are fairly similar at the top of each tree; however, they tend to differ substantially closer to the terminal nodes. These deeper nodes tend to overfit to specific attributes of the sample data; consequently, slightly different samples will result in highly variable predicted values in the terminal nodes.  
+
+```{r, echo=FALSE, fig.cap="Three decision trees based on slightly different samples.", out.height="70%", out.width="70%"}
+knitr::include_graphics("illustrations/tree-variance-1.svg")
+```
+
+### Bagging
+
+Although pruning the tree helps reduce this variance[^prune], there are alternative methods that actually exploite the variability of single trees in a way that can significantly improve performance over and above that of single trees. _Bootstrap aggregating_ (_bagging_) is one such approach originally proposed by @breiman1996bagging. 
+
+Bagging combines and averages multiple models.  Averaging across multiple trees reduces the variability of any one tree and reduces overfitting, which improves predictive performance.  Bagging follows three simple steps:
+
+1. Create *m* bootstrap samples (Section \@ref(bootstrap)) from the training data. Bootstrapped samples allow us to create many slightly different data sets but with the same distribution as the overall training set.
+2. For each bootstrap sample, train a single, unpruned regression tree.
+3. Average individual predictions from each tree to create an overall average predicted value.
+
+```{r, echo=FALSE, fig.cap="The bagging process.", out.height="70%", out.width="70%"}
+knitr::include_graphics("illustrations/bagging.png")
+```
+
+This process can actually be applied to any regression or classification model; however, it provides the greatest improvement for models that have high variance.  For example, more stable parametric models such as linear regression and multi-adaptive regression splines tend to experience less improvement in predictive performance when bagging.
+
+Although bagging trees can help reduce the variance of a single tree's prediction and improve predictive performance, the trees in bagging are not completely independent of each other since all the original predictors are considered at every split of every tree.  Rather, trees from different bootstrap samples typically have similar structure to each other (especially at the top of the tree) due to underlying relationships.
+
+For example, if we create six decision trees with different bootstrapped samples of the Boston housing data, we see that the top of the trees all have a very similar structure.  Although there are 15 predictor variables to split on, all six trees have both `lstat` and `rm` variables driving the first few splits.  
+
+```{r, echo=FALSE, fig.cap="Six decision trees based on different bootstrap samples.", out.height="70%", out.width="70%"}
+knitr::include_graphics("illustrations/tree-correlation-1.png")
+```
+
+This characteristic is known as _tree correlation_ and prevents bagging from optimally reducing variance of the predicted values.  In order to reduce variance further, we need to minimize the amount of correlation between the trees.
+
+### Random forests
+
+Random forests are an extension of bagging injects more randomness into the tree-growing process. Random forests achieve this in two ways:
+
+1. __Bootstrap__: similar to bagging, each tree is grown to a bootstrap resampled data set, which makes them different and _somewhat_ decorrelates them.
+2. __Split-variable randomization__: each time a split is to be performed, the search for the split variable is limited to a random subset of *m* of the *p* variables.  Typical default values for $m$ are $m = \frac{p}{3}$ (regression problems) and $m = \sqrt{p}$ for classification models. However, this should be considered a tuning parameter.  When $m = p$, the randomization amounts to using only step 1 and is the same as *bagging*.
+
+The basic algorithm for a random forest model can be generalized to the following:
+
+```r
+1.  Given training data set
+2.  Select number of trees to build (ntrees)
+3.  for i = 1 to ntrees do
+4.  |  Generate a bootstrap sample of the original data
+5.  |  Grow a regression or classification tree to the bootstrapped data
+6.  |  for each split do
+7.  |  | Select m variables at random from all p variables
+8.  |  | Pick the best variable/split-point among the m
+9.  |  | Split the node into two child nodes
+10. |  end
+11. | Use typical tree model stopping criteria to determine when a tree is complete (but do not prune)
+12. end
+```
+
+Since the algorithm randomly selects a bootstrap sample to train on ___and___ predictors to use at each split, tree correlation will be lessened beyond bagged trees.
+
+###  OOB error vs. test set error
+
+One benefit of bagging (and thus also random forests) is that, on average, a bootstrap sample will contain 63% of the training data. This leaves about 37% of the data out of the bootstrapped sample. We call this the out-of-bag (OOB) sample. We can use the OOB observations to estimate the model’s accuracy, creating a natural cross-validation process, which allows you to not need to sacrifice any of your training data to use for validation.  This makes identifying the number of trees required to stablize the error rate during tuning more efficient; however, as illustrated below some difference between the OOB error and test error are expected.
+
+```{r, echo=FALSE, fig.cap="Random forest out-of-bag error versus validation error.", out.height="70%", out.width="70%"}
+knitr::include_graphics("illustrations/oob-error-compare-1.svg")
+```
+
+Furthermore, many packages do not keep track of which observations were part of the OOB sample for a given tree and which were not. If you are comparing multiple models to one-another, you’d want to score each on the same validation set to compare performance. Also, although technically it is possible to compute certain metrics such as root mean squared logarithmic error (RMSLE) on the OOB sample, it is not built in to all packages. So if you are looking to compare multiple models or use a slightly less traditional loss function you will likely want to still perform cross validation.
+
+## Fitting a basic random forest model
+
+There are over 20 random forest packages in R.[^task]  To demonstrate the basic implementation we illustrate the use of the __randomForest__ package [@R-randomForest], the oldest and most well known implementation of the Random Forest algorithm in R.  However, as your data set grows in size __randomForest__ does not scale well (although you can parallelize with `foreach`).
+
+`randomForest::randomForest` can use the formula or separate x, y matrix notation for specifying our model.  Below we apply the default __randomForest__ model using the formulaic specification.  The default random forest performs 500 trees and $\frac{features}{3} = 26$ randomly selected predictor variables at each split.  Averaging across all 500 trees provides an OOB $MSE = 661089658$$ ($$RMSE = \$25,711$).
+
+
+```{r basic-model}
+# for reproduciblity
+set.seed(123)
+
+# default RF model
+m1 <- randomForest(
+  formula = Sale_Price ~ .,
+  data = ames_train
+)
+
+m1
+```
+
+Plotting the model will illustrate the error rate as we average across more trees and shows that our error rate stabalizes with around 100 trees but continues to decrease slowly until around 300 or so trees.  
+
+
+```{r basic-model-plot, fig.width=5, fig.height=3.5, fig.cap="some caption"}
+plot(m1)
+```
+
+The plotted error rate above is based on the OOB sample error and can be accessed directly at `m1$mse`.  Thus, we can find which number of trees providing the lowest error rate, which is 447 trees providing an average home sales price error of \$25,649.
+
+
+```{r basic-model-best}
+# number of trees with lowest MSE
+which.min(m1$mse)
+
+# RMSE of this optimal random forest
+sqrt(m1$mse[which.min(m1$mse)])
+```
+
+Random forests are one of the best "out-of-the-box" machine learning algorithms.  They typically perform remarkably well with very little tuning required.  For example, as we saw above, we were able to get an RMSE of \$25,649 without any tuning which is nearly as good as the best, fully tuned model we've explored thus far.  However, we can still seek improvement by tuning hyperparameters in our random forest model.
+
+## Tuning
+
+Compared to the algorithms explored in the previous chapters, random forests have more hyperparameters to tune.  However, compared to gradient boosting machines and neural networks, which we explore in future chapters, random forests are much easier to tune.  Typically, the primary concern when starting out is tuning the number of candidate variables to select from at each split.  However, there are a few additional hyperparameters that we should be aware of. Although the argument names may differ across packages, these hyperparameters should be present: 
+
+- `ntree`: number of trees.  We want enough trees to stabalize the error but using too many trees is unncessarily inefficient, especially when using large data sets.
+- `mtry`: the number of variables to randomly sample as candidates at each split. When `mtry` $=p$ the model equates to bagging.  When `mtry` $=1$ the split variable is completely random, so all variables get a chance but can lead to overly biased results. A common suggestion is to start with 5 values evenly spaced across the range from 2 to *p*.
+- `sampsize`: the number of samples to train on. The default value is 63.25% of the training set since this is the expected value of unique observations in the bootstrap sample.  Lower sample sizes can reduce the training time but may introduce more bias than necessary.  Increasing the sample size can increase performance but at the risk of overfitting because it introduces more variance. Typically, when tuning this parameter we stay near the 60-80% range.
+- `nodesize`: minimum number of samples within the terminal nodes. Controls the complexity of the trees.  Smaller node size allows for deeper, more complex trees and smaller node results in shallower trees.  This is another bias-variance tradeoff where deeper trees introduce more variance (risk of overfitting) and shallower trees introduce more bias (risk of not fully capturing unique patters and relatonships in the data).
+- `maxnodes`: maximum number of terminal nodes. Another way to control the complexity of the trees. More nodes equates to deeper, more complex trees and less nodes result in shallower trees.
+
+Tuning a larger set of hyperparameters requires a larger grid search than we've performed thus far.  Unfortunately, this is where __randomForest__ becomes quite inefficient since it does not scale well.  Instead, we can use __ranger__ [@R-ranger] which is a C++ implementation of Brieman's random forest algorithm and, as the following illustrates, is over 27 times faster than __randomForest__.
+
+```{r randomForest-vs-ranger}
+# names of features
+features <- setdiff(names(ames_train), "Sale_Price")
+
+# randomForest speed
+system.time(
+  ames_randomForest <- randomForest(
+    formula = Sale_Price ~ ., 
+    data    = ames_train, 
+    ntree   = 500,
+    mtry    = floor(length(features) / 3)
+  )
+)
+
+# ranger speed
+system.time(
+  ames_ranger <- ranger(
+    formula   = Sale_Price ~ ., 
+    data      = ames_train, 
+    num.trees = 500,
+    mtry      = floor(length(features) / 3)
+  )
+)
+```
+
+Since there are two tuning parameters associated with our MARS model: the degree of interactions and the number of retained terms, we need to perform a grid search to identify the optimal combination of these hyperparameters that minimize prediction error (the above pruning process was based only on an approximation of cross-validated performance on the training data rather than an actual *k*-fold cross validation process). As in previous chapters, we will perform a cross-validated grid search to identify the optimal mix.  Here, we set up a search grid that assesses 30 different combinations of interaction effects (`degree`) and the number of terms to retain (`nprune`).
+
+```{r tuning-grid}
+# create a tuning grid
+hyper_grid <- expand.grid(
+  mtry = seq(1, length(features), length.out = 5),
+  splitrule = c("variance", "extratrees"),
+  min.node.size = c(1, 3, 5, 10)
+  )
+
+head(hyper_grid)
+```
+
+```{block, type="warning"}
+This grid search took 14 minutes to complete.
+```
+
+```{r grid-search, fig.cap="some caption."}
+# cross validated model
+tuned_rf <- train(
+  x = subset(ames_train, select = -Sale_Price),
+  y = ames_train$Sale_Price,
+  method = "ranger",
+  metric = "RMSE",
+  trControl = trainControl(method = "cv", number = 10),
+  tuneGrid = hyper_grid,
+  seed = 123
+)
+
+# best model
+tuned_rf$bestTune
+
+# plot results
+ggplot(tuned_rf)
+```
+
+
+## Feature interpretation
+
+
+
+## Attrition data
+
+
+
+## Final thoughts
+
+
+
+## Learning more
+
+
+
+[^task]: See the Random Forest section in the [Machine Learning Task View](https://CRAN.R-project.org/view=MachineLearning) on CRAN and Erin LeDell's [useR! Machine Learning Tutorial](https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r) for a non-comprehensive list.
+[^prune]: See @esposito1997comparative for various methods of pruning.

@@ -257,7 +257,7 @@ TBD.
 TBD.
 
 
-## The nonparametric bootstrap
+## The nonparametric bootstrap {#bootstrap}
 
 The statistical tests discussed so far in this chapter assume a theoretical sampling distribution for the corresponding test statistic $\widehat{\theta}$, which requires certain assumptions like large sample sizes (when appealing to the CLT) or normality of the population from which the sample was obtained. These assumptions are often difficult to meet in practice. The *bootstrap* technique [@efron-bootstrap-1979] estimates the sampling $\widehat{\theta}$ by direct simulation. In general, bootstrap methods fall into one of two categories, *parametric* and *nonparametric*. In this section, we briefly introduce the nonparametric bootstrap. A thorough introduction to the bootstrap and its use in R is provided in @davison-bootstrap-1997.
 
