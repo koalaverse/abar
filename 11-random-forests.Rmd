@@ -53,7 +53,7 @@ There are many methodologies for constructing decision trees but one of the olde
 
 For example, consider we want to predict the miles per gallon a car will average based on cylinders (cyl) and horsepower (hp). All observations go through this tree, are assessed at a particular node, and proceed to the left if the answer is "yes" or proceed to the right if the answer is "no".  So, first, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch.  Next, the left branch is further partitioned by horsepower.  Those 6 or 8 cylinder observations with horsepower equal to or greater than 192 proceed to the left branch; those with less than 192 hp proceed to the right.  These branches lead to _terminal nodes_ or _leafs_ which contain our predicted response value.  Basically, all observations (cars in this example) that do not have 6 or 8 cylinders (far right branch) average 27 mpg.  All observations that have 6 or 8 cylinders and have more than 192 hp (far left branch) average 13 mpg.
 
-```{r, echo=FALSE, fig.cap="Predicting mpg based on cyl & hp using a simple decision tree.", out.height="70%", out.width="70%"}
+```{r decision-tree-example-image, echo=FALSE, fig.cap="Predicting mpg based on cyl & hp using a simple decision tree.", out.height="70%", out.width="70%"}
 knitr::include_graphics("illustrations/ex_regression_tree.png")
 ```
 
@@ -74,7 +74,7 @@ Having found the best split, we partition the data into the two resulting region
 
 For example, using the well-known Boston housing data set [@harrison1978hedonic], three decision trees are created based on three different samples of the data.  You can see that the first few partitions are fairly similar at the top of each tree; however, they tend to differ substantially closer to the terminal nodes. These deeper nodes tend to overfit to specific attributes of the sample data; consequently, slightly different samples will result in highly variable predicted values in the terminal nodes.  
 
-```{r, echo=FALSE, fig.cap="Three decision trees based on slightly different samples.", out.height="70%", out.width="70%"}
+```{r tree-variance-image, echo=FALSE, fig.cap="Three decision trees based on slightly different samples.", out.height="70%", out.width="70%"}
 knitr::include_graphics("illustrations/tree-variance-1.svg")
 ```
 
@@ -88,7 +88,7 @@ Bagging combines and averages multiple models.  Averaging across multiple trees 
 2. For each bootstrap sample, train a single, unpruned regression tree.
 3. Average individual predictions from each tree to create an overall average predicted value.
 
-```{r, echo=FALSE, fig.cap="The bagging process.", out.height="70%", out.width="70%"}
+```{r bagging-image, echo=FALSE, fig.cap="The bagging process.", out.height="70%", out.width="70%"}
 knitr::include_graphics("illustrations/bagging.png")
 ```
 
@@ -134,7 +134,7 @@ Since the algorithm randomly selects a bootstrap sample to train on ___and___ pr
 
 One benefit of bagging (and thus also random forests) is that, on average, a bootstrap sample will contain 63% of the training data. This leaves about 37% of the data out of the bootstrapped sample. We call this the out-of-bag (OOB) sample. We can use the OOB observations to estimate the model’s accuracy, creating a natural cross-validation process, which allows you to not need to sacrifice any of your training data to use for validation.  This makes identifying the number of trees required to stablize the error rate during tuning more efficient; however, as illustrated below some difference between the OOB error and test error are expected.
 
-```{r, echo=FALSE, fig.cap="Random forest out-of-bag error versus validation error.", out.height="70%", out.width="70%"}
+```{r oob-example-image, echo=FALSE, fig.cap="Random forest out-of-bag error versus validation error.", out.height="70%", out.width="70%"}
 knitr::include_graphics("illustrations/oob-error-compare-1.svg")
 ```
 
@@ -142,9 +142,13 @@ Furthermore, many packages do not keep track of which observations were part of 
 
 ## Fitting a basic random forest model
 
-There are over 20 random forest packages in R.[^task]  To demonstrate the basic implementation we illustrate the use of the __randomForest__ package [@R-randomForest], the oldest and most well known implementation of the Random Forest algorithm in R.  However, as your data set grows in size __randomForest__ does not scale well (although you can parallelize with `foreach`).
+There are over 20 random forest packages in R.[^task]  To demonstrate the basic implementation we illustrate the use of the __randomForest__ package [@R-randomForest], the oldest and most well known implementation of the Random Forest algorithm in R.  
 
-`randomForest::randomForest` can use the formula or separate x, y matrix notation for specifying our model.  Below we apply the default __randomForest__ model using the formulaic specification.  The default random forest performs 500 trees and $\frac{features}{3} = 26$ randomly selected predictor variables at each split.  Averaging across all 500 trees provides an OOB $MSE = 661089658$$ ($$RMSE = \$25,711$).
+```{block, type="tip"}
+However, as your data set grows in size __randomForest__ does not scale well (although you can parallelize with __foreach__).
+```
+
+`randomForest()` can use the formula or separate x, y matrix notation for specifying our model.  Below we apply the default __randomForest__ model using the formulaic specification.  The default random forest performs 500 trees and $\frac{features}{3} = 26$ randomly selected predictor variables at each split.  Averaging across all 500 trees provides an OOB $MSE = 661089658$$ ($$RMSE = \$25,711$).
 
 
 ```{r basic-model}
@@ -152,30 +156,30 @@ There are over 20 random forest packages in R.[^task]  To demonstrate the basic 
 set.seed(123)
 
 # default RF model
-m1 <- randomForest(
+rf1 <- randomForest(
   formula = Sale_Price ~ .,
   data = ames_train
 )
 
-m1
+rf1
 ```
 
-Plotting the model will illustrate the error rate as we average across more trees and shows that our error rate stabalizes with around 100 trees but continues to decrease slowly until around 300 or so trees.  
+Plotting the model will illustrate the OOB error rate as we average across more trees and shows that our error rate stabalizes with around 100 trees but continues to decrease slowly until around 300 or so trees.  
 
 
-```{r basic-model-plot, fig.width=5, fig.height=3.5, fig.cap="some caption"}
-plot(m1)
+```{r basic-model-plot, fig.width=5, fig.height=3.5, fig.cap="OOB error (MSE) as a function of the number of trees.  We see the MSE reduces quickly for the first 100 trees and then slowly thereafter.  We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined."}
+plot(rf1)
 ```
 
-The plotted error rate above is based on the OOB sample error and can be accessed directly at `m1$mse`.  Thus, we can find which number of trees providing the lowest error rate, which is 447 trees providing an average home sales price error of \$25,649.
+The plotted error rate above is based on the OOB sample error and can be accessed directly at `rf1$mse`.  Thus, we can find which number of trees providing the lowest error rate, which is 447 trees providing an average home sales price error of \$25,649.
 
 
 ```{r basic-model-best}
 # number of trees with lowest MSE
-which.min(m1$mse)
+which.min(rf1$mse)
 
 # RMSE of this optimal random forest
-sqrt(m1$mse[which.min(m1$mse)])
+sqrt(rf1$mse[which.min(rf1$mse)])
 ```
 
 Random forests are one of the best "out-of-the-box" machine learning algorithms.  They typically perform remarkably well with very little tuning required.  For example, as we saw above, we were able to get an RMSE of \$25,649 without any tuning which is nearly as good as the best, fully tuned model we've explored thus far.  However, we can still seek improvement by tuning hyperparameters in our random forest model.
@@ -184,11 +188,12 @@ Random forests are one of the best "out-of-the-box" machine learning algorithms.
 
 Compared to the algorithms explored in the previous chapters, random forests have more hyperparameters to tune.  However, compared to gradient boosting machines and neural networks, which we explore in future chapters, random forests are much easier to tune.  Typically, the primary concern when starting out is tuning the number of candidate variables to select from at each split.  However, there are a few additional hyperparameters that we should be aware of. Although the argument names may differ across packages, these hyperparameters should be present: 
 
-- `ntree`: number of trees.  We want enough trees to stabalize the error but using too many trees is unncessarily inefficient, especially when using large data sets.
-- `mtry`: the number of variables to randomly sample as candidates at each split. When `mtry` $=p$ the model equates to bagging.  When `mtry` $=1$ the split variable is completely random, so all variables get a chance but can lead to overly biased results. A common suggestion is to start with 5 values evenly spaced across the range from 2 to *p*.
-- `sampsize`: the number of samples to train on. The default value is 63.25% of the training set since this is the expected value of unique observations in the bootstrap sample.  Lower sample sizes can reduce the training time but may introduce more bias than necessary.  Increasing the sample size can increase performance but at the risk of overfitting because it introduces more variance. Typically, when tuning this parameter we stay near the 60-80% range.
-- `nodesize`: minimum number of samples within the terminal nodes. Controls the complexity of the trees.  Smaller node size allows for deeper, more complex trees and smaller node results in shallower trees.  This is another bias-variance tradeoff where deeper trees introduce more variance (risk of overfitting) and shallower trees introduce more bias (risk of not fully capturing unique patters and relatonships in the data).
-- `maxnodes`: maximum number of terminal nodes. Another way to control the complexity of the trees. More nodes equates to deeper, more complex trees and less nodes result in shallower trees.
+- __Number of trees__:  We want enough trees to stabalize the error but using too many trees is unncessarily inefficient, especially when using large data sets.
+- __Number of variables to randomly sample as candidates at each split__: Commonly referred to as "mtry". When `mtry` $=p$ the model equates to bagging.  When `mtry` $=1$ the split variable is completely random, so all variables get a chance but can lead to overly biased results. A common suggestion is to start with 5 values evenly spaced across the range from 2 to *p*.
+- __Sample size to train on__: The default value is 63.25% of the training set since this is the expected value of unique observations in the bootstrap sample.  Lower sample sizes can reduce the training time but may introduce more bias than necessary.  Increasing the sample size can increase performance but at the risk of overfitting because it introduces more variance. Typically, when tuning this parameter we stay near the 60-80% range.
+- __Minimum number of samples within the terminal nodes__: Controls the complexity of the trees.  Smaller node size allows for deeper, more complex trees and larger node size results in shallower trees.  This is another bias-variance tradeoff where deeper trees introduce more variance (risk of overfitting) and shallower trees introduce more bias (risk of not fully capturing unique patters and relatonships in the data).
+- __Maximum number of terminal nodes__: Another way to control the complexity of the trees. More nodes equates to deeper, more complex trees and less nodes result in shallower trees.
+- __Split rule__:As stated in the introduction, the most traditional splitting rules are based on minimizing the variance or MSE across the terminal nodes for regression problems and Cross-entropy or Gini index for classification problems.  However, additional splitrules have been developed that can offer improved predictive accuracy.  For example, the extra trees split rule chooses cut-points fully at random and uses the whole learning sample (rather than a bootstrap replica) to grow the trees [@geurts2006extremely].
 
 Tuning a larger set of hyperparameters requires a larger grid search than we've performed thus far.  Unfortunately, this is where __randomForest__ becomes quite inefficient since it does not scale well.  Instead, we can use __ranger__ [@R-ranger] which is a C++ implementation of Brieman's random forest algorithm and, as the following illustrates, is over 27 times faster than __randomForest__.
 
@@ -217,24 +222,76 @@ system.time(
 )
 ```
 
-Since there are two tuning parameters associated with our MARS model: the degree of interactions and the number of retained terms, we need to perform a grid search to identify the optimal combination of these hyperparameters that minimize prediction error (the above pruning process was based only on an approximation of cross-validated performance on the training data rather than an actual *k*-fold cross validation process). As in previous chapters, we will perform a cross-validated grid search to identify the optimal mix.  Here, we set up a search grid that assesses 30 different combinations of interaction effects (`degree`) and the number of terms to retain (`nprune`).
+### Tuning via ranger
 
-```{r tuning-grid}
+There are two approaches to tuning a __ranger__ model.  The first is to The first is to tune __ranger__ manually using a `for` loop.  To perform a manual grid search, first we want to construct our grid of hyperparameters. We’re going to search across 48 different models with varying mtry, minimum node size, sample size, and trying different split rules.
+
+```{r tuning-grid1}
 # create a tuning grid
 hyper_grid <- expand.grid(
-  mtry = seq(1, length(features), length.out = 5),
-  splitrule = c("variance", "extratrees"),
-  min.node.size = c(1, 3, 5, 10)
-  )
+  mtry            = seq(20, 35, by = 5),
+  min.node.size   = seq(3, 9, by = 3),
+  sample.fraction = c(.632, .80),
+  splitrule       = c("variance", "extratrees"),
+  OOB_RMSE        = 0
+)
 
-head(hyper_grid)
+dim(hyper_grid)
 ```
+
+We loop through each hyperparameter combination and apply 500 trees since our previous examples illustrated that 500 was plenty to achieve a stable error rate.  Also note that we set the random number generator seed.  This allows us to consistently sample the same observations for each sample size and make it more clear the impact that each change makes.  Our OOB RMSE ranges between ~25,900-28,500.  Our top 10 performing models all have RMSE values right around 26,000 and the results show that models with larger sample sizes (80%)  and a variance splitrule perform best.  However, no definitive evidence suggests that certain values of `mtry` or `min.node.size` are better than other values.
 
 ```{block, type="warning"}
-This grid search took 14 minutes to complete.
+This grid search took 69 seconds to complete.
 ```
 
-```{r grid-search, fig.cap="some caption."}
+
+```{r grid-search1}
+for(i in seq_len(nrow(hyper_grid))) {
+  
+  # train model
+  model <- ranger(
+    formula         = Sale_Price ~ ., 
+    data            = ames_train, 
+    num.trees       = 500,
+    mtry            = hyper_grid$mtry[i],
+    min.node.size   = hyper_grid$min.node.size[i],
+    sample.fraction = hyper_grid$sample.fraction[i],
+    splitrule       = hyper_grid$splitrule[i],
+    seed            = 123
+  )
+  
+  # add OOB error to grid
+  hyper_grid$OOB_RMSE[i] <- sqrt(model$prediction.error)
+}
+
+hyper_grid %>% 
+  dplyr::arrange(OOB_RMSE) %>%
+  head(10)
+```
+
+However, using this approach does not provide us with a cross validated measure of error.  To get a k-fold CV error, we would have to expand our `for` loop approach or use an alternative approach.  One such approach follows.
+
+### Tuning via caret
+
+The second tuning approach is to use the __caret__ package.  __caret__ only allows you to tune some, not all, of the available __ranger__ hyperparameters (`mtry`, `splitrule`, `min.node.size`).  However, __caret__ will allow us to get a CV measure of error to compare to our previous models (i.e. regularized regression, MARS).  The following creates a similar tuning grid as before but with only those hyperparameters that __caret__ will accept.
+
+```{r tuning-grid2}
+# create a tuning grid
+hyper_grid <- expand.grid(
+  mtry            = seq(20, 35, by = 5),
+  min.node.size   = seq(3, 9, by = 3),
+  splitrule       = c("variance", "extratrees")
+  )
+```
+
+
+
+```{block, type="warning"}
+This grid search took over 7 minutes to complete.
+```
+
+```{r grid-search2, fig.cap="some caption."}
 # cross validated model
 tuned_rf <- train(
   x = subset(ames_train, select = -Sale_Price),
@@ -243,6 +300,7 @@ tuned_rf <- train(
   metric = "RMSE",
   trControl = trainControl(method = "cv", number = 10),
   tuneGrid = hyper_grid,
+  num.trees = 500,
   seed = 123
 )
 
