@@ -189,7 +189,7 @@ ggplot(train3, aes(MonthlyIncome, prob, color = OverTime)) +
 
 With a basic understanding of logistic regression under our belt, similar to linear regression our concern now shifts to how well do our models predict.  As in the last chapter, we will use `caret::train` and fit three 10-fold cross validated logistic regression models.  Extracting the accuracy measures, we see that both `cv_model1` and `cv_model2` had an average accuracy of 83.89\%.  However, `cv_model3` which used all predictor variables in our data achieved an average accuracy rate of 86.3\%.
 
-```{r mult-models}
+```{r mult-models-logistic}
 set.seed(123)
 cv_model1 <- train(
   Attrition ~ MonthlyIncome, 

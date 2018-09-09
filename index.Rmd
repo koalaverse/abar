@@ -29,14 +29,25 @@ knitr::write_bib(c(
   "AmesHousing",
   "boot", 
   "bookdown",
+  "caret",
+  "cluster",
+  "earth",
   "extracat",
+  "factoextra",
   "GGally",
   "ggplot2",
+  "glmnet",
+  "gridExtra",
   "knitr", 
   "mice",
+  "pdp",
+  "randomForest",
+  "ranger",
   "rmarkdown",
+  "rsample",
   "scales",
-  "tibble"
+  "tibble",
+  "vip"
 ), "packages.bib")
 ```
 
@@ -145,11 +156,22 @@ pkgs <- c(
   "arules",
   "boot", 
   "bookdown",
+  "caret",
+  "cluster",
+  "earth",
+  "factoextra",
   "ggplot2",
+  "glmnet",
+  "gridExtra",
   "knitr", 
+  "pdp",
+  "randomForest",
+  "ranger",
   "rmarkdown",
+  "rsample",
   "stats",
-  "tibble"
+  "tibble",
+  "vip"
 )
 
 # package & session info

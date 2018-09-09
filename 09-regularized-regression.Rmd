@@ -347,7 +347,7 @@ RMSE(exp(pred), exp(train_y))
 ```
 
 
-## Feature interpretation
+## Feature interpretation {#lm-features}
 
 Variable importance for regularized models provide a similar interpretation as in linear (or logistic) regression. Importance is determined by the absolute value of the _t_-statistic and we can see in Figure \@ref(fig:regularize-vip) some of the same variables that were considered highly influential in our partial least squares model, albeit in differing order (i.e. `Gr_Liv_Area`, `Overall_Qual`, `First_Flr_SF`, `Garage_Cars`).
 
