@@ -67,6 +67,9 @@ There are many methodologies for constructing decision trees but the most well-k
 The basic idea behind decision trees is to ask simple yes-or-no questions about each feature in order partion the training data into subgroups with similar response rates. Ideally, the repsonses within each subgroup will be as similar or homegenous as possible, while responses across subgroups will be as different or as heterogenous as possible.
 ```
 
+
+### A simple regression tree example
+
 For example, suppose we want to use a decision tree to predict the miles per gallon a car will average (`mpg`) based on two features: the number of cylinders (`cyl`) and the horsepower (`hp`); such data are available in the `mtcars` data frame which is part of the standard **datasets** package. A (regression) tree is built using the **rpart** package [@R-rpart] (see the code chunk below and Figure \@ref(rf-decision-tree-example-image) which was produced using the **rpart.plot** package [@R-rpart.plot]), and all the training data are passed down this tree. Whenever an obervation reaches a partiular node in the tree (i.e., a yes-or-no question about one of the features; in this case, `cyl` or `hp`), it proceeds either to the left (if the answer is "yes") or to the right (if the answer is "no"). This tree has only three terminal nodes. To start traversing the tree, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch. Next, the left branch is further partitioned by `hp`. Of all the observations with 6 or 8 cylinders with `hp` equal to or greater than 192 proceed to the left branch; those with less than 192 `hp` proceed to the right.  These branches lead to *terminal nodes* or *leafs* which contain the predicted response value; in this case, the average mpg of cars that fall within that terminal node. In short, cars with less than 5 cylinders (region $R_1$) average 27 mpg, cars with `cyl` $\ge 5$ and `hp` $< 193$ (region $R_2$) average 18 mpg, and all other cars (region $R_3$) in the training data average 13 mph.
 
 ```{r rf-decision-tree-example, echo=TRUE, fig.cap="Using a CART-like decision tree to predict `mpg` based on `cyl` and `hp`.", fig.width=6, fig.asp=0.618, out.width="70%"}
@@ -86,6 +89,8 @@ However, an the question remains of how to grow a decision tree; that is, select
 
 
 ### Deciding on splits
+
+**FIXME:** Continue with the previous example?
 
 First, it's important to realize that the partitioning of the feature space is done in a top-down, *greedy* fashion. This means that a any partion in the tree dpeends on the previous partitions. But how are these partions made? The algorithm begins with the entire training data set *S* and searches every distinct value of every input variable to find the "best" feature/split combination that partitions the data into two regions ($R_1$ and $R_2$) such that the overall error is minimized (typically, MSE for regression problems, and cross-entropy or the Gini index for classification problems--see Section \@ref(reg-perf-eval)).
 
