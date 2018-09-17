@@ -31,3 +31,5 @@ earth
 pdp
 randomForest
 ranger
+rpart
+rpart.plot
