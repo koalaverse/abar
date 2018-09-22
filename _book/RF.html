@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2018-09-16">
+<meta name="date" content="2018-09-22">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -340,7 +340,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="RF" class="section level1">
 <h1><span class="header-section-number">Chapter 9</span> Random Forests</h1>
-<p>The previous chapters covered models where the algorithm is based on a linear expansions in simple basis functions of the form <span class="math inline">\(\sum_{i=1}^p\beta_ih_i\left(\boldsymbol{x}\right)\)</span>, where the <span class="math inline">\(\beta_i\)</span> are unknown coefficients to be estimated and the <span class="math inline">\(h_i\left(\cdot\right)\)</span> are transformations applied to the features <span class="math inline">\(\boldsymbol{x}\)</span>. For ordinalry linear regression (with or without regularization), these transformations are supplied by the user; hence, these are parametric models. For example, the prediction equation <span class="math inline">\(f\left(\boldsymbol{x}\right) = \beta_0 + \beta_1x_1 + \beta_2x_2 + \beta_3x_1x_2 + \beta_4x_1^2\)</span> has</p>
+<p>The previous chapters covered models where the algorithm is based on a linear expansions in simple basis functions of the form</p>
+<p><span class="math display" id="eq:linear-combo">\[
+  \sum_{i=1}^p\beta_ih_i\left(\boldsymbol{x}\right),
+  \tag{9.1}
+\]</span></p>
+<p>where the <span class="math inline">\(\beta_i\)</span> are unknown coefficients to be estimated and the <span class="math inline">\(h_i\left(\cdot\right)\)</span> are transformations applied to the features <span class="math inline">\(\boldsymbol{x}\)</span>. For ordinalry linear regression (with or without regularization), these transformations are supplied by the user; hence, these are parametric models. For example, the prediction equation <span class="math inline">\(f\left(\boldsymbol{x}\right) = \beta_0 + \beta_1x_1 + \beta_2x_2 + \beta_3x_1x_2 + \beta_4x_1^2\)</span> has</p>
 <p><span class="math display">\[h_1\left(\boldsymbol{x}\right) = x_1 \quad \text{(main effect})\]</span></p>
 <p><span class="math display">\[h_2\left(\boldsymbol{x}\right) = x_2 \quad \text{(main effect})\]</span></p>
 <p><span class="math display">\[h_3\left(\boldsymbol{x}\right) = x_2x_4 \quad \text{(two-way interaction effect)}\]</span></p>
@@ -377,7 +382,7 @@ The basic idea behind decision trees is to ask simple yes-or-no questions about 
 </div>
 <div id="a-simple-regression-tree-example" class="section level3">
 <h3><span class="header-section-number">9.2.1</span> A simple regression tree example</h3>
-<p>For example, suppose we want to use a decision tree to predict the miles per gallon a car will average (<code>mpg</code>) based on two features: the number of cylinders (<code>cyl</code>) and the horsepower (<code>hp</code>); such data are available in the <code>mtcars</code> data frame which is part of the standard <strong>datasets</strong> package. A (regression) tree is built using the <strong>rpart</strong> package <span class="citation">(Therneau and Atkinson <a href="#ref-R-rpart">2018</a>)</span> (see the code chunk below and Figure <a href="#rf-decision-tree-example-image"><strong>??</strong></a> which was produced using the <strong>rpart.plot</strong> package <span class="citation">(Milborrow <a href="#ref-R-rpart.plot">2018</a>)</span>), and all the training data are passed down this tree. Whenever an obervation reaches a partiular node in the tree (i.e., a yes-or-no question about one of the features; in this case, <code>cyl</code> or <code>hp</code>), it proceeds either to the left (if the answer is “yes”) or to the right (if the answer is “no”). This tree has only three terminal nodes. To start traversing the tree, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch. Next, the left branch is further partitioned by <code>hp</code>. Of all the observations with 6 or 8 cylinders with <code>hp</code> equal to or greater than 192 proceed to the left branch; those with less than 192 <code>hp</code> proceed to the right. These branches lead to <em>terminal nodes</em> or <em>leafs</em> which contain the predicted response value; in this case, the average mpg of cars that fall within that terminal node. In short, cars with less than 5 cylinders (region <span class="math inline">\(R_1\)</span>) average 27 mpg, cars with <code>cyl</code> <span class="math inline">\(\ge 5\)</span> and <code>hp</code> <span class="math inline">\(&lt; 193\)</span> (region <span class="math inline">\(R_2\)</span>) average 18 mpg, and all other cars (region <span class="math inline">\(R_3\)</span>) in the training data average 13 mph.</p>
+<p>For example, suppose we want to use a decision tree to predict the miles per gallon a car will average (<code>mpg</code>) based on two features: the number of cylinders (<code>cyl</code>) and the horsepower (<code>hp</code>); such data are available in the <code>mtcars</code> data frame which is part of the standard <strong>datasets</strong> package. A (regression) tree is built using the <strong>rpart</strong> package <span class="citation">(Therneau and Atkinson <a href="#ref-R-rpart">2018</a>)</span> (see the code chunk below and Figure <a href="#rf-decision-tree-example-image"><strong>??</strong></a> which was produced using the <strong>rpart.plot</strong> package <span class="citation">(Milborrow <a href="#ref-R-rpart.plot">2018</a>)</span>), and all the training data are passed down this tree. Whenever an obervation reaches a partiular node in the tree (i.e., a yes-or-no question about one of the features; in this case, <code>cyl</code> or <code>hp</code>), it proceeds either to the left (if the answer is “yes”) or to the right (if the answer is “no”). This tree has only three terminal nodes. To start traversing the tree, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch. Next, the left branch is further partitioned by <code>hp</code>. Of all the observations with 6 or 8 cylinders with <code>hp</code> equal to or greater than 192 proceed to the left branch; those with less than 192 <code>hp</code> proceed to the right. These branches lead to <em>terminal nodes</em> or <em>leafs</em> which contain the predicted response value; in this case, the average mpg of cars that fall within that terminal node. In short, cars with less than 5 cylinders (region <span class="math inline">\(R_1\)</span>) average 27 mpg, cars with <code>cyl</code> <span class="math inline">\(\ge 5\)</span> and <code>hp</code> <span class="math inline">\(&lt; 193\)</span> (region <span class="math inline">\(R_2\)</span>) average 18 mpg, and all other cars (region <span class="math inline">\(R_3\)</span>) in the training data average 13 mph. This is sumamrized in the tree diagram in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">tree &lt;-<span class="st"> </span><span class="kw">rpart</span>(mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>hp, <span class="dt">data =</span> mtcars)  <span class="co"># CART-like regression tree</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">rpart.plot</span>(tree)  <span class="co"># tree diagram</span></a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:rf-decision-tree-example"></span>
@@ -386,53 +391,185 @@ The basic idea behind decision trees is to ask simple yes-or-no questions about 
 Figure 9.1: Using a CART-like decision tree to predict <code>mpg</code> based on <code>cyl</code> and <code>hp</code>.
 </p>
 </div>
-<p>This simple example can be generalized as follows. We have a given response variable <span class="math inline">\(Y\)</span> and two inputs <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>. The recursive partitioning results in three non-verlapping regions denoted <span class="math inline">\(R_1\)</span>, <span class="math inline">\(R_2\)</span>, and <span class="math inline">\(R_3\)</span>. In region <span class="math inline">\(R_m\)</span> <span class="math inline">\(\left(m = 1, 2, 3\right)\)</span>, the model predicts <em>Y</em> with a constant <span class="math inline">\(c_m\)</span>:</p>
-<p><strong>FIXME:</strong> This doesn’t seem right?</p>
-<p><span class="math display">\[\begin{equation}
-  \widehat{f}\left(X_1, X_2\right) = \sum^3_{m=1} c_m I{\left(X_1, X_2 \in R_m\right)}.
-\end{equation}\]</span></p>
-<p>However, an the question remains of how to grow a decision tree; that is, select the partioning to give regions <span class="math inline">\(R_j\)</span> for <span class="math inline">\(j = 1, 2, \dots\)</span>.</p>
+<p>Using a linear combination in simple basis functions, we can write the predicted <code>mpg</code> as</p>
+<p><span class="math display">\[
+\widehat{mpg} = 27 \cdot I\left(cyl &lt; 5\right) + 18 \cdot I\left(cyl \ge 5 \text{ and } hp &lt; 193 \right) + 13 \cdot I\left(cyl \ge 5 \text{ and } hp \ge 193\right),
+\]</span></p>
+<p>where <span class="math inline">\(I\left(\cdot\right)\)</span> is an <em>indicator function</em> that evaluates to one if its argument is true and zero otherwise. The coefficients (i.e., 27, 18, 13) correspond to the average response value within the respective region. While this simple example illustrates that decision trees are estimating a model of the same form as equation <a href="RF.html#eq:linear-combo">(9.1)</a>, the results are more easily interpreted in the form of a tree diagram like in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a>.</p>
 </div>
 <div id="deciding-on-splits" class="section level3">
 <h3><span class="header-section-number">9.2.2</span> Deciding on splits</h3>
 <p><strong>FIXME:</strong> Continue with the previous example?</p>
-<p>First, it’s important to realize that the partitioning of the feature space is done in a top-down, <em>greedy</em> fashion. This means that a any partion in the tree dpeends on the previous partitions. But how are these partions made? The algorithm begins with the entire training data set <em>S</em> and searches every distinct value of every input variable to find the “best” feature/split combination that partitions the data into two regions (<span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>) such that the overall error is minimized (typically, MSE for regression problems, and cross-entropy or the Gini index for classification problems–see Section <a href="unsupervised.html#reg-perf-eval">4.7.7</a>).</p>
-<p>Having found the best feature/split combination, the data are partitioned into two regions and the splitting process is repeated on each of the two regions. This process is continued until some stopping criterion is reached (e.g., a mxaimu depth is reached or the tree becomes “too complex”). What results is, typically, a very deep, complex tree that may produce good predictions on the training set, but is likely to generalize well to new unseen data (i.e., overfitting), leading to poor generalization performance.</p>
-<p>For example, using the well-known Boston housing data <span class="citation">(Harrison Jr and Rubinfeld <a href="#ref-harrison1978hedonic">1978</a>)</span>, three decision trees are created based on three different samples of the data. You can see that the first few partitions are fairly similar at the top of each tree; however, they tend to differ substantially closer to the terminal nodes. These deeper nodes tend to overfit to specific attributes of the training data; consequently, slightly different samples will result in highly variable predicted values in the terminal nodes. For this reason, CART-like decision tree algorithms are often considered high variance (i.e., noisy) models fitting procedures.</p>
-<p><strong>FIXME:</strong> Brad, can we replace this with the code that produced the results; either hidden or shown?</p>
-<div class="figure" style="text-align: center"><span id="fig:rf-tree-variance-image"></span>
-<img src="illustrations/tree-variance-1.svg" alt="Three decision trees based on slightly different samples." width="70%" height="70%" />
-<p class="caption">
-Figure 9.2: Three decision trees based on slightly different samples.
-</p>
-</div>
+<p>How do decision trees partition the data into nonoverlapping regions? In particular, how did the tree in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a> decide which variables to split on and which split points to use? The answer depends on the tree algorithm used and therther or not context is classification or regression. For CART-like decision trees (like those discussed in this book and implemented in <strong>rpart</strong>), the partitioning of the feature space is done in a top-down, <em>greedy</em> fashion. This means that any partion in the tree depends on the previous partitions. But how are these partions made? The algorithm begins with the entire training data set and searches every distinct value of every input variable to find the “best” feature/split combination that partitions the data into two regions (<span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>) such that the overall error is minimized (typically, SSE for regression problems, and cross-entropy or the Gini index for classification problems–see Section <a href="unsupervised.html#reg-perf-eval">4.7.7</a>). Having found the best feature/split combination, the data are partitioned into two regions and the splitting process is repeated on each of the two regions (hence the name <em>binary <strong>r</strong>ecursive <strong>part</strong>ioning</em>. This process is continued until some stopping criterion is reached (e.g., a mxaimu depth is reached or the tree becomes “too complex”). What results is, typically, a very deep, complex tree that may produce good predictions on the training set, but is likely to generalize well to new unseen data (i.e., overfitting), leading to poor generalization performance.</p>
+<p>To illustrate, we print the struture of the previous regression tree below.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">print</span>(tree)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">## n= 32 </a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">## </a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">## node), split, n, deviance, yval</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">##       * denotes terminal node</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">## </a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">## 1) root 32 1126.04700 20.09062  </a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">##   2) cyl&gt;=5 21  198.47240 16.64762  </a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">##     4) hp&gt;=192.5 7   28.82857 13.41429 *</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">##     5) hp&lt; 192.5 14   59.87214 18.26429 *</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">##   3) cyl&lt; 5 11  203.38550 26.66364 *</a></code></pre></div>
+<p>The root node refers to all of the training data. In this node, the mean response is 20.090625 and the SSE is</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">sse &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x))<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">sse</span>(mtcars<span class="op">$</span>mpg)  <span class="co"># see the row labeled 1)</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">## [1] 1126.047</a></code></pre></div>
+<p>The feature/splint combination that gives the largest rediction to this SSE is defined by the regions <code>cyl&gt;=5</code> and <code>cyl&lt; 5</code>. The resulting SSEs within these regions are</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 2)</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">## [1] 198.4724</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&lt;</span><span class="st">  </span><span class="dv">5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 3)</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">## [1] 203.3855</a></code></pre></div>
+<p>The algorithm further split the region defined by <code>cyl&gt;=5</code> into to further regions. The feature/split combination that gave the biggest reduction to that node’s SSE (i.e., 198.47240) is defined by the regions <code>hp&gt;=192.5</code> and <code>hp&lt; 192.5</code>. The resulting SSEs within these regions are</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>mtcars<span class="op">$</span>hp <span class="op">&gt;=</span><span class="st"> </span><span class="fl">192.5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 4)</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">## [1] 28.82857</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>mtcars<span class="op">$</span>hp <span class="op">&lt;</span><span class="st">  </span><span class="fl">192.5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 5)</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">## [1] 59.87214</a></code></pre></div>
+<p>At this point, a stopping criteria was reached (in this case, the minimum number of observations that must exist in a node in order for a split to be attempted) and the tree algorithm stopped partitioning the data. For a list of all the stopping criteria, see <code>?rpart::rpart.control</code>.</p>
+<!-- For example, using the well-known Boston housing data [@harrison1978hedonic], three decision trees are created based on three different samples of the data.  You can see that the first few partitions are fairly similar at the top of each tree; however, they tend to differ substantially closer to the terminal nodes. These deeper nodes tend to overfit to specific attributes of the training data; consequently, slightly different samples will result in highly variable predicted values in the terminal nodes. For this reason, CART-like decision tree algorithms are often considered high variance (i.e., noisy) models fitting procedures.  -->
+<!-- **FIXME:** Brad, can we replace this with the code that produced the results; either hidden or shown? -->
+<!-- ```{r rf-tree-variance-image, echo=FALSE, fig.cap="Three decision trees based on slightly different samples.", out.height="70%", out.width="70%"} -->
+<!-- knitr::include_graphics("illustrations/tree-variance-1.svg") -->
+<!-- ``` -->
 </div>
 </div>
 <div id="bagging" class="section level2">
 <h2><span class="header-section-number">9.3</span> Bagging</h2>
-<p>Although pruning the tree helps reduce the variance<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> of a single tree (i.e., by helping to avoid overfitting), there are alternative methods that exploit this variance in a way that can significantly improve performance over and above that of single trees. <em>Bootstrap aggregating</em> (bagging) <span class="citation">(Breiman <a href="#ref-breiman1996bagging">1996</a>)</span> is one such approach.</p>
-<p>Bagging combines and averages multiple models.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Averaging across multiple trees reduces the variability of any one tree and reduces overfitting, which improves predictive performance. Bagging follows three simple steps:</p>
+<p>The major drawback of decision trees is that they are not typically as accurate as current state-of-the-art ML algorithms like neural networks. However, decision trees to have a number of desirable properties which are listed in Table X below. The idea behind the ensembles of decision trees discussed in this chapter and the next is to improve the predictive performance of trees while retaining most of the other properties.</p>
+<table>
+<caption>
+Table X. A comparison of binary recursive partitioning and neural networks.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Property
+</th>
+<th style="text-align:right;">
+Recursive partitioning
+</th>
+<th style="text-align:right;">
+Neural networks
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+Naturally handles numeric and categorical variables
+</td>
+<td style="text-align:right;">
+✅
+</td>
+<td style="text-align:right;">
+❌
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+Naturally handles missing values
+</td>
+<td style="text-align:right;">
+✅
+</td>
+<td style="text-align:right;">
+❌
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+Robust to features with outliers
+</td>
+<td style="text-align:right;">
+✅
+</td>
+<td style="text-align:right;">
+❌
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+Insensitive to monotone
+transformations of features
+</td>
+<td style="text-align:right;">
+✅
+</td>
+<td style="text-align:right;">
+❌
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+Computational scalability
+</td>
+<td style="text-align:right;">
+✅
+</td>
+<td style="text-align:right;">
+❌
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+Ability to deal with irrelevant
+inputs
+</td>
+<td style="text-align:right;">
+✅
+</td>
+<td style="text-align:right;">
+❌
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+Interpretibility
+</td>
+<td style="text-align:right;">
+✅
+</td>
+<td style="text-align:right;">
+❌
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+Predictive accuracy
+</td>
+<td style="text-align:right;">
+⚠️
+</td>
+<td style="text-align:right;">
+✅
+</td>
+</tr>
+</tbody>
+</table>
+<p>As discussed in <span class="citation">Friedman, Hastie, and Tibshirani (<a href="#ref-friedman2001elements">2001</a>)</span>, the key to accuracy is low bias and low variance. Trees are naturally high-variance models; a small change in the training data can lead to substantial different trees. Although <em>pruning</em> the tree (i.e., determining a nested sequence of subtrees by recursively snipping off the least important splits) helps reduce the variance<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> of a single tree (i.e., by helping to avoid overfitting), there are methods that exploit this variance in a way that can significantly improve performance over and above that of single trees. <em><strong>B</strong>ootstrap <strong>agg</strong>regat<strong>ing</strong></em> (bagging) <span class="citation">(Breiman <a href="#ref-breiman1996bagging">1996</a>)</span> is one such approach.</p>
+<p>Bagging creates an ensemble[^Combining multiple models is referred to as <em>ensembling</em>.] of decision trees with low bias and high variance. The bias of each tree is kept at a minimum by constructing overgrown decision trees (i.e., no pruning). In other words, the tree models constructed in bagging are intentionally overfitting the training data. The variance of the final predictions is reduced by averaging (regression) or popular vote (classification). In regression, for example, the prediction of a new observation is obtained by averaging the predictions from each individual tree. To construct bagger model of size <span class="math inline">\(B\)</span>, we follow three simple steps:</p>
 <ol style="list-style-type: decimal">
-<li>Create <em>m</em> bootstrap samples (Section <a href="inference.html#bootstrap">3.6</a>) from the training data. Bootstrapped samples allow us to create many slightly different data sets but with the same distribution as the overall training set.</li>
-<li>For each bootstrap sample, train a single, unpruned decision tree.</li>
-<li>Average individual predictions from each tree to create an overall average predicted value.</li>
+<li><p>Create <span class="math inline">\(B\)</span> bootstrap replciates of the original training data (Section <a href="inference.html#bootstrap">3.6</a>) by selecting rows with replacement</p></li>
+<li><p>For each bootstrap sample, train a single, unpruned decision tree</p></li>
+<li><p>Average individual predictions from each tree to create an overall average predicted value (regression) or use a popular vote (classification)</p></li>
 </ol>
 <div class="figure" style="text-align: center"><span id="fig:rf-bagging-image"></span>
 <img src="illustrations/bagging.png" alt="The bagging process." width="70%" height="70%" />
 <p class="caption">
-Figure 9.3: The bagging process.
+Figure 9.2: The bagging process.
 </p>
 </div>
-<p>This process can actually be applied to any regression or classification model; however, it provides the greatest improvement for models that have high variance. For example, more stable parametric models such as linear regression and multi-adaptive regression splines tend to experience less improvement in predictive performance when bagging.</p>
-<p>Although bagging trees can help reduce the variance of a single tree’s prediction and improve predictive performance, the trees in bagging are not completely independent of each other since all the original predictors are considered at every split of every tree. Rather, trees from different bootstrap samples typically have similar structure to each other (especially at the top of the tree) due to underlying relationships.</p>
-<p>For example, if we create six decision trees with different bootstrapped samples of the Boston housing data, we see that the top of the trees all have a very similar structure. Although there are 15 predictor variables to split on, all six trees have both <code>lstat</code> and <code>rm</code> variables driving the first few splits.</p>
+<p>Technically, bagging can is a general algorithm that can be applied to any regression or classification algorithm; however, it provides the greatest improvement for models that are adaptive and have high variance. For example, more stable parametric models, such as linear regression and MARS, tend to experience less improvement in predictive performance with bagging.</p>
+<p>Although bagging trees can help reduce the variance of a single tree’s prediction and improve predictive performance, the trees in bagging are not completely independent of each other since all the original predictors are considered at every split of every tree. Rather, trees from different bootstrap samples typically have similar structure to each other (especially at the top of the tree) due to the fact that stronger relationships appear at the top.</p>
+<p>For example, if we create six decision trees with different bootstrapped samples of the Boston housing data, we see that the top of the trees all have a very similar structure. Although there are 15 predictor variables to split on, all six trees have both <code>lstat</code> and <code>rm</code> driving the first few splits. This <em>between-tree correlation</em> limits the effect of averaging to reduce the variance of the overall ensemble. In order to reduce variance further, we need to take an additiaonl step to help de-correlate the trees in the ensemble.</p>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
-<img src="illustrations/tree-correlation-1.png" alt="Six decision trees based on different bootstrap samples." width="70%" height="70%" />
+<img src="abar_files/figure-html/unnamed-chunk-2-1.png" alt="Six bagged decision trees fit to the Boston housing data set." width="100%" />
 <p class="caption">
-Figure 9.4: Six decision trees based on different bootstrap samples.
+Figure 9.3: Six bagged decision trees fit to the Boston housing data set.
 </p>
 </div>
-<p>This characteristic is known as <em>tree correlation</em> and prevents bagging from optimally reducing variance of the predicted values. In order to reduce variance further, we need to minimize the amount of correlation between the trees.</p>
 </div>
 <div id="random-forests" class="section level2">
 <h2><span class="header-section-number">9.4</span> Random forests</h2>
@@ -442,18 +579,18 @@ Figure 9.4: Six decision trees based on different bootstrap samples.
 <li><strong>Split-variable randomization</strong>: each time a split is to be performed, the search for the split variable is limited to a random subset of <em>m</em> of the <em>p</em> variables. Typical default values for <span class="math inline">\(m\)</span> are <span class="math inline">\(m = \frac{p}{3}\)</span> (regression problems) and <span class="math inline">\(m = \sqrt{p}\)</span> for classification models. However, this should be considered a tuning parameter. When <span class="math inline">\(m = p\)</span>, the randomization amounts to using only step 1 and is the same as <em>bagging</em>.</li>
 </ol>
 <p>The basic algorithm for a random forest model can be generalized to the following:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="fl">1.</span>  Given training data set</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="fl">2.</span>  Select number of trees to <span class="kw">build</span> (ntrees)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="fl">3.</span>  <span class="cf">for</span> i =<span class="st"> </span><span class="dv">1</span> to ntrees do</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="fl">4.</span>  <span class="op">|</span><span class="st">  </span>Generate a bootstrap sample of the original data</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="fl">5.</span>  <span class="op">|</span><span class="st">  </span>Grow a regression or classification tree to the bootstrapped data</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="fl">6.</span>  <span class="op">|</span><span class="st">  </span><span class="cf">for</span> each split do</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="fl">7.</span>  <span class="op">|</span><span class="st">  </span><span class="er">|</span><span class="st"> </span>Select m variables at random from all p variables</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="fl">8.</span>  <span class="op">|</span><span class="st">  </span><span class="er">|</span><span class="st"> </span>Pick the best variable<span class="op">/</span>split<span class="op">-</span>point among the m</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="fl">9.</span>  <span class="op">|</span><span class="st">  </span><span class="er">|</span><span class="st"> </span>Split the node into two child nodes</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="fl">10.</span> <span class="op">|</span><span class="st">  </span>end</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="fl">11.</span> <span class="op">|</span><span class="st"> </span>Use typical tree model stopping criteria to determine when a tree is <span class="kw">complete</span> (but do not prune)</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="fl">12.</span> end</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="fl">1.</span>  Given training data set</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="fl">2.</span>  Select number of trees to <span class="kw">build</span> (ntrees)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="fl">3.</span>  <span class="cf">for</span> i =<span class="st"> </span><span class="dv">1</span> to ntrees do</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="fl">4.</span>  <span class="op">|</span><span class="st">  </span>Generate a bootstrap sample of the original data</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="fl">5.</span>  <span class="op">|</span><span class="st">  </span>Grow a regression or classification tree to the bootstrapped data</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="fl">6.</span>  <span class="op">|</span><span class="st">  </span><span class="cf">for</span> each split do</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="fl">7.</span>  <span class="op">|</span><span class="st">  </span><span class="er">|</span><span class="st"> </span>Select m variables at random from all p variables</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="fl">8.</span>  <span class="op">|</span><span class="st">  </span><span class="er">|</span><span class="st"> </span>Pick the best variable<span class="op">/</span>split<span class="op">-</span>point among the m</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="fl">9.</span>  <span class="op">|</span><span class="st">  </span><span class="er">|</span><span class="st"> </span>Split the node into two child nodes</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="fl">10.</span> <span class="op">|</span><span class="st">  </span>end</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="fl">11.</span> <span class="op">|</span><span class="st"> </span>Use typical tree model stopping criteria to determine when a tree is <span class="kw">complete</span> (but do not prune)</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="fl">12.</span> end</a></code></pre></div>
 <p>Since the algorithm randomly selects a bootstrap sample to train on <strong><em>and</em></strong> predictors to use at each split, tree correlation will be lessened beyond bagged trees.</p>
 <div id="oob-error-vs.test-set-error" class="section level3">
 <h3><span class="header-section-number">9.4.1</span> OOB error vs. test set error</h3>
@@ -461,7 +598,7 @@ Figure 9.4: Six decision trees based on different bootstrap samples.
 <div class="figure" style="text-align: center"><span id="fig:rf-oob-example-image"></span>
 <img src="illustrations/oob-error-compare-1.svg" alt="Random forest out-of-bag error versus validation error." width="70%" height="70%" />
 <p class="caption">
-Figure 9.5: Random forest out-of-bag error versus validation error.
+Figure 9.4: Random forest out-of-bag error versus validation error.
 </p>
 </div>
 <p>Furthermore, many packages do not keep track of which observations were part of the OOB sample for a given tree and which were not. If you are comparing multiple models to one-another, you’d want to score each on the same validation set to compare performance. Also, although technically it is possible to compute certain metrics such as root mean squared logarithmic error (RMSLE) on the OOB sample, it is not built in to all packages. So if you are looking to compare multiple models or use a slightly less traditional loss function you will likely want to still perform cross validation.</p>
@@ -469,48 +606,48 @@ Figure 9.5: Random forest out-of-bag error versus validation error.
 </div>
 <div id="fitting-a-basic-random-forest-model" class="section level2">
 <h2><span class="header-section-number">9.5</span> Fitting a basic random forest model</h2>
-<p>There are over 20 random forest packages in R.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> To demonstrate the basic implementation we illustrate the use of the <strong>randomForest</strong> package <span class="citation">(Breiman et al. <a href="#ref-R-randomForest">2018</a>)</span>, the oldest and most well known implementation of the Random Forest algorithm in R.</p>
+<p>There are over 20 random forest packages in R.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> To demonstrate the basic implementation we illustrate the use of the <strong>randomForest</strong> package <span class="citation">(Breiman et al. <a href="#ref-R-randomForest">2018</a>)</span>, the oldest and most well known implementation of the Random Forest algorithm in R.</p>
 <div class="tip">
 <p>
 However, as your data set grows in size <strong>randomForest</strong> does not scale well (although you can parallelize with <strong>foreach</strong>).
 </p>
 </div>
 <p><code>randomForest()</code> can use the formula or separate x, y matrix notation for specifying our model. Below we apply the default <strong>randomForest</strong> model using the formulaic specification. The default random forest performs 500 trees and <span class="math inline">\(\frac{features}{3} = 26\)</span> randomly selected predictor variables at each split. Averaging across all 500 trees provides an OOB <span class="math inline">\(MSE = 661089658\)</span> (<span class="math inline">\(RMSE = \$25,711\)</span>).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># for reproduciblity</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># default RF model</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">rf1 &lt;-<span class="st"> </span><span class="kw">randomForest</span>(</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">  <span class="dt">data =</span> ames_train</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">)</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">rf1</a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">## </a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">## Call:</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">##  randomForest(formula = Sale_Price ~ ., data = ames_train) </a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">##                Type of random forest: regression</a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">##                      Number of trees: 500</a>
-<a class="sourceLine" id="cb5-16" data-line-number="16">## No. of variables tried at each split: 26</a>
-<a class="sourceLine" id="cb5-17" data-line-number="17">## </a>
-<a class="sourceLine" id="cb5-18" data-line-number="18">##           Mean of squared residuals: 661089658</a>
-<a class="sourceLine" id="cb5-19" data-line-number="19">##                     % Var explained: 89.8</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># for reproduciblity</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># default RF model</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">rf1 &lt;-<span class="st"> </span><span class="kw">randomForest</span>(</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">  <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">  <span class="dt">data =</span> ames_train</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">rf1</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">## </a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">## Call:</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">##  randomForest(formula = Sale_Price ~ ., data = ames_train) </a>
+<a class="sourceLine" id="cb9-14" data-line-number="14">##                Type of random forest: regression</a>
+<a class="sourceLine" id="cb9-15" data-line-number="15">##                      Number of trees: 500</a>
+<a class="sourceLine" id="cb9-16" data-line-number="16">## No. of variables tried at each split: 26</a>
+<a class="sourceLine" id="cb9-17" data-line-number="17">## </a>
+<a class="sourceLine" id="cb9-18" data-line-number="18">##           Mean of squared residuals: 661089658</a>
+<a class="sourceLine" id="cb9-19" data-line-number="19">##                     % Var explained: 89.8</a></code></pre></div>
 <p>Plotting the model will illustrate the OOB error rate as we average across more trees and shows that our error rate stabalizes with around 100 trees but continues to decrease slowly until around 300 or so trees.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">plot</span>(rf1)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">plot</span>(rf1)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:rf-basic-model-plot"></span>
 <img src="abar_files/figure-html/rf-basic-model-plot-1.png" alt="OOB error (MSE) as a function of the number of trees.  We see the MSE reduces quickly for the first 100 trees and then slowly thereafter.  We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined." width="480" />
 <p class="caption">
-Figure 9.6: OOB error (MSE) as a function of the number of trees. We see the MSE reduces quickly for the first 100 trees and then slowly thereafter. We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined.
+Figure 9.5: OOB error (MSE) as a function of the number of trees. We see the MSE reduces quickly for the first 100 trees and then slowly thereafter. We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined.
 </p>
 </div>
 <p>The plotted error rate above is based on the OOB sample error and can be accessed directly at <code>rf1$mse</code>. Thus, we can find which number of trees provides the lowest error rate, which is 447 trees providing an average home sales price error of $25,649.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># number of trees with lowest MSE</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">which.min</span>(rf1<span class="op">$</span>mse)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">## [1] 447</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># RMSE of this optimal random forest</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw">sqrt</span>(rf1<span class="op">$</span>mse[<span class="kw">which.min</span>(rf1<span class="op">$</span>mse)])</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">## [1] 25648.78</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># number of trees with lowest MSE</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">which.min</span>(rf1<span class="op">$</span>mse)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">## [1] 447</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co"># RMSE of this optimal random forest</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw">sqrt</span>(rf1<span class="op">$</span>mse[<span class="kw">which.min</span>(rf1<span class="op">$</span>mse)])</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">## [1] 25648.78</a></code></pre></div>
 <p>Random forests are one of the best “out-of-the-box” machine learning algorithms. They typically perform remarkably well with very little tuning required. As illustrated above, we were able to get an RMSE of $25,649 without any tuning which is nearly as good as the best, fully tuned model we’ve explored thus far. However, we can still seek improvement by tuning hyperparameters in our random forest model.</p>
 </div>
 <div id="tuning-1" class="section level2">
@@ -539,84 +676,84 @@ Number of candidate variables to select from at each split.
 <li><strong>Split rule</strong>:As stated in the introduction, the most traditional splitting rules are based on minimizing the variance or MSE across the terminal nodes for regression problems and Cross-entropy or Gini index for classification problems. However, additional splitrules have been developed that can offer improved predictive accuracy. For example, the extra trees split rule chooses cut-points fully at random and uses the whole learning sample (rather than a bootstrap replica) to grow the trees <span class="citation">(Geurts, Ernst, and Wehenkel <a href="#ref-geurts2006extremely">2006</a>)</span>.</li>
 </ul>
 <p>Tuning a larger set of hyperparameters requires a larger grid search than we’ve performed thus far. Unfortunately, this is where <strong>randomForest</strong> becomes quite inefficient since it does not scale well. Instead, we can use <strong>ranger</strong> <span class="citation">(Wright, Wager, and Probst <a href="#ref-R-ranger">2018</a>)</span> which is a C++ implementation of Brieman’s random forest algorithm and, as the following illustrates, is over 27 times faster than <strong>randomForest</strong>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># names of features</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">features &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(ames_train), <span class="st">&quot;Sale_Price&quot;</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># randomForest speed</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw">system.time</span>(</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">  ames_randomForest &lt;-<span class="st"> </span><span class="kw">randomForest</span>(</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">    <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">    <span class="dt">data    =</span> ames_train, </a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">    <span class="dt">ntree   =</span> <span class="dv">500</span>,</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10">    <span class="dt">mtry    =</span> <span class="kw">floor</span>(<span class="kw">length</span>(features) <span class="op">/</span><span class="st"> </span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">  )</a>
-<a class="sourceLine" id="cb8-12" data-line-number="12">)</a>
-<a class="sourceLine" id="cb8-13" data-line-number="13">##    user  system elapsed </a>
-<a class="sourceLine" id="cb8-14" data-line-number="14">##  35.321   0.157  35.487</a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co"># ranger speed</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="kw">system.time</span>(</a>
-<a class="sourceLine" id="cb8-18" data-line-number="18">  ames_ranger &lt;-<span class="st"> </span><span class="kw">ranger</span>(</a>
-<a class="sourceLine" id="cb8-19" data-line-number="19">    <span class="dt">formula   =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
-<a class="sourceLine" id="cb8-20" data-line-number="20">    <span class="dt">data      =</span> ames_train, </a>
-<a class="sourceLine" id="cb8-21" data-line-number="21">    <span class="dt">num.trees =</span> <span class="dv">500</span>,</a>
-<a class="sourceLine" id="cb8-22" data-line-number="22">    <span class="dt">mtry      =</span> <span class="kw">floor</span>(<span class="kw">length</span>(features) <span class="op">/</span><span class="st"> </span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb8-23" data-line-number="23">  )</a>
-<a class="sourceLine" id="cb8-24" data-line-number="24">)</a>
-<a class="sourceLine" id="cb8-25" data-line-number="25">##    user  system elapsed </a>
-<a class="sourceLine" id="cb8-26" data-line-number="26">##   7.009   0.132   1.087</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># names of features</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">features &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(ames_train), <span class="st">&quot;Sale_Price&quot;</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># randomForest speed</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="kw">system.time</span>(</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">  ames_randomForest &lt;-<span class="st"> </span><span class="kw">randomForest</span>(</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">    <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">    <span class="dt">data    =</span> ames_train, </a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">    <span class="dt">ntree   =</span> <span class="dv">500</span>,</a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">    <span class="dt">mtry    =</span> <span class="kw">floor</span>(<span class="kw">length</span>(features) <span class="op">/</span><span class="st"> </span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">  )</a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">)</a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">##    user  system elapsed </a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">##  35.321   0.157  35.487</a>
+<a class="sourceLine" id="cb12-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="co"># ranger speed</span></a>
+<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="kw">system.time</span>(</a>
+<a class="sourceLine" id="cb12-18" data-line-number="18">  ames_ranger &lt;-<span class="st"> </span><span class="kw">ranger</span>(</a>
+<a class="sourceLine" id="cb12-19" data-line-number="19">    <span class="dt">formula   =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
+<a class="sourceLine" id="cb12-20" data-line-number="20">    <span class="dt">data      =</span> ames_train, </a>
+<a class="sourceLine" id="cb12-21" data-line-number="21">    <span class="dt">num.trees =</span> <span class="dv">500</span>,</a>
+<a class="sourceLine" id="cb12-22" data-line-number="22">    <span class="dt">mtry      =</span> <span class="kw">floor</span>(<span class="kw">length</span>(features) <span class="op">/</span><span class="st"> </span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb12-23" data-line-number="23">  )</a>
+<a class="sourceLine" id="cb12-24" data-line-number="24">)</a>
+<a class="sourceLine" id="cb12-25" data-line-number="25">##    user  system elapsed </a>
+<a class="sourceLine" id="cb12-26" data-line-number="26">##   7.009   0.132   1.087</a></code></pre></div>
 <div id="tuning-via-ranger" class="section level3">
 <h3><span class="header-section-number">9.6.1</span> Tuning via ranger</h3>
 <p>There are two approaches to tuning a <strong>ranger</strong> model. The first is to tune <strong>ranger</strong> manually using a <code>for</code> loop. To perform a manual grid search, first we want to construct our grid of hyperparameters. We’re going to search across 48 different models with varying mtry, minimum node size, sample size, and trying different split rules.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># create a tuning grid</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">  <span class="dt">mtry            =</span> <span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">35</span>, <span class="dt">by =</span> <span class="dv">5</span>),</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">  <span class="dt">min.node.size   =</span> <span class="kw">seq</span>(<span class="dv">3</span>, <span class="dv">9</span>, <span class="dt">by =</span> <span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">  <span class="dt">sample.fraction =</span> <span class="kw">c</span>(.<span class="dv">632</span>, <span class="fl">.80</span>),</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">  <span class="dt">splitrule       =</span> <span class="kw">c</span>(<span class="st">&quot;variance&quot;</span>, <span class="st">&quot;extratrees&quot;</span>),</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">  <span class="dt">OOB_RMSE        =</span> <span class="dv">0</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">)</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw">dim</span>(hyper_grid)</a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">## [1] 48  5</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># create a tuning grid</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">mtry            =</span> <span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">35</span>, <span class="dt">by =</span> <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="dt">min.node.size   =</span> <span class="kw">seq</span>(<span class="dv">3</span>, <span class="dv">9</span>, <span class="dt">by =</span> <span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">  <span class="dt">sample.fraction =</span> <span class="kw">c</span>(.<span class="dv">632</span>, <span class="fl">.80</span>),</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">  <span class="dt">splitrule       =</span> <span class="kw">c</span>(<span class="st">&quot;variance&quot;</span>, <span class="st">&quot;extratrees&quot;</span>),</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">  <span class="dt">OOB_RMSE        =</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="kw">dim</span>(hyper_grid)</a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">## [1] 48  5</a></code></pre></div>
 <p>We loop through each hyperparameter combination and apply 500 trees since our previous examples illustrated that 500 was plenty to achieve a stable error rate. Also note that we set the random number generator seed. This allows us to consistently sample the same observations for each sample size and make it more clear the impact that each change makes. Our OOB RMSE ranges between ~25,900-28,500. Our top 10 performing models all have RMSE values right around 26,000 and the results show that models with larger sample sizes (80%) and a variance splitrule perform best. However, no definitive evidence suggests that certain values of <code>mtry</code> or <code>min.node.size</code> are better than other values.</p>
 <div class="warning">
 <p>
 This grid search took 69 seconds to complete.
 </p>
 </div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(<span class="kw">nrow</span>(hyper_grid))) {</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  </a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="co"># train model</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">  model &lt;-<span class="st"> </span><span class="kw">ranger</span>(</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="dt">formula         =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">    <span class="dt">data            =</span> ames_train, </a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">    <span class="dt">num.trees       =</span> <span class="dv">500</span>,</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">    <span class="dt">mtry            =</span> hyper_grid<span class="op">$</span>mtry[i],</a>
-<a class="sourceLine" id="cb10-9" data-line-number="9">    <span class="dt">min.node.size   =</span> hyper_grid<span class="op">$</span>min.node.size[i],</a>
-<a class="sourceLine" id="cb10-10" data-line-number="10">    <span class="dt">sample.fraction =</span> hyper_grid<span class="op">$</span>sample.fraction[i],</a>
-<a class="sourceLine" id="cb10-11" data-line-number="11">    <span class="dt">splitrule       =</span> hyper_grid<span class="op">$</span>splitrule[i],</a>
-<a class="sourceLine" id="cb10-12" data-line-number="12">    <span class="dt">seed            =</span> <span class="dv">123</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13">  )</a>
-<a class="sourceLine" id="cb10-14" data-line-number="14">  </a>
-<a class="sourceLine" id="cb10-15" data-line-number="15">  <span class="co"># add OOB error to grid</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16">  hyper_grid<span class="op">$</span>OOB_RMSE[i] &lt;-<span class="st"> </span><span class="kw">sqrt</span>(model<span class="op">$</span>prediction.error)</a>
-<a class="sourceLine" id="cb10-17" data-line-number="17">}</a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19">hyper_grid <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">arrange</span>(OOB_RMSE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb10-22" data-line-number="22">##    mtry min.node.size sample.fraction splitrule OOB_RMSE</a>
-<a class="sourceLine" id="cb10-23" data-line-number="23">## 1    20             3             0.8  variance 25963.96</a>
-<a class="sourceLine" id="cb10-24" data-line-number="24">## 2    25             3             0.8  variance 25981.28</a>
-<a class="sourceLine" id="cb10-25" data-line-number="25">## 3    20             6             0.8  variance 25981.66</a>
-<a class="sourceLine" id="cb10-26" data-line-number="26">## 4    20             9             0.8  variance 26091.08</a>
-<a class="sourceLine" id="cb10-27" data-line-number="27">## 5    30             3             0.8  variance 26123.07</a>
-<a class="sourceLine" id="cb10-28" data-line-number="28">## 6    25             6             0.8  variance 26145.15</a>
-<a class="sourceLine" id="cb10-29" data-line-number="29">## 7    30             6             0.8  variance 26167.42</a>
-<a class="sourceLine" id="cb10-30" data-line-number="30">## 8    35             3             0.8  variance 26175.66</a>
-<a class="sourceLine" id="cb10-31" data-line-number="31">## 9    35             6             0.8  variance 26189.23</a>
-<a class="sourceLine" id="cb10-32" data-line-number="32">## 10   25             9             0.8  variance 26210.44</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">seq_len</span>(<span class="kw">nrow</span>(hyper_grid))) {</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  </a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="co"># train model</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  model &lt;-<span class="st"> </span><span class="kw">ranger</span>(</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">    <span class="dt">formula         =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">    <span class="dt">data            =</span> ames_train, </a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">    <span class="dt">num.trees       =</span> <span class="dv">500</span>,</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">    <span class="dt">mtry            =</span> hyper_grid<span class="op">$</span>mtry[i],</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">    <span class="dt">min.node.size   =</span> hyper_grid<span class="op">$</span>min.node.size[i],</a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">    <span class="dt">sample.fraction =</span> hyper_grid<span class="op">$</span>sample.fraction[i],</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">    <span class="dt">splitrule       =</span> hyper_grid<span class="op">$</span>splitrule[i],</a>
+<a class="sourceLine" id="cb14-12" data-line-number="12">    <span class="dt">seed            =</span> <span class="dv">123</span></a>
+<a class="sourceLine" id="cb14-13" data-line-number="13">  )</a>
+<a class="sourceLine" id="cb14-14" data-line-number="14">  </a>
+<a class="sourceLine" id="cb14-15" data-line-number="15">  <span class="co"># add OOB error to grid</span></a>
+<a class="sourceLine" id="cb14-16" data-line-number="16">  hyper_grid<span class="op">$</span>OOB_RMSE[i] &lt;-<span class="st"> </span><span class="kw">sqrt</span>(model<span class="op">$</span>prediction.error)</a>
+<a class="sourceLine" id="cb14-17" data-line-number="17">}</a>
+<a class="sourceLine" id="cb14-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb14-19" data-line-number="19">hyper_grid <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">arrange</span>(OOB_RMSE) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-21" data-line-number="21"><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb14-22" data-line-number="22">##    mtry min.node.size sample.fraction splitrule OOB_RMSE</a>
+<a class="sourceLine" id="cb14-23" data-line-number="23">## 1    20             3             0.8  variance 25963.96</a>
+<a class="sourceLine" id="cb14-24" data-line-number="24">## 2    25             3             0.8  variance 25981.28</a>
+<a class="sourceLine" id="cb14-25" data-line-number="25">## 3    20             6             0.8  variance 25981.66</a>
+<a class="sourceLine" id="cb14-26" data-line-number="26">## 4    20             9             0.8  variance 26091.08</a>
+<a class="sourceLine" id="cb14-27" data-line-number="27">## 5    30             3             0.8  variance 26123.07</a>
+<a class="sourceLine" id="cb14-28" data-line-number="28">## 6    25             6             0.8  variance 26145.15</a>
+<a class="sourceLine" id="cb14-29" data-line-number="29">## 7    30             6             0.8  variance 26167.42</a>
+<a class="sourceLine" id="cb14-30" data-line-number="30">## 8    35             3             0.8  variance 26175.66</a>
+<a class="sourceLine" id="cb14-31" data-line-number="31">## 9    35             6             0.8  variance 26189.23</a>
+<a class="sourceLine" id="cb14-32" data-line-number="32">## 10   25             9             0.8  variance 26210.44</a></code></pre></div>
 <p>However, using this approach does not provide us with a cross validated measure of error. To get a k-fold CV error, we would have to expand our <code>for</code> loop approach or use an alternative approach. One such approach follows.</p>
 </div>
 <div id="tuning-via-caret" class="section level3">
@@ -627,41 +764,41 @@ This grid search took 69 seconds to complete.
 If you do not know what hyperparameters <strong>caret</strong> allows you to tune for a specific model you can find that info at <a href="https://topepo.github.io/caret/train-models-by-tag.html" class="uri">https://topepo.github.io/caret/train-models-by-tag.html</a> or with <code>caret::getModelInfo</code>. For example, we can find the parameters available for a <code>ranger</code> with <code>caret::getModelInfo(“ranger”)<span class="math inline">\(ranger\)</span>parameter</code>.
 </p>
 </div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># create a tuning grid</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">  <span class="dt">mtry            =</span> <span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">35</span>, <span class="dt">by =</span> <span class="dv">5</span>),</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">  <span class="dt">min.node.size   =</span> <span class="kw">seq</span>(<span class="dv">3</span>, <span class="dv">9</span>, <span class="dt">by =</span> <span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">  <span class="dt">splitrule       =</span> <span class="kw">c</span>(<span class="st">&quot;variance&quot;</span>, <span class="st">&quot;extratrees&quot;</span>)</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">  )</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># create a tuning grid</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">mtry            =</span> <span class="kw">seq</span>(<span class="dv">20</span>, <span class="dv">35</span>, <span class="dt">by =</span> <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">  <span class="dt">min.node.size   =</span> <span class="kw">seq</span>(<span class="dv">3</span>, <span class="dv">9</span>, <span class="dt">by =</span> <span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">  <span class="dt">splitrule       =</span> <span class="kw">c</span>(<span class="st">&quot;variance&quot;</span>, <span class="st">&quot;extratrees&quot;</span>)</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">  )</a></code></pre></div>
 <p>Tuning with <strong>caret</strong> provides similar results as our <strong>ranger</strong> grid search. Both results suggest <code>mtry = 20</code> and <code>min.node.size = 3</code>. With <strong>ranger</strong>, our OOB RMSE was 25963.96 and with <strong>caret</strong> our 10-fold CV RMSE was 25531.47.</p>
 <div class="warning">
 <p>
 This grid search took a little over 6 minutes to complete.
 </p>
 </div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># cross validated model</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">tuned_rf &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">x =</span> <span class="kw">subset</span>(ames_train, <span class="dt">select =</span> <span class="op">-</span>Sale_Price),</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="dt">y =</span> ames_train<span class="op">$</span>Sale_Price,</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">  <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>,</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">  <span class="dt">tuneGrid =</span> hyper_grid,</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">  <span class="dt">num.trees =</span> <span class="dv">500</span>,</a>
-<a class="sourceLine" id="cb12-10" data-line-number="10">  <span class="dt">seed =</span> <span class="dv">123</span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co"># best model</span></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14">tuned_rf<span class="op">$</span>bestTune</a>
-<a class="sourceLine" id="cb12-15" data-line-number="15">##   mtry splitrule min.node.size</a>
-<a class="sourceLine" id="cb12-16" data-line-number="16">## 7   25  variance             3</a>
-<a class="sourceLine" id="cb12-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb12-18" data-line-number="18"><span class="co"># plot results</span></a>
-<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="kw">ggplot</span>(tuned_rf)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># cross validated model</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">tuned_rf &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">  <span class="dt">x =</span> <span class="kw">subset</span>(ames_train, <span class="dt">select =</span> <span class="op">-</span>Sale_Price),</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">  <span class="dt">y =</span> ames_train<span class="op">$</span>Sale_Price,</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">  <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>,</a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8">  <span class="dt">tuneGrid =</span> hyper_grid,</a>
+<a class="sourceLine" id="cb16-9" data-line-number="9">  <span class="dt">num.trees =</span> <span class="dv">500</span>,</a>
+<a class="sourceLine" id="cb16-10" data-line-number="10">  <span class="dt">seed =</span> <span class="dv">123</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11">)</a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co"># best model</span></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14">tuned_rf<span class="op">$</span>bestTune</a>
+<a class="sourceLine" id="cb16-15" data-line-number="15">##   mtry splitrule min.node.size</a>
+<a class="sourceLine" id="cb16-16" data-line-number="16">## 7   25  variance             3</a>
+<a class="sourceLine" id="cb16-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="co"># plot results</span></a>
+<a class="sourceLine" id="cb16-19" data-line-number="19"><span class="kw">ggplot</span>(tuned_rf)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:rf-grid-search2"></span>
 <img src="abar_files/figure-html/rf-grid-search2-1.png" alt="Cross validated RMSE for the __caret__ grid search." width="672" />
 <p class="caption">
-Figure 9.7: Cross validated RMSE for the <strong>caret</strong> grid search.
+Figure 9.6: Cross validated RMSE for the <strong>caret</strong> grid search.
 </p>
 </div>
 </div>
@@ -679,89 +816,89 @@ Figure 9.7: Cross validated RMSE for the <strong>caret</strong> grid search.
 Once you’ve identified the optimal parameter values from the grid search, you will want to re-run your model with these hyperparameter values.
 </p>
 </div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># re-run model with impurity-based variable importance</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">rf_impurity &lt;-<span class="st"> </span><span class="kw">ranger</span>(</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="dt">data            =</span> ames_train, </a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">  <span class="dt">num.trees       =</span> <span class="dv">500</span>,</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">  <span class="dt">mtry            =</span> <span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">  <span class="dt">min.node.size   =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">  <span class="dt">sample.fraction =</span> <span class="fl">.80</span>,</a>
-<a class="sourceLine" id="cb13-9" data-line-number="9">  <span class="dt">splitrule       =</span> <span class="st">&quot;variance&quot;</span>,</a>
-<a class="sourceLine" id="cb13-10" data-line-number="10">  <span class="dt">importance      =</span> <span class="st">&#39;impurity&#39;</span>,</a>
-<a class="sourceLine" id="cb13-11" data-line-number="11">  <span class="dt">verbose         =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb13-12" data-line-number="12">  <span class="dt">seed            =</span> <span class="dv">123</span></a>
-<a class="sourceLine" id="cb13-13" data-line-number="13">  )</a>
-<a class="sourceLine" id="cb13-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co"># re-run model with permutation-based variable importance</span></a>
-<a class="sourceLine" id="cb13-16" data-line-number="16">rf_permutation &lt;-<span class="st"> </span><span class="kw">ranger</span>(</a>
-<a class="sourceLine" id="cb13-17" data-line-number="17">  <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
-<a class="sourceLine" id="cb13-18" data-line-number="18">  <span class="dt">data            =</span> ames_train, </a>
-<a class="sourceLine" id="cb13-19" data-line-number="19">  <span class="dt">num.trees       =</span> <span class="dv">500</span>,</a>
-<a class="sourceLine" id="cb13-20" data-line-number="20">  <span class="dt">mtry            =</span> <span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb13-21" data-line-number="21">  <span class="dt">min.node.size   =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb13-22" data-line-number="22">  <span class="dt">sample.fraction =</span> <span class="fl">.80</span>,</a>
-<a class="sourceLine" id="cb13-23" data-line-number="23">  <span class="dt">splitrule       =</span> <span class="st">&quot;variance&quot;</span>,</a>
-<a class="sourceLine" id="cb13-24" data-line-number="24">  <span class="dt">importance      =</span> <span class="st">&#39;permutation&#39;</span>,</a>
-<a class="sourceLine" id="cb13-25" data-line-number="25">  <span class="dt">verbose         =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb13-26" data-line-number="26">  <span class="dt">seed            =</span> <span class="dv">123</span></a>
-<a class="sourceLine" id="cb13-27" data-line-number="27">  )</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># re-run model with impurity-based variable importance</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">rf_impurity &lt;-<span class="st"> </span><span class="kw">ranger</span>(</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">  <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">  <span class="dt">data            =</span> ames_train, </a>
+<a class="sourceLine" id="cb17-5" data-line-number="5">  <span class="dt">num.trees       =</span> <span class="dv">500</span>,</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6">  <span class="dt">mtry            =</span> <span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7">  <span class="dt">min.node.size   =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8">  <span class="dt">sample.fraction =</span> <span class="fl">.80</span>,</a>
+<a class="sourceLine" id="cb17-9" data-line-number="9">  <span class="dt">splitrule       =</span> <span class="st">&quot;variance&quot;</span>,</a>
+<a class="sourceLine" id="cb17-10" data-line-number="10">  <span class="dt">importance      =</span> <span class="st">&#39;impurity&#39;</span>,</a>
+<a class="sourceLine" id="cb17-11" data-line-number="11">  <span class="dt">verbose         =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb17-12" data-line-number="12">  <span class="dt">seed            =</span> <span class="dv">123</span></a>
+<a class="sourceLine" id="cb17-13" data-line-number="13">  )</a>
+<a class="sourceLine" id="cb17-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co"># re-run model with permutation-based variable importance</span></a>
+<a class="sourceLine" id="cb17-16" data-line-number="16">rf_permutation &lt;-<span class="st"> </span><span class="kw">ranger</span>(</a>
+<a class="sourceLine" id="cb17-17" data-line-number="17">  <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>., </a>
+<a class="sourceLine" id="cb17-18" data-line-number="18">  <span class="dt">data            =</span> ames_train, </a>
+<a class="sourceLine" id="cb17-19" data-line-number="19">  <span class="dt">num.trees       =</span> <span class="dv">500</span>,</a>
+<a class="sourceLine" id="cb17-20" data-line-number="20">  <span class="dt">mtry            =</span> <span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb17-21" data-line-number="21">  <span class="dt">min.node.size   =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb17-22" data-line-number="22">  <span class="dt">sample.fraction =</span> <span class="fl">.80</span>,</a>
+<a class="sourceLine" id="cb17-23" data-line-number="23">  <span class="dt">splitrule       =</span> <span class="st">&quot;variance&quot;</span>,</a>
+<a class="sourceLine" id="cb17-24" data-line-number="24">  <span class="dt">importance      =</span> <span class="st">&#39;permutation&#39;</span>,</a>
+<a class="sourceLine" id="cb17-25" data-line-number="25">  <span class="dt">verbose         =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb17-26" data-line-number="26">  <span class="dt">seed            =</span> <span class="dv">123</span></a>
+<a class="sourceLine" id="cb17-27" data-line-number="27">  )</a></code></pre></div>
 <p>For both options, you can directly access the variable importance values with <code>model_name$variable.importance</code>. However, here we’ll plot the variable importance using the <code>vip</code> package. Typically, you will not see the same variable importance order between the two options; however, you will often see similar variables at the top of the plots. Consquently, in this example, we can comfortably state that there appears to be enough evidence to suggest that two variables stand out as most influential:</p>
 <ul>
 <li><code>Overall_Qual</code></li>
 <li><code>Gr_Liv_Area</code></li>
 </ul>
 <p>Looking at the next ~10 variables in both plots, you will also see some commonality in influential variables (i.e. <code>Garage_Cars</code>, <code>Bsmt_Qual</code>, <code>Year_Built</code>, <code>Exter_Qual</code>).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">p1 &lt;-<span class="st"> </span><span class="kw">vip</span>(rf_impurity, <span class="dt">num_features =</span> <span class="dv">25</span>, <span class="dt">bar =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Impurity-based variable importance&quot;</span>)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">p2 &lt;-<span class="st"> </span><span class="kw">vip</span>(rf_permutation, <span class="dt">num_features =</span> <span class="dv">25</span>, <span class="dt">bar =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Permutation-based variable importance&quot;</span>)</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">p1 &lt;-<span class="st"> </span><span class="kw">vip</span>(rf_impurity, <span class="dt">num_features =</span> <span class="dv">25</span>, <span class="dt">bar =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Impurity-based variable importance&quot;</span>)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">p2 &lt;-<span class="st"> </span><span class="kw">vip</span>(rf_permutation, <span class="dt">num_features =</span> <span class="dv">25</span>, <span class="dt">bar =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Permutation-based variable importance&quot;</span>)</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:rf-vip-plots"></span>
 <img src="abar_files/figure-html/rf-vip-plots-1.png" alt="Top 25 most important variables based on impurity (left) and permutation (right)." width="864" />
 <p class="caption">
-Figure 9.8: Top 25 most important variables based on impurity (left) and permutation (right).
+Figure 9.7: Top 25 most important variables based on impurity (left) and permutation (right).
 </p>
 </div>
 <p>To better understand the relationship between these important features and <code>Sale_Price</code>, we can create partial dependence plots (PDPs). If you recall in the linear and regularized regression sections, we saw that the linear model assumed a continously increasing relationship between <code>Gr_Liv_Area</code> and <code>Sale_Price</code>. In the MARS chapter, we saw as homes exceed 2,945 square feet, each additional square foot demands a higher marginal increase in sale price than homes with less than 2,945 square feet. However, in between the knots of a MARS model, the relationship will remain linear. However, the PDP plot below displays how random forest models can capture unique non-linear and non-monotonic relationships between predictors and the target. In this case, <code>Sale_Price</code> appears to not be influenced by <code>Gr_Liv_Area</code> values below 750 sqft or above 3500 sqft. This change in realtionship was not well captured by the prior parametric models.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># partial dependence of Sale_Price on Gr_Liv_Area</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">rf_impurity <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">grid.resolution =</span> <span class="dv">50</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">  </span><span class="kw">autoplot</span>(<span class="dt">rug =</span> <span class="ot">TRUE</span>, <span class="dt">train =</span> ames_train)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># partial dependence of Sale_Price on Gr_Liv_Area</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">rf_impurity <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">grid.resolution =</span> <span class="dv">50</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="st">  </span><span class="kw">autoplot</span>(<span class="dt">rug =</span> <span class="ot">TRUE</span>, <span class="dt">train =</span> ames_train)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:rf-pdp-GrLiv-Area"></span>
 <img src="abar_files/figure-html/rf-pdp-GrLiv-Area-1.png" alt="The mean predicted sale price as the above ground living area increases." width="384" />
 <p class="caption">
-Figure 9.9: The mean predicted sale price as the above ground living area increases.
+Figure 9.8: The mean predicted sale price as the above ground living area increases.
 </p>
 </div>
 <p>Additionally, if we assess the relationship between the <code>Overall_Qual</code> predictor and <code>Sale_Price</code>, we see a continual increase as the overall quality increases. This provides a more comprehensive understanding of the relationship than the results we saw in the regularized regression section (<a href="regularized-regression.html#lm-features">7.5</a>). We see that the largest impact on <code>Sale_Price</code> occurs when houses go from “Good” overall quality to “Very Good”.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># partial dependence of Sale_Price on Overall_Qual</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">rf_impurity <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Overall_Qual&quot;</span>, <span class="dt">train =</span> <span class="kw">as.data.frame</span>(ames_train)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">  </span><span class="kw">autoplot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># partial dependence of Sale_Price on Overall_Qual</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">rf_impurity <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Overall_Qual&quot;</span>, <span class="dt">train =</span> <span class="kw">as.data.frame</span>(ames_train)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">  </span><span class="kw">autoplot</span>()</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:rf-pdp-Overall-Qual"></span>
 <img src="abar_files/figure-html/rf-pdp-Overall-Qual-1.png" alt="The mean predicted sale price for each level of the overall quality variable." width="768" />
 <p class="caption">
-Figure 9.10: The mean predicted sale price for each level of the overall quality variable.
+Figure 9.9: The mean predicted sale price for each level of the overall quality variable.
 </p>
 </div>
 <p>Individual conditional expectation (ICE) curves <span class="citation">(Goldstein et al. <a href="#ref-goldstein2015peeking">2015</a>)</span> are an extension of PDP plots but, rather than plot the <em>average</em> marginal effect on the response variable, we plot the change in the predicted response variable <strong><em>for each observation</em></strong> as we vary each predictor variable. Below shows the regular ICE curve plot (left) and the centered ICE curves (right). When the curves have a wide range of intercepts and are consequently “stacked” on each other, heterogeneity in the response variable values due to marginal changes in the predictor variable of interest can be difficult to discern. The centered ICE can help draw these inferences out and can highlight any strong heterogeneity in our results.</p>
 <p>The plots below show that marginal changes in <code>Gr_Liv_Area</code> have a fairly homogenous effect on our response variable. As <code>Gr_Liv_Area</code> increases, the vast majority of observations show a similar increasing effect on the predicted <code>Sale_Price</code> value. The primary differences is in the magnitude of the increasing effect. However, in the centered ICE plot you see evidence of a few observations that display a different pattern. Some have a higher <span class="math inline">\(\hat y\)</span> value when <code>Gr_Liv_Area</code> is between 2500-4000 and some have a decreasing <span class="math inline">\(\hat y\)</span> as <code>Gr_Liv_AreA</code> increases. These results may be a sign of interaction effects and would be worth exploring more closely.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># ice curves of Sale_Price on Gr_Liv_Area</span></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">ice1 &lt;-<span class="st"> </span>rf_impurity <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">grid.resolution =</span> <span class="dv">50</span>, <span class="dt">ice =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="st">  </span><span class="kw">autoplot</span>(<span class="dt">rug =</span> <span class="ot">TRUE</span>, <span class="dt">train =</span> ames_train, <span class="dt">alpha =</span> <span class="fl">0.1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Non-centered ICE plot&quot;</span>)</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7">ice2 &lt;-<span class="st"> </span>rf_impurity <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">grid.resolution =</span> <span class="dv">50</span>, <span class="dt">ice =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="st">  </span><span class="kw">autoplot</span>(<span class="dt">rug =</span> <span class="ot">TRUE</span>, <span class="dt">train =</span> ames_train, <span class="dt">alpha =</span> <span class="fl">0.1</span>, <span class="dt">center =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Centered ICE plot&quot;</span>)</a>
-<a class="sourceLine" id="cb17-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb17-12" data-line-number="12">gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(ice1, ice2, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># ice curves of Sale_Price on Gr_Liv_Area</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">ice1 &lt;-<span class="st"> </span>rf_impurity <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">grid.resolution =</span> <span class="dv">50</span>, <span class="dt">ice =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="st">  </span><span class="kw">autoplot</span>(<span class="dt">rug =</span> <span class="ot">TRUE</span>, <span class="dt">train =</span> ames_train, <span class="dt">alpha =</span> <span class="fl">0.1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Non-centered ICE plot&quot;</span>)</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb21-7" data-line-number="7">ice2 &lt;-<span class="st"> </span>rf_impurity <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">grid.resolution =</span> <span class="dv">50</span>, <span class="dt">ice =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="st">  </span><span class="kw">autoplot</span>(<span class="dt">rug =</span> <span class="ot">TRUE</span>, <span class="dt">train =</span> ames_train, <span class="dt">alpha =</span> <span class="fl">0.1</span>, <span class="dt">center =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Centered ICE plot&quot;</span>)</a>
+<a class="sourceLine" id="cb21-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb21-12" data-line-number="12">gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(ice1, ice2, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:rf-ice-Gr-Liv-Area"></span>
 <img src="abar_files/figure-html/rf-ice-Gr-Liv-Area-1.png" alt="Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations." width="864" />
 <p class="caption">
-Figure 9.11: Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations.
+Figure 9.10: Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations.
 </p>
 </div>
 <p>Both PDPs and ICE curves should be assessed for the most influential variables as they help to explain the underlying patterns in the data that the random forest model is picking up.</p>
@@ -769,45 +906,45 @@ Figure 9.11: Non-centered (left) and centered (right) individual conditional exp
 <div id="attrition-data-2" class="section level2">
 <h2><span class="header-section-number">9.8</span> Attrition data</h2>
 <p>With the Ames data, the random forest models obtained predictive accuracy that was close to our best MARS model, but how about the attrition data? The following performs a grid search across 48 hyperparameter combinations.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># get attrition data</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">df &lt;-<span class="st"> </span>rsample<span class="op">::</span>attrition <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">mutate_if</span>(is.ordered, factor, <span class="dt">ordered =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co"># Create training (70%) and test (30%) sets for the rsample::attrition data.</span></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co"># Use set.seed for reproducibility</span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb18-7" data-line-number="7">churn_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(df, <span class="dt">prop =</span> <span class="fl">.7</span>, <span class="dt">strata =</span> <span class="st">&quot;Attrition&quot;</span>)</a>
-<a class="sourceLine" id="cb18-8" data-line-number="8">churn_train &lt;-<span class="st"> </span><span class="kw">training</span>(churn_split)</a>
-<a class="sourceLine" id="cb18-9" data-line-number="9">churn_test  &lt;-<span class="st"> </span><span class="kw">testing</span>(churn_split)</a>
-<a class="sourceLine" id="cb18-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb18-11" data-line-number="11"><span class="co"># create a tuning grid</span></a>
-<a class="sourceLine" id="cb18-12" data-line-number="12">hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</a>
-<a class="sourceLine" id="cb18-13" data-line-number="13">  <span class="dt">mtry            =</span> <span class="kw">seq</span>(<span class="dv">3</span>, <span class="dv">18</span>, <span class="dt">by =</span> <span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb18-14" data-line-number="14">  <span class="dt">min.node.size   =</span> <span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dt">by =</span> <span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb18-15" data-line-number="15">  <span class="dt">splitrule       =</span> <span class="kw">c</span>(<span class="st">&quot;gini&quot;</span>, <span class="st">&quot;extratrees&quot;</span>)</a>
-<a class="sourceLine" id="cb18-16" data-line-number="16">  )</a>
-<a class="sourceLine" id="cb18-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb18-18" data-line-number="18"><span class="co"># cross validated model</span></a>
-<a class="sourceLine" id="cb18-19" data-line-number="19">tuned_rf &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
-<a class="sourceLine" id="cb18-20" data-line-number="20">  <span class="dt">x =</span> <span class="kw">subset</span>(churn_train, <span class="dt">select =</span> <span class="op">-</span>Attrition),</a>
-<a class="sourceLine" id="cb18-21" data-line-number="21">  <span class="dt">y =</span> churn_train<span class="op">$</span>Attrition,</a>
-<a class="sourceLine" id="cb18-22" data-line-number="22">  <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
-<a class="sourceLine" id="cb18-23" data-line-number="23">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb18-24" data-line-number="24">  <span class="dt">tuneGrid =</span> hyper_grid,</a>
-<a class="sourceLine" id="cb18-25" data-line-number="25">  <span class="dt">num.trees =</span> <span class="dv">500</span>,</a>
-<a class="sourceLine" id="cb18-26" data-line-number="26">  <span class="dt">seed =</span> <span class="dv">123</span></a>
-<a class="sourceLine" id="cb18-27" data-line-number="27">)</a>
-<a class="sourceLine" id="cb18-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb18-29" data-line-number="29"><span class="co"># best model</span></a>
-<a class="sourceLine" id="cb18-30" data-line-number="30">tuned_rf<span class="op">$</span>bestTune</a>
-<a class="sourceLine" id="cb18-31" data-line-number="31">##    mtry splitrule min.node.size</a>
-<a class="sourceLine" id="cb18-32" data-line-number="32">## 31   12      gini            10</a>
-<a class="sourceLine" id="cb18-33" data-line-number="33"></a>
-<a class="sourceLine" id="cb18-34" data-line-number="34"><span class="co"># plot results</span></a>
-<a class="sourceLine" id="cb18-35" data-line-number="35"><span class="kw">ggplot</span>(tuned_rf)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># get attrition data</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">df &lt;-<span class="st"> </span>rsample<span class="op">::</span>attrition <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">mutate_if</span>(is.ordered, factor, <span class="dt">ordered =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co"># Create training (70%) and test (30%) sets for the rsample::attrition data.</span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co"># Use set.seed for reproducibility</span></a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb22-7" data-line-number="7">churn_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(df, <span class="dt">prop =</span> <span class="fl">.7</span>, <span class="dt">strata =</span> <span class="st">&quot;Attrition&quot;</span>)</a>
+<a class="sourceLine" id="cb22-8" data-line-number="8">churn_train &lt;-<span class="st"> </span><span class="kw">training</span>(churn_split)</a>
+<a class="sourceLine" id="cb22-9" data-line-number="9">churn_test  &lt;-<span class="st"> </span><span class="kw">testing</span>(churn_split)</a>
+<a class="sourceLine" id="cb22-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="co"># create a tuning grid</span></a>
+<a class="sourceLine" id="cb22-12" data-line-number="12">hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</a>
+<a class="sourceLine" id="cb22-13" data-line-number="13">  <span class="dt">mtry            =</span> <span class="kw">seq</span>(<span class="dv">3</span>, <span class="dv">18</span>, <span class="dt">by =</span> <span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb22-14" data-line-number="14">  <span class="dt">min.node.size   =</span> <span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dt">by =</span> <span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb22-15" data-line-number="15">  <span class="dt">splitrule       =</span> <span class="kw">c</span>(<span class="st">&quot;gini&quot;</span>, <span class="st">&quot;extratrees&quot;</span>)</a>
+<a class="sourceLine" id="cb22-16" data-line-number="16">  )</a>
+<a class="sourceLine" id="cb22-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb22-18" data-line-number="18"><span class="co"># cross validated model</span></a>
+<a class="sourceLine" id="cb22-19" data-line-number="19">tuned_rf &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb22-20" data-line-number="20">  <span class="dt">x =</span> <span class="kw">subset</span>(churn_train, <span class="dt">select =</span> <span class="op">-</span>Attrition),</a>
+<a class="sourceLine" id="cb22-21" data-line-number="21">  <span class="dt">y =</span> churn_train<span class="op">$</span>Attrition,</a>
+<a class="sourceLine" id="cb22-22" data-line-number="22">  <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
+<a class="sourceLine" id="cb22-23" data-line-number="23">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb22-24" data-line-number="24">  <span class="dt">tuneGrid =</span> hyper_grid,</a>
+<a class="sourceLine" id="cb22-25" data-line-number="25">  <span class="dt">num.trees =</span> <span class="dv">500</span>,</a>
+<a class="sourceLine" id="cb22-26" data-line-number="26">  <span class="dt">seed =</span> <span class="dv">123</span></a>
+<a class="sourceLine" id="cb22-27" data-line-number="27">)</a>
+<a class="sourceLine" id="cb22-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb22-29" data-line-number="29"><span class="co"># best model</span></a>
+<a class="sourceLine" id="cb22-30" data-line-number="30">tuned_rf<span class="op">$</span>bestTune</a>
+<a class="sourceLine" id="cb22-31" data-line-number="31">##    mtry splitrule min.node.size</a>
+<a class="sourceLine" id="cb22-32" data-line-number="32">## 31   12      gini            10</a>
+<a class="sourceLine" id="cb22-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb22-34" data-line-number="34"><span class="co"># plot results</span></a>
+<a class="sourceLine" id="cb22-35" data-line-number="35"><span class="kw">ggplot</span>(tuned_rf)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:rf-tuned-rf-attrition"></span>
 <img src="abar_files/figure-html/rf-tuned-rf-attrition-1.png" alt="Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses `mtry` = 9, `splitrule` = gini, and `min.node.size` = 4, which obtained a 10-fold CV accuracy rate of 85.8%." width="672" />
 <p class="caption">
-Figure 9.12: Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses <code>mtry</code> = 9, <code>splitrule</code> = gini, and <code>min.node.size</code> = 4, which obtained a 10-fold CV accuracy rate of 85.8%.
+Figure 9.11: Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses <code>mtry</code> = 9, <code>splitrule</code> = gini, and <code>min.node.size</code> = 4, which obtained a 10-fold CV accuracy rate of 85.8%.
 </p>
 </div>
 <p>Similar to the MARS model, the random forest model does not improve predictive accuracy over an above the regularized regression model.</p>
@@ -992,8 +1129,8 @@ RF_model
 <div id="ref-R-rpart.plot">
 <p>Milborrow, Stephen. 2018. <em>Rpart.plot: Plot ’Rpart’ Models: An Enhanced Version of ’Plot.rpart’</em>. <a href="https://CRAN.R-project.org/package=rpart.plot" class="uri">https://CRAN.R-project.org/package=rpart.plot</a>.</p>
 </div>
-<div id="ref-harrison1978hedonic">
-<p>Harrison Jr, David, and Daniel L Rubinfeld. 1978. “Hedonic Housing Prices and the Demand for Clean Air.” <em>Journal of Environmental Economics and Management</em> 5 (1). Elsevier: 81–102.</p>
+<div id="ref-friedman2001elements">
+<p>Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2001. <em>The Elements of Statistical Learning</em>. Vol. 1. 10. Springer series in statistics New York, NY, USA:</p>
 </div>
 <div id="ref-breiman1996bagging">
 <p>Breiman, Leo. 1996. “Bagging Predictors.” <em>Machine Learning</em> 24 (2). Springer: 123–40.</p>
@@ -1014,9 +1151,8 @@ RF_model
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p>See <span class="citation">Esposito et al. (<a href="#ref-esposito1997comparative">1997</a>)</span> for various methods of pruning.<a href="RF.html#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>Combining multiple models is referred to as <em>ensembling</em>.<a href="RF.html#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>See the Random Forest section in the <a href="https://CRAN.R-project.org/view=MachineLearning">Machine Learning Task View</a> on CRAN and Erin LeDell’s <a href="https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r">useR! Machine Learning Tutorial</a> for a non-comprehensive list.<a href="RF.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>See <span class="citation">Esposito et al. (<a href="#ref-esposito1997comparative">1997</a>)</span> for various methods of pruning. In <strong>rpart</strong>, the amount of pruning is controlled by the <em>complexity parameters</em> <code>cp</code>.<a href="RF.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>See the Random Forest section in the <a href="https://CRAN.R-project.org/view=MachineLearning">Machine Learning Task View</a> on CRAN and Erin LeDell’s <a href="https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r">useR! Machine Learning Tutorial</a> for a non-comprehensive list.<a href="RF.html#fnref2" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
