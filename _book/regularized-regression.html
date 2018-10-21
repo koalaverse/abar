@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</title>
   <meta name="description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
   <meta property="og:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2018-08-08">
+<meta name="date" content="2018-10-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,13 +33,13 @@
   
   
 <link rel="prev" href="logistic-regression.html">
-<link rel="next" href="references.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link rel="next" href="MARS.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
 
 
 
@@ -47,44 +47,80 @@
 
 
 
+<script src="libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="libs/plotly-binding/plotly.js"></script>
+<script src="libs/typedarray/typedarray.min.js"></script>
+<link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main/plotly-latest.min.js"></script>
+<script src="libs/kePrint/kePrint.js"></script>
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -129,133 +165,168 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
-<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>1.5</b> Prerequisites</a></li>
-<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>1.6</b> Measures of location</a><ul>
-<li class="chapter" data-level="1.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>1.6.1</b> The sample mean</a></li>
-<li class="chapter" data-level="1.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>1.6.2</b> The sample median</a></li>
-<li class="chapter" data-level="1.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>1.6.3</b> The mean or the median</a></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>2</b> Descriptive Statistics</a><ul>
+<li class="chapter" data-level="2.1" data-path="descriptive.html"><a href="descriptive.html"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.2" data-path="descriptive.html"><a href="descriptive.html#measures-of-location"><i class="fa fa-check"></i><b>2.2</b> Measures of location</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="descriptive.html"><a href="descriptive.html#the-sample-mean"><i class="fa fa-check"></i><b>2.2.1</b> The sample mean</a></li>
+<li class="chapter" data-level="2.2.2" data-path="descriptive.html"><a href="descriptive.html#the-sample-median"><i class="fa fa-check"></i><b>2.2.2</b> The sample median</a></li>
+<li class="chapter" data-level="2.2.3" data-path="descriptive.html"><a href="descriptive.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>2.2.3</b> The mean or the median</a></li>
 </ul></li>
-<li class="chapter" data-level="1.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>1.7</b> Measures of spread</a><ul>
-<li class="chapter" data-level="1.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>1.7.1</b> The empirical rule</a></li>
+<li class="chapter" data-level="2.3" data-path="descriptive.html"><a href="descriptive.html#measures-of-spread"><i class="fa fa-check"></i><b>2.3</b> Measures of spread</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="descriptive.html"><a href="descriptive.html#empirical-rule"><i class="fa fa-check"></i><b>2.3.1</b> The empirical rule</a></li>
 </ul></li>
-<li class="chapter" data-level="1.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>1.8</b> Percentiles</a></li>
-<li class="chapter" data-level="1.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>1.9</b> Robust measures of spread</a></li>
-<li class="chapter" data-level="1.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>1.10</b> Outlier detection</a></li>
-<li class="chapter" data-level="1.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>1.11</b> Describing categorical data</a><ul>
-<li class="chapter" data-level="1.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>1.11.1</b> Contingency tables</a></li>
+<li class="chapter" data-level="2.4" data-path="descriptive.html"><a href="descriptive.html#percentiles"><i class="fa fa-check"></i><b>2.4</b> Percentiles</a></li>
+<li class="chapter" data-level="2.5" data-path="descriptive.html"><a href="descriptive.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>2.5</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="2.6" data-path="descriptive.html"><a href="descriptive.html#outliers"><i class="fa fa-check"></i><b>2.6</b> Outlier detection</a></li>
+<li class="chapter" data-level="2.7" data-path="descriptive.html"><a href="descriptive.html#categorical"><i class="fa fa-check"></i><b>2.7</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="descriptive.html"><a href="descriptive.html#contingency-tables"><i class="fa fa-check"></i><b>2.7.1</b> Contingency tables</a></li>
 </ul></li>
-<li class="chapter" data-level="1.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>1.12</b> Exercises</a></li>
+<li class="chapter" data-level="2.8" data-path="descriptive.html"><a href="descriptive.html#exercises"><i class="fa fa-check"></i><b>2.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>2</b> Visual data exploration</a><ul>
-<li class="chapter" data-level="2.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>2.2</b> Univariate data</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>2.2.1</b> Continuous Variables</a></li>
-<li class="chapter" data-level="2.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>2.2.2</b> Categorical Variables</a></li>
+<li class="chapter" data-level="3" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>3</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="3.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>3.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>3.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>3.2.2</b> Categorical Variables</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>2.3</b> Bivariate data</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.3.1</b> Scatter plots</a></li>
+<li class="chapter" data-level="3.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>3.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>3.3.1</b> Scatter plots</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>2.4</b> Multivariate data</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>2.4.1</b> Facetting</a></li>
+<li class="chapter" data-level="3.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>3.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>3.4.1</b> Facetting</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>2.5</b> Data quality</a></li>
-<li class="chapter" data-level="2.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>2.6</b> Further reading</a></li>
-<li class="chapter" data-level="2.7" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>2.7</b> Exercises</a></li>
+<li class="chapter" data-level="3.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>3.5</b> Data quality</a></li>
+<li class="chapter" data-level="3.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>3.6</b> Further reading</a></li>
+<li class="chapter" data-level="3.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>3</b> Statistical Inference</a><ul>
-<li class="chapter" data-level="3.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> The frequentist approach</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.1.1</b> The central limit theorem</a></li>
-<li class="chapter" data-level="3.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="3.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>3.1.3</b> One-sided versus two-sided tests</a></li>
-<li class="chapter" data-level="3.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>3.1.4</b> Type I and type II errors</a></li>
-<li class="chapter" data-level="3.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>3.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
-<li class="chapter" data-level="3.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>3.1.6</b> Confidence intervals</a></li>
+<li class="chapter" data-level="4" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="4.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>4.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>4.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="4.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="4.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>4.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="4.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>4.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="4.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>4.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="4.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>4.1.6</b> Confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>3.2</b> One- and two-sample t-tests</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.2.1</b> One-sample t-test</a></li>
-<li class="chapter" data-level="3.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>3.2.2</b> Two-sample t-test</a></li>
+<li class="chapter" data-level="4.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>4.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="4.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> Two-sample t-test</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>3.3</b> Tests involving more than two means: ANOVA models</a></li>
-<li class="chapter" data-level="3.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>3.4</b> Testing for association in contingency tables</a></li>
-<li class="chapter" data-level="3.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>3.5</b> Nonparametric tests</a></li>
-<li class="chapter" data-level="3.6" data-path="inference.html"><a href="inference.html#the-nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.6</b> The nonparametric bootstrap</a><ul>
-<li class="chapter" data-level="3.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>3.6.1</b> Bootstrap confidence intervals</a></li>
+<li class="chapter" data-level="4.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>4.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="4.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>4.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="4.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>4.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="4.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>4.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>4.6.1</b> Bootstrap confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="3.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>3.7</b> Further reading</a></li>
-<li class="chapter" data-level="3.8" data-path="inference.html"><a href="inference.html#exercises-1"><i class="fa fa-check"></i><b>3.8</b> Exercises</a></li>
+<li class="chapter" data-level="4.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>4.7</b> Further reading</a></li>
+<li class="chapter" data-level="4.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>4</b> Unsupervised learning</a><ul>
-<li class="chapter" data-level="4.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>4.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="4.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>4.2</b> Principal Components Analysis</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>4.2.1</b> Finding principal components</a></li>
-<li class="chapter" data-level="4.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>4.2.2</b> Performing PCA in R</a></li>
-<li class="chapter" data-level="4.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>4.2.3</b> Selecting the Number of Principal Components</a></li>
-<li class="chapter" data-level="4.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>4.2.4</b> Extracting additional insights</a></li>
-<li class="chapter" data-level="4.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>4.2.5</b> PCA with mixed data</a></li>
+<li class="chapter" data-level="5" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="5.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>5.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>5.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="5.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="5.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>5.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="5.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>5.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="5.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>5.2.5</b> PCA with mixed data</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>4.3</b> Cluster Analysis</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>4.3.1</b> Clustering distance measures</a></li>
-<li class="chapter" data-level="4.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>4.3.2</b> K-means clustering</a></li>
-<li class="chapter" data-level="4.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.3.3</b> Hierarchical clustering</a></li>
-<li class="chapter" data-level="4.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>4.3.4</b> Clustering with mixed data</a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>II Predictive Analytics</b></span><ul>
-<li class="chapter" data-level="4.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>4.4</b> Regression problems</a></li>
-<li class="chapter" data-level="4.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>4.5</b> Classification problems</a></li>
-<li class="chapter" data-level="4.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>4.6</b> Algorithm Comparison Guide</a></li>
-<li class="chapter" data-level="4.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>4.7</b> General modeling process</a><ul>
-<li class="chapter" data-level="4.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>4.7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="4.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-split"><i class="fa fa-check"></i><b>4.7.2</b> Data splitting</a></li>
-<li class="chapter" data-level="4.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>4.7.3</b> Feature engineering</a></li>
-<li class="chapter" data-level="4.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>4.7.4</b> Basic model formulation</a></li>
-<li class="chapter" data-level="4.7.5" data-path="unsupervised.html"><a href="unsupervised.html#tune"><i class="fa fa-check"></i><b>4.7.5</b> Model tuning</a></li>
-<li class="chapter" data-level="4.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>4.7.6</b> Cross Validation for Generalization</a></li>
-<li class="chapter" data-level="4.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-eval"><i class="fa fa-check"></i><b>4.7.7</b> Model evaluation</a></li>
-<li class="chapter" data-level="4.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>4.7.8</b> Interpreting predictive models</a></li>
+<li class="chapter" data-level="5.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>5.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="5.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>5.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="5.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="5.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>5.3.4</b> Clustering with mixed data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5</b> Linear regression</a><ul>
-<li class="chapter" data-level="5.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="5.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>5.2</b> Simple linear regression</a></li>
-<li class="chapter" data-level="5.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>5.3</b> Multiple linear regression</a></li>
-<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>5.4</b> Assessing Model Accuracy</a></li>
-<li class="chapter" data-level="5.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>5.5</b> Model concerns</a></li>
-<li class="chapter" data-level="5.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>5.6</b> Principal component regression</a></li>
-<li class="chapter" data-level="5.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>5.7</b> Partial least squares</a></li>
-<li class="chapter" data-level="5.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>5.8</b> Model interpretation</a></li>
-<li class="chapter" data-level="5.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>5.9</b> Final thoughts</a></li>
-<li class="chapter" data-level="5.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>5.10</b> Learning more</a></li>
+<li class="part"><span><b>II Predictive Analytics</b></span></li>
+<li class="chapter" data-level="6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html"><i class="fa fa-check"></i><b>6</b> Fundamental concepts</a><ul>
+<li class="chapter" data-level="6.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#regression-problems"><i class="fa fa-check"></i><b>6.1</b> Regression problems</a></li>
+<li class="chapter" data-level="6.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#classification-problems"><i class="fa fa-check"></i><b>6.2</b> Classification problems</a></li>
+<li class="chapter" data-level="6.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>6.3</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="6.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#general-modeling-process"><i class="fa fa-check"></i><b>6.4</b> General modeling process</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_prereq"><i class="fa fa-check"></i><b>6.4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-split"><i class="fa fa-check"></i><b>6.4.2</b> Data splitting</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_feat"><i class="fa fa-check"></i><b>6.4.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="6.4.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#model-form"><i class="fa fa-check"></i><b>6.4.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="6.4.5" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#tune"><i class="fa fa-check"></i><b>6.4.5</b> Model tuning</a></li>
+<li class="chapter" data-level="6.4.6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#cv"><i class="fa fa-check"></i><b>6.4.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="6.4.7" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-eval"><i class="fa fa-check"></i><b>6.4.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="6.4.8" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>6.4.8</b> Interpreting predictive models</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>6</b> Logistic regression</a><ul>
-<li class="chapter" data-level="6.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>6.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="6.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Why logistic regression</a></li>
-<li class="chapter" data-level="6.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>6.3</b> Simple logistic regression</a></li>
-<li class="chapter" data-level="6.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>6.4</b> Multiple logistic regression</a></li>
-<li class="chapter" data-level="6.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>6.5</b> Assessing model accuracy</a></li>
-<li class="chapter" data-level="6.6" data-path="logistic-regression.html"><a href="logistic-regression.html#model-interpretation"><i class="fa fa-check"></i><b>6.6</b> Model interpretation</a></li>
-<li class="chapter" data-level="6.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>6.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="6.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>6.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>7</b> Regularized regression</a><ul>
-<li class="chapter" data-level="7.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="7.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>7.2</b> Why Regularize</a><ul>
-<li class="chapter" data-level="7.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>7.2.1</b> Ridge penalty</a></li>
-<li class="chapter" data-level="7.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>7.2.2</b> Lasso penalty</a></li>
-<li class="chapter" data-level="7.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>7.2.3</b> Elastic nets</a></li>
+<li class="chapter" data-level="7" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>7</b> Linear regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="7.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple linear regression</a></li>
+<li class="chapter" data-level="7.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>7.3</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="7.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>7.4</b> Assessing Model Accuracy</a></li>
+<li class="chapter" data-level="7.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>7.5</b> Model concerns</a></li>
+<li class="chapter" data-level="7.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>7.6</b> Principal component regression</a></li>
+<li class="chapter" data-level="7.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>7.7</b> Partial least squares</a></li>
+<li class="chapter" data-level="7.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>7.8</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="7.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>7.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="7.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>7.10</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>7.3</b> Implementation</a></li>
-<li class="chapter" data-level="7.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>7.4</b> Tuning</a></li>
-<li class="chapter" data-level="7.5" data-path="regularized-regression.html"><a href="regularized-regression.html#model-interpretation-1"><i class="fa fa-check"></i><b>7.5</b> Model interpretation</a></li>
-<li class="chapter" data-level="7.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>7.6</b> Attrition data</a></li>
-<li class="chapter" data-level="7.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>7.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="7.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>7.8</b> Learning more</a></li>
+<li class="chapter" data-level="8" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Logistic regression</a><ul>
+<li class="chapter" data-level="8.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="8.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>8.2</b> Why logistic regression</a></li>
+<li class="chapter" data-level="8.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>8.3</b> Simple logistic regression</a></li>
+<li class="chapter" data-level="8.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>8.4</b> Multiple logistic regression</a></li>
+<li class="chapter" data-level="8.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>8.5</b> Assessing model accuracy</a></li>
+<li class="chapter" data-level="8.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>8.6</b> Feature interpretation</a></li>
+<li class="chapter" data-level="8.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="8.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>9</b> Regularized regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="9.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>9.2</b> Why Regularize</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>9.2.1</b> Ridge penalty</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>9.2.2</b> Lasso penalty</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>9.2.3</b> Elastic nets</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>9.3</b> Implementation</a></li>
+<li class="chapter" data-level="9.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>9.4</b> Tuning</a></li>
+<li class="chapter" data-level="9.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>9.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="9.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>9.6</b> Attrition data</a></li>
+<li class="chapter" data-level="9.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>9.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="9.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>9.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>10</b> Multivariate Adaptive Regression Splines</a><ul>
+<li class="chapter" data-level="10.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="10.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>10.2.1</b> Multivariate regression splines</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>10.3</b> Fitting a basic MARS model</a></li>
+<li class="chapter" data-level="10.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>10.4</b> Tuning</a></li>
+<li class="chapter" data-level="10.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>10.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="10.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>10.6</b> Attrition data</a></li>
+<li class="chapter" data-level="10.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>10.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="10.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>10.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>11</b> Random Forests</a><ul>
+<li class="chapter" data-level="11.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>11.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="11.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>11.2</b> Decision trees</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>11.2.1</b> A simple regression tree example</a></li>
+<li class="chapter" data-level="11.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>11.2.2</b> Deciding on splits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>11.3</b> Bagging</a></li>
+<li class="chapter" data-level="11.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>11.4</b> Random forests</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>11.4.1</b> OOB error vs. test set error</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>11.5</b> Fitting a basic random forest model</a></li>
+<li class="chapter" data-level="11.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>11.6</b> Tuning</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>11.6.1</b> Tuning via ranger</a></li>
+<li class="chapter" data-level="11.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>11.6.2</b> Tuning via caret</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>11.7</b> Feature interpretation</a></li>
+<li class="chapter" data-level="11.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>11.8</b> Attrition data</a></li>
+<li class="chapter" data-level="11.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>11.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="11.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>11.10</b> Learning more</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="8" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>8</b> (APPENDIX) Appendix {-}</a><ul>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+<li class="chapter" data-level="12" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) Appendix {-}</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html"><i class="fa fa-check"></i>Data sets</a><ul>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -278,39 +349,39 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="regularized-regression" class="section level1">
-<h1><span class="header-section-number">Chapter 7</span> Regularized regression</h1>
+<h1><span class="header-section-number">Chapter 9</span> Regularized regression</h1>
 <p>Generalized linear models (GLMs) such as ordinary least squares regression and logistic regression are simple and fundamental approaches for supervised learning. Moreover, when the assumptions required by GLMs are met, the coefficients produced are unbiased and, of all unbiased linear techniques, have the lowest variance. However, in today’s world, data sets being analyzed typically have a large amount of features. As the number of features grow, our GLM assumptions typically break down and our models often overfit (aka have high variance) to the training sample, causing our out of sample error to increase. <strong><em>Regularization</em></strong> methods provide a means to control our coefficients, which can reduce the variance and decrease out of sample error.</p>
 <div id="prerequisites-5" class="section level2">
-<h2><span class="header-section-number">7.1</span> Prerequisites</h2>
+<h2><span class="header-section-number">9.1</span> Prerequisites</h2>
 <p>This chapter leverages the following packages. Most of these packages are playing a supporting role while the main emphasis will be on the <strong>glmnet</strong> package <span class="citation">(Friedman, Hastie, and Tibshirani <a href="#ref-pkg-glmnet">2010</a>)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)  <span class="co"># data splitting </span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)  <span class="co"># data splitting </span>
 <span class="kw">library</span>(glmnet)   <span class="co"># implementing regularized regression approaches</span>
 <span class="kw">library</span>(caret)    <span class="co"># automating the tuning process</span>
-<span class="kw">library</span>(vip)      <span class="co"># variable importance</span></code></pre></div>
+<span class="kw">library</span>(vip)      <span class="co"># variable importance</span></code></pre>
 <p>To illustrate various regularization concepts we will use the Ames Housing data; however, at the end of the chapter we will also apply regularization to the employee attrition data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create training (70%) and test (30%) sets for the AmesHousing::make_ames() data.</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create training (70%) and test (30%) sets for the AmesHousing::make_ames() data.</span>
 <span class="co"># Use set.seed for reproducibility</span>
 
 <span class="kw">set.seed</span>(<span class="dv">123</span>)
-ames_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(AmesHousing<span class="op">::</span><span class="kw">make_ames</span>(), <span class="dt">prop =</span> .<span class="dv">7</span>, <span class="dt">strata =</span> <span class="st">&quot;Sale_Price&quot;</span>)
+ames_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(AmesHousing<span class="op">::</span><span class="kw">make_ames</span>(), <span class="dt">prop =</span> <span class="fl">.7</span>, <span class="dt">strata =</span> <span class="st">&quot;Sale_Price&quot;</span>)
 ames_train &lt;-<span class="st"> </span><span class="kw">training</span>(ames_split)
-ames_test  &lt;-<span class="st"> </span><span class="kw">testing</span>(ames_split)</code></pre></div>
+ames_test  &lt;-<span class="st"> </span><span class="kw">testing</span>(ames_split)</code></pre>
 </div>
 <div id="why" class="section level2">
-<h2><span class="header-section-number">7.2</span> Why Regularize</h2>
+<h2><span class="header-section-number">9.2</span> Why Regularize</h2>
 <p>The easiest way to understand regularized regression is to explain how it is applied to ordinary least squares regression (OLS). The objective of OLS regression is to find the plane that minimizes the sum of squared errors (SSE) between the observed and predicted response. Illustrated below, this means identifying the plane that minimizes the grey lines, which measure the distance between the observed (red dots) and predicted response (blue plane).</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-3"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-86"></span>
 <img src="illustrations/sq.errors-1.png" alt="Fitted regression line using Ordinary Least Squares." width="70%" height="70%" />
 <p class="caption">
-Figure 7.1: Fitted regression line using Ordinary Least Squares.
+Figure 9.1: Fitted regression line using Ordinary Least Squares.
 </p>
 </div>
 <p>More formally, this objective function can be written as:</p>
-<span class="math display" id="eq:ols-objective">\[\begin{equation}
-\tag{7.1}
+<p><span class="math display" id="eq:ols-objective">\[\begin{equation}
+\tag{9.1}
 \text{minimize} \bigg \{ SSE = \sum^n_{i=1} (y_i - \hat{y}_i)^2 \bigg \}
-\end{equation}\]</span>
-<p>As we discussed in Chapter <a href="linear-regression.html#linear-regression">5</a>, the OLS objective function performs quite well when our data align to the key assumptions of OLS regression:</p>
+\end{equation}\]</span></p>
+<p>As we discussed in Chapter <a href="linear-regression.html#linear-regression">7</a>, the OLS objective function performs quite well when our data align to the key assumptions of OLS regression:</p>
 <ul>
 <li>Linear relationship</li>
 <li>Multivariate normality</li>
@@ -319,14 +390,14 @@ Figure 7.1: Fitted regression line using Ordinary Least Squares.
 <li>There are more observations (<em>n</em>) than features (<em>p</em>) (<span class="math inline">\(n &gt; p\)</span>)</li>
 <li>No or little multicollinearity</li>
 </ul>
-<p>However, for many real-life data sets we have very <em>wide</em> data, meaning we have a large number of features (<em>p</em>) that we believe are informative in predicting some outcome. As <em>p</em> increases, we can quickly violate some of the OLS assumptions and we require alternative approaches to provide predictive analytic solutions. This was illustrated in Chapter <a href="linear-regression.html#linear-regression">5</a> where multicollinearity was biasing our coefficients and preventing us from maximizing our predictive accuracy. By reducing multicollinearity, we were able to increase our model’s accuracy.</p>
+<p>However, for many real-life data sets we have very <em>wide</em> data, meaning we have a large number of features (<em>p</em>) that we believe are informative in predicting some outcome. As <em>p</em> increases, we can quickly violate some of the OLS assumptions and we require alternative approaches to provide predictive analytic solutions. This was illustrated in Chapter <a href="linear-regression.html#linear-regression">7</a> where multicollinearity was biasing our coefficients and preventing us from maximizing our predictive accuracy. By reducing multicollinearity, we were able to increase our model’s accuracy.</p>
 <p>In addition to the above barriers to OLS performing well, with a large number of features, we often would like to identify a smaller subset of these features that exhibit the strongest effects. In essence, we sometimes prefer techniques that provide <strong><em>feature selection</em></strong>. One approach to this is called hard threshholding feature selection, which can be performed with linear model selection approaches. However, model selection approaches can be computationally inefficient, do not scale well, and they simply assume a feature as in or out. We may wish to use a soft threshholding approach that slowly pushes a feature’s effect towards zero. As will be demonstrated, this can provide additional understanding regarding predictive signals.</p>
 <p>When we experience these concerns, one alternative to OLS regression is to use regularized regression (also commonly referred to as <em>penalized</em> models or <em>shrinkage</em> methods) to control the parameter estimates. Regularized regression puts contraints on the magnitude of the coefficients and will progressively shrink them towards zero. This constraint helps to reduce the magnitude and fluctuations of the coefficients and will reduce the variance of our model.</p>
 <p>The objective function of regularized regression methods is very similar to OLS regression; however, we add a penalty parameter (<em>P</em>).</p>
-<span class="math display" id="eq:penalty">\[\begin{equation}
-\tag{7.2}
+<p><span class="math display" id="eq:penalty">\[\begin{equation}
+\tag{9.2}
 \text{minimize} \big \{ SSE + P \big \}
-\end{equation}\]</span>
+\end{equation}\]</span></p>
 <p>This penalty parameter constrains the size of the coefficients such that the only way the coefficients can increase is if we experience a comparable decrease in the sum of squared errors (SSE).</p>
 <p>This concept generalizes to all GLM models. So far, we have be discussing OLS and the sum of squared errors. However, different models within the GLM family (i.e. logistic regression, Poisson regression) have different loss functions. Yet we can think of the penalty parameter all the same - it constrains the size of the coefficients such that the only way the coefficients can increase is if we experience a comparable decrease in the model’s loss function.</p>
 <p>There are three types of penalty parameters we can implement:</p>
@@ -336,17 +407,17 @@ Figure 7.1: Fitted regression line using Ordinary Least Squares.
 <li>Elastic net, which is a combination of Ridge and Lasso</li>
 </ol>
 <div id="ridge" class="section level3">
-<h3><span class="header-section-number">7.2.1</span> Ridge penalty</h3>
-<p>Ridge regression <span class="citation">(Hoerl and Kennard <a href="#ref-hoerl1970ridge">1970</a>)</span> controls the coefficients by adding <font color="red"><span class="math inline">\(\lambda \sum^p_{j=1} \beta_j^2\)</span></font> to the objective function. This penalty parameter is also referred to as “<span class="math inline">\(L_2\)</span>” as it signifies a second-order penalty being used on the coefficients.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
-<span class="math display" id="eq:ridge-penalty">\[\begin{equation}
-\tag{7.3}
+<h3><span class="header-section-number">9.2.1</span> Ridge penalty</h3>
+<p>Ridge regression <span class="citation">(Hoerl and Kennard <a href="#ref-hoerl1970ridge">1970</a>)</span> controls the coefficients by adding <font color="red"><span class="math inline">\(\lambda \sum^p_{j=1} \beta_j^2\)</span></font> to the objective function. This penalty parameter is also referred to as “<span class="math inline">\(L_2\)</span>” as it signifies a second-order penalty being used on the coefficients.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a></p>
+<p><span class="math display" id="eq:ridge-penalty">\[\begin{equation}
+\tag{9.3}
 \text{minimize } \bigg \{ SSE + \lambda \sum^p_{j=1} \beta_j^2 \bigg \}
-\end{equation}\]</span>
-<p>This penalty parameter can take on a wide range of values, which is controlled by the <em>tuning parameter</em> <span class="math inline">\(\lambda\)</span>. When <span class="math inline">\(\lambda = 0\)</span> there is no effect and our objective function equals the normal OLS regression objective function of simply minimizing SSE. However, as <span class="math inline">\(\lambda \rightarrow \infty\)</span>, the penalty becomes large and forces our coefficients to <em>near zero</em>. This is illustrated in Figure <a href="regularized-regression.html#fig:ridge-coef-example">7.2</a> where exemplar coefficients have been regularized with <span class="math inline">\(\lambda\)</span> ranging from 0 to over 8,000 (<span class="math inline">\(log(8103) = 9\)</span>).</p>
+\end{equation}\]</span></p>
+<p>This penalty parameter can take on a wide range of values, which is controlled by the <em>tuning parameter</em> <span class="math inline">\(\lambda\)</span>. When <span class="math inline">\(\lambda = 0\)</span> there is no effect and our objective function equals the normal OLS regression objective function of simply minimizing SSE. However, as <span class="math inline">\(\lambda \rightarrow \infty\)</span>, the penalty becomes large and forces our coefficients to <em>near zero</em>. This is illustrated in Figure <a href="regularized-regression.html#fig:ridge-coef-example">9.2</a> where exemplar coefficients have been regularized with <span class="math inline">\(\lambda\)</span> ranging from 0 to over 8,000 (<span class="math inline">\(log(8103) = 9\)</span>).</p>
 <div class="figure" style="text-align: center"><span id="fig:ridge-coef-example"></span>
 <img src="illustrations/ridge_coef.png" alt="Ridge regression coefficients as $\lambda$ grows from  $0 \rightarrow \infty$." width="75%" height="75%" />
 <p class="caption">
-Figure 7.2: Ridge regression coefficients as <span class="math inline">\(\lambda\)</span> grows from <span class="math inline">\(0 \rightarrow \infty\)</span>.
+Figure 9.2: Ridge regression coefficients as <span class="math inline">\(\lambda\)</span> grows from <span class="math inline">\(0 \rightarrow \infty\)</span>.
 </p>
 </div>
 <p>Although these coefficients were scaled and centered prior to the analysis, you will notice that some are extremely large when <span class="math inline">\(\lambda \rightarrow 0\)</span>. Furthermore, you’ll notice the large negative parameter that fluctuates until <span class="math inline">\(log(\lambda) \approx 2\)</span> where it then continuously skrinks to zero. This is indicitive of multicollinearity and likely illustrates that constraining our coefficients with <span class="math inline">\(log(\lambda) &gt; 2\)</span> may reduce the variance, and therefore the error, in our model.</p>
@@ -354,65 +425,65 @@ Figure 7.2: Ridge regression coefficients as <span class="math inline">\(\lambda
 <p>However, a ridge model will retain <bold><font color="red">all</font></bold> variables. Therefore, a ridge model is good if you believe there is a need to retain all features in your model yet reduce the noise that less influential variables may create and minimize multicollinearity. However, a ridge model does not perform automated feature selection. If greater interpretation is necessary where you need to reduce the signal in your data to a smaller subset then a lasso or elastic net penalty may be preferable.</p>
 </div>
 <div id="lasso" class="section level3">
-<h3><span class="header-section-number">7.2.2</span> Lasso penalty</h3>
+<h3><span class="header-section-number">9.2.2</span> Lasso penalty</h3>
 <p>The <em>least absolute shrinkage and selection operator</em> (lasso) model <span class="citation">(Tibshirani <a href="#ref-tibshirani1996regression">1996</a>)</span> is an alternative to the ridge penalty that has a small modification to the penalty in the objective function. Rather than the <span class="math inline">\(L_2\)</span> penalty we use the following <span class="math inline">\(L_1\)</span> penalty <font color="red"><span class="math inline">\(\lambda \sum^p_{j=1} | \beta_j|\)</span></font> in the objective function.</p>
-<span class="math display" id="eq:lasso-penalty">\[\begin{equation}
-\tag{7.4}
+<p><span class="math display" id="eq:lasso-penalty">\[\begin{equation}
+\tag{9.4}
 \text{minimize } \bigg \{ SSE + \lambda \sum^p_{j=1} | \beta_j | \bigg \}
-\end{equation}\]</span>
-<p>Whereas the ridge penalty approach pushes variables to <em>approximately but not equal to zero</em>, the lasso penalty will actually push coefficients to zero as illustrated in Figure <a href="regularized-regression.html#fig:lasso-coef-example">7.3</a>. Thus the lasso model not only improves the model with regularization but it also conducts automated feature selection.</p>
+\end{equation}\]</span></p>
+<p>Whereas the ridge penalty approach pushes variables to <em>approximately but not equal to zero</em>, the lasso penalty will actually push coefficients to zero as illustrated in Figure <a href="regularized-regression.html#fig:lasso-coef-example">9.3</a>. Thus the lasso model not only improves the model with regularization but it also conducts automated feature selection.</p>
 <div class="figure" style="text-align: center"><span id="fig:lasso-coef-example"></span>
 <img src="abar_files/figure-html/lasso-coef-example-1.png" alt="Lasso regression coefficients as $\lambda$ grows from  $0 \rightarrow \infty$. Numbers on top axis illustrate how many non-zero coefficients remain." width="672" />
 <p class="caption">
-Figure 7.3: Lasso regression coefficients as <span class="math inline">\(\lambda\)</span> grows from <span class="math inline">\(0 \rightarrow \infty\)</span>. Numbers on top axis illustrate how many non-zero coefficients remain.
+Figure 9.3: Lasso regression coefficients as <span class="math inline">\(\lambda\)</span> grows from <span class="math inline">\(0 \rightarrow \infty\)</span>. Numbers on top axis illustrate how many non-zero coefficients remain.
 </p>
 </div>
 <p>In the figure above we see that when <span class="math inline">\(log(\lambda) = -5\)</span> all 15 variables are in the model, when <span class="math inline">\(log(\lambda) = -1\)</span> 12 variables are retained, and when <span class="math inline">\(log(\lambda) = 1\)</span> only 3 variables are retained. Consequently, when a data set has many features, lasso can be used to identify and extract those features with the largest (and most consistent) signal.</p>
 </div>
 <div id="elastic" class="section level3">
-<h3><span class="header-section-number">7.2.3</span> Elastic nets</h3>
+<h3><span class="header-section-number">9.2.3</span> Elastic nets</h3>
 <p>A generalization of the ridge and lasso penalties is the <em>elastic net</em> penalty <span class="citation">(Zou and Hastie <a href="#ref-zou2005regularization">2005</a>)</span>, which combines the two penalties.</p>
-<span class="math display" id="eq:elastic-penalty">\[\begin{equation}
-\tag{7.5}
+<p><span class="math display" id="eq:elastic-penalty">\[\begin{equation}
+\tag{9.5}
 \text{minimize } \bigg \{ SSE + \lambda_1 \sum^p_{j=1} \beta_j^2 + \lambda_2 \sum^p_{j=1} | \beta_j | \bigg \}
-\end{equation}\]</span>
+\end{equation}\]</span></p>
 <p>Although lasso models perform feature selection, a result of their penalty parameter is that typically when two strongly correlated features are pushed towards zero, one may be pushed fully to zero while the other remains in the model. Furthermore, the process of one being in and one being out is not very systematic. In contrast, the ridge regression penalty is a little more effective in systematically reducing correlated features together. Consequently, the advantage of the elastic net penalty is that it enables effective regularization via the ridge penalty with the feature selection characteristics of the lasso penalty.</p>
 </div>
 </div>
 <div id="implementation" class="section level2">
-<h2><span class="header-section-number">7.3</span> Implementation</h2>
+<h2><span class="header-section-number">9.3</span> Implementation</h2>
 <p>We illustrate implementation of regularized regression with the <strong>glmnet</strong> package; however, realize there are other implementations available (i.e. <strong>h2o</strong>, <strong>elasticnet</strong>, <strong>penalized</strong>). The <strong>glmnet</strong> package is a fast implementation, but it requires some extra processing up-front to your data if it’s not already represented as a numeric matrix. <strong>glmnet</strong> does not use the formula method (<code>y ~ x</code>) so prior to modeling we need to create our feature and target set. Furthermore, we use the <code>model.matrix</code> function on our feature set (see <code>Matrix::sparse.model.matrix</code> for increased efficiency on large dimension data). We also log transform our response variable due to its skeweness.</p>
 <div class="tip">
 <p>
 The log transformation of the response variable is not required; however, parametric models such as regularized regression are sensitive to skewed values so it is always recommended to normalize your response variable.
 </p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create training and testing feature matrices</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create training and testing feature matrices</span>
 <span class="co"># we use model.matrix(...)[, -1] to discard the intercept</span>
-train_x &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(Sale_Price <span class="op">~</span><span class="st"> </span>., ames_train)[, <span class="op">-</span><span class="dv">1</span>]
-test_x  &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(Sale_Price <span class="op">~</span><span class="st"> </span>., ames_test)[, <span class="op">-</span><span class="dv">1</span>]
+train_x &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(Sale_Price <span class="op">~</span><span class="st"> </span>., ames_train)[, <span class="dv">-1</span>]
+test_x  &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(Sale_Price <span class="op">~</span><span class="st"> </span>., ames_test)[, <span class="dv">-1</span>]
 
 <span class="co"># Create training and testing response vectors</span>
 <span class="co"># transform y with log transformation</span>
 train_y &lt;-<span class="st"> </span><span class="kw">log</span>(ames_train<span class="op">$</span>Sale_Price)
-test_y  &lt;-<span class="st"> </span><span class="kw">log</span>(ames_test<span class="op">$</span>Sale_Price)</code></pre></div>
+test_y  &lt;-<span class="st"> </span><span class="kw">log</span>(ames_test<span class="op">$</span>Sale_Price)</code></pre>
 <p>To apply a regularized model we can use the <code>glmnet::glmnet</code> function. The <code>alpha</code> parameter tells <strong>glmnet</strong> to perform a ridge (<code>alpha = 0</code>), lasso (<code>alpha = 1</code>), or elastic net (<span class="math inline">\(0 &lt; alpha &lt; 1\)</span>) model. Behind the scenes, <strong>glmnet</strong> is doing two things that you should be aware of:</p>
 <ol style="list-style-type: decimal">
 <li>Since regularized methods apply a penalty to the coefficients, we need to ensure our coefficients are on a common scale. If not, then predictors with naturally larger values (i.e. total square footage) will be penalized more than predictors with naturally smaller values (i.e. total number of rooms). <strong>glmnet</strong> automatically standardizes your features. If you standardize your predictors prior to <strong>glmnet</strong> you can turn this argument off with <code>standardize = FALSE</code>.</li>
 <li><strong>glmnet</strong> will perform ridge models across a wide range of <span class="math inline">\(\lambda\)</span> parameters, which are illustrated in the figure below.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Apply Ridge regression to attrition data</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Apply Ridge regression to attrition data</span>
 ridge &lt;-<span class="st"> </span><span class="kw">glmnet</span>(
   <span class="dt">x =</span> train_x,
   <span class="dt">y =</span> train_y,
   <span class="dt">alpha =</span> <span class="dv">0</span>
 )
 
-<span class="kw">plot</span>(ridge, <span class="dt">xvar =</span> <span class="st">&quot;lambda&quot;</span>)</code></pre></div>
+<span class="kw">plot</span>(ridge, <span class="dt">xvar =</span> <span class="st">&quot;lambda&quot;</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:ridge1"></span>
 <img src="abar_files/figure-html/ridge1-1.png" alt="Coefficients for our ridge regression model as $\lambda$ grows from  $0 \rightarrow \infty$." width="672" />
 <p class="caption">
-Figure 7.4: Coefficients for our ridge regression model as <span class="math inline">\(\lambda\)</span> grows from <span class="math inline">\(0 \rightarrow \infty\)</span>.
+Figure 9.4: Coefficients for our ridge regression model as <span class="math inline">\(\lambda\)</span> grows from <span class="math inline">\(0 \rightarrow \infty\)</span>.
 </p>
 </div>
 <p>In fact, we can see the exact <span class="math inline">\(\lambda\)</span> values applied with <code>ridge$lambda</code>. Although you can specify your own <span class="math inline">\(\lambda\)</span> values, by default <strong>glmnet</strong> applies 100 <span class="math inline">\(\lambda\)</span> values that are data derived.</p>
@@ -422,30 +493,30 @@ glmnet has built-in functions to auto-generate the appropriate <span class="math
 </p>
 </div>
 <p>We can also directly access the coefficients for a model using <code>coef</code>. <strong>glmnet</strong> stores all the coefficients for each model in order of largest to smallest <span class="math inline">\(\lambda\)</span>. Due to the number of features, here I just peak at the two largest coefficients (<code>Latitude</code> &amp; <code>Overall_QualVery_Excellent</code>) features for the largest <span class="math inline">\(\lambda\)</span> (279.1035) and smallest <span class="math inline">\(\lambda\)</span> (0.02791035). You can see how the largest <span class="math inline">\(\lambda\)</span> value has pushed these coefficients to nearly 0.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># lambdas applied to penalty parameter</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># lambdas applied to penalty parameter</span>
 ridge<span class="op">$</span>lambda <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()
-## [1] 279.1035 254.3087 231.7166 211.1316 192.3752 175.2851
+## [1] 279.1 254.3 231.7 211.1 192.4 175.3
 
 <span class="co"># small lambda results in large coefficients</span>
 <span class="kw">coef</span>(ridge)[<span class="kw">c</span>(<span class="st">&quot;Latitude&quot;</span>, <span class="st">&quot;Overall_QualVery_Excellent&quot;</span>), <span class="dv">100</span>]
 ##                   Latitude Overall_QualVery_Excellent 
-##                 0.60585376                 0.09800466
+##                     0.6059                     0.0980
 
 <span class="co"># large lambda results in small coefficients</span>
 <span class="kw">coef</span>(ridge)[<span class="kw">c</span>(<span class="st">&quot;Latitude&quot;</span>, <span class="st">&quot;Overall_QualVery_Excellent&quot;</span>), <span class="dv">1</span>] 
 ##                   Latitude Overall_QualVery_Excellent 
-##               6.228028e-36               9.372514e-37</code></pre></div>
+##                  6.228e-36                  9.373e-37</code></pre>
 <p>However, at this point, we do not understand how much improvement we are experiencing in our loss function across various <span class="math inline">\(\lambda\)</span> values.</p>
 </div>
 <div id="regression-glmnet-tune" class="section level2">
-<h2><span class="header-section-number">7.4</span> Tuning</h2>
+<h2><span class="header-section-number">9.4</span> Tuning</h2>
 <p>Recall that <span class="math inline">\(\lambda\)</span> is a tuning parameter that helps to control our model from over-fitting to the training data. However, to identify the optimal <span class="math inline">\(\lambda\)</span> value we need to perform cross-validation (CV). <code>cv.glmnet</code> provides a built-in option to perform k-fold CV, and by default, performs 10-fold CV. Here we perform a CV glmnet model for both a ridge and lasso penalty.</p>
 <div class="rmdtip">
 <p>
 By default, <code>cv.glmnet</code> uses MSE as the loss function but you can also use mean absolute error by changing the <code>type.measure</code> argument.
 </p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Apply CV Ridge regression to Ames data</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Apply CV Ridge regression to Ames data</span>
 ridge &lt;-<span class="st"> </span><span class="kw">cv.glmnet</span>(
   <span class="dt">x =</span> train_x,
   <span class="dt">y =</span> train_y,
@@ -462,43 +533,43 @@ lasso &lt;-<span class="st"> </span><span class="kw">cv.glmnet</span>(
 <span class="co"># plot results</span>
 <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
 <span class="kw">plot</span>(ridge, <span class="dt">main =</span> <span class="st">&quot;Ridge penalty</span><span class="ch">\n\n</span><span class="st">&quot;</span>)
-<span class="kw">plot</span>(lasso, <span class="dt">main =</span> <span class="st">&quot;Lasso penalty</span><span class="ch">\n\n</span><span class="st">&quot;</span>)</code></pre></div>
+<span class="kw">plot</span>(lasso, <span class="dt">main =</span> <span class="st">&quot;Lasso penalty</span><span class="ch">\n\n</span><span class="st">&quot;</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:ridge-lasso-cv-models"></span>
 <img src="abar_files/figure-html/ridge-lasso-cv-models-1.png" alt="10-fold cross validation MSE for a ridge and lasso model. First dotted vertical line in each plot represents the $\lambda$ with the smallest MSE and the second represents the $\lambda$ with an MSE within one standard error of the minimum MSE." width="864" />
 <p class="caption">
-Figure 7.5: 10-fold cross validation MSE for a ridge and lasso model. First dotted vertical line in each plot represents the <span class="math inline">\(\lambda\)</span> with the smallest MSE and the second represents the <span class="math inline">\(\lambda\)</span> with an MSE within one standard error of the minimum MSE.
+Figure 9.5: 10-fold cross validation MSE for a ridge and lasso model. First dotted vertical line in each plot represents the <span class="math inline">\(\lambda\)</span> with the smallest MSE and the second represents the <span class="math inline">\(\lambda\)</span> with an MSE within one standard error of the minimum MSE.
 </p>
 </div>
-<p>Figure <a href="regularized-regression.html#fig:ridge-lasso-cv-models">7.5</a> illustrate the 10-fold CV mean squared error (MSE) across the <span class="math inline">\(\lambda\)</span> values. In both models we see a slight improvement in the MSE as our penalty <span class="math inline">\(log(\lambda)\)</span> gets larger , suggesting that a regular OLS model likely overfits our data. But as we constrain it further (continue to increase the penalty), our MSE starts to increase. The numbers at the top of the plot refer to the number of variables in the model. Ridge regression does not force any variables to exactly zero so all features will remain in the model but we see the number of variables retained in the lasso model go down as our penalty increases.</p>
+<p>Figure <a href="regularized-regression.html#fig:ridge-lasso-cv-models">9.5</a> illustrate the 10-fold CV mean squared error (MSE) across the <span class="math inline">\(\lambda\)</span> values. In both models we see a slight improvement in the MSE as our penalty <span class="math inline">\(log(\lambda)\)</span> gets larger , suggesting that a regular OLS model likely overfits our data. But as we constrain it further (continue to increase the penalty), our MSE starts to increase. The numbers at the top of the plot refer to the number of variables in the model. Ridge regression does not force any variables to exactly zero so all features will remain in the model but we see the number of variables retained in the lasso model go down as our penalty increases.</p>
 <p>The first and second vertical dashed lines represent the <span class="math inline">\(\lambda\)</span> value with the minimum MSE and the largest <span class="math inline">\(\lambda\)</span> value within one standard error of the minimum MSE. The minimum MSE for our ridge model is 0.0215 (produced when <span class="math inline">\(\lambda = 0.1026649\)</span>) whereas the minimium MSE for our lasso model is 0.0228 (produced when <span class="math inline">\(\lambda = 0.003521887\)</span>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ridge model</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ridge model</span>
 <span class="kw">min</span>(ridge<span class="op">$</span>cvm)       <span class="co"># minimum MSE</span>
-## [1] 0.02147691
+## [1] 0.02148
 ridge<span class="op">$</span>lambda.min     <span class="co"># lambda for this min MSE</span>
-## [1] 0.1236602
+## [1] 0.1237
 
-ridge<span class="op">$</span>cvm[ridge<span class="op">$</span>lambda <span class="op">==</span><span class="st"> </span>ridge<span class="op">$</span>lambda.1se]  <span class="co"># 1 st.error of min MSE</span>
-## [1] 0.02488411
-ridge<span class="op">$</span>lambda.1se  <span class="co"># lambda for this MSE</span>
-## [1] 0.6599372
+ridge<span class="op">$</span>cvm[ridge<span class="op">$</span>lambda <span class="op">==</span><span class="st"> </span>ridge<span class="op">$</span>lambda<span class="fl">.1</span>se]  <span class="co"># 1 st.error of min MSE</span>
+## [1] 0.02488
+ridge<span class="op">$</span>lambda<span class="fl">.1</span>se  <span class="co"># lambda for this MSE</span>
+## [1] 0.6599
 
 <span class="co"># Lasso model</span>
 <span class="kw">min</span>(lasso<span class="op">$</span>cvm)       <span class="co"># minimum MSE</span>
-## [1] 0.02411134
+## [1] 0.02411
 lasso<span class="op">$</span>lambda.min     <span class="co"># lambda for this min MSE</span>
-## [1] 0.003865266
+## [1] 0.003865
 
-lasso<span class="op">$</span>cvm[lasso<span class="op">$</span>lambda <span class="op">==</span><span class="st"> </span>lasso<span class="op">$</span>lambda.1se]  <span class="co"># 1 st.error of min MSE</span>
-## [1] 0.02819356
-lasso<span class="op">$</span>lambda.1se  <span class="co"># lambda for this MSE</span>
-## [1] 0.01560415</code></pre></div>
-<p>We can assess this visually. Figure <a href="regularized-regression.html#fig:ridge-lasso-cv-viz-results">7.6</a> plot the coefficients across the <span class="math inline">\(\lambda\)</span> values and the dashed red line represents the <span class="math inline">\(\lambda\)</span> with the smallest MSE and the dashed blue line represents largest <span class="math inline">\(\lambda\)</span> that falls within one standard error of the minimum MSE. This shows you how much we can constrain the coefficients while still maximizing predictive accuracy.</p>
+lasso<span class="op">$</span>cvm[lasso<span class="op">$</span>lambda <span class="op">==</span><span class="st"> </span>lasso<span class="op">$</span>lambda<span class="fl">.1</span>se]  <span class="co"># 1 st.error of min MSE</span>
+## [1] 0.02819
+lasso<span class="op">$</span>lambda<span class="fl">.1</span>se  <span class="co"># lambda for this MSE</span>
+## [1] 0.0156</code></pre>
+<p>We can assess this visually. Figure <a href="regularized-regression.html#fig:ridge-lasso-cv-viz-results">9.6</a> plot the coefficients across the <span class="math inline">\(\lambda\)</span> values and the dashed red line represents the <span class="math inline">\(\lambda\)</span> with the smallest MSE and the dashed blue line represents largest <span class="math inline">\(\lambda\)</span> that falls within one standard error of the minimum MSE. This shows you how much we can constrain the coefficients while still maximizing predictive accuracy.</p>
 <div class="tip">
 <p>
 Above, we saw that both ridge and lasso penalties provide similiar MSEs; however, these plots illustrate that ridge is still using all 299 variables whereas the lasso model can get a similar MSE by reducing our feature set from 299 down to 131. However, there will be some variability with this MSE and we can reasonably assume that we can achieve a similar MSE with a slightly more constrained model that uses only 63 features. Although this lasso model does not offer significant improvement over the ridge model, we get approximately the same accuracy by using only 63 features! If describing and interpreting the predictors is an important outcome of your analysis, this may significantly aid your endeavor.
 </p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ridge model</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ridge model</span>
 ridge_min &lt;-<span class="st"> </span><span class="kw">glmnet</span>(
   <span class="dt">x =</span> train_x,
   <span class="dt">y =</span> train_y,
@@ -516,33 +587,33 @@ lasso_min &lt;-<span class="st"> </span><span class="kw">glmnet</span>(
 <span class="co"># plot ridge model</span>
 <span class="kw">plot</span>(ridge_min, <span class="dt">xvar =</span> <span class="st">&quot;lambda&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Ridge penalty</span><span class="ch">\n\n</span><span class="st">&quot;</span>)
 <span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">log</span>(ridge<span class="op">$</span>lambda.min), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>)
-<span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">log</span>(ridge<span class="op">$</span>lambda.1se), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">log</span>(ridge<span class="op">$</span>lambda<span class="fl">.1</span>se), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>)
 
 <span class="co"># plot lasso model</span>
 <span class="kw">plot</span>(lasso_min, <span class="dt">xvar =</span> <span class="st">&quot;lambda&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Lasso penalty</span><span class="ch">\n\n</span><span class="st">&quot;</span>)
 <span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">log</span>(lasso<span class="op">$</span>lambda.min), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>)
-<span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">log</span>(lasso<span class="op">$</span>lambda.1se), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>)</code></pre></div>
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">log</span>(lasso<span class="op">$</span>lambda<span class="fl">.1</span>se), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:ridge-lasso-cv-viz-results"></span>
 <img src="abar_files/figure-html/ridge-lasso-cv-viz-results-1.png" alt="Coefficients for our ridge and lasso models. First dotted vertical line in each plot represents the $\lambda$ with the smallest MSE and the second represents the $\lambda$ with an MSE within one standard error of the minimum MSE." width="864" />
 <p class="caption">
-Figure 7.6: Coefficients for our ridge and lasso models. First dotted vertical line in each plot represents the <span class="math inline">\(\lambda\)</span> with the smallest MSE and the second represents the <span class="math inline">\(\lambda\)</span> with an MSE within one standard error of the minimum MSE.
+Figure 9.6: Coefficients for our ridge and lasso models. First dotted vertical line in each plot represents the <span class="math inline">\(\lambda\)</span> with the smallest MSE and the second represents the <span class="math inline">\(\lambda\)</span> with an MSE within one standard error of the minimum MSE.
 </p>
 </div>
 <p>So far we’ve implemented a pure ridge and pure lasso model. However, we can implement an elastic net the same way as the ridge and lasso models, by adjusting the <code>alpha</code> parameter. Any <code>alpha</code> value between 0-1 will perform an elastic net. When <code>alpha = 0.5</code> we perform an equal combination of penalties whereas <code>alpha</code> <span class="math inline">\(\rightarrow 0\)</span> will have a heavier ridge penalty applied and <code>alpha</code> <span class="math inline">\(\rightarrow 1\)</span> will have a heavier lasso penalty.</p>
 <div class="figure" style="text-align: center"><span id="fig:glmnet-elastic-comparison"></span>
 <img src="abar_files/figure-html/glmnet-elastic-comparison-1.png" alt="Coefficients for various penalty parameters." width="864" />
 <p class="caption">
-Figure 7.7: Coefficients for various penalty parameters.
+Figure 9.7: Coefficients for various penalty parameters.
 </p>
 </div>
-<p>Often, the optimal model contains an <code>alpha</code> somewhere between 0-1, thus we want to tune both the <span class="math inline">\(\lambda\)</span> and the <code>alpha</code> parameters. As in Chapters <a href="linear-regression.html#linear-regression">5</a> and <a href="logistic-regression.html#logistic-regression">6</a>, we can use the <strong>caret</strong> package to automate the tuning process. The following performs a grid search over 10 values of the alpha parameter between 0-1 and ten values of the lambda parameter from the lowest to highest lambda values identified by <strong>glmnet</strong>.</p>
+<p>Often, the optimal model contains an <code>alpha</code> somewhere between 0-1, thus we want to tune both the <span class="math inline">\(\lambda\)</span> and the <code>alpha</code> parameters. As in Chapters <a href="linear-regression.html#linear-regression">7</a> and <a href="logistic-regression.html#logistic-regression">8</a>, we can use the <strong>caret</strong> package to automate the tuning process. The following performs a grid search over 10 values of the alpha parameter between 0-1 and ten values of the lambda parameter from the lowest to highest lambda values identified by <strong>glmnet</strong>.</p>
 <div class="warning">
 <p>
 This grid search took <strong>71 seconds</strong> to compute.
 </p>
 </div>
-<p>The following shows the model that minimized RMSE used an alpha of 0.1 and lambda of 0.0453. The minimum RMSE of 0.1448677 (<span class="math inline">\(MSE = 0.1448677^2 = 0.02099\)</span>) is only slightly lower than our full ridge model produced earlier. Figure <a href="regularized-regression.html#fig:glmnet-tuning-grid">7.8</a> illustrates how the combination of alpha values (x-axis) and lambda values (line color) influence the RMSE.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for reproducibility</span>
+<p>The following shows the model that minimized RMSE used an alpha of 0.1 and lambda of 0.0453. The minimum RMSE of 0.1448677 (<span class="math inline">\(MSE = 0.1448677^2 = 0.02099\)</span>) is only slightly lower than our full ridge model produced earlier. Figure <a href="regularized-regression.html#fig:glmnet-tuning-grid">9.8</a> illustrates how the combination of alpha values (x-axis) and lambda values (line color) influence the RMSE.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for reproducibility</span>
 <span class="kw">set.seed</span>(<span class="dv">123</span>)
 
 <span class="co"># grid search across </span>
@@ -557,59 +628,59 @@ tuned_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
 
 <span class="co"># model with lowest RMSE</span>
 tuned_mod<span class="op">$</span>bestTune
-##   alpha     lambda
-## 8   0.1 0.04527789
+##   alpha  lambda
+## 8   0.1 0.04528
 
 <span class="co"># plot cross-validated RMSE</span>
-<span class="kw">plot</span>(tuned_mod)</code></pre></div>
+<span class="kw">plot</span>(tuned_mod)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:glmnet-tuning-grid"></span>
 <img src="abar_files/figure-html/glmnet-tuning-grid-1.png" alt="The 10-fold cross valdation RMSE across 10 alpha values (x-axis) and 10 lambda values (line color)." width="576" />
 <p class="caption">
-Figure 7.8: The 10-fold cross valdation RMSE across 10 alpha values (x-axis) and 10 lambda values (line color).
+Figure 9.8: The 10-fold cross valdation RMSE across 10 alpha values (x-axis) and 10 lambda values (line color).
 </p>
 </div>
 <p>So how does this compare to our previous best model for the Ames data? Keep in mind that for this chapter we log transformed our response variable. Consequently, to provide a fair comparison to our partial least squares RMSE of $31,522.47, we need to re-transform our predicted values. The following illustrates that our optimal regularized model achieves an RMSE of $26,608.12. Introducing a penalty parameter to constrain the coefficients provides quite an improvement over our dimension reduction approach.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># predict sales price on training data</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># predict sales price on training data</span>
 pred &lt;-<span class="st"> </span><span class="kw">predict</span>(tuned_mod, train_x)
 
 <span class="co"># compute RMSE of transformed predicted</span>
 <span class="kw">RMSE</span>(<span class="kw">exp</span>(pred), <span class="kw">exp</span>(train_y))
-## [1] 26608.12</code></pre></div>
+## [1] 26608</code></pre>
 </div>
-<div id="model-interpretation-1" class="section level2">
-<h2><span class="header-section-number">7.5</span> Model interpretation</h2>
-<p>Variable importance for regularized models provide a similar interpretation as in linear (or logistic) regression. Importance is determined by the absolute value of the <em>t</em>-statistic and we can see in Figure <a href="regularized-regression.html#fig:regularize-vip">7.9</a> some of the same variables that were considered highly influential in our partial least squares model, albeit in differing order (i.e. <code>Gr_Liv_Area</code>, <code>Overall_Qual</code>, <code>First_Flr_SF</code>, <code>Garage_Cars</code>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vip</span>(tuned_mod, <span class="dt">num_features =</span> <span class="dv">20</span>, <span class="dt">bar =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div id="lm-features" class="section level2">
+<h2><span class="header-section-number">9.5</span> Feature interpretation</h2>
+<p>Variable importance for regularized models provide a similar interpretation as in linear (or logistic) regression. Importance is determined by the absolute value of the <em>t</em>-statistic and we can see in Figure <a href="regularized-regression.html#fig:regularize-vip">9.9</a> some of the same variables that were considered highly influential in our partial least squares model, albeit in differing order (i.e. <code>Gr_Liv_Area</code>, <code>Overall_Qual</code>, <code>First_Flr_SF</code>, <code>Garage_Cars</code>).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vip</span>(tuned_mod, <span class="dt">num_features =</span> <span class="dv">20</span>, <span class="dt">bar =</span> <span class="ot">FALSE</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:regularize-vip"></span>
 <img src="abar_files/figure-html/regularize-vip-1.png" alt="Top 20 most important variables for the optimal regularized regression model." width="672" />
 <p class="caption">
-Figure 7.9: Top 20 most important variables for the optimal regularized regression model.
+Figure 9.9: Top 20 most important variables for the optimal regularized regression model.
 </p>
 </div>
-<p>Similar to linear and logistic regression, the relationship between these influential variables and the response is monotonic linear. However, since we modeled our response with a log transformation, the relationship between will be monotonic but non-linear for the untransformed relationship. Figure <a href="regularized-regression.html#fig:regularized-top4-pdp">7.10</a> illustrates the relationship between the top four most influential variables and the non-transformed sales price. All relationships are positive in nature, as the values in these features increase (or for <code>Overall_QualExcellent</code> if it exists) the average predicted sales price increases.</p>
+<p>Similar to linear and logistic regression, the relationship between these influential variables and the response is monotonic linear. However, since we modeled our response with a log transformation, the relationship between will be monotonic but non-linear for the untransformed relationship. Figure <a href="regularized-regression.html#fig:regularized-top4-pdp">9.10</a> illustrates the relationship between the top four most influential variables and the non-transformed sales price. All relationships are positive in nature, as the values in these features increase (or for <code>Overall_QualExcellent</code> if it exists) the average predicted sales price increases.</p>
 <div class="figure" style="text-align: center"><span id="fig:regularized-top4-pdp"></span>
 <img src="abar_files/figure-html/regularized-top4-pdp-1.png" alt="Partial dependence plots for the first four most important variables." width="672" />
 <p class="caption">
-Figure 7.10: Partial dependence plots for the first four most important variables.
+Figure 9.10: Partial dependence plots for the first four most important variables.
 </p>
 </div>
 <p>However, we see the <span class="math inline">\(5^{th}\)</span> most influential variable is <code>Overall_QualPoor</code>. When a home has an overall quality rating of poor we see that the average predicted sales price decreases versus when it has some other overall quality rating. Consequently, its important to not only look at the variable importance ranking, but also observe the positive or negative nature of the relationship.</p>
 <div class="figure" style="text-align: center"><span id="fig:regularized-num5-pdp"></span>
 <img src="abar_files/figure-html/regularized-num5-pdp-1.png" alt="Partial dependence plots for the first four most important variables." width="384" />
 <p class="caption">
-Figure 7.11: Partial dependence plots for the first four most important variables.
+Figure 9.11: Partial dependence plots for the first four most important variables.
 </p>
 </div>
 </div>
 <div id="attrition-data" class="section level2">
-<h2><span class="header-section-number">7.6</span> Attrition data</h2>
-<p>We saw that regularization significantly improved our predictive accuracy for the Ames data, but how about for the attrition data. In Chapter <a href="logistic-regression.html#logistic-regression">6</a> we saw a maximum cross-validated accuracy of 86.3% for our logistic regression model. Performing a regularized logistic regression model provides us with about 1.5% improvement in our accuracy.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span>attrition <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.ordered, factor, <span class="dt">ordered =</span> <span class="ot">FALSE</span>)
+<h2><span class="header-section-number">9.6</span> Attrition data</h2>
+<p>We saw that regularization significantly improved our predictive accuracy for the Ames data, but how about for the attrition data. In Chapter <a href="logistic-regression.html#logistic-regression">8</a> we saw a maximum cross-validated accuracy of 86.3% for our logistic regression model. Performing a regularized logistic regression model provides us with about 1.5% improvement in our accuracy.</p>
+<pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span>attrition <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.ordered, factor, <span class="dt">ordered =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Create training (70%) and test (30%) sets for the rsample::attrition data.</span>
 <span class="co"># Use set.seed for reproducibility</span>
 <span class="kw">set.seed</span>(<span class="dv">123</span>)
-churn_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(df, <span class="dt">prop =</span> .<span class="dv">7</span>, <span class="dt">strata =</span> <span class="st">&quot;Attrition&quot;</span>)
+churn_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(df, <span class="dt">prop =</span> <span class="fl">.7</span>, <span class="dt">strata =</span> <span class="st">&quot;Attrition&quot;</span>)
 train &lt;-<span class="st"> </span><span class="kw">training</span>(churn_split)
 test  &lt;-<span class="st"> </span><span class="kw">testing</span>(churn_split)
 
@@ -641,15 +712,15 @@ penalized_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
   <span class="dt">logistic_model =</span> glm_mod, 
   <span class="dt">penalized_model =</span> penalized_mod
   )))<span class="op">$</span>statistics<span class="op">$</span>Accuracy
-##                      Min.   1st Qu.    Median      Mean   3rd Qu.
-## logistic_model  0.8058252 0.8389423 0.8585570 0.8631848 0.8949172
-## penalized_model 0.8446602 0.8567961 0.8744399 0.8787288 0.9068627
-##                      Max. NA&#39;s
-## logistic_model  0.9134615    0
-## penalized_model 0.9134615    0</code></pre></div>
+##                   Min. 1st Qu. Median   Mean 3rd Qu.
+## logistic_model  0.8058  0.8389 0.8586 0.8632  0.8949
+## penalized_model 0.8447  0.8568 0.8744 0.8787  0.9069
+##                   Max. NA&#39;s
+## logistic_model  0.9135    0
+## penalized_model 0.9135    0</code></pre>
 </div>
 <div id="final-thoughts-2" class="section level2">
-<h2><span class="header-section-number">7.7</span> Final thoughts</h2>
+<h2><span class="header-section-number">9.7</span> Final thoughts</h2>
 <p>Regularized regression is a great start for building onto generalized linear models (i.e. OLS, logistic regression) to make them more robust to assumption violations and perform automated feature selection. This chapter illustrated how constraining our coefficients with a regulazation penalty helped to improve predictive accuary for both the ames and attrition data. However, regularized models still assume linear relationships. The chapters that follow will start exploring non-linear algorithms to see if we can further improve our predictive accuracy. The following summarizes some of the advantages and disadvantages discussed regarding regularized regression.</p>
 <p><strong>FIXME: refine this section</strong></p>
 <p><strong>Advantages:</strong></p>
@@ -670,7 +741,7 @@ penalized_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
 </ul>
 </div>
 <div id="learning-more-2" class="section level2">
-<h2><span class="header-section-number">7.8</span> Learning more</h2>
+<h2><span class="header-section-number">9.8</span> Learning more</h2>
 <p>This serves as an introduction to regularized regression; however, it just scrapes the surface. Regularized regression approaches have been extended to other parametric (i.e. Cox proportional hazard, poisson, support vector machines) and non-parametric (i.e. Least Angle Regression, the Bayesian Lasso, neural networks) models. The following are great resources to learn more (listed in order of complexity):</p>
 <ul>
 <li><a href="https://www.amazon.com/Applied-Predictive-Modeling-Max-Kuhn/dp/1461468485/ref=sr_1_1?ie=UTF8&amp;qid=1522246635&amp;sr=8-1&amp;keywords=applied+predictive+modelling">Applied Predictive Modeling</a></li>
@@ -699,8 +770,8 @@ penalized_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
 </div>
 <div class="footnotes">
 <hr />
-<ol start="1">
-<li id="fn1"><p>Note that our pentalty is only applied to our feature coefficients (<span class="math inline">\(\beta_1, \beta_2, \dots, \beta_p\)</span>) and not the intercept (<span class="math inline">\(\beta_0\)</span>).<a href="regularized-regression.html#fnref1">↩</a></p></li>
+<ol start="13">
+<li id="fn13"><p>Note that our pentalty is only applied to our feature coefficients (<span class="math inline">\(\beta_1, \beta_2, \dots, \beta_p\)</span>) and not the intercept (<span class="math inline">\(\beta_0\)</span>).<a href="regularized-regression.html#fnref13" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -709,16 +780,16 @@ penalized_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
         </div>
       </div>
 <a href="logistic-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="MARS.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -755,7 +826,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

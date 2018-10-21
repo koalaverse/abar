@@ -33,3 +33,6 @@ randomForest
 ranger
 rpart
 rpart.plot
+Matrix
+foreach
+glmnet

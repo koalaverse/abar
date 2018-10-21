@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</title>
   <meta name="description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
   <meta property="og:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2018-07-29">
+<meta name="date" content="2018-10-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,13 +33,13 @@
   
   
 <link rel="prev" href="inference.html">
-<link rel="next" href="linear-regression.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link rel="next" href="fundamentalconcepts.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
 
 
 
@@ -47,44 +47,80 @@
 
 
 
+<script src="libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="libs/plotly-binding/plotly.js"></script>
+<script src="libs/typedarray/typedarray.min.js"></script>
+<link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main/plotly-latest.min.js"></script>
+<script src="libs/kePrint/kePrint.js"></script>
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -129,112 +165,168 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
-<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>1.5</b> Prerequisites</a></li>
-<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>1.6</b> Measures of location</a><ul>
-<li class="chapter" data-level="1.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>1.6.1</b> The sample mean</a></li>
-<li class="chapter" data-level="1.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>1.6.2</b> The sample median</a></li>
-<li class="chapter" data-level="1.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>1.6.3</b> The mean or the median</a></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>2</b> Descriptive Statistics</a><ul>
+<li class="chapter" data-level="2.1" data-path="descriptive.html"><a href="descriptive.html"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.2" data-path="descriptive.html"><a href="descriptive.html#measures-of-location"><i class="fa fa-check"></i><b>2.2</b> Measures of location</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="descriptive.html"><a href="descriptive.html#the-sample-mean"><i class="fa fa-check"></i><b>2.2.1</b> The sample mean</a></li>
+<li class="chapter" data-level="2.2.2" data-path="descriptive.html"><a href="descriptive.html#the-sample-median"><i class="fa fa-check"></i><b>2.2.2</b> The sample median</a></li>
+<li class="chapter" data-level="2.2.3" data-path="descriptive.html"><a href="descriptive.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>2.2.3</b> The mean or the median</a></li>
 </ul></li>
-<li class="chapter" data-level="1.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>1.7</b> Measures of spread</a><ul>
-<li class="chapter" data-level="1.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>1.7.1</b> The empirical rule</a></li>
+<li class="chapter" data-level="2.3" data-path="descriptive.html"><a href="descriptive.html#measures-of-spread"><i class="fa fa-check"></i><b>2.3</b> Measures of spread</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="descriptive.html"><a href="descriptive.html#empirical-rule"><i class="fa fa-check"></i><b>2.3.1</b> The empirical rule</a></li>
 </ul></li>
-<li class="chapter" data-level="1.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>1.8</b> Percentiles</a></li>
-<li class="chapter" data-level="1.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>1.9</b> Robust measures of spread</a></li>
-<li class="chapter" data-level="1.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>1.10</b> Outlier detection</a></li>
-<li class="chapter" data-level="1.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>1.11</b> Describing categorical data</a><ul>
-<li class="chapter" data-level="1.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>1.11.1</b> Contingency tables</a></li>
+<li class="chapter" data-level="2.4" data-path="descriptive.html"><a href="descriptive.html#percentiles"><i class="fa fa-check"></i><b>2.4</b> Percentiles</a></li>
+<li class="chapter" data-level="2.5" data-path="descriptive.html"><a href="descriptive.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>2.5</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="2.6" data-path="descriptive.html"><a href="descriptive.html#outliers"><i class="fa fa-check"></i><b>2.6</b> Outlier detection</a></li>
+<li class="chapter" data-level="2.7" data-path="descriptive.html"><a href="descriptive.html#categorical"><i class="fa fa-check"></i><b>2.7</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="descriptive.html"><a href="descriptive.html#contingency-tables"><i class="fa fa-check"></i><b>2.7.1</b> Contingency tables</a></li>
 </ul></li>
-<li class="chapter" data-level="1.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>1.12</b> Exercises</a></li>
+<li class="chapter" data-level="2.8" data-path="descriptive.html"><a href="descriptive.html#exercises"><i class="fa fa-check"></i><b>2.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>2</b> Visual data exploration</a><ul>
-<li class="chapter" data-level="2.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>2.2</b> Univariate data</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>2.2.1</b> Continuous Variables</a></li>
-<li class="chapter" data-level="2.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>2.2.2</b> Categorical Variables</a></li>
+<li class="chapter" data-level="3" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>3</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="3.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>3.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>3.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>3.2.2</b> Categorical Variables</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>2.3</b> Bivariate data</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.3.1</b> Scatter plots</a></li>
+<li class="chapter" data-level="3.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>3.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>3.3.1</b> Scatter plots</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>2.4</b> Multivariate data</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>2.4.1</b> Facetting</a></li>
+<li class="chapter" data-level="3.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>3.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>3.4.1</b> Facetting</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>2.5</b> Data quality</a></li>
-<li class="chapter" data-level="2.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>2.6</b> Further reading</a></li>
-<li class="chapter" data-level="2.7" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>2.7</b> Exercises</a></li>
+<li class="chapter" data-level="3.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>3.5</b> Data quality</a></li>
+<li class="chapter" data-level="3.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>3.6</b> Further reading</a></li>
+<li class="chapter" data-level="3.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>3</b> Statistical Inference</a><ul>
-<li class="chapter" data-level="3.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> The frequentist approach</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.1.1</b> The central limit theorem</a></li>
-<li class="chapter" data-level="3.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="3.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>3.1.3</b> One-sided versus two-sided tests</a></li>
-<li class="chapter" data-level="3.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>3.1.4</b> Type I and type II errors</a></li>
-<li class="chapter" data-level="3.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>3.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
-<li class="chapter" data-level="3.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>3.1.6</b> Confidence intervals</a></li>
+<li class="chapter" data-level="4" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="4.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>4.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>4.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="4.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="4.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>4.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="4.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>4.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="4.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>4.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="4.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>4.1.6</b> Confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>3.2</b> One- and two-sample t-tests</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.2.1</b> One-sample t-test</a></li>
-<li class="chapter" data-level="3.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>3.2.2</b> Two-sample t-test</a></li>
+<li class="chapter" data-level="4.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>4.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="4.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> Two-sample t-test</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>3.3</b> Tests involving more than two means: ANOVA models</a></li>
-<li class="chapter" data-level="3.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>3.4</b> Testing for association in contingency tables</a></li>
-<li class="chapter" data-level="3.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>3.5</b> Nonparametric tests</a></li>
-<li class="chapter" data-level="3.6" data-path="inference.html"><a href="inference.html#the-nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.6</b> The nonparametric bootstrap</a><ul>
-<li class="chapter" data-level="3.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>3.6.1</b> Bootstrap confidence intervals</a></li>
+<li class="chapter" data-level="4.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>4.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="4.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>4.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="4.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>4.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="4.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>4.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>4.6.1</b> Bootstrap confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="3.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>3.7</b> Further reading</a></li>
-<li class="chapter" data-level="3.8" data-path="inference.html"><a href="inference.html#exercises-1"><i class="fa fa-check"></i><b>3.8</b> Exercises</a></li>
+<li class="chapter" data-level="4.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>4.7</b> Further reading</a></li>
+<li class="chapter" data-level="4.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>4</b> Unsupervised learning</a><ul>
-<li class="chapter" data-level="4.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>4.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="4.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>4.2</b> Principal Components Analysis</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>4.2.1</b> Finding principal components</a></li>
-<li class="chapter" data-level="4.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>4.2.2</b> Performing PCA in R</a></li>
-<li class="chapter" data-level="4.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>4.2.3</b> Selecting the Number of Principal Components</a></li>
-<li class="chapter" data-level="4.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>4.2.4</b> Extracting additional insights</a></li>
-<li class="chapter" data-level="4.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>4.2.5</b> PCA with mixed data</a></li>
+<li class="chapter" data-level="5" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="5.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>5.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>5.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="5.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="5.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>5.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="5.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>5.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="5.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>5.2.5</b> PCA with mixed data</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>4.3</b> Cluster Analysis</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>4.3.1</b> Clustering distance measures</a></li>
-<li class="chapter" data-level="4.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>4.3.2</b> K-means clustering</a></li>
-<li class="chapter" data-level="4.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.3.3</b> Hierarchical clustering</a></li>
-<li class="chapter" data-level="4.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>4.3.4</b> Clustering with mixed data</a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>II Predictive Analytics</b></span><ul>
-<li class="chapter" data-level="4.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>4.4</b> Regression problems</a></li>
-<li class="chapter" data-level="4.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>4.5</b> Classification problems</a></li>
-<li class="chapter" data-level="4.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>4.6</b> Algorithm Comparison Guide</a></li>
-<li class="chapter" data-level="4.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>4.7</b> General modeling process</a><ul>
-<li class="chapter" data-level="4.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>4.7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="4.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-split"><i class="fa fa-check"></i><b>4.7.2</b> Data splitting</a></li>
-<li class="chapter" data-level="4.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>4.7.3</b> Feature engineering</a></li>
-<li class="chapter" data-level="4.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>4.7.4</b> Basic model formulation</a></li>
-<li class="chapter" data-level="4.7.5" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_tune"><i class="fa fa-check"></i><b>4.7.5</b> Model tuning</a></li>
-<li class="chapter" data-level="4.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>4.7.6</b> Cross Validation for Generalization</a></li>
-<li class="chapter" data-level="4.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_eval"><i class="fa fa-check"></i><b>4.7.7</b> Model evaluation</a></li>
-<li class="chapter" data-level="4.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>4.7.8</b> Interpreting predictive models</a></li>
+<li class="chapter" data-level="5.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>5.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="5.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>5.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="5.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="5.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>5.3.4</b> Clustering with mixed data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5</b> Linear regression</a><ul>
-<li class="chapter" data-level="5.1" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>5.1</b> Simple linear regression</a></li>
-<li class="chapter" data-level="5.2" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>5.2</b> Multiple linear regression</a></li>
-<li class="chapter" data-level="5.3" data-path="linear-regression.html"><a href="linear-regression.html#assumptions"><i class="fa fa-check"></i><b>5.3</b> Assumptions</a></li>
-<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html#advantages-disadvantages"><i class="fa fa-check"></i><b>5.4</b> Advantages &amp; Disadvantages</a></li>
-<li class="chapter" data-level="5.5" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>5.5</b> Prerequisites</a></li>
-<li class="chapter" data-level="5.6" data-path="linear-regression.html"><a href="linear-regression.html#basic-implementation"><i class="fa fa-check"></i><b>5.6</b> Basic implementation</a></li>
-<li class="chapter" data-level="5.7" data-path="linear-regression.html"><a href="linear-regression.html#predictive-accuracy"><i class="fa fa-check"></i><b>5.7</b> Predictive accuracy</a></li>
-<li class="chapter" data-level="5.8" data-path="linear-regression.html"><a href="linear-regression.html#adding-more-predictors"><i class="fa fa-check"></i><b>5.8</b> Adding more predictors</a></li>
-<li class="chapter" data-level="5.9" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>5.9</b> Model concerns</a></li>
-<li class="chapter" data-level="5.10" data-path="linear-regression.html"><a href="linear-regression.html#dimension-reduction-with-pca"><i class="fa fa-check"></i><b>5.10</b> Dimension reduction with PCA</a></li>
-<li class="chapter" data-level="5.11" data-path="linear-regression.html"><a href="linear-regression.html#dimension-reduction-with-pls"><i class="fa fa-check"></i><b>5.11</b> Dimension reduction with PLS</a></li>
-<li class="chapter" data-level="5.12" data-path="linear-regression.html"><a href="linear-regression.html#variable-importance"><i class="fa fa-check"></i><b>5.12</b> Variable importance</a></li>
-<li class="chapter" data-level="5.13" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>5.13</b> Learning more</a></li>
+<li class="part"><span><b>II Predictive Analytics</b></span></li>
+<li class="chapter" data-level="6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html"><i class="fa fa-check"></i><b>6</b> Fundamental concepts</a><ul>
+<li class="chapter" data-level="6.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#regression-problems"><i class="fa fa-check"></i><b>6.1</b> Regression problems</a></li>
+<li class="chapter" data-level="6.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#classification-problems"><i class="fa fa-check"></i><b>6.2</b> Classification problems</a></li>
+<li class="chapter" data-level="6.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>6.3</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="6.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#general-modeling-process"><i class="fa fa-check"></i><b>6.4</b> General modeling process</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_prereq"><i class="fa fa-check"></i><b>6.4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-split"><i class="fa fa-check"></i><b>6.4.2</b> Data splitting</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_feat"><i class="fa fa-check"></i><b>6.4.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="6.4.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#model-form"><i class="fa fa-check"></i><b>6.4.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="6.4.5" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#tune"><i class="fa fa-check"></i><b>6.4.5</b> Model tuning</a></li>
+<li class="chapter" data-level="6.4.6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#cv"><i class="fa fa-check"></i><b>6.4.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="6.4.7" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-eval"><i class="fa fa-check"></i><b>6.4.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="6.4.8" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>6.4.8</b> Interpreting predictive models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>7</b> Linear regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="7.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple linear regression</a></li>
+<li class="chapter" data-level="7.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>7.3</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="7.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>7.4</b> Assessing Model Accuracy</a></li>
+<li class="chapter" data-level="7.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>7.5</b> Model concerns</a></li>
+<li class="chapter" data-level="7.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>7.6</b> Principal component regression</a></li>
+<li class="chapter" data-level="7.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>7.7</b> Partial least squares</a></li>
+<li class="chapter" data-level="7.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>7.8</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="7.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>7.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="7.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>7.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Logistic regression</a><ul>
+<li class="chapter" data-level="8.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="8.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>8.2</b> Why logistic regression</a></li>
+<li class="chapter" data-level="8.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>8.3</b> Simple logistic regression</a></li>
+<li class="chapter" data-level="8.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>8.4</b> Multiple logistic regression</a></li>
+<li class="chapter" data-level="8.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>8.5</b> Assessing model accuracy</a></li>
+<li class="chapter" data-level="8.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>8.6</b> Feature interpretation</a></li>
+<li class="chapter" data-level="8.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="8.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>9</b> Regularized regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="9.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>9.2</b> Why Regularize</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>9.2.1</b> Ridge penalty</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>9.2.2</b> Lasso penalty</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>9.2.3</b> Elastic nets</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>9.3</b> Implementation</a></li>
+<li class="chapter" data-level="9.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>9.4</b> Tuning</a></li>
+<li class="chapter" data-level="9.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>9.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="9.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>9.6</b> Attrition data</a></li>
+<li class="chapter" data-level="9.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>9.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="9.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>9.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>10</b> Multivariate Adaptive Regression Splines</a><ul>
+<li class="chapter" data-level="10.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="10.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>10.2.1</b> Multivariate regression splines</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>10.3</b> Fitting a basic MARS model</a></li>
+<li class="chapter" data-level="10.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>10.4</b> Tuning</a></li>
+<li class="chapter" data-level="10.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>10.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="10.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>10.6</b> Attrition data</a></li>
+<li class="chapter" data-level="10.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>10.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="10.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>10.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>11</b> Random Forests</a><ul>
+<li class="chapter" data-level="11.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>11.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="11.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>11.2</b> Decision trees</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>11.2.1</b> A simple regression tree example</a></li>
+<li class="chapter" data-level="11.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>11.2.2</b> Deciding on splits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>11.3</b> Bagging</a></li>
+<li class="chapter" data-level="11.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>11.4</b> Random forests</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>11.4.1</b> OOB error vs. test set error</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>11.5</b> Fitting a basic random forest model</a></li>
+<li class="chapter" data-level="11.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>11.6</b> Tuning</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>11.6.1</b> Tuning via ranger</a></li>
+<li class="chapter" data-level="11.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>11.6.2</b> Tuning via caret</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>11.7</b> Feature interpretation</a></li>
+<li class="chapter" data-level="11.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>11.8</b> Attrition data</a></li>
+<li class="chapter" data-level="11.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>11.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="11.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>11.10</b> Learning more</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="6" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>6</b> (APPENDIX) Appendix {-}</a><ul>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+<li class="chapter" data-level="12" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) Appendix {-}</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html"><i class="fa fa-check"></i>Data sets</a><ul>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -257,12 +349,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="unsupervised" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Unsupervised learning</h1>
-<p><strong><em>Unsupervised learning</em></strong>, includes a set of statistical tools to better understand <em>n</em> observations that contain a set of features (<span class="math inline">\(x_1, x_2, \dots, x_p\)</span>) but do not contain a response variable (<em>Y</em>). In essence, unsupervised learning is concerned with identifying groups in a data set. The groups may be defined by the rows (i.e., <em>clustering</em>) or the columns (i.e., <em>dimension reduction</em>); however, the motive in each case is quite different. The goal of <strong><em>clustering</em></strong> is to segment observations into similar groups based on the observed variables. For example, to divide consumers into different homogeneous groups, a process known as market segmentation. In dimension reduction, we are often concerned with reducing the number of variables in a data set. For example, classical regression models break down in the presence of highly correlated features. <strong><em>Principal components analysis</em></strong> is a technique that reduces the feature set to a potentially smaller set of uncorrelated variables. These variables are often used as the input variables to simpler modelling techniques like <em>multiple linear regression</em> (Section <a href="linear-regression.html#multi-lm">5.2</a>).</p>
+<h1><span class="header-section-number">Chapter 5</span> Unsupervised learning</h1>
+<p><strong><em>Unsupervised learning</em></strong>, includes a set of statistical tools to better understand <em>n</em> observations that contain a set of features (<span class="math inline">\(x_1, x_2, \dots, x_p\)</span>) but do not contain a response variable (<em>Y</em>). In essence, unsupervised learning is concerned with identifying groups in a data set. The groups may be defined by the rows (i.e., <em>clustering</em>) or the columns (i.e., <em>dimension reduction</em>); however, the motive in each case is quite different. The goal of <strong><em>clustering</em></strong> is to segment observations into similar groups based on the observed variables. For example, to divide consumers into different homogeneous groups, a process known as market segmentation. In dimension reduction, we are often concerned with reducing the number of variables in a data set. For example, classical regression models break down in the presence of highly correlated features. <strong><em>Principal components analysis</em></strong> is a technique that reduces the feature set to a potentially smaller set of uncorrelated variables. These variables are often used as the input variables to simpler modelling techniques like <em>multiple linear regression</em> (Section <a href="linear-regression.html#multi-lm">7.3</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:cluster-pca"></span>
 <img src="illustrations/clustering_vs_pca.jpeg" alt="Clustering identifies groupings among the observations (left). Dimension reduction identifies groupings among the features (right)."  />
 <p class="caption">
-Figure 4.1: Clustering identifies groupings among the observations (left). Dimension reduction identifies groupings among the features (right).
+Figure 5.1: Clustering identifies groupings among the observations (left). Dimension reduction identifies groupings among the features (right).
 </p>
 </div>
 <p>Unsupervised learning is often performed as part of an exploratory data analysis. However, the exercise tends to be more subjective, and there is no simple goal for the analysis, such as prediction of a response. Furthermore, it can be hard to assess the quality of results obtained from unsupervised learning methods. The reason for this is simple. If we fit a predictive model using a supervised learning technique (i.e. linear regression), then it is possible to check our work by seeing how well our model predicts the response <em>Y</em> on observations not used in fitting the model. However, in unsupervised learning, there is no way to check our work because we don’t know the true answer—the problem is unsupervised.</p>
@@ -293,11 +385,11 @@ A cancer researcher might assay gene expression levels in 100 patients with brea
 <li>Alternative approaches for mixed data</li>
 </ol>
 <div id="prerequisites-2" class="section level2">
-<h2><span class="header-section-number">4.1</span> Prerequisites</h2>
+<h2><span class="header-section-number">5.1</span> Prerequisites</h2>
 <p>For this section we will use the following packages:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)  <span class="co"># data manipulation</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)  <span class="co"># data manipulation</span>
 <span class="kw">library</span>(cluster)    <span class="co"># clustering algorithms</span>
-<span class="kw">library</span>(factoextra) <span class="co"># clustering algorithms &amp; visualization</span></code></pre></div>
+<span class="kw">library</span>(factoextra) <span class="co"># clustering algorithms &amp; visualization</span></code></pre>
 <p>To perform these unsupervised techniques in R, generally, the data should be prepared as follows:</p>
 <ol style="list-style-type: decimal">
 <li>Rows are observations (individuals) and columns are variables (also known as <strong><em>tidy</em></strong> per <span class="citation">Wickham and others (<a href="#ref-wickham2014tidy">2014</a>)</span>).</li>
@@ -306,7 +398,7 @@ A cancer researcher might assay gene expression levels in 100 patients with brea
 <li>Numeric data must be standardized (i.e. centered and scaled) to make variables comparable. Recall that, standardization consists of transforming the variables such that they have mean zero and standard deviation one.</li>
 </ol>
 <p>We’ll continue using the Ames housing data throughout this chapter; however, for the initial sections we’ll only use the numeric variables. Furthermore, we’ll remove the sales price variable which results in 34 of the original variables. What results are all numeric variables that describe various features of 2930 homes. Our objective will be to identify various groupings among these variables and observations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ames &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>() <span class="op">%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r">ames &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select_if</span>(is.numeric) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Sale_Price)
 
@@ -315,48 +407,64 @@ A cancer researcher might assay gene expression levels in 100 patients with brea
 
 <span class="co"># remaining numeric variables describing homes</span>
 <span class="kw">names</span>(ames)
-##  [1] &quot;Lot_Frontage&quot;       &quot;Lot_Area&quot;           &quot;Year_Built&quot;        
-##  [4] &quot;Year_Remod_Add&quot;     &quot;Mas_Vnr_Area&quot;       &quot;BsmtFin_SF_1&quot;      
-##  [7] &quot;BsmtFin_SF_2&quot;       &quot;Bsmt_Unf_SF&quot;        &quot;Total_Bsmt_SF&quot;     
-## [10] &quot;First_Flr_SF&quot;       &quot;Second_Flr_SF&quot;      &quot;Low_Qual_Fin_SF&quot;   
-## [13] &quot;Gr_Liv_Area&quot;        &quot;Bsmt_Full_Bath&quot;     &quot;Bsmt_Half_Bath&quot;    
-## [16] &quot;Full_Bath&quot;          &quot;Half_Bath&quot;          &quot;Bedroom_AbvGr&quot;     
-## [19] &quot;Kitchen_AbvGr&quot;      &quot;TotRms_AbvGrd&quot;      &quot;Fireplaces&quot;        
-## [22] &quot;Garage_Cars&quot;        &quot;Garage_Area&quot;        &quot;Wood_Deck_SF&quot;      
-## [25] &quot;Open_Porch_SF&quot;      &quot;Enclosed_Porch&quot;     &quot;Three_season_porch&quot;
-## [28] &quot;Screen_Porch&quot;       &quot;Pool_Area&quot;          &quot;Misc_Val&quot;          
-## [31] &quot;Mo_Sold&quot;            &quot;Year_Sold&quot;          &quot;Longitude&quot;         
-## [34] &quot;Latitude&quot;</code></pre></div>
+##  [1] &quot;Lot_Frontage&quot;       &quot;Lot_Area&quot;          
+##  [3] &quot;Year_Built&quot;         &quot;Year_Remod_Add&quot;    
+##  [5] &quot;Mas_Vnr_Area&quot;       &quot;BsmtFin_SF_1&quot;      
+##  [7] &quot;BsmtFin_SF_2&quot;       &quot;Bsmt_Unf_SF&quot;       
+##  [9] &quot;Total_Bsmt_SF&quot;      &quot;First_Flr_SF&quot;      
+## [11] &quot;Second_Flr_SF&quot;      &quot;Low_Qual_Fin_SF&quot;   
+## [13] &quot;Gr_Liv_Area&quot;        &quot;Bsmt_Full_Bath&quot;    
+## [15] &quot;Bsmt_Half_Bath&quot;     &quot;Full_Bath&quot;         
+## [17] &quot;Half_Bath&quot;          &quot;Bedroom_AbvGr&quot;     
+## [19] &quot;Kitchen_AbvGr&quot;      &quot;TotRms_AbvGrd&quot;     
+## [21] &quot;Fireplaces&quot;         &quot;Garage_Cars&quot;       
+## [23] &quot;Garage_Area&quot;        &quot;Wood_Deck_SF&quot;      
+## [25] &quot;Open_Porch_SF&quot;      &quot;Enclosed_Porch&quot;    
+## [27] &quot;Three_season_porch&quot; &quot;Screen_Porch&quot;      
+## [29] &quot;Pool_Area&quot;          &quot;Misc_Val&quot;          
+## [31] &quot;Mo_Sold&quot;            &quot;Year_Sold&quot;         
+## [33] &quot;Longitude&quot;          &quot;Latitude&quot;</code></pre>
 <p>To prepare our data for these techniques, let’s make sure our data complies with the 3 requirements mentioned above. Our data is already set up in the proper <em>tidy</em> fashion where each row is an individual observation and each column is an individual variable. And as you can see, there are no missing values in the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># how many missing values are in the data</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># how many missing values are in the data</span>
 <span class="kw">sum</span>(<span class="kw">is.na</span>(ames))
-## [1] 0</code></pre></div>
+## [1] 0</code></pre>
 <p>It is usually beneficial for each variable to be centered at zero due to the fact that it makes comparing each principal component to the mean or the dissimilarity distances for cluster analysis straightforward. This also eliminates potential problems with magnitude differences of each variable. For example, the variance of <code>Year_Built</code> is 914, while the variance of <code>First_Flr_SF</code> is 1,535,789. The <code>Year_Built</code> variable isn’t necessarily more variable, it’s simply on a different scale relative to <code>First_Flr_SF</code>. However, due to the math behind PCA and clustering algorithms, the larger magnitude variables will bias the results.</p>
 <div class="note">
 <p>
 However, keep in mind that there may be instances where scaling is not desirable.
 </p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(ames[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dv">2</span>, var)
-##   Lot_Frontage       Lot_Area     Year_Built Year_Remod_Add   Mas_Vnr_Area 
-##   1.122213e+03   6.209468e+07   9.147818e+02   4.351515e+02   3.191030e+04 
-##   BsmtFin_SF_1   BsmtFin_SF_2    Bsmt_Unf_SF  Total_Bsmt_SF   First_Flr_SF 
-##   4.987953e+00   2.860905e+04   1.931959e+05   1.944528e+05   1.535785e+05</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(ames[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dv">2</span>, var)
+##   Lot_Frontage       Lot_Area     Year_Built 
+##      1.122e+03      6.209e+07      9.148e+02 
+## Year_Remod_Add   Mas_Vnr_Area   BsmtFin_SF_1 
+##      4.352e+02      3.191e+04      4.988e+00 
+##   BsmtFin_SF_2    Bsmt_Unf_SF  Total_Bsmt_SF 
+##      2.861e+04      1.932e+05      1.945e+05 
+##   First_Flr_SF 
+##      1.536e+05</code></pre>
 <p>As we don’t want our unsupervised techniques to depend on an arbitrary variable unit, we start by standardizing the data using the R function <code>scale</code>. However, <code>scale</code> only works on variables coded as doubles; hence, we need to coerce any integer variables to double.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ames_scale &lt;-<span class="st"> </span>ames <span class="op">%&gt;%</span><span class="st"> </span>
+<pre class="sourceCode r"><code class="sourceCode r">ames_scale &lt;-<span class="st"> </span>ames <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate_all</span>(as.double) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">scale</span>()
 
 <span class="co"># check that the mean value for each variable is centered at zero</span>
 <span class="co"># I only show the first 4 for brevity</span>
 <span class="kw">summary</span>(ames_scale)[, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]
-##   Lot_Frontage        Lot_Area          Year_Built       Year_Remod_Add   
-##  Min.   :-1.7209   Min.   :-1.12283   Min.   :-3.28501   Min.   :-1.6427  
-##  1st Qu.:-0.4373   1st Qu.:-0.34361   1st Qu.:-0.57385   1st Qu.:-0.9236  
-##  Median : 0.1598   Median :-0.09028   Median : 0.05434   Median : 0.4187  
-##  Mean   : 0.0000   Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.0000  
-##  3rd Qu.: 0.6075   3rd Qu.: 0.17860   3rd Qu.: 0.98011   3rd Qu.: 0.9460  
-##  Max.   : 7.6226   Max.   :26.02749   Max.   : 1.27767   Max.   : 1.2336</code></pre></div>
+##   Lot_Frontage       Lot_Area        Year_Built    
+##  Min.   :-1.721   Min.   :-1.123   Min.   :-3.285  
+##  1st Qu.:-0.437   1st Qu.:-0.344   1st Qu.:-0.574  
+##  Median : 0.160   Median :-0.090   Median : 0.054  
+##  Mean   : 0.000   Mean   : 0.000   Mean   : 0.000  
+##  3rd Qu.: 0.608   3rd Qu.: 0.179   3rd Qu.: 0.980  
+##  Max.   : 7.623   Max.   :26.027   Max.   : 1.278  
+##  Year_Remod_Add  
+##  Min.   :-1.643  
+##  1st Qu.:-0.924  
+##  Median : 0.419  
+##  Mean   : 0.000  
+##  3rd Qu.: 0.946  
+##  Max.   : 1.234</code></pre>
 
 <div class="note">
 PCA and clustering algorithms are influenced by the magnitude of each variable; therefore, the results obtained when we perform these algorithms will also depend on whether the variables have been individually scaled.
@@ -364,90 +472,97 @@ PCA and clustering algorithms are influenced by the magnitude of each variable; 
 
 </div>
 <div id="pca" class="section level2">
-<h2><span class="header-section-number">4.2</span> Principal Components Analysis</h2>
+<h2><span class="header-section-number">5.2</span> Principal Components Analysis</h2>
 <p>Principal components analysis (PCA) <strong><em>reduces the dimensionality of the feature set</em></strong>, allowing most of the variability to be explained using fewer variables than the original data set. Among our 34 numeric variables within the Ames data set, 16 variables have moderate correlation ( <span class="math inline">\(\geq 0.30\)</span>) with at least one other variable.</p>
 <div class="figure" style="text-align: center"><span id="fig:unsupervised-correlation"></span>
 <img src="abar_files/figure-html/unsupervised-correlation-1.png" alt="Top 10 variables containing the strongest correlation with at least one other variable." width="672" />
 <p class="caption">
-Figure 4.2: Top 10 variables containing the strongest correlation with at least one other variable.
+Figure 5.2: Top 10 variables containing the strongest correlation with at least one other variable.
 </p>
 </div>
 <p>Multicollinearity such as this can cause problems in some supervised models. Moreover, often we want to simply explain common attributes of a data set in a lower dimensionality than the original data. Within the Ames data, total ground level square footage (<code>Gr_Liv_Area</code>) and total number of rooms above ground (<code>TotRms_AbvGrd</code>) have a correlation of 0.81. These two variables largely capture the same information - living space - of a house. In fact, there are multiple variables in the Ames data that represent living space and are highly correlated. Consequently, it can be useful to represent these highly correlated variables in a lower dimension such as “living space”.</p>
 <p>One option includes examining pairwise scatter plots for each variable against every other variable and identifying co-variation. Unfortunately, this is tedious and becomes excessive quickly even with a small number of variables (given <span class="math inline">\(p\)</span> variables there are <span class="math inline">\(p(p-1)/2\)</span> scatterplot combinations. For example, since our Ames data has 35 numeric variables, we would need to examine <span class="math inline">\(35(35-1)/2 = 595\)</span> scatterplots! Clearly, a better method must exist to represent our data in a smaller dimension.</p>
 <p>PCA provides a tool to do just this. It finds a low-dimensional representation of a data set that contains as much of the variation as possible. The idea is that each of the <em>n</em> observations lives in <em>p</em>-dimensional space, but not all of these dimensions are equally interesting. PCA seeks a small number of dimensions that are as interesting as possible, where the concept of <em>interesting</em> is measured by the amount that the observations vary along each dimension. Each of the dimensions found by PCA is a linear combination of the <em>p</em> features and we can take these linear combinations of the measurements and reduce the number of plots necessary for visual analysis while retaining most of the information present in the data.</p>
 <div id="finding-principal-components" class="section level3">
-<h3><span class="header-section-number">4.2.1</span> Finding principal components</h3>
+<h3><span class="header-section-number">5.2.1</span> Finding principal components</h3>
 <p>The <em>first principal component</em> of a data set <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span>, …, <span class="math inline">\(X_p\)</span> is the linear combination of the features</p>
-<span class="math display" id="eq:pca1">\[\begin{equation}
-\tag{4.1}
+<p><span class="math display" id="eq:pca1">\[\begin{equation}
+\tag{5.1}
 Z_{1} = \phi_{11}X_{1} + \phi_{21}X_{2} + ... + \phi_{p1}X_{p},
-\end{equation}\]</span>
+\end{equation}\]</span></p>
 <p>that has the largest variance and where <span class="math inline">\(\phi_1\)</span> is the first principal component loading vector, with elements <span class="math inline">\(\phi_{12}, \phi_{22},\dots,\phi_{p2}\)</span>. The <span class="math inline">\(\phi\)</span> are <em>normalized</em>, which means that <span class="math inline">\(\sum_{j=1}^{p}{\phi_{j1}^{2}} = 1\)</span>. After the first principal component <span class="math inline">\(Z_1\)</span> of the features has been determined, we can find the second principal component <span class="math inline">\(Z_2\)</span>. The second principal component is the linear combination of <span class="math inline">\(X_1,\dots , X_p\)</span> that has maximal variance out of all linear combinations that are <strong><em>uncorrelated</em></strong> with <span class="math inline">\(Z_1\)</span>. The second principal component scores <span class="math inline">\(z_{12}, z_{22}, \dots, z_{n2}\)</span> take the form</p>
-<span class="math display" id="eq:pca2">\[\begin{equation}
-\tag{4.2}
+<p><span class="math display" id="eq:pca2">\[\begin{equation}
+\tag{5.2}
 Z_{2} = \phi_{12}X_{1} + \phi_{22}X_{2} + ... + \phi_{p2}X_{p}
-\end{equation}\]</span>
+\end{equation}\]</span></p>
 <p>This proceeds until all principal components are computed. The elements <span class="math inline">\(\phi_{11}, ..., \phi_{p1}\)</span> in Eq. 1 are the <em>loadings</em> of the first principal component. To calculate these loadings, we must find the <span class="math inline">\(\phi\)</span> vector that maximizes the variance. It can be shown using techniques from linear algebra that the eigenvector corresponding to the largest eigenvalue of the covariance matrix is the set of loadings that explains the greatest proportion of the variability.</p>
 <p>An illustration provides a more intuitive grasp of principal components. Within our Ames housing data, first floor square footage and above ground square footage have a 0.56 correlation, we can explain the covariation of these variables in two dimensions (principal component 1 and principal component 2). We see that the greatest co-variation falls along the first principal component, which is simply the line that minimizes the total squared distance from each point to its orthogonal projection onto the line. Consequently, we can explain the vast majority (93% to be exact) of variability among first floor square footage and above ground square footage simply with the first principal component.</p>
 <div class="figure" style="text-align: center"><span id="fig:create-pca-image"></span>
 <img src="abar_files/figure-html/create-pca-image-1.png" alt="Principal components of two living area variables." width="576" />
 <p class="caption">
-Figure 4.3: Principal components of two living area variables.
+Figure 5.3: Principal components of two living area variables.
 </p>
 </div>
 <p>We can extend this to three variables, assessing the relationship between first floor square footage, above ground square footage, and total number of rooms above ground. The first two principal component directions span the plane that best fits the data. It minimizes the sum of squared distances from each point to the plan. As more dimension are added, these visuals are not as intuitive but we’ll see shortly how we can use PCA to extract and visualize informative information.</p>
 <div class="figure" style="text-align: center"><span id="fig:pca-3d-plot"></span>
-<img src="illustrations/3D-PCA.png" alt="Principal components of three living area variables variables."  />
+<img src="illustrations/3D-PCA.png" alt="Principal components of three living area variables variables." width="252" />
 <p class="caption">
-Figure 4.4: Principal components of three living area variables variables.
+Figure 5.4: Principal components of three living area variables variables.
 </p>
 </div>
 </div>
 <div id="performing-pca-in-r" class="section level3">
-<h3><span class="header-section-number">4.2.2</span> Performing PCA in R</h3>
+<h3><span class="header-section-number">5.2.2</span> Performing PCA in R</h3>
 <p>R has several built-in functions (along with numerous add-on packages) that simplifies performing PCA. One of these built-in functions is <code>prcomp</code>. With <code>prcomp</code> we can perform PCA calculations quickly. By default, the <code>prcomp</code> function centers the variables to have mean zero. By using the argument <code>scale = TRUE</code>, we can scale the variables to have standard deviation one; however, since we already standardized our data we’ll remove this option. The output from <code>prcomp</code> contains a number of items.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># perform PCA</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># perform PCA</span>
 pca_result &lt;-<span class="st"> </span><span class="kw">prcomp</span>(ames_scale, <span class="dt">scale =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># various output provided by the model</span>
 <span class="kw">names</span>(pca_result)
-## [1] &quot;sdev&quot;     &quot;rotation&quot; &quot;center&quot;   &quot;scale&quot;    &quot;x&quot;</code></pre></div>
+## [1] &quot;sdev&quot;     &quot;rotation&quot; &quot;center&quot;   &quot;scale&quot;   
+## [5] &quot;x&quot;</code></pre>
 <p>The <em>rotation</em> matrix provides the principal component loadings. There are 35 distinct principal components for our data. This is to be expected because you can have the same number of components as you have variables. However, shortly I’ll show you how to understand how much each component explains our data.</p>
 <p>As for the principal component loadings - remember, the loadings represent <span class="math inline">\(\phi_{12}, \phi_{22},\dots,\phi_{p2}\)</span> in Equation <a href="#eq:eq:pca1">(<strong>??</strong>)</a>. Thus, these loadings represent coefficients in which it illustrates each variables <strong><em>influence</em></strong> on the principal component. By default, loadings (aka eigenvectors) in R point in the <em>negative</em> direction. For this example, we’d prefer them to point in the positive direction because it leads to more logical insights. To use the positive-pointing vector, we multiply the default loadings by -1.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># convert loadings to positive</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># convert loadings to positive</span>
 pca_result<span class="op">$</span>rotation &lt;-<span class="st"> </span><span class="op">-</span>pca_result<span class="op">$</span>rotation
 
 <span class="co"># look at the first 5 principal component loadings and the first 5 rows</span>
 pca_result<span class="op">$</span>rotation[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
-##                       PC1         PC2         PC3        PC4         PC5
-## Lot_Frontage   0.09617794 -0.01627955  0.21697507 -0.1032335  0.01746374
-## Lot_Area       0.13044533  0.03500030  0.25827985  0.1344600 -0.01149981
-## Year_Built     0.24155631  0.21728591 -0.32986537 -0.1274891 -0.07033812
-## Year_Remod_Add 0.22212233  0.10843769 -0.30412788 -0.1313553 -0.07856134
-## Mas_Vnr_Area   0.21338060  0.07666848  0.02667393  0.0269640  0.16102340</code></pre></div>
+##                    PC1      PC2      PC3      PC4
+## Lot_Frontage   0.09618 -0.01628  0.21698 -0.10323
+## Lot_Area       0.13045  0.03500  0.25828  0.13446
+## Year_Built     0.24156  0.21729 -0.32987 -0.12749
+## Year_Remod_Add 0.22212  0.10844 -0.30413 -0.13136
+## Mas_Vnr_Area   0.21338  0.07667  0.02667  0.02696
+##                     PC5
+## Lot_Frontage    0.01746
+## Lot_Area       -0.01150
+## Year_Built     -0.07034
+## Year_Remod_Add -0.07856
+## Mas_Vnr_Area    0.16102</code></pre>
 <p>We can visualize the level of contribution (relative size of the loadings) each variable has on principal components 1 (left) and 2 (right). From the results below we can see that the first principal component (PC1) roughly corresponds to the main living space and the garage. The second component (PC2) is also affected by living space but appears to consist of several secondary living areas (i.e. second floor, basement).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">fviz_contrib</span>(pca_result, <span class="dt">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="dt">axes =</span> <span class="dv">1</span>)
+<pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">fviz_contrib</span>(pca_result, <span class="dt">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="dt">axes =</span> <span class="dv">1</span>)
 p2 &lt;-<span class="st"> </span><span class="kw">fviz_contrib</span>(pca_result, <span class="dt">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="dt">axes =</span> <span class="dv">2</span>)
 
-gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre></div>
+gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:pca-contribution-plot"></span>
 <img src="abar_files/figure-html/pca-contribution-plot-1.png" alt="Level of contribution each variable has on principal components 1 (left) and 2 (right)." width="1152" />
 <p class="caption">
-Figure 4.5: Level of contribution each variable has on principal components 1 (left) and 2 (right).
+Figure 5.5: Level of contribution each variable has on principal components 1 (left) and 2 (right).
 </p>
 </div>
 <p>We can also obtain the principal components <em>scores</em> from our results as these are stored in the <em>x</em> list item of our results. However, we also want to make a sign adjustment to our scores to point them in the positive direction.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># sign adjustment</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># sign adjustment</span>
 pca_result<span class="op">$</span>x &lt;-<span class="st"> </span><span class="op">-</span>pca_result<span class="op">$</span>x
 
 <span class="co"># look at scores for the first five observations for PC1 and PC2</span>
 pca_result<span class="op">$</span>x[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]
-##             PC1        PC2
-## [1,]  1.1838798  1.4307586
-## [2,] -2.2838645  0.8560888
-## [3,] -0.2967867  0.6984355
-## [4,]  2.7066244  0.8781978
-## [5,]  0.9716200 -0.3285494</code></pre></div>
+##          PC1     PC2
+## [1,]  1.1839  1.4308
+## [2,] -2.2839  0.8561
+## [3,] -0.2968  0.6984
+## [4,]  2.7066  0.8782
+## [5,]  0.9716 -0.3285</code></pre>
 <p>The principal components <em>scores</em> simply places a standardized score for each observation for each principal component. Thus, above we see that the first observation has a score of 1.18 for PC1. This just states that based on this houses attributes (at least for the numeric variables we are assessing), this house is about 1 standard deviation above the average value for PC1 across all the homes. Since PC1 appears to represent <em>main living space</em> and <em>garage space</em> it appears that this house is about 1 standard deviation more than the average of these attributes compared to all other homes.</p>
 
 <div class="note">
@@ -456,7 +571,7 @@ We can also visualize the contribution of each observation on a particular PC wi
 
 </div>
 <div id="selecting-the-number-of-principal-components" class="section level3">
-<h3><span class="header-section-number">4.2.3</span> Selecting the Number of Principal Components</h3>
+<h3><span class="header-section-number">5.2.3</span> Selecting the Number of Principal Components</h3>
 <p>So far we have computed principal component attributes and gained a little understanding of what the results initially tell us. However, a primary goal is to use PCA for data reduction. In essence, we want to come out of PCA with less components than variables and with these components telling us as much variation as possible about our data. But how do we decide how many principal components to keep? Do we keep the first four principal components or the first 16?</p>
 <p>There are three primary approaches in helping to make this decision:</p>
 <ol style="list-style-type: decimal">
@@ -465,10 +580,10 @@ We can also visualize the contribution of each observation on a particular PC wi
 <li>Scree plot criterion</li>
 </ol>
 <div id="eigenvalue-criterion" class="section level4">
-<h4><span class="header-section-number">4.2.3.1</span> Eigenvalue criterion</h4>
+<h4><span class="header-section-number">5.2.3.1</span> Eigenvalue criterion</h4>
 <p>The sum of the eigenvalues is equal to the number of variables entered into the PCA; however, the eigenvalues will range from greater than one to near zero. An eigenvalue of 1 means that the principal component would explain about one variable’s worth of the variability. The rationale for using the eigenvalue criterion is that each component should explain at least one variable’s worth of the variability, and therefore, the eigenvalue criterion states that only components with eigenvalues greater than 1 should be retained.</p>
 <p><code>prcomp</code> automatically computes the standard deviations of the principal components, which is equal to the square roots of the eigenvalues, and stores these values in the <code>pca_result$sdev</code> list item. Therefore, we can compute the eigenvalues easily and identify principal components where the sum of eigenvalues is greater than or equal to 1. Consequently, using this criteria would have us retain the first 11 principal components.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compute eigenvalues</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compute eigenvalues</span>
 eigen &lt;-<span class="st"> </span>pca_result<span class="op">$</span>sdev<span class="op">^</span><span class="dv">2</span>
 
 <span class="co"># sum of all eigenvalues equals number of variables</span>
@@ -477,65 +592,66 @@ eigen &lt;-<span class="st"> </span>pca_result<span class="op">$</span>sdev<span
 
 <span class="co"># find all PCs where the sum of eigenvalues is greater than or equal to 1</span>
 <span class="kw">which</span>(eigen <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span>)
-##  [1]  1  2  3  4  5  6  7  8  9 10 11</code></pre></div>
+##  [1]  1  2  3  4  5  6  7  8  9 10 11</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:eigen-criterion-plot"></span>
 <img src="abar_files/figure-html/eigen-criterion-plot-1.png" alt="Eigenvalue criterion keeps all principal components where the sum of the eigenvalues are above or equal to a value of one." width="576" />
 <p class="caption">
-Figure 4.6: Eigenvalue criterion keeps all principal components where the sum of the eigenvalues are above or equal to a value of one.
+Figure 5.6: Eigenvalue criterion keeps all principal components where the sum of the eigenvalues are above or equal to a value of one.
 </p>
 </div>
 </div>
 <div id="proportion-of-variance-explained-criterion" class="section level4">
-<h4><span class="header-section-number">4.2.3.2</span> Proportion of variance explained criterion</h4>
+<h4><span class="header-section-number">5.2.3.2</span> Proportion of variance explained criterion</h4>
 <p>The <em>proportion of variance explained</em> (PVE) provides us a technical way to identify the optimal number of principal components to keep based on the total variability that we would like to account for. Mathematically, the PVE for the <em>m</em>th principal component is calculated as:</p>
 <p><span class="math display">\[PVE = \frac{{\sum_{i=1}^{n}(\sum_{j=1}^{p}{\phi_{jm}x_{ij}})^{2}}}{\sum_{j=1}^{p}\sum_{i=1}^{n}{x_{ij}^{2}}} \tag{3}\]</span></p>
 <p>It can be shown that the PVE of the <em>m</em>th principal component can be more simply calculated by taking the <em>m</em>th eigenvalue and dividing it by the number of principal components (or, equivalently, the sum of the eigenvalues). We can create a vector of PVEs for each principal component:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compute the PVE of each principal component</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compute the PVE of each principal component</span>
 PVE &lt;-<span class="st"> </span>eigen <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(eigen)
 
 <span class="kw">round</span>(PVE, <span class="dv">2</span>)
-##  [1] 0.18 0.09 0.06 0.06 0.04 0.04 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03
-## [15] 0.03 0.03 0.02 0.02 0.02 0.02 0.02 0.02 0.02 0.02 0.02 0.01 0.01 0.01
-## [29] 0.01 0.01 0.00 0.00 0.00 0.00</code></pre></div>
+##  [1] 0.18 0.09 0.06 0.06 0.04 0.04 0.03 0.03 0.03 0.03
+## [11] 0.03 0.03 0.03 0.03 0.03 0.03 0.02 0.02 0.02 0.02
+## [21] 0.02 0.02 0.02 0.02 0.02 0.01 0.01 0.01 0.01 0.01
+## [31] 0.00 0.00 0.00 0.00</code></pre>
 <p>The first principal component in our example therefore explains 18% of the variability, and the second principal component explains 9%. Together, the first two principal components explain 27% of the variability.</p>
 <p>Thus, if an analyst desires to choose the number of principal components that explains at least 75% of the variability in our original data then they would choose the first 16 components.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># how many PCs required to explain at least 75% of total variability</span>
-<span class="kw">min</span>(<span class="kw">which</span>(<span class="kw">cumsum</span>(PVE) <span class="op">&gt;=</span><span class="st"> </span>.<span class="dv">75</span>))
-## [1] 16</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># how many PCs required to explain at least 75% of total variability</span>
+<span class="kw">min</span>(<span class="kw">which</span>(<span class="kw">cumsum</span>(PVE) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">.75</span>))
+## [1] 16</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:pve-criterion-plot"></span>
 <img src="abar_files/figure-html/pve-criterion-plot-1.png" alt="PVE criterion keeps all principal components that are above or equal to a pre-specified threshold of total variability explained." width="576" />
 <p class="caption">
-Figure 4.7: PVE criterion keeps all principal components that are above or equal to a pre-specified threshold of total variability explained.
+Figure 5.7: PVE criterion keeps all principal components that are above or equal to a pre-specified threshold of total variability explained.
 </p>
 </div>
 <p>What amount of variability is reasonable? This varies from the problem being addressed and the data being used. However, when the principal components are being used for descriptive purposes only, such as customer profiling, then the proportion of variability explained may be lower than otherwise. When the principal components are to be used as replacements for the original variables, and used for further inference in models downstream, then the PVE should be as much as can conveniently be achieved, given any constraints.</p>
 </div>
 <div id="scree-plot-criterion" class="section level4">
-<h4><span class="header-section-number">4.2.3.3</span> Scree plot criterion</h4>
+<h4><span class="header-section-number">5.2.3.3</span> Scree plot criterion</h4>
 <p>A scree plot shows the eigenvalues or PVE for each individual principal component. Most scree plots look broadly similiar in shape, starting high on the left, falling rather quickly, and then flattening out at some point. This is because the first component usually explains much of the variability, the next few components explain a moderate amount, and the latter components only explain a small amount of the variability. The scree plot criterion selects all components just before the line flattens out, which is four in our example.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_screeplot</span>(pca_result, <span class="dt">ncp =</span> <span class="dv">34</span>)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_screeplot</span>(pca_result, <span class="dt">ncp =</span> <span class="dv">34</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:pca-scree-plot-criterion"></span>
 <img src="abar_files/figure-html/pca-scree-plot-criterion-1.png" alt="Scree plot criterion keeps all principal components before the line flattens out." width="576" />
 <p class="caption">
-Figure 4.8: Scree plot criterion keeps all principal components before the line flattens out.
+Figure 5.8: Scree plot criterion keeps all principal components before the line flattens out.
 </p>
 </div>
 <p>So how many principal components should we use in this example? The frank answer is that there is no single method for determining how many components to use. In this case, differing criteria suggest to retain 4, 11, and 16 (based on a 75% requirement) components. The number you go with depends on your end objective and analytic workflow. If I were merely trying to profile houses I would probably use 4, if I were performing dimension reduction to feed into a downstream predictive model I would likely retain 11 or 16.</p>
 </div>
 </div>
 <div id="extracting-additional-insights" class="section level3">
-<h3><span class="header-section-number">4.2.4</span> Extracting additional insights</h3>
+<h3><span class="header-section-number">5.2.4</span> Extracting additional insights</h3>
 <p>As previously identified, 27% of the variation in our data can be captured in the first two components:</p>
 <ol style="list-style-type: decimal">
 <li>PC1 roughly corresponds to the main living space and the garage.</li>
 <li>PC2 is also affected by living space but appears to consist of several secondary living areas (i.e. second floor, basement).</li>
 </ol>
 <p>We can visualize this further with the following multivariate plot. This plot provides the directional influence each variable has on the principal components. The center point represents no influence on PC1 (x-axis) or PC2 (y-axis). Variables that are darker and further to the right of the center vertical line have a strong position influence on PC1 (i.e. <code>Gr_Liv_Area</code>, <code>TotRms_Abv_Grd</code>). Like-wise, variables that are lighter and closer to the center horizontal line have a small influence on PC2 (i.e. <code>Longitude</code>, <code>Porch_SF</code>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_pca_var</span>(pca_result, <span class="dt">alpha.var =</span> <span class="st">&quot;contrib&quot;</span>)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_pca_var</span>(pca_result, <span class="dt">alpha.var =</span> <span class="st">&quot;contrib&quot;</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:pca-var-contribution"></span>
 <img src="abar_files/figure-html/pca-var-contribution-1.png" alt="Variable contributions to the first and second principal components." width="672" />
 <p class="caption">
-Figure 4.9: Variable contributions to the first and second principal components.
+Figure 5.9: Variable contributions to the first and second principal components.
 </p>
 </div>
 
@@ -544,22 +660,22 @@ Check out the <code>axes</code> argument (<code>?fviz_pca_var</code>) to compare
 </div>
 
 <p>Furthermore, we can see where each observation aligns along these components. This allows us to identify observations that have high values for one or more attributes that influence PC1 and PC2. For example, observations 2181 and 1499 likely have higher values for main living space and garage attributes. Whereas observation 2195 likely has lower values of secondary living space (likely a single story home or does not have a basement).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_pca_ind</span>(pca_result, <span class="dt">alpha.ind =</span> .<span class="dv">3</span>)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_pca_ind</span>(pca_result, <span class="dt">alpha.ind =</span> <span class="fl">.3</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:pca-ind-contribution"></span>
 <img src="abar_files/figure-html/pca-ind-contribution-1.png" alt="Individual household observations along the first and second principal components." width="672" />
 <p class="caption">
-Figure 4.10: Individual household observations along the first and second principal components.
+Figure 5.10: Individual household observations along the first and second principal components.
 </p>
 </div>
 </div>
 <div id="pca-with-mixed-data" class="section level3">
-<h3><span class="header-section-number">4.2.5</span> PCA with mixed data</h3>
+<h3><span class="header-section-number">5.2.5</span> PCA with mixed data</h3>
 <p>Typical textbook examples of PCA include only numeric data as demonstrated above. However, most real life data sets contain a mixture of numeric and categorical variables. The original Ames housing data set contains 35 numeric variables and 46 categorical variables. Consequently, only focusing on the numeric variables required us to remove over half of our features. Rather, than remove this (likely important) information, we can retain it and still perform PCA. However, the approach we apply differs depending on if we are merely seeking inference on housing attributes or if we plan to use the PCA output for downstream modeling.</p>
 <div id="pca-for-inference" class="section level4">
-<h4><span class="header-section-number">4.2.5.1</span> PCA for inference</h4>
+<h4><span class="header-section-number">5.2.5.1</span> PCA for inference</h4>
 <p>When performing data mining where the principal components are being used for descriptive purposes only, such as customer profiling, we can convert our categorical variables to numeric information. First, any ordinal variables can be numerically coded in an ordinal fashion. For example, the <code>Overall_Qual</code> variable measures the overall quality of a home across 10 levels (very poor to very excellent). We can recode these variables numerically from 1-10 which now puts them on a continuous dimension.</p>
 <p>Nominal categorical variables; however, do not contain any natural ordering. One alternative is to one-hot encode these variables to convert them to binary 0/1 values. This significantly expands the number of variables in our data set.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># full ames data set --&gt; recode ordinal variables to numeric</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># full ames data set --&gt; recode ordinal variables to numeric</span>
 ames_full &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate_if</span>(<span class="kw">str_detect</span>(<span class="kw">names</span>(.), <span class="st">&quot;Qual|Cond|QC|Qu&quot;</span>), as.numeric)
 
@@ -569,9 +685,9 @@ ames_1hot &lt;-<span class="st"> </span><span class="kw">predict</span>(full_ran
 
 <span class="co"># new dimensions</span>
 <span class="kw">dim</span>(ames_1hot)
-## [1] 2930  240</code></pre></div>
+## [1] 2930  240</code></pre>
 <p>Now that all our variables are represented numerically, we can perform PCA as we did in the previous sections. Using the scree plot criterion suggests to retain eight principal components, which explains 50% of the variability across all 240 variables.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># apply PCA to one-hot encoded data</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># apply PCA to one-hot encoded data</span>
 pca_one_hot &lt;-<span class="st"> </span><span class="kw">prcomp</span>(ames_1hot, <span class="dt">scale =</span> <span class="ot">TRUE</span>)
 
 <span class="co"># sign adjustment to loadings and scores</span>
@@ -579,19 +695,19 @@ pca_one_hot<span class="op">$</span>rotation &lt;-<span class="st"> </span><span
 pca_one_hot<span class="op">$</span>x &lt;-<span class="st"> </span><span class="op">-</span>pca_one_hot<span class="op">$</span>x
 
 <span class="co"># scree plot</span>
-<span class="kw">fviz_screeplot</span>(pca_result, <span class="dt">ncp =</span> <span class="dv">20</span>)</code></pre></div>
+<span class="kw">fviz_screeplot</span>(pca_result, <span class="dt">ncp =</span> <span class="dv">20</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:pca-apply-one-hot"></span>
 <img src="abar_files/figure-html/pca-apply-one-hot-1.png" alt="Scree plot showing the amount of variance explained for each of the first 20 principal components." width="672" />
 <p class="caption">
-Figure 4.11: Scree plot showing the amount of variance explained for each of the first 20 principal components.
+Figure 5.11: Scree plot showing the amount of variance explained for each of the first 20 principal components.
 </p>
 </div>
 </div>
 <div id="pca-for-downstream-modeling" class="section level4">
-<h4><span class="header-section-number">4.2.5.2</span> PCA for downstream modeling</h4>
+<h4><span class="header-section-number">5.2.5.2</span> PCA for downstream modeling</h4>
 <p>When the principal components are to be used as replacements for the original variables, and used for further inference in models downstream, then we want to be a little more particular about how we change the data. Many models (i.e. tree-based) perform quite well when the categorical variables are untransformed. Consequently, often our motives to perform PCA is to reduce the dimension of numerical variables and minimize multicollinearity so that we can apply models that are sensitive to multicollinearity (i.e. linear regression models, neural networks).</p>
 <p>The <code>caret</code> package provides a function that allows you to perform many preprocessing steps to a set of features. In the following example, I center, scale, and apply PCA to the Ames data. The output of <code>preProcess</code> lists the number of variables centered, scaled, and PCA applied to (34 variables). These represent the 34 numeric variables. It also states that 46 categorical variables were ignored since these preprocessing steps cannot be applied to non-numeric variables. Lastly, it states that 26 principal components were retained to capture the variability explained threshold specified (95%).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get feature set</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get feature set</span>
 ames_full &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>()
 features &lt;-<span class="st"> </span><span class="kw">subset</span>(ames_full, <span class="dt">select =</span> <span class="op">-</span>Sale_Price)
 
@@ -611,25 +727,25 @@ preprocess
 ##   - principal component signal extraction (34)
 ##   - scaled (34)
 ## 
-## PCA needed 26 components to capture 95 percent of the variance</code></pre></div>
+## PCA needed 26 components to capture 95 percent of the variance</code></pre>
 
 <div class="note">
 You can adjust the <code>thresh</code> argument or also use <code>numComp</code> to explicitly specify the number of varibales to retain.
 </div>
 
 <p>Next, we apply the <code>preProcess</code> object to the training data to return a transformed feature set with the specified preprocessing steps. This new <code>transformed_features</code> data frame contains the original 46 categorical variables and the 26 principal components retained (72 total variables). This preprocessed data can now be fed into any future models, which you will learn about in the predictive analytics section.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create transformed feature set</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create transformed feature set</span>
 transformed_features &lt;-<span class="st"> </span><span class="kw">predict</span>(preprocess, features)
 <span class="kw">dim</span>(transformed_features)
-## [1] 2930   72</code></pre></div>
+## [1] 2930   72</code></pre>
 </div>
 </div>
 </div>
 <div id="cluster-analysis" class="section level2">
-<h2><span class="header-section-number">4.3</span> Cluster Analysis</h2>
+<h2><span class="header-section-number">5.3</span> Cluster Analysis</h2>
 <p>Clustering is a broad set of techniques for <strong><em>finding subgroups of observations</em></strong> within a data set. When we cluster observations, we want observations in the same group to be similar and observations in different groups to be dissimilar. Because there isn’t a response variable, this is an unsupervised method, which implies that it seeks to find relationships between the <em>n</em> observations without being trained by a response variable. Clustering allows us to identify which observations are alike, and potentially categorize them therein. Within the cluster analysis domain, there are several clustering techniques we can apply - we will focus on the more common applications.</p>
 <div id="clustering-distance-measures" class="section level3">
-<h3><span class="header-section-number">4.3.1</span> Clustering distance measures</h3>
+<h3><span class="header-section-number">5.3.1</span> Clustering distance measures</h3>
 <p>The classification of observations into groups requires some methods for computing the distance of the (dis)similarity between each pair of observations. The result of this computation is known as a dissimilarity or distance matrix.</p>
 <p>There are many methods to calculate this distance information; the choice of distance measures is a critical step in clustering. It defines how the similarity of two elements (x, y) is calculated and it will influence the shape of the clusters.</p>
 <p>The classical methods for distance measures are <em>Euclidean</em> and <em>Manhattan distances</em>, which are defined as follow:</p>
@@ -646,7 +762,8 @@ transformed_features &lt;-<span class="st"> </span><span class="kw">predict</spa
 <p><span class="math display">\[d_{spear}(x, y) = 1 - \frac{\sum^n_{i=1}(x^\prime_i-\bar x^\prime)(y^\prime_i - \bar y^\prime)}{\sqrt{\sum^n_{i=1}(x^\prime_i-\bar x^\prime)^2\sum^n_{i=1}(y^\prime_i - \bar y^\prime)^2}} \tag{4}\]</span></p>
 <p>Where <span class="math inline">\(x^\prime_i = rank(x_i)\)</span> and <span class="math inline">\(y^\prime_i = rank(y_i)\)</span>.</p>
 <p><strong>Kendall correlation distance:</strong></p>
-<p>Kendall correlation method measures the correspondence between the ranking of <em>x</em> and <em>y</em> variables. The total number of possible pairings of <em>x</em> with <em>y</em> observations is <em>n(n − 1)/2</em>, where <em>n</em> is the size of <em>x</em> and <em>y</em>. Begin by ordering the pairs by the <em>x</em> values. If <em>x</em> and <em>y</em> are correlated, then they would have the same relative rank orders. Now, for each <span class="math inline">\(y_i\)</span>, count the number of <span class="math inline">\(y_j &gt; y_i\)</span> (concordant pairs (c)) and the number of <span class="math inline">\(y_j &lt; y_i\)</span> (discordant pairs (d)).</p>
+<p>Kendall correlation method measures the correspondence between the ranking of <em>x</em> and <em>y</em> variables. The total number of possible pairings of <em>x</em> with <em>y</em> observations is <em>n(n − 1)/2</em>, where <em>n</em> is the size of <em>x</em> and <em>y</em>. Begin by ordering the pairs by the <em>x</em> values. If <em>x</em> and <em>y</em> are correlated, then they would have the same relative rank orders. Now,
+for each <span class="math inline">\(y_i\)</span>, count the number of <span class="math inline">\(y_j &gt; y_i\)</span> (concordant pairs (c)) and the number of <span class="math inline">\(y_j &lt; y_i\)</span> (discordant pairs (d)).</p>
 <p>Kendall correlation distance is defined as follow:</p>
 <p><span class="math display">\[d_{kend}(x,y) = 1 - \frac{n_c - n_d}{\frac{1}{2}n(n - 1)} \tag{5}\]</span></p>
 <p>The choice of distance measures is very important, as it has a strong influence on the clustering results. For most common clustering software, the default distance measure is the Euclidean distance. However, depending on the type of the data and the research questions, other dissimilarity measures might be preferred and you should be aware of the options.</p>
@@ -655,16 +772,16 @@ transformed_features &lt;-<span class="st"> </span><span class="kw">predict</spa
 <li><code>get_dist</code>: for computing a distance matrix between the rows of a data matrix. The default distance computed is the Euclidean; however, <code>get_dist</code> also supports distanced described in equations 2-5 above plus others.</li>
 <li><code>fviz_dist</code>: for visualizing a distance matrix</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we continue using our scaled ames data set</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we continue using our scaled ames data set</span>
 distance &lt;-<span class="st"> </span><span class="kw">get_dist</span>(ames_scale[<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, ], <span class="dt">method =</span> <span class="st">&quot;euclidean&quot;</span>)
 <span class="kw">fviz_dist</span>(
   distance,
   <span class="dt">gradient =</span> <span class="kw">list</span>(<span class="dt">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>)
-  )</code></pre></div>
+  )</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:distance"></span>
 <img src="abar_files/figure-html/distance-1.png" alt="Distance matrix plot for first 50 observations." width="960" />
 <p class="caption">
-Figure 4.12: Distance matrix plot for first 50 observations.
+Figure 5.12: Distance matrix plot for first 50 observations.
 </p>
 </div>
 
@@ -674,11 +791,12 @@ Check out the different distance measures that <code>get_dist</code> accepts wit
 
 </div>
 <div id="k-means-clustering" class="section level3">
-<h3><span class="header-section-number">4.3.2</span> K-means clustering</h3>
+<h3><span class="header-section-number">5.3.2</span> K-means clustering</h3>
 <p>K-means clustering is the most commonly used clustering algorithm for partitioning observations into a set of <em>k</em> groups (i.e. <em>k</em> clusters), where <em>k</em> represents the number of groups pre-specified by the analyst. It classifies objects in multiple groups (i.e., clusters), such that objects within the same cluster are as similar as possible (i.e., high intra-class similarity), whereas objects from different clusters are as dissimilar as possible (i.e., low inter-class similarity). In k-means clustering, each cluster is represented by its center (i.e, centroid) which corresponds to the mean of points assigned to the cluster.</p>
 <div id="defining-clusters" class="section level4">
-<h4><span class="header-section-number">4.3.2.1</span> Defining clusters</h4>
-<p>The basic idea behind k-means clustering consists of defining clusters so that the total intra-cluster variation (known as total within-cluster variation) is minimized. There are several k-means algorithms available. The standard algorithm is the Hartigan-Wong algorithm (1979), which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid:</p>
+<h4><span class="header-section-number">5.3.2.1</span> Defining clusters</h4>
+<p>The basic idea behind k-means clustering consists of defining clusters so that the total intra-cluster variation (known as total within-cluster variation) is minimized. There are several k-means algorithms available. The standard algorithm is the
+Hartigan-Wong algorithm (1979), which defines the total within-cluster variation as the sum of squared distances Euclidean distances between items and the corresponding centroid:</p>
 <p><span class="math display">\[W(C_k) = \sum_{x_i \in C_k}(x_i - \mu_k)^2 \tag{6}\]</span></p>
 <p>where:</p>
 <ul>
@@ -691,21 +809,25 @@ Check out the different distance measures that <code>get_dist</code> accepts wit
 <p>The <em>total within-cluster sum of square</em> measures the compactness (i.e goodness) of the clustering and we want it to be as small as possible.</p>
 </div>
 <div id="k-means-algorithm" class="section level4">
-<h4><span class="header-section-number">4.3.2.2</span> K-means algorithm</h4>
-<p>The first step when using k-means clustering is to indicate the number of clusters (k) that will be generated in the final solution. The algorithm starts by randomly selecting k objects from the data set to serve as the initial centers for the clusters. The selected objects are also known as cluster means or centroids. Next, each of the remaining objects is assigned to it’s closest centroid, where closest is defined using the Euclidean distance between the object and the cluster mean. This step is called “cluster assignment step”. After the assignment step, the algorithm computes the new mean value of each cluster. The term cluster “centroid update” is used to design this step. Now that the centers have been recalculated, every observation is checked again to see if it might be closer to a different cluster. All the objects are reassigned again using the updated cluster means. The cluster assignment and centroid update steps are iteratively repeated until the cluster assignments stop changing (i.e until <em>convergence</em> is achieved). That is, the clusters formed in the current iteration are the same as those obtained in the previous iteration.</p>
+<h4><span class="header-section-number">5.3.2.2</span> K-means algorithm</h4>
+<p>The first step when using k-means clustering is to indicate the number of clusters (k) that will be generated in the final solution. The algorithm starts by randomly selecting k objects from the data set to serve as the initial centers for the clusters. The selected objects are also known as cluster means or centroids. Next, each of the remaining objects is assigned to it’s closest centroid, where closest is defined using the Euclidean distance between the object and the cluster
+mean. This step is called “cluster assignment step”. After the assignment step, the algorithm computes the new mean value of each cluster. The term cluster “centroid update” is used to design this step. Now that the centers have been recalculated, every observation is checked again to see if it might be closer to a different cluster. All the objects are reassigned again using the updated cluster means. The cluster assignment and centroid update steps are iteratively repeated until the
+cluster assignments stop changing (i.e until <em>convergence</em> is achieved). That is, the clusters formed in the current iteration are the same as those obtained in the previous iteration.</p>
 <p>K-means algorithm can be summarized as follows:</p>
 <ol style="list-style-type: decimal">
 <li>Specify the number of clusters (K) to be created (by the analyst)</li>
 <li>Select randomly k objects from the data set as the initial cluster centers or means</li>
 <li>Assigns each observation to their closest centroid, based on the Euclidean distance between the object and the centroid</li>
-<li>For each of the k clusters update the cluster centroid by calculating the new mean values of all the data points in the cluster. The centroid of a Kth cluster is a vector of length <em>p</em> containing the means of all variables for the observations in the kth cluster; <em>p</em> is the number of variables.</li>
-<li>Iteratively minimize the total within sum of square. That is, iterate steps 3 and 4 until the cluster assignments stop changing or the maximum number of iterations is reached. By default, the R software uses 10 as the default value for the maximum number of iterations.</li>
+<li>For each of the k clusters update the cluster centroid by calculating the new mean values of all the data points in the cluster. The centroid of a Kth cluster is a vector of length <em>p</em> containing the means of all variables for the observations
+in the kth cluster; <em>p</em> is the number of variables.</li>
+<li>Iteratively minimize the total within sum of square. That is, iterate steps 3 and 4 until the cluster assignments stop changing or the maximum number of iterations is reached. By default, the R software uses 10 as the default value
+for the maximum number of iterations.</li>
 </ol>
 </div>
 <div id="computing-k-means-clustering-in-r" class="section level4">
-<h4><span class="header-section-number">4.3.2.3</span> Computing k-means clustering in R</h4>
+<h4><span class="header-section-number">5.3.2.3</span> Computing k-means clustering in R</h4>
 <p>We can compute k-means in R with the <code>kmeans</code> function. Here will group the data into two clusters (<code>centers = 2</code>). The <code>kmeans</code> function also has an <code>nstart</code> option that attempts multiple initial configurations and reports on the best one. For example, adding <code>nstart = 25</code> will generate 25 initial configurations. This approach is often recommended.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">k2 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(ames_scale, <span class="dt">centers =</span> <span class="dv">2</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">k2 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(ames_scale, <span class="dt">centers =</span> <span class="dv">2</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)</code></pre>
 <p>The output of <code>kmeans</code> is a list with several bits of information. The most important being:</p>
 <ul>
 <li><code>cluster</code>: A vector of integers (from 1:k) indicating the cluster to which each point is allocated.</li>
@@ -717,7 +839,7 @@ Check out the different distance measures that <code>get_dist</code> accepts wit
 <li><code>size</code>: The number of points in each cluster.</li>
 </ul>
 <p>If we print the results we’ll see that our groupings resulted in 2 cluster sizes of 1397 and 1533. We can also extract the cluster centers for each variable and the cluster assignment for each observation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(k2)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(k2)
 ## List of 9
 ##  $ cluster     : int [1:2930] 1 2 2 1 1 1 1 1 1 1 ...
 ##  $ centers     : num [1:2, 1:34] 0.118 -0.108 0.201 -0.183 0.665 ...
@@ -731,9 +853,9 @@ Check out the different distance measures that <code>get_dist</code> accepts wit
 ##  $ size        : int [1:2] 1397 1533
 ##  $ iter        : int 1
 ##  $ ifault      : int 0
-##  - attr(*, &quot;class&quot;)= chr &quot;kmeans&quot;</code></pre></div>
+##  - attr(*, &quot;class&quot;)= chr &quot;kmeans&quot;</code></pre>
 <p>We can also view our results by using <code>fviz_cluster</code>. This provides a nice illustration of the clusters. If there are more than two dimensions (variables) <code>fviz_cluster</code> will perform principal component analysis (PCA) and plot the data points according to the first two principal components that explain the largest amount of variance. So this chart shows that our observations are being clustered primarily based on having above or below average values of dimension 2 (recall from the PCA section that the second principal component - or x axis - largely represented <em>secondary living spaces</em>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_cluster</span>(k2, <span class="dt">data =</span> ames_scale, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">alpha =</span> .<span class="dv">4</span>)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_cluster</span>(k2, <span class="dt">data =</span> ames_scale, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">alpha =</span> <span class="fl">.4</span>)</code></pre>
 <p><img src="abar_files/figure-html/k2-viz-1.png" width="672" style="display: block; margin: auto;" /></p>
 
 <div class="tip">
@@ -741,23 +863,23 @@ You can also visualize clusters against specific variables by assigning <code>ch
 </div>
 
 <p>Because the number of clusters (k) must be set before we start the algorithm, it is often advantageous to use several different values of k and examine the differences in the results. We can execute the same process for 3, 4, and 5 clusters, and the results are shown in the figure:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">k3 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(ames_scale, <span class="dt">centers =</span> <span class="dv">3</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)
+<pre class="sourceCode r"><code class="sourceCode r">k3 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(ames_scale, <span class="dt">centers =</span> <span class="dv">3</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)
 k4 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(ames_scale, <span class="dt">centers =</span> <span class="dv">4</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)
 k5 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(ames_scale, <span class="dt">centers =</span> <span class="dv">5</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)
 
 <span class="co"># plots to compare</span>
-p1 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k2, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">data =</span> ames_scale, <span class="dt">alpha =</span> .<span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;k = 2&quot;</span>)
-p2 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k3, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>,  <span class="dt">data =</span> ames_scale, <span class="dt">alpha =</span> .<span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;k = 3&quot;</span>)
-p3 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k4, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>,  <span class="dt">data =</span> ames_scale, <span class="dt">alpha =</span> .<span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;k = 4&quot;</span>)
-p4 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k5, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>,  <span class="dt">data =</span> ames_scale, <span class="dt">alpha =</span> .<span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;k = 5&quot;</span>)
+p1 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k2, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">data =</span> ames_scale, <span class="dt">alpha =</span> <span class="fl">.4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;k = 2&quot;</span>)
+p2 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k3, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>,  <span class="dt">data =</span> ames_scale, <span class="dt">alpha =</span> <span class="fl">.4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;k = 3&quot;</span>)
+p3 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k4, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>,  <span class="dt">data =</span> ames_scale, <span class="dt">alpha =</span> <span class="fl">.4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;k = 4&quot;</span>)
+p4 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k5, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>,  <span class="dt">data =</span> ames_scale, <span class="dt">alpha =</span> <span class="fl">.4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;k = 5&quot;</span>)
 
 <span class="kw">library</span>(gridExtra)
-<span class="kw">grid.arrange</span>(p1, p2, p3, p4, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre></div>
+<span class="kw">grid.arrange</span>(p1, p2, p3, p4, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre>
 <p><img src="abar_files/figure-html/kmeans-which-k-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Although visually assessing the different k cluster outputs tells us where true dilineations occur (or do not occur) between clusters, it does not tell us what the optimal number of clusters is.</p>
 </div>
 <div id="determining-optimal-clusters" class="section level4">
-<h4><span class="header-section-number">4.3.2.4</span> Determining optimal clusters</h4>
+<h4><span class="header-section-number">5.3.2.4</span> Determining optimal clusters</h4>
 <p>As you may recall the analyst specifies the number of clusters to use; preferably the analyst would like to use the optimal number of clusters. To aid the analyst, the following explains the three most popular methods for determining the optimal clusters, which includes:</p>
 <ul>
 <li>Elbow method</li>
@@ -765,7 +887,7 @@ p4 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k5, <span 
 <li>Gap statistic</li>
 </ul>
 <div id="elbow" class="section level5">
-<h5><span class="header-section-number">4.3.2.4.1</span> Elbow method</h5>
+<h5><span class="header-section-number">5.3.2.4.1</span> Elbow method</h5>
 <p>Recall that, the basic idea behind cluster partitioning methods, such as k-means clustering, is to define clusters such that the total within-cluster variation is minimized:</p>
 <p><span class="math display">\[ minimize\Bigg(\sum^k_{k=1}W(C_k)\Bigg) \tag{8}\]</span></p>
 <p>where <span class="math inline">\(C_k\)</span> is the <span class="math inline">\(k^{th}\)</span> cluster and <span class="math inline">\(W(C_k)\)</span> is the within-cluster variation. The total within-cluster sum of square (wss) measures the compactness of the clustering and we want it to be as small as possible. Thus, we can use the following algorithm to define the optimal clusters:</p>
@@ -776,23 +898,23 @@ p4 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k5, <span 
 <li>The location of a bend (knee) in the plot is generally considered as an indicator of the appropriate number of clusters.</li>
 </ol>
 <p>Fortunately, this process to compute the “Elbow method” has been wrapped up in a single function (<code>fviz_nbclust</code>). Unfortunately, the results are unclear where the elbow actually is? Do we select 3 clusters? 7 clusters? 18?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
 
-<span class="kw">fviz_nbclust</span>(ames_scale, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>, <span class="dt">k.max =</span> <span class="dv">20</span>)</code></pre></div>
+<span class="kw">fviz_nbclust</span>(ames_scale, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>, <span class="dt">k.max =</span> <span class="dv">20</span>)</code></pre>
 <p><img src="abar_files/figure-html/kmeans-elbow-method2-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="silo" class="section level5">
-<h5><span class="header-section-number">4.3.2.4.2</span> Average silhouette method</h5>
-<p>In short, the average silhouette approach measures the quality of a clustering. That is, it determines how well each object lies within its cluster. A high average silhouette width indicates a good clustering. The average silhouette method computes the average silhouette of observations for different values of <em>k</em>. The optimal number of clusters <em>k</em> is the one that maximizes the average silhouette over a range of possible values for <em>k</em>.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<h5><span class="header-section-number">5.3.2.4.2</span> Average silhouette method</h5>
+<p>In short, the average silhouette approach measures the quality of a clustering. That is, it determines how well each object lies within its cluster. A high average silhouette width indicates a good clustering. The average silhouette method computes the average silhouette of observations for different values of <em>k</em>. The optimal number of clusters <em>k</em> is the one that maximizes the average silhouette over a range of possible values for <em>k</em>.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a></p>
 <p>Similar to the elbow method, this process to compute the “average silhoutte method” has been wrapped up in a single function (<code>fviz_nbclust</code>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
 
-<span class="kw">fviz_nbclust</span>(ames_scale, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>, <span class="dt">k.max =</span> <span class="dv">20</span>)</code></pre></div>
+<span class="kw">fviz_nbclust</span>(ames_scale, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>, <span class="dt">k.max =</span> <span class="dv">20</span>)</code></pre>
 <p><img src="abar_files/figure-html/kmeans-silhouette-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="gap" class="section level4">
-<h4><span class="header-section-number">4.3.2.5</span> Gap statistic method</h4>
+<h4><span class="header-section-number">5.3.2.5</span> Gap statistic method</h4>
 <p>The gap statistic has been published by <a href="http://web.stanford.edu/~hastie/Papers/gap.pdf">R. Tibshirani, G. Walther, and T. Hastie (Standford University, 2001)</a>. The approach can be applied to any clustering method (i.e. K-means clustering, hierarchical clustering). The gap statistic compares the total intracluster variation for different values of <em>k</em> with their expected values under null reference distribution of the data (i.e. a distribution with no obvious clustering). The reference dataset is generated using Monte Carlo simulations of the sampling process. That is, for each variable (<span class="math inline">\(x_i\)</span>) in the data set we compute its range <span class="math inline">\([min(x_i), max(x_j)]\)</span> and generate values for the n points uniformly from the interval min to max.</p>
 <p>For the observed data and the the reference data, the total intracluster variation is computed using different values of <em>k</em>. The <em>gap statistic</em> for a given <em>k</em> is defined as follow:</p>
 <p><span class="math display">\[ Gap_n(k) = E^*_n{log(W_k)} - log(W_k) \tag{9}\]</span></p>
@@ -805,9 +927,9 @@ p4 &lt;-<span class="st"> </span><span class="kw">fviz_cluster</span>(k5, <span 
 <li>Choose the number of clusters as the smallest k such that <span class="math inline">\(Gap(k) \geq Gap(k+1) - s_{k+1}\)</span>.</li>
 </ol>
 <p>We can visualize the results with <code>fviz_gap_stat</code> which suggests four clusters as the optimal number of clusters.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
 
-<span class="kw">fviz_nbclust</span>(ames_scale, kmeans, <span class="dt">method =</span> <span class="st">&quot;gap_stat&quot;</span>, <span class="dt">k.max =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<span class="kw">fviz_nbclust</span>(ames_scale, kmeans, <span class="dt">method =</span> <span class="st">&quot;gap_stat&quot;</span>, <span class="dt">k.max =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</code></pre>
 <p><img src="abar_files/figure-html/kmeans-gap-1.png" width="672" style="display: block; margin: auto;" /></p>
 
 <div class="comment">
@@ -817,9 +939,9 @@ It is often the case, as above, where each metric suggests a different number of
 <p>In addition to these commonly used approaches, the <code>NbClust</code> package, published by <a href="http://www.jstatsoft.org/v61/i06/paper">Charrad et al., 2014</a>, provides 30 indices for determining the relevant number of clusters and proposes to users the best clustering scheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods.</p>
 </div>
 <div id="extracting-results" class="section level4">
-<h4><span class="header-section-number">4.3.2.6</span> Extracting results</h4>
+<h4><span class="header-section-number">5.3.2.6</span> Extracting results</h4>
 <p>Once you’ve identified the preferred number of clusters, we rerun the analysis with the selected <em>k</em> (8 in this example). We can extract the clusters and add to our initial data to do some descriptive statistics at the cluster level. Here, we can see that homes assigned to cluster 2 tend to be older, one story homes (or with a minimal second floor) whereas homes in cluster 7 tend to be newer (relatively speaking), two story homes with lots of space.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># re-run kmeans</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># re-run kmeans</span>
 <span class="kw">set.seed</span>(<span class="dv">123</span>)
 final &lt;-<span class="st"> </span><span class="kw">kmeans</span>(ames_scale, <span class="dv">8</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)
 
@@ -829,34 +951,35 @@ ames <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">group_by</span>(Cluster) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise_at</span>(<span class="kw">vars</span>(Year_Built, Second_Flr_SF, TotRms_AbvGrd, Garage_Area), <span class="st">&quot;mean&quot;</span>)
 ## # A tibble: 8 x 5
-##   Cluster Year_Built Second_Flr_SF TotRms_AbvGrd Garage_Area
-##     &lt;int&gt;      &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;       &lt;dbl&gt;
-## 1       1      1928.        402.            8.38        357.
-## 2       2      1969.         40.3           5.36        434.
-## 3       3      1997.          5.95          6.48        631.
-## 4       4      1939.        310.            5.84        305.
-## 5       5      1950.        441.            8.61        387.
-## 6       6      1992.        821.            7.05        508.
-## 7       7      1990.        994.            8.99        724.
-## 8       8      1971         691.            8.36        659.</code></pre></div>
+##   Cluster Year_Built Second_Flr_SF TotRms_AbvGrd
+##     &lt;int&gt;      &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
+## 1       1      1928.        402.            8.38
+## 2       2      1969.         40.3           5.36
+## 3       3      1997.          5.95          6.48
+## 4       4      1939.        310.            5.84
+## 5       5      1950.        441.            8.61
+## 6       6      1992.        821.            7.05
+## 7       7      1990.        994.            8.99
+## 8       8      1971         691.            8.36
+## # ... with 1 more variable: Garage_Area &lt;dbl&gt;</code></pre>
 </div>
 <div id="additional-comments" class="section level4">
-<h4><span class="header-section-number">4.3.2.7</span> Additional comments</h4>
+<h4><span class="header-section-number">5.3.2.7</span> Additional comments</h4>
 <p>K-means clustering is a very simple and fast algorithm. Furthermore, it can efficiently deal with very large data sets. However, there are some weaknesses of the k-means approach.</p>
 <p>One potential disadvantage of K-means clustering is that it requires us to pre-specify the number of clusters. Hierarchical clustering is an alternative approach which does not require that we commit to a particular choice of clusters. Hierarchical clustering has an added advantage over K-means clustering in that it results in an attractive tree-based representation of the observations, called a dendrogram. An additional disadvantage of K-means is that it’s sensitive to outliers and different results can occur if you change the ordering of your data. The Partitioning Around Medoids (PAM) clustering approach is less sensititive to outliers and provides a robust alternative to k-means to deal with these situations. The next two sections illustrate these clustering approaches.</p>
 </div>
 </div>
 <div id="hierarchical-clustering" class="section level3">
-<h3><span class="header-section-number">4.3.3</span> Hierarchical clustering</h3>
+<h3><span class="header-section-number">5.3.3</span> Hierarchical clustering</h3>
 <p>Hierarchical clustering is an alternative approach to k-means clustering for identifying groups in the dataset. It does not require us to pre-specify the number of clusters to be generated as is required by the k-means approach. Furthermore, hierarchical clustering has an added advantage over K-means clustering in that it results in an attractive tree-based representation of the observations, called a dendrogram.</p>
 <div class="figure" style="text-align: center"><span id="fig:dendrogram"></span>
-<img src="illustrations/dendrogram.png" alt="Illustrative dendrogram."  />
+<img src="illustrations/dendrogram.png" alt="Illustrative dendrogram." width="384" />
 <p class="caption">
-Figure 4.13: Illustrative dendrogram.
+Figure 5.13: Illustrative dendrogram.
 </p>
 </div>
 <div id="hierarchical-clustering-algorithms" class="section level4">
-<h4><span class="header-section-number">4.3.3.1</span> Hierarchical Clustering Algorithms</h4>
+<h4><span class="header-section-number">5.3.3.1</span> Hierarchical Clustering Algorithms</h4>
 <p>Hierarchical clustering can be divided into two main types: <em>agglomerative</em> and <em>divisive</em>.</p>
 <ol style="list-style-type: decimal">
 <li><strong>Agglomerative clustering:</strong> Also known as AGNES (Agglomerative Nesting). It works in a bottom-up manner. That is, each object is initially considered as a single-element cluster (leaf). At each step of the algorithm, the two clusters that are the most similar are combined into a new bigger cluster (nodes). This procedure is iterated until all points are a member of just one single big cluster (root) (see figure below). The result is a tree which can be plotted as a dendrogram.</li>
@@ -868,9 +991,9 @@ Note that agglomerative clustering is good at identifying small clusters. Divisi
 </div>
 
 <div class="figure" style="text-align: center"><span id="fig:dendrogram2"></span>
-<img src="illustrations/dendrogram2.png" alt="AGNES (bottom-up) versus DIANA (top-down) clustering."  />
+<img src="illustrations/dendrogram2.png" alt="AGNES (bottom-up) versus DIANA (top-down) clustering." width="384" />
 <p class="caption">
-Figure 4.14: AGNES (bottom-up) versus DIANA (top-down) clustering.
+Figure 5.14: AGNES (bottom-up) versus DIANA (top-down) clustering.
 </p>
 </div>
 <p>As we learned in the last section, we measure the (dis)similarity of observations using distance measures (i.e. Euclidean distance, Manhattan distance, etc.) In R, the Euclidean distance is used by default to measure the dissimilarity between each pair of observations.</p>
@@ -884,9 +1007,9 @@ Figure 4.14: AGNES (bottom-up) versus DIANA (top-down) clustering.
 </ul>
 <p>We can see the differences these approaches in the following dendrograms:</p>
 <div class="figure" style="text-align: center"><span id="fig:dendrogram3"></span>
-<img src="illustrations/dendrogram3.png" alt="Differing hierarchical clustering outputs based on similarity measures."  />
+<img src="illustrations/dendrogram3.png" alt="Differing hierarchical clustering outputs based on similarity measures." width="672" />
 <p class="caption">
-Figure 4.15: Differing hierarchical clustering outputs based on similarity measures.
+Figure 5.15: Differing hierarchical clustering outputs based on similarity measures.
 </p>
 </div>
 
@@ -896,30 +1019,30 @@ The important thing to remember is there are multiple ways to define clusters wh
 
 </div>
 <div id="hierarchical-clustering-with-r" class="section level4">
-<h4><span class="header-section-number">4.3.3.2</span> Hierarchical Clustering with R</h4>
+<h4><span class="header-section-number">5.3.3.2</span> Hierarchical Clustering with R</h4>
 <p>There are different functions available in R for computing hierarchical clustering. The commonly used functions are:</p>
 <ul>
 <li><code>hclust</code> [in stats package] and <code>agnes</code> [in cluster package] for agglomerative hierarchical clustering (HC)</li>
 <li><code>diana</code> [in cluster package] for divisive HC</li>
 </ul>
 <div id="agglomerative-hierarchical-clustering" class="section level5">
-<h5><span class="header-section-number">4.3.3.2.1</span> Agglomerative Hierarchical Clustering</h5>
+<h5><span class="header-section-number">5.3.3.2.1</span> Agglomerative Hierarchical Clustering</h5>
 <p>We can perform agglomerative HC with <code>hclust</code>. First we compute the dissimilarity values with <code>dist</code> and then feed these values into <code>hclust</code> and specify the agglomeration method to be used (i.e. “complete”, “average”, “single”, “ward.D”).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for reproducibility</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for reproducibility</span>
 <span class="kw">set.seed</span>(<span class="dv">123</span>)
 
 <span class="co"># Dissimilarity matrix</span>
 d &lt;-<span class="st"> </span><span class="kw">dist</span>(ames_scale, <span class="dt">method =</span> <span class="st">&quot;euclidean&quot;</span>)
 
 <span class="co"># Hierarchical clustering using Complete Linkage</span>
-hc1 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;complete&quot;</span> )</code></pre></div>
+hc1 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;complete&quot;</span> )</code></pre>
 
 <div class="tip">
 You could plot the dendrogram with <code>plot(hc1, cex = 0.6, hang = -1)</code>; however, due to the number of observations the output is not discernable.
 </div>
 
 <p>Alternatively, we can use the <code>agnes</code> function. This function behaves similar to <code>hclust</code>; however, with the <code>agnes</code> function you can also get the agglomerative coefficient, which measures the amount of clustering structure found (values closer to 1 suggest strong clustering structure).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for reproducibility</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for reproducibility</span>
 <span class="kw">set.seed</span>(<span class="dv">123</span>)
 
 <span class="co"># Compute maximum or &quot;complete linkage clustering with agnes</span>
@@ -927,9 +1050,9 @@ hc2 &lt;-<span class="st"> </span><span class="kw">agnes</span>(ames_scale, <spa
 
 <span class="co"># Agglomerative coefficient</span>
 hc2<span class="op">$</span>ac
-## [1] 0.926775</code></pre></div>
+## [1] 0.9268</code></pre>
 <p>This allows us to find certain hierarchical clustering methods that can identify stronger clustering structures. Here we see that Ward’s method identifies the strongest clustering structure of the four methods assessed.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># methods to assess</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># methods to assess</span>
 m &lt;-<span class="st"> </span><span class="kw">c</span>( <span class="st">&quot;average&quot;</span>, <span class="st">&quot;single&quot;</span>, <span class="st">&quot;complete&quot;</span>, <span class="st">&quot;ward&quot;</span>)
 <span class="kw">names</span>(m) &lt;-<span class="st"> </span><span class="kw">c</span>( <span class="st">&quot;average&quot;</span>, <span class="st">&quot;single&quot;</span>, <span class="st">&quot;complete&quot;</span>, <span class="st">&quot;ward&quot;</span>)
 
@@ -940,24 +1063,24 @@ ac &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
 
 <span class="co"># get agglomerative coefficient for each linkage method</span>
 <span class="kw">map_dbl</span>(m, ac)
-##   average    single  complete      ward 
-## 0.9139303 0.8712890 0.9267750 0.9766577</code></pre></div>
+##  average   single complete     ward 
+##   0.9139   0.8713   0.9268   0.9767</code></pre>
 </div>
 <div id="divisive-hierarchical-clustering" class="section level5">
-<h5><span class="header-section-number">4.3.3.2.2</span> Divisive Hierarchical Clustering</h5>
+<h5><span class="header-section-number">5.3.3.2.2</span> Divisive Hierarchical Clustering</h5>
 <p>The R function <code>diana</code> provided by the cluster package allows us to perform divisive hierarchical clustering. <code>diana</code> works similar to <code>agnes</code>; however, there is no method to provide. As before, a divisive coefficient closer to one suggests stronger group distinctions. Consequently, it appears that an agglomerative approach with Ward’s linkage provides the optimal results.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compute divisive hierarchical clustering</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compute divisive hierarchical clustering</span>
 hc4 &lt;-<span class="st"> </span><span class="kw">diana</span>(ames_scale)
 
 <span class="co"># Divise coefficient; amount of clustering structure found</span>
 hc4<span class="op">$</span>dc
-## [1] 0.9191094</code></pre></div>
+## [1] 0.9191</code></pre>
 </div>
 </div>
 <div id="determining-optimal-clusters-1" class="section level4">
-<h4><span class="header-section-number">4.3.3.3</span> Determining optimal clusters</h4>
+<h4><span class="header-section-number">5.3.3.3</span> Determining optimal clusters</h4>
 <p>Similar to how we determined optimal clusters with k-means clustering, we can execute similar approaches for hierarchical clustering:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hc_ward &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;ward.D2&quot;</span> )
+<pre class="sourceCode r"><code class="sourceCode r">hc_ward &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;ward.D2&quot;</span> )
 
 p1 &lt;-<span class="st"> </span><span class="kw">fviz_nbclust</span>(ames_scale, <span class="dt">FUN =</span> hcut, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>, <span class="dt">k.max =</span> <span class="dv">10</span>)
 p2 &lt;-<span class="st"> </span><span class="kw">fviz_nbclust</span>(ames_scale, <span class="dt">FUN =</span> hcut, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>, <span class="dt">k.max =</span> <span class="dv">10</span>)
@@ -965,21 +1088,21 @@ p2 &lt;-<span class="st"> </span><span class="kw">fviz_nbclust</span>(ames_scale
 gap_stat &lt;-<span class="st"> </span><span class="kw">clusGap</span>(ames_scale, <span class="dt">FUN =</span> hcut, <span class="dt">nstart =</span> <span class="dv">25</span>, <span class="dt">K.max =</span> <span class="dv">10</span>, <span class="dt">B =</span> <span class="dv">20</span>)
 p3 &lt;-<span class="st"> </span><span class="kw">fviz_gap_stat</span>(gap_stat)
 
-gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, p3, <span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre></div>
+gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, p3, <span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre>
 <p><img src="abar_files/figure-html/hclust-optimal-clusters-compare-1.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
 <div id="working-with-dendrograms" class="section level4">
-<h4><span class="header-section-number">4.3.3.4</span> Working with Dendrograms</h4>
+<h4><span class="header-section-number">5.3.3.4</span> Working with Dendrograms</h4>
 <p>The nice thing about hierarchical clustering is that it provides a complete dendrogram illustrating the relationships between groupings in our data. In the dendrogram displayed below, each leaf corresponds to one observation (aka an individual house). As we move up the tree, observations that are similar to each other are combined into branches, which are themselves fused at a higher height.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hc5 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;ward.D2&quot;</span> )
+<pre class="sourceCode r"><code class="sourceCode r">hc5 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;ward.D2&quot;</span> )
 dend_plot &lt;-<span class="st"> </span><span class="kw">fviz_dend</span>(hc5)
 dend_data &lt;-<span class="st"> </span><span class="kw">attr</span>(dend_plot, <span class="st">&quot;dendrogram&quot;</span>)
 dend_cuts &lt;-<span class="st"> </span><span class="kw">cut</span>(dend_data, <span class="dt">h =</span> <span class="dv">8</span>)
-<span class="kw">fviz_dend</span>(dend_cuts<span class="op">$</span>lower[[<span class="dv">2</span>]])</code></pre></div>
+<span class="kw">fviz_dend</span>(dend_cuts<span class="op">$</span>lower[[<span class="dv">2</span>]])</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:illustrative-dendrogram-plot"></span>
-<img src="illustrations/illustrative_sub_dendrogram.png" alt="A subsection of the dendrogram for illustrative purposes."  />
+<img src="illustrations/illustrative_sub_dendrogram.png" alt="A subsection of the dendrogram for illustrative purposes." width="446" />
 <p class="caption">
-Figure 4.16: A subsection of the dendrogram for illustrative purposes.
+Figure 5.16: A subsection of the dendrogram for illustrative purposes.
 </p>
 </div>
 <p>The height of the fusion, provided on the vertical axis, indicates the (dis)similarity between two observations. The higher the height of the fusion, the less similar the observations are.</p>
@@ -989,7 +1112,7 @@ Conclusions about the proximity of two observations can be drawn only based on t
 </div>
 
 <p>The height of the cut to the dendrogram controls the number of clusters obtained. It plays the same role as the <em>k</em> in k-means clustering. In order to identify sub-groups (i.e. clusters), we can cut the dendrogram with cutree. Here, we cut our agglomerative hierarchical clustering model into 8 clusters based on the silhouette results in the previous section. We can see that the concentration of observations are in clusters 1-3.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ward&#39;s method</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ward&#39;s method</span>
 hc5 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;ward.D2&quot;</span> )
 
 <span class="co"># Cut tree into 4 groups</span>
@@ -999,9 +1122,9 @@ sub_grp &lt;-<span class="st"> </span><span class="kw">cutree</span>(hc5, <span 
 <span class="kw">table</span>(sub_grp)
 ## sub_grp
 ##    1    2    3    4    5    6    7    8 
-## 1363  567  650   36  123  156   24   11</code></pre></div>
+## 1363  567  650   36  123  156   24   11</code></pre>
 <p>We can plot the entire dendrogram with <code>fviz_dend</code> and highlight the 8 clusters with <code>k = 8</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot full dendogram</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot full dendogram</span>
 <span class="kw">fviz_dend</span>(
   hc5,
   <span class="dt">k =</span> <span class="dv">8</span>,
@@ -1011,11 +1134,11 @@ sub_grp &lt;-<span class="st"> </span><span class="kw">cutree</span>(hc5, <span 
   <span class="dt">rect_border =</span> <span class="st">&quot;jco&quot;</span>,
   <span class="dt">k_colors =</span> <span class="st">&quot;jco&quot;</span>,
   <span class="dt">cex =</span> <span class="fl">0.1</span>
-)</code></pre></div>
+)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:working-with-dends-2-plot"></span>
 <img src="illustrations/full_dendrogram.png" alt="The complete dendogram highlighting all 8 clusters."  />
 <p class="caption">
-Figure 4.17: The complete dendogram highlighting all 8 clusters.
+Figure 5.17: The complete dendogram highlighting all 8 clusters.
 </p>
 </div>
 <p>However, due to the size of our data, the dendrogram is not legible. Consequently, we may want to zoom into one particular cluster. This allows us to see which observations are most similiar within a particular cluster.</p>
@@ -1024,7 +1147,7 @@ Figure 4.17: The complete dendogram highlighting all 8 clusters.
 There is no easy way to get the exact height required to capture all 8 clusters. This is largely trial and error by using different heights until the output of <code>dend_cuts</code> matches the cluster totals identified previously.
 </div>
 
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dend_plot &lt;-<span class="st"> </span><span class="kw">fviz_dend</span>(hc5)                  <span class="co"># create full dendogram</span>
+<pre class="sourceCode r"><code class="sourceCode r">dend_plot &lt;-<span class="st"> </span><span class="kw">fviz_dend</span>(hc5)                  <span class="co"># create full dendogram</span>
 dend_data &lt;-<span class="st"> </span><span class="kw">attr</span>(dend_plot, <span class="st">&quot;dendrogram&quot;</span>)   <span class="co"># extract plot info</span>
 dend_cuts &lt;-<span class="st"> </span><span class="kw">cut</span>(dend_data, <span class="dt">h =</span> <span class="fl">70.5</span>)        <span class="co"># cut the dendogram at designated height</span>
 
@@ -1032,19 +1155,19 @@ dend_cuts &lt;-<span class="st"> </span><span class="kw">cut</span>(dend_data, <
 p1 &lt;-<span class="st"> </span><span class="kw">fviz_dend</span>(dend_cuts<span class="op">$</span>lower[[<span class="dv">1</span>]])
 p2 &lt;-<span class="st"> </span><span class="kw">fviz_dend</span>(dend_cuts<span class="op">$</span>lower[[<span class="dv">1</span>]])
 
-gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre></div>
+gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:zoom-into-dendrogram-plot"></span>
-<img src="illustrations/cluster7_sub_dendrogram.png" alt="A subsection of the dendrogram highlighting cluster 7."  />
+<img src="illustrations/cluster7_sub_dendrogram.png" alt="A subsection of the dendrogram highlighting cluster 7." width="695" />
 <p class="caption">
-Figure 4.18: A subsection of the dendrogram highlighting cluster 7.
+Figure 5.18: A subsection of the dendrogram highlighting cluster 7.
 </p>
 </div>
 </div>
 </div>
 <div id="clustering-with-mixed-data" class="section level3">
-<h3><span class="header-section-number">4.3.4</span> Clustering with mixed data</h3>
+<h3><span class="header-section-number">5.3.4</span> Clustering with mixed data</h3>
 <p>As with PCA, typical textbook examples of clustering include only numeric data as demonstrated above. However, most real life data sets contain a mixture of numeric and categorical variables and whether an observation is similar to another observation should depend on both types of variables. There are a few options for performing clustering with mixed data and we’ll demonstrate on the full ames data set (minus the response variable <code>Sale_Price</code>). To perform k-means clustering on mixed data we can convert any ordinal categorical variables to numeric and one-hot encode the remaining nominal categorical variables.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># full ames data set --&gt; recode ordinal variables to numeric</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># full ames data set --&gt; recode ordinal variables to numeric</span>
 ames_full &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate_if</span>(<span class="kw">str_detect</span>(<span class="kw">names</span>(.), <span class="st">&quot;Qual|Cond|QC|Qu&quot;</span>), as.numeric)
 
@@ -1057,9 +1180,9 @@ ames_1hot_scaled &lt;-<span class="st"> </span><span class="kw">scale</span>(ame
 
 <span class="co"># new dimensions</span>
 <span class="kw">dim</span>(ames_1hot_scaled)
-## [1] 2930  240</code></pre></div>
+## [1] 2930  240</code></pre>
 <p>Now that all our variables are represented numerically, we can perform k-means or hierarchical clustering as we did in the previous sections. Using the Silhouette statistic criterion, it appears the optimal number of clusters across all variables are 2.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
 
 <span class="kw">fviz_nbclust</span>(
   ames_1hot_scaled, 
@@ -1067,11 +1190,11 @@ ames_1hot_scaled &lt;-<span class="st"> </span><span class="kw">scale</span>(ame
   <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>, 
   <span class="dt">k.max =</span> <span class="dv">20</span>, 
   <span class="dt">verbose =</span> <span class="ot">FALSE</span>
-  )</code></pre></div>
+  )</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:kmeans-silhouette-mixed"></span>
 <img src="abar_files/figure-html/kmeans-silhouette-mixed-1.png" alt="Suggested number of clusters for one-hot encoded Ames data using k-means clustering and the Silhouette criterion." width="672" />
 <p class="caption">
-Figure 4.19: Suggested number of clusters for one-hot encoded Ames data using k-means clustering and the Silhouette criterion.
+Figure 5.19: Suggested number of clusters for one-hot encoded Ames data using k-means clustering and the Silhouette criterion.
 </p>
 </div>
 <p>Unfortunately, as the number of features expand, performance of k-means tends to break down and both k-means and hierarchical approaches become slow. It starts to break down typically because your data becomes very sparse (lots of 0s and 1s from one-hot encoding; however, standardizing your data resolves this). Also, as you add more information you are likely to introduce more outliers and since k-means uses the mean, it is not robust to outliers. An alternative to this is to use <em>partitioning around mediods</em> (PAM), which has the same algorithmic steps as k-means but uses the median rather than the mean; making it more robust to outliers.</p>
@@ -1081,17 +1204,17 @@ To perform PAM clustering use <code>pam()</code> instead of <code>kmeans()</code
 </div>
 
 <p>If you compare k-means and PAM clustering results for a given criterion and experience common results then that is good indication that outliers are not skewing your k-mean results (as is the case here).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(
   ames_1hot_scaled, 
   pam, 
   <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>, 
   <span class="dt">k.max =</span> <span class="dv">20</span>, 
   <span class="dt">verbose =</span> <span class="ot">FALSE</span>
-  )</code></pre></div>
+  )</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:pam"></span>
 <img src="abar_files/figure-html/pam-1.png" alt="Suggested number of clusters for one-hot encoded Ames data using PAM clustering and the Silhouette criterion." width="672" />
 <p class="caption">
-Figure 4.20: Suggested number of clusters for one-hot encoded Ames data using PAM clustering and the Silhouette criterion.
+Figure 5.20: Suggested number of clusters for one-hot encoded Ames data using PAM clustering and the Silhouette criterion.
 </p>
 </div>
 <p>As your data set becomes larger both hierarchical, k-means, and PAM clustering become slower. An alternative is <em>clustering large applications</em> (CLARA), which performs the same algorithmic process as PAM; however, instead of finding the medioids for the entire data set it considers a small sample size and applies k-means or PAM. CLARA performs the following algorithmic steps:</p>
@@ -1107,17 +1230,17 @@ To perform CLARA clustering use <code>clara()</code> instead of <code>pam()</cod
 </div>
 
 <p>We see that our results are very similiar using CLARA as with PAM or k-means but using clara took 1/10 of the time!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(
   ames_1hot_scaled, 
   clara, 
   <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>, 
   <span class="dt">k.max =</span> <span class="dv">20</span>, 
   <span class="dt">verbose =</span> <span class="ot">FALSE</span>
-  )</code></pre></div>
+  )</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:clara"></span>
 <img src="abar_files/figure-html/clara-1.png" alt="Suggested number of clusters for one-hot encoded Ames data using CLARA clustering and the Silhouette criterion." width="672" />
 <p class="caption">
-Figure 4.21: Suggested number of clusters for one-hot encoded Ames data using CLARA clustering and the Silhouette criterion.
+Figure 5.21: Suggested number of clusters for one-hot encoded Ames data using CLARA clustering and the Silhouette criterion.
 </p>
 </div>
 <p>An additional option is to use the <em>Gower distance</em>. So far, all our examples have used the Euclidean distance, the most popular distance metric used. The Euclidean distance and all the other distance metrics discussed at the beginning of the clustering chapter require numeric data to perform the calculations; this is why clustering typically requires all inputs to be numeric. However, the Gower distance metric allows for mixed data types and, for each variable type, a particular distance calculation that works well for that type is used and scaled to fall between 0 and 1. The metrics used for each data type include:</p>
@@ -1136,15 +1259,15 @@ Figure 4.21: Suggested number of clusters for one-hot encoded Ames data using CL
 <p>and then uses the following formula:</p>
 <p><span class="math display">\[ D = \frac{2a}{2a + b + c}  \]</span></p>
 <p>We can use the <code>daisy</code> function to create a Gower distance matrix of our data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># original data minus Sale_Price</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># original data minus Sale_Price</span>
 ames_full &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>Sale_Price)
 
 <span class="co"># compute Gower distance for original data</span>
-gower_dst &lt;-<span class="st"> </span><span class="kw">daisy</span>(ames_full, <span class="dt">metric =</span> <span class="st">&quot;gower&quot;</span>)</code></pre></div>
+gower_dst &lt;-<span class="st"> </span><span class="kw">daisy</span>(ames_full, <span class="dt">metric =</span> <span class="st">&quot;gower&quot;</span>)</code></pre>
 <p>We can now use the resulting distance matrix and feed it into any clustering algorithm that accepts a distance matrix. This primarily includes <code>pam()</code>, <code>diana()</code>, and <code>agnes()</code> (<code>kmeans()</code> and <code>clara()</code> do not accept distance matrices as inputs).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pam_gower &lt;-<span class="st"> </span><span class="kw">pam</span>(<span class="dt">x =</span> gower_dst, <span class="dt">k =</span> <span class="dv">8</span>, <span class="dt">diss =</span> <span class="ot">TRUE</span>)
+<pre class="sourceCode r"><code class="sourceCode r">pam_gower &lt;-<span class="st"> </span><span class="kw">pam</span>(<span class="dt">x =</span> gower_dst, <span class="dt">k =</span> <span class="dv">8</span>, <span class="dt">diss =</span> <span class="ot">TRUE</span>)
 diana_gower &lt;-<span class="st"> </span><span class="kw">diana</span>(<span class="dt">x =</span> gower_dst, <span class="dt">diss =</span> <span class="ot">TRUE</span>)
-agnes_gower &lt;-<span class="st"> </span><span class="kw">agnes</span>(<span class="dt">x =</span> gower_dst, <span class="dt">diss =</span> <span class="ot">TRUE</span>)</code></pre></div>
+agnes_gower &lt;-<span class="st"> </span><span class="kw">agnes</span>(<span class="dt">x =</span> gower_dst, <span class="dt">diss =</span> <span class="ot">TRUE</span>)</code></pre>
 
 <div class="tip">
 Another technique that you can apply is Non-Negative Matrix Factorization; however, we do not cover this algorithm in this book.
@@ -1157,74 +1280,6 @@ Another technique that you can apply is Non-Negative Matrix Factorization; howev
 
 
 
-<div id="regression-problems" class="section level2">
-<h2><span class="header-section-number">4.4</span> Regression problems</h2>
-</div>
-<div id="classification-problems" class="section level2">
-<h2><span class="header-section-number">4.5</span> Classification problems</h2>
-</div>
-<div id="algorithm-comparison-guide" class="section level2">
-<h2><span class="header-section-number">4.6</span> Algorithm Comparison Guide</h2>
-</div>
-<div id="general-modeling-process" class="section level2">
-<h2><span class="header-section-number">4.7</span> General modeling process</h2>
-<div id="reg_perf_prereq" class="section level3">
-<h3><span class="header-section-number">4.7.1</span> Prerequisites</h3>
-</div>
-<div id="reg-perf-split" class="section level3">
-<h3><span class="header-section-number">4.7.2</span> Data splitting</h3>
-<div id="spending-our-data-wisely" class="section level4">
-<h4><span class="header-section-number">4.7.2.1</span> Spending our data wisely</h4>
-</div>
-<div id="simple-random-sampling" class="section level4">
-<h4><span class="header-section-number">4.7.2.2</span> Simple random sampling</h4>
-</div>
-<div id="stratified-sampling" class="section level4">
-<h4><span class="header-section-number">4.7.2.3</span> Stratified sampling</h4>
-</div>
-</div>
-<div id="reg_perf_feat" class="section level3">
-<h3><span class="header-section-number">4.7.3</span> Feature engineering</h3>
-<div id="response-transformation" class="section level4">
-<h4><span class="header-section-number">4.7.3.1</span> Response Transformation</h4>
-</div>
-<div id="predictor-transformation" class="section level4">
-<h4><span class="header-section-number">4.7.3.2</span> Predictor Transformation</h4>
-<div id="one-hot-encoding" class="section level5">
-<h5><span class="header-section-number">4.7.3.2.1</span> One-hot encoding</h5>
-</div>
-</div>
-<div id="standardizing" class="section level4">
-<h4><span class="header-section-number">4.7.3.3</span> Standardizing</h4>
-</div>
-<div id="alternative-feature-transformation" class="section level4">
-<h4><span class="header-section-number">4.7.3.4</span> Alternative Feature Transformation</h4>
-</div>
-</div>
-<div id="model-form" class="section level3">
-<h3><span class="header-section-number">4.7.4</span> Basic model formulation</h3>
-</div>
-<div id="reg_perf_tune" class="section level3">
-<h3><span class="header-section-number">4.7.5</span> Model tuning</h3>
-</div>
-<div id="cv" class="section level3">
-<h3><span class="header-section-number">4.7.6</span> Cross Validation for Generalization</h3>
-</div>
-<div id="reg_perf_eval" class="section level3">
-<h3><span class="header-section-number">4.7.7</span> Model evaluation</h3>
-<div id="regression-models" class="section level4">
-<h4><span class="header-section-number">4.7.7.1</span> Regression models</h4>
-</div>
-<div id="classification-models" class="section level4">
-<h4><span class="header-section-number">4.7.7.2</span> Classification models</h4>
-</div>
-</div>
-<div id="interpreting-predictive-models" class="section level3">
-<h3><span class="header-section-number">4.7.8</span> Interpreting predictive models</h3>
-
-</div>
-</div>
-</div>
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-wickham2014tidy">
@@ -1233,8 +1288,8 @@ Another technique that you can apply is Non-Negative Matrix Factorization; howev
 </div>
 <div class="footnotes">
 <hr />
-<ol start="1">
-<li id="fn1"><p><a href="http://onlinelibrary.wiley.com/book/10.1002/9780470316801">Kaufman and Rousseeuw, 1990</a><a href="unsupervised.html#fnref1">↩</a></p></li>
+<ol start="11">
+<li id="fn11"><p><a href="http://onlinelibrary.wiley.com/book/10.1002/9780470316801">Kaufman and Rousseeuw, 1990</a><a href="unsupervised.html#fnref11" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -1243,16 +1298,16 @@ Another technique that you can apply is Non-Negative Matrix Factorization; howev
         </div>
       </div>
 <a href="inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="linear-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="fundamentalconcepts.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -1289,7 +1344,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

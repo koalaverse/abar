@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2018-08-17">
+<meta name="date" content="2018-10-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,13 +33,13 @@
   
   
 <link rel="prev" href="regularized-regression.html">
-<link rel="next" href="references.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link rel="next" href="RF.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
 
 
 
@@ -47,7 +47,14 @@
 
 
 
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="libs/plotly-binding/plotly.js"></script>
+<script src="libs/typedarray/typedarray.min.js"></script>
+<link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main/plotly-latest.min.js"></script>
+<script src="libs/kePrint/kePrint.js"></script>
 
 
 <style type="text/css">
@@ -158,145 +165,168 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
-<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>1.5</b> Prerequisites</a></li>
-<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>1.6</b> Measures of location</a><ul>
-<li class="chapter" data-level="1.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>1.6.1</b> The sample mean</a></li>
-<li class="chapter" data-level="1.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>1.6.2</b> The sample median</a></li>
-<li class="chapter" data-level="1.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>1.6.3</b> The mean or the median</a></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>2</b> Descriptive Statistics</a><ul>
+<li class="chapter" data-level="2.1" data-path="descriptive.html"><a href="descriptive.html"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.2" data-path="descriptive.html"><a href="descriptive.html#measures-of-location"><i class="fa fa-check"></i><b>2.2</b> Measures of location</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="descriptive.html"><a href="descriptive.html#the-sample-mean"><i class="fa fa-check"></i><b>2.2.1</b> The sample mean</a></li>
+<li class="chapter" data-level="2.2.2" data-path="descriptive.html"><a href="descriptive.html#the-sample-median"><i class="fa fa-check"></i><b>2.2.2</b> The sample median</a></li>
+<li class="chapter" data-level="2.2.3" data-path="descriptive.html"><a href="descriptive.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>2.2.3</b> The mean or the median</a></li>
 </ul></li>
-<li class="chapter" data-level="1.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>1.7</b> Measures of spread</a><ul>
-<li class="chapter" data-level="1.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>1.7.1</b> The empirical rule</a></li>
+<li class="chapter" data-level="2.3" data-path="descriptive.html"><a href="descriptive.html#measures-of-spread"><i class="fa fa-check"></i><b>2.3</b> Measures of spread</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="descriptive.html"><a href="descriptive.html#empirical-rule"><i class="fa fa-check"></i><b>2.3.1</b> The empirical rule</a></li>
 </ul></li>
-<li class="chapter" data-level="1.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>1.8</b> Percentiles</a></li>
-<li class="chapter" data-level="1.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>1.9</b> Robust measures of spread</a></li>
-<li class="chapter" data-level="1.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>1.10</b> Outlier detection</a></li>
-<li class="chapter" data-level="1.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>1.11</b> Describing categorical data</a><ul>
-<li class="chapter" data-level="1.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>1.11.1</b> Contingency tables</a></li>
+<li class="chapter" data-level="2.4" data-path="descriptive.html"><a href="descriptive.html#percentiles"><i class="fa fa-check"></i><b>2.4</b> Percentiles</a></li>
+<li class="chapter" data-level="2.5" data-path="descriptive.html"><a href="descriptive.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>2.5</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="2.6" data-path="descriptive.html"><a href="descriptive.html#outliers"><i class="fa fa-check"></i><b>2.6</b> Outlier detection</a></li>
+<li class="chapter" data-level="2.7" data-path="descriptive.html"><a href="descriptive.html#categorical"><i class="fa fa-check"></i><b>2.7</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="descriptive.html"><a href="descriptive.html#contingency-tables"><i class="fa fa-check"></i><b>2.7.1</b> Contingency tables</a></li>
 </ul></li>
-<li class="chapter" data-level="1.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>1.12</b> Exercises</a></li>
+<li class="chapter" data-level="2.8" data-path="descriptive.html"><a href="descriptive.html#exercises"><i class="fa fa-check"></i><b>2.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>2</b> Visual data exploration</a><ul>
-<li class="chapter" data-level="2.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>2.2</b> Univariate data</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>2.2.1</b> Continuous Variables</a></li>
-<li class="chapter" data-level="2.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>2.2.2</b> Categorical Variables</a></li>
+<li class="chapter" data-level="3" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>3</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="3.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>3.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>3.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>3.2.2</b> Categorical Variables</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>2.3</b> Bivariate data</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.3.1</b> Scatter plots</a></li>
+<li class="chapter" data-level="3.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>3.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>3.3.1</b> Scatter plots</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>2.4</b> Multivariate data</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>2.4.1</b> Facetting</a></li>
+<li class="chapter" data-level="3.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>3.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>3.4.1</b> Facetting</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>2.5</b> Data quality</a></li>
-<li class="chapter" data-level="2.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>2.6</b> Further reading</a></li>
-<li class="chapter" data-level="2.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>2.7</b> Exercises</a></li>
+<li class="chapter" data-level="3.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>3.5</b> Data quality</a></li>
+<li class="chapter" data-level="3.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>3.6</b> Further reading</a></li>
+<li class="chapter" data-level="3.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>3</b> Statistical Inference</a><ul>
-<li class="chapter" data-level="3.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> The frequentist approach</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.1.1</b> The central limit theorem</a></li>
-<li class="chapter" data-level="3.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="3.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>3.1.3</b> One-sided versus two-sided tests</a></li>
-<li class="chapter" data-level="3.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>3.1.4</b> Type I and type II errors</a></li>
-<li class="chapter" data-level="3.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>3.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
-<li class="chapter" data-level="3.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>3.1.6</b> Confidence intervals</a></li>
+<li class="chapter" data-level="4" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="4.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>4.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>4.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="4.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="4.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>4.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="4.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>4.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="4.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>4.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="4.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>4.1.6</b> Confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>3.2</b> One- and two-sample t-tests</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.2.1</b> One-sample t-test</a></li>
-<li class="chapter" data-level="3.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>3.2.2</b> Two-sample t-test</a></li>
+<li class="chapter" data-level="4.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>4.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="4.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> Two-sample t-test</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>3.3</b> Tests involving more than two means: ANOVA models</a></li>
-<li class="chapter" data-level="3.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>3.4</b> Testing for association in contingency tables</a></li>
-<li class="chapter" data-level="3.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>3.5</b> Nonparametric tests</a></li>
-<li class="chapter" data-level="3.6" data-path="inference.html"><a href="inference.html#the-nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.6</b> The nonparametric bootstrap</a><ul>
-<li class="chapter" data-level="3.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>3.6.1</b> Bootstrap confidence intervals</a></li>
+<li class="chapter" data-level="4.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>4.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="4.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>4.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="4.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>4.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="4.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>4.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>4.6.1</b> Bootstrap confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="3.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>3.7</b> Further reading</a></li>
-<li class="chapter" data-level="3.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>3.8</b> Exercises</a></li>
+<li class="chapter" data-level="4.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>4.7</b> Further reading</a></li>
+<li class="chapter" data-level="4.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>4</b> Unsupervised learning</a><ul>
-<li class="chapter" data-level="4.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>4.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="4.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>4.2</b> Principal Components Analysis</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>4.2.1</b> Finding principal components</a></li>
-<li class="chapter" data-level="4.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>4.2.2</b> Performing PCA in R</a></li>
-<li class="chapter" data-level="4.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>4.2.3</b> Selecting the Number of Principal Components</a></li>
-<li class="chapter" data-level="4.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>4.2.4</b> Extracting additional insights</a></li>
-<li class="chapter" data-level="4.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>4.2.5</b> PCA with mixed data</a></li>
+<li class="chapter" data-level="5" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="5.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>5.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>5.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="5.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="5.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>5.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="5.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>5.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="5.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>5.2.5</b> PCA with mixed data</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>4.3</b> Cluster Analysis</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>4.3.1</b> Clustering distance measures</a></li>
-<li class="chapter" data-level="4.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>4.3.2</b> K-means clustering</a></li>
-<li class="chapter" data-level="4.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.3.3</b> Hierarchical clustering</a></li>
-<li class="chapter" data-level="4.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>4.3.4</b> Clustering with mixed data</a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>II Predictive Analytics</b></span><ul>
-<li class="chapter" data-level="4.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>4.4</b> Regression problems</a></li>
-<li class="chapter" data-level="4.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>4.5</b> Classification problems</a></li>
-<li class="chapter" data-level="4.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>4.6</b> Algorithm Comparison Guide</a></li>
-<li class="chapter" data-level="4.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>4.7</b> General modeling process</a><ul>
-<li class="chapter" data-level="4.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>4.7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="4.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-split"><i class="fa fa-check"></i><b>4.7.2</b> Data splitting</a></li>
-<li class="chapter" data-level="4.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>4.7.3</b> Feature engineering</a></li>
-<li class="chapter" data-level="4.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>4.7.4</b> Basic model formulation</a></li>
-<li class="chapter" data-level="4.7.5" data-path="unsupervised.html"><a href="unsupervised.html#tune"><i class="fa fa-check"></i><b>4.7.5</b> Model tuning</a></li>
-<li class="chapter" data-level="4.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>4.7.6</b> Cross Validation for Generalization</a></li>
-<li class="chapter" data-level="4.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-eval"><i class="fa fa-check"></i><b>4.7.7</b> Model evaluation</a></li>
-<li class="chapter" data-level="4.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>4.7.8</b> Interpreting predictive models</a></li>
+<li class="chapter" data-level="5.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>5.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="5.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>5.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="5.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="5.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>5.3.4</b> Clustering with mixed data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5</b> Linear regression</a><ul>
-<li class="chapter" data-level="5.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="5.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>5.2</b> Simple linear regression</a></li>
-<li class="chapter" data-level="5.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>5.3</b> Multiple linear regression</a></li>
-<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>5.4</b> Assessing Model Accuracy</a></li>
-<li class="chapter" data-level="5.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>5.5</b> Model concerns</a></li>
-<li class="chapter" data-level="5.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>5.6</b> Principal component regression</a></li>
-<li class="chapter" data-level="5.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>5.7</b> Partial least squares</a></li>
-<li class="chapter" data-level="5.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>5.8</b> Feature Interpretation</a></li>
-<li class="chapter" data-level="5.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>5.9</b> Final thoughts</a></li>
-<li class="chapter" data-level="5.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>5.10</b> Learning more</a></li>
+<li class="part"><span><b>II Predictive Analytics</b></span></li>
+<li class="chapter" data-level="6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html"><i class="fa fa-check"></i><b>6</b> Fundamental concepts</a><ul>
+<li class="chapter" data-level="6.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#regression-problems"><i class="fa fa-check"></i><b>6.1</b> Regression problems</a></li>
+<li class="chapter" data-level="6.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#classification-problems"><i class="fa fa-check"></i><b>6.2</b> Classification problems</a></li>
+<li class="chapter" data-level="6.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>6.3</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="6.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#general-modeling-process"><i class="fa fa-check"></i><b>6.4</b> General modeling process</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_prereq"><i class="fa fa-check"></i><b>6.4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-split"><i class="fa fa-check"></i><b>6.4.2</b> Data splitting</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_feat"><i class="fa fa-check"></i><b>6.4.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="6.4.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#model-form"><i class="fa fa-check"></i><b>6.4.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="6.4.5" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#tune"><i class="fa fa-check"></i><b>6.4.5</b> Model tuning</a></li>
+<li class="chapter" data-level="6.4.6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#cv"><i class="fa fa-check"></i><b>6.4.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="6.4.7" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-eval"><i class="fa fa-check"></i><b>6.4.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="6.4.8" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>6.4.8</b> Interpreting predictive models</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>6</b> Logistic regression</a><ul>
-<li class="chapter" data-level="6.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>6.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="6.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Why logistic regression</a></li>
-<li class="chapter" data-level="6.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>6.3</b> Simple logistic regression</a></li>
-<li class="chapter" data-level="6.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>6.4</b> Multiple logistic regression</a></li>
-<li class="chapter" data-level="6.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>6.5</b> Assessing model accuracy</a></li>
-<li class="chapter" data-level="6.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>6.6</b> Feature interpretation</a></li>
-<li class="chapter" data-level="6.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>6.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="6.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>6.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>7</b> Regularized regression</a><ul>
-<li class="chapter" data-level="7.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="7.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>7.2</b> Why Regularize</a><ul>
-<li class="chapter" data-level="7.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>7.2.1</b> Ridge penalty</a></li>
-<li class="chapter" data-level="7.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>7.2.2</b> Lasso penalty</a></li>
-<li class="chapter" data-level="7.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>7.2.3</b> Elastic nets</a></li>
+<li class="chapter" data-level="7" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>7</b> Linear regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="7.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple linear regression</a></li>
+<li class="chapter" data-level="7.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>7.3</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="7.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>7.4</b> Assessing Model Accuracy</a></li>
+<li class="chapter" data-level="7.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>7.5</b> Model concerns</a></li>
+<li class="chapter" data-level="7.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>7.6</b> Principal component regression</a></li>
+<li class="chapter" data-level="7.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>7.7</b> Partial least squares</a></li>
+<li class="chapter" data-level="7.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>7.8</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="7.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>7.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="7.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>7.10</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>7.3</b> Implementation</a></li>
-<li class="chapter" data-level="7.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>7.4</b> Tuning</a></li>
-<li class="chapter" data-level="7.5" data-path="regularized-regression.html"><a href="regularized-regression.html#feature-interpretation-1"><i class="fa fa-check"></i><b>7.5</b> Feature interpretation</a></li>
-<li class="chapter" data-level="7.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>7.6</b> Attrition data</a></li>
-<li class="chapter" data-level="7.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>7.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="7.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>7.8</b> Learning more</a></li>
+<li class="chapter" data-level="8" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Logistic regression</a><ul>
+<li class="chapter" data-level="8.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="8.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>8.2</b> Why logistic regression</a></li>
+<li class="chapter" data-level="8.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>8.3</b> Simple logistic regression</a></li>
+<li class="chapter" data-level="8.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>8.4</b> Multiple logistic regression</a></li>
+<li class="chapter" data-level="8.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>8.5</b> Assessing model accuracy</a></li>
+<li class="chapter" data-level="8.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>8.6</b> Feature interpretation</a></li>
+<li class="chapter" data-level="8.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="8.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>8</b> Multivariate Adaptive Regression Splines</a><ul>
-<li class="chapter" data-level="8.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="8.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>8.2</b> The basic idea</a><ul>
-<li class="chapter" data-level="8.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>8.2.1</b> Multivariate regression splines</a></li>
+<li class="chapter" data-level="9" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>9</b> Regularized regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="9.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>9.2</b> Why Regularize</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>9.2.1</b> Ridge penalty</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>9.2.2</b> Lasso penalty</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>9.2.3</b> Elastic nets</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>8.3</b> Fitting a basic MARS model</a></li>
-<li class="chapter" data-level="8.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>8.4</b> Tuning</a></li>
-<li class="chapter" data-level="8.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-2"><i class="fa fa-check"></i><b>8.5</b> Feature interpretation</a></li>
-<li class="chapter" data-level="8.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>8.6</b> Attrition data</a></li>
-<li class="chapter" data-level="8.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="8.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
+<li class="chapter" data-level="9.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>9.3</b> Implementation</a></li>
+<li class="chapter" data-level="9.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>9.4</b> Tuning</a></li>
+<li class="chapter" data-level="9.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>9.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="9.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>9.6</b> Attrition data</a></li>
+<li class="chapter" data-level="9.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>9.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="9.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>9.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>10</b> Multivariate Adaptive Regression Splines</a><ul>
+<li class="chapter" data-level="10.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="10.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>10.2.1</b> Multivariate regression splines</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>10.3</b> Fitting a basic MARS model</a></li>
+<li class="chapter" data-level="10.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>10.4</b> Tuning</a></li>
+<li class="chapter" data-level="10.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>10.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="10.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>10.6</b> Attrition data</a></li>
+<li class="chapter" data-level="10.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>10.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="10.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>10.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>11</b> Random Forests</a><ul>
+<li class="chapter" data-level="11.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>11.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="11.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>11.2</b> Decision trees</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>11.2.1</b> A simple regression tree example</a></li>
+<li class="chapter" data-level="11.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>11.2.2</b> Deciding on splits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>11.3</b> Bagging</a></li>
+<li class="chapter" data-level="11.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>11.4</b> Random forests</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>11.4.1</b> OOB error vs. test set error</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>11.5</b> Fitting a basic random forest model</a></li>
+<li class="chapter" data-level="11.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>11.6</b> Tuning</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>11.6.1</b> Tuning via ranger</a></li>
+<li class="chapter" data-level="11.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>11.6.2</b> Tuning via caret</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>11.7</b> Feature interpretation</a></li>
+<li class="chapter" data-level="11.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>11.8</b> Attrition data</a></li>
+<li class="chapter" data-level="11.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>11.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="11.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>11.10</b> Learning more</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="9" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>9</b> (APPENDIX) Appendix {-}</a><ul>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+<li class="chapter" data-level="12" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) Appendix {-}</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html"><i class="fa fa-check"></i>Data sets</a><ul>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -319,11 +349,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="MARS" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Multivariate Adaptive Regression Splines</h1>
+<h1><span class="header-section-number">Chapter 10</span> Multivariate Adaptive Regression Splines</h1>
 <p>The previous chapters discussed algorithms that are intrinsically linear. Many of these models can be adapted to nonlinear patterns in the data by manually adding model terms (i.e. squared terms, interaction effects); however, to do so you must know the specific nature of the nonlinearity a priori. Alternatively, there are numerous algorithms that are inherently nonlinear. When using these models, the exact form of the nonlinearity does not need to be known explicitly or specified prior to model training. Rather, these algorithms will search for, and discover, nonlinearities in the data that help maximize predictive accuracy.</p>
 <p>This chapter discusses multivariate adaptive regression splines (MARS), an algorithm that essentially creates a piecewise linear model which provides an intuitive stepping block into nonlinearity after grasping the concept of multiple linear regression. Future chapters will focus on other nonlinear algorithms.</p>
 <div id="prerequisites-6" class="section level2">
-<h2><span class="header-section-number">8.1</span> Prerequisites</h2>
+<h2><span class="header-section-number">10.1</span> Prerequisites</h2>
 <p>For this chapter we will use the following packages:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)   <span class="co"># data splitting </span>
 <span class="kw">library</span>(ggplot2)   <span class="co"># plotting</span>
@@ -341,40 +371,40 @@ ames_train &lt;-<span class="st"> </span><span class="kw">training</span>(ames_s
 ames_test  &lt;-<span class="st"> </span><span class="kw">testing</span>(ames_split)</code></pre>
 </div>
 <div id="the-basic-idea" class="section level2">
-<h2><span class="header-section-number">8.2</span> The basic idea</h2>
+<h2><span class="header-section-number">10.2</span> The basic idea</h2>
 <p>In the previous chapters, we focused on linear models. We illustrated some of the advantages of linear models such as their ease and speed of computation and also the intuitive nature of interpreting their coefficients. However, linear models make a strong assumption about linearity, and this assumption is often a poor one, which can affect predictive accuracy.</p>
-<p>We can extend linear models to capture non-linear relationships. Typically, this is done by explicitly including polynomial parameters or step functions. Polynomial regression is a form of regression in which the relationship between the independent variable <em>x</em> and the dependent variable <em>y</em> is modeled as an n<span class="math inline">\(^{th}\)</span> degree polynomial of <em>x</em>. For example, Equation <a href="MARS.html#eq:poly">(8.1)</a> represents a polynomial regression function where <em>y</em> is modeled as a function of <em>x</em> with <em>d</em> degrees. Generally speaking, it is unusual to use <em>d</em> greater than 3 or 4 as the larger <em>d</em> becomes, the easier the function fit becomes overly flexible and oddly shapened…especially near the boundaries of the range of <em>x</em> values.</p>
+<p>We can extend linear models to capture non-linear relationships. Typically, this is done by explicitly including polynomial parameters or step functions. Polynomial regression is a form of regression in which the relationship between the independent variable <em>x</em> and the dependent variable <em>y</em> is modeled as an n<span class="math inline">\(^{th}\)</span> degree polynomial of <em>x</em>. For example, Equation <a href="MARS.html#eq:poly">(10.1)</a> represents a polynomial regression function where <em>y</em> is modeled as a function of <em>x</em> with <em>d</em> degrees. Generally speaking, it is unusual to use <em>d</em> greater than 3 or 4 as the larger <em>d</em> becomes, the easier the function fit becomes overly flexible and oddly shapened…especially near the boundaries of the range of <em>x</em> values.</p>
 <p><span class="math display" id="eq:poly">\[\begin{equation}
-\tag{8.1}
+\tag{10.1}
   y_i = \beta_0 + \beta_1 x_i + \beta_2 x^2_i + \beta_3 x^3_i \dots + \beta_d x^d_i + \epsilon_i,
 \end{equation}\]</span></p>
-<p>An alternative to polynomial regression is step function regression. Whereas polynomial functions impose a global non-linear relationship, step functions break the range of <em>x</em> into bins, and fit a different constant for each bin. This amounts to converting a continuous variable into an ordered categorical variable such that our linear regression function is converted to Equation <a href="MARS.html#eq:steps">(8.2)</a></p>
+<p>An alternative to polynomial regression is step function regression. Whereas polynomial functions impose a global non-linear relationship, step functions break the range of <em>x</em> into bins, and fit a different constant for each bin. This amounts to converting a continuous variable into an ordered categorical variable such that our linear regression function is converted to Equation <a href="MARS.html#eq:steps">(10.2)</a></p>
 <p><span class="math display" id="eq:steps">\[\begin{equation}
-\tag{8.2}
+\tag{10.2}
   y_i = \beta_0 + \beta_1 C_1(x_i) + \beta_2 C_2(x_i) + \beta_3 C_3(x_i) \dots + \beta_d C_d(x_i) + \epsilon_i,
 \end{equation}\]</span></p>
-<p>where <span class="math inline">\(C_1(x)\)</span> represents <em>x</em> values ranging from <span class="math inline">\(c_1 \leq x &lt; c_2\)</span>, <span class="math inline">\(C_2(x)\)</span> represents <em>x</em> values ranging from <span class="math inline">\(c_2 \leq x &lt; c_3\)</span>, <span class="math inline">\(\dots\)</span>, <span class="math inline">\(C_d(x)\)</span> represents <em>x</em> values ranging from <span class="math inline">\(c_{d-1} \leq x &lt; c_d\)</span>. Figure <a href="MARS.html#fig:nonlinear-comparisons">8.1</a> illustrate polynomial and step function fits for <code>Sale_Price</code> as a function of <code>Year_Built</code> in our <strong>ames</strong> data.</p>
+<p>where <span class="math inline">\(C_1(x)\)</span> represents <em>x</em> values ranging from <span class="math inline">\(c_1 \leq x &lt; c_2\)</span>, <span class="math inline">\(C_2(x)\)</span> represents <em>x</em> values ranging from <span class="math inline">\(c_2 \leq x &lt; c_3\)</span>, <span class="math inline">\(\dots\)</span>, <span class="math inline">\(C_d(x)\)</span> represents <em>x</em> values ranging from <span class="math inline">\(c_{d-1} \leq x &lt; c_d\)</span>. Figure <a href="MARS.html#fig:nonlinear-comparisons">10.1</a> illustrate polynomial and step function fits for <code>Sale_Price</code> as a function of <code>Year_Built</code> in our <strong>ames</strong> data.</p>
 <div class="figure" style="text-align: center"><span id="fig:nonlinear-comparisons"></span>
 <img src="abar_files/figure-html/nonlinear-comparisons-1.png" alt="Blue line represents predicted `Sale_Price` values as a function of `Year_Built` for alternative approaches to modeling explicit nonlinear regression patterns. (A) Traditional nonlinear regression approach does not capture any nonlinearity unless the predictor or response is transformed (i.e. log transformation). (B) Degree-2 polynomial, (C) Degree-3 polynomial, (D) Step function fitting cutting `Year_Built` into three categorical levels." width="768" />
 <p class="caption">
-Figure 8.1: Blue line represents predicted <code>Sale_Price</code> values as a function of <code>Year_Built</code> for alternative approaches to modeling explicit nonlinear regression patterns. (A) Traditional nonlinear regression approach does not capture any nonlinearity unless the predictor or response is transformed (i.e. log transformation). (B) Degree-2 polynomial, (C) Degree-3 polynomial, (D) Step function fitting cutting <code>Year_Built</code> into three categorical levels.
+Figure 10.1: Blue line represents predicted <code>Sale_Price</code> values as a function of <code>Year_Built</code> for alternative approaches to modeling explicit nonlinear regression patterns. (A) Traditional nonlinear regression approach does not capture any nonlinearity unless the predictor or response is transformed (i.e. log transformation). (B) Degree-2 polynomial, (C) Degree-3 polynomial, (D) Step function fitting cutting <code>Year_Built</code> into three categorical levels.
 </p>
 </div>
 <p>Although useful, the typical implementation of polynomial regression and step functions require the user to explicitly identify and incorporate which variables should have what specific degree of interaction or at what points of a variable <em>x</em> should cut points be made for the step functions. Considering many data sets today can easily contain 50, 100, or more features, this would require an enormous and unncessary time commitment from an analyst to determine these explicit non-linear settings.</p>
 <div id="multivariate-regression-splines" class="section level3">
-<h3><span class="header-section-number">8.2.1</span> Multivariate regression splines</h3>
-<p>Multivariate adaptive regression splines (MARS) provide a convenient approach to capture the nonlinearity aspect of polynomial regression by assessing cutpoints (<em>knots</em>) similar to step functions. The procedure assesses each data point for each predictor as a knot and creates a linear regression model with the candidate feature(s). For example, consider our simple model of <code>Sale_Price ~ Year_Built</code>. The MARS procedure will first look for the single point across the range of <code>Year_Built</code> values where two different linear relationships between <code>Sale_Price</code> and <code>Year_Built</code> achieve the smallest error. What results is known as a hinge function (<span class="math inline">\(h(x-a)\)</span> where <em>a</em> is the cutpoint value). For a single knot (Figure <a href="MARS.html#fig:examples-of-multiple-knots">8.2</a> (A)), our hinge function is <span class="math inline">\(h(\text{Year_Built}-1968)\)</span> such that our two linear models for <code>Sale_Price</code> are</p>
+<h3><span class="header-section-number">10.2.1</span> Multivariate regression splines</h3>
+<p>Multivariate adaptive regression splines (MARS) provide a convenient approach to capture the nonlinearity aspect of polynomial regression by assessing cutpoints (<em>knots</em>) similar to step functions. The procedure assesses each data point for each predictor as a knot and creates a linear regression model with the candidate feature(s). For example, consider our simple model of <code>Sale_Price ~ Year_Built</code>. The MARS procedure will first look for the single point across the range of <code>Year_Built</code> values where two different linear relationships between <code>Sale_Price</code> and <code>Year_Built</code> achieve the smallest error. What results is known as a hinge function (<span class="math inline">\(h(x-a)\)</span> where <em>a</em> is the cutpoint value). For a single knot (Figure <a href="MARS.html#fig:examples-of-multiple-knots">10.2</a> (A)), our hinge function is <span class="math inline">\(h(\text{Year_Built}-1968)\)</span> such that our two linear models for <code>Sale_Price</code> are</p>
 <p><span class="math display" id="eq:hinge">\[\begin{equation}
-\tag{8.3}
+\tag{10.3}
   \text{Sale_Price} = 
   \begin{cases}
     136091.022 &amp; \text{Year_Built} \leq 1968, \\
     136091.022 + 3094.208(\text{Year_Built} - 1968) &amp; \text{Year_Built} &gt; 1968
   \end{cases}
 \end{equation}\]</span></p>
-<p>Once the first knot has been found, the search continues for a second knot which is found at 2006 (Figure <a href="MARS.html#fig:examples-of-multiple-knots">8.2</a> (B)). This results in three linear models for <code>Sale_Price</code>:</p>
+<p>Once the first knot has been found, the search continues for a second knot which is found at 2006 (Figure <a href="MARS.html#fig:examples-of-multiple-knots">10.2</a> (B)). This results in three linear models for <code>Sale_Price</code>:</p>
 <p><span class="math display" id="eq:hinge2">\[\begin{equation}
-\tag{8.4}
+\tag{10.4}
   \text{Sale_Price} = 
   \begin{cases}
     136091.022 &amp; \text{Year_Built} \leq 1968, \\
@@ -385,22 +415,22 @@ Figure 8.1: Blue line represents predicted <code>Sale_Price</code> values as a f
 <div class="figure" style="text-align: center"><span id="fig:examples-of-multiple-knots"></span>
 <img src="abar_files/figure-html/examples-of-multiple-knots-1.png" alt="Examples of fitted regression splines of one (A), two (B), three (C), and four (D) knots." width="768" />
 <p class="caption">
-Figure 8.2: Examples of fitted regression splines of one (A), two (B), three (C), and four (D) knots.
+Figure 10.2: Examples of fitted regression splines of one (A), two (B), three (C), and four (D) knots.
 </p>
 </div>
-<p>This procedure can continue until many knots are found, producing a highly non-linear pattern. Although including many knots may allow us to fit a really good relationship with our training data, it may not generalize very well to new, unseen data. For example, Figure <a href="MARS.html#fig:example-9-knots">8.3</a> includes nine knots but this likley will not generalize very well to our test data.</p>
+<p>This procedure can continue until many knots are found, producing a highly non-linear pattern. Although including many knots may allow us to fit a really good relationship with our training data, it may not generalize very well to new, unseen data. For example, Figure <a href="MARS.html#fig:example-9-knots">10.3</a> includes nine knots but this likley will not generalize very well to our test data.</p>
 <div class="figure" style="text-align: center"><span id="fig:example-9-knots"></span>
 <img src="abar_files/figure-html/example-9-knots-1.png" alt="Too many knots may not generalize well to unseen data." width="480" />
 <p class="caption">
-Figure 8.3: Too many knots may not generalize well to unseen data.
+Figure 10.3: Too many knots may not generalize well to unseen data.
 </p>
 </div>
 <p>Consequently, once the full set of knots have been created, we can sequentially remove knots that do not contribute significantly to predictive accuracy. This process is known as “pruning” and we can use cross-validation, as we have with the previous models, to find the optimal number of knots.</p>
 </div>
 </div>
 <div id="fitting-a-basic-mars-model" class="section level2">
-<h2><span class="header-section-number">8.3</span> Fitting a basic MARS model</h2>
-<p>We can fit a MARS model with the <strong>earth</strong> package <span class="citation">(Milborrow <a href="#ref-R-earth">2018</a>)</span>. By default, <code>earth::earth()</code> will assess all potential knots across all supplied features and then will prune to the optimal number of knots based on an expected change in <span class="math inline">\(R^2\)</span> (for the training data) of less than 0.001. This calculation is performed by the Generalized cross-validation procedure (GCV statistic), which is a computational shortcut for linear models that produces an error value that <em>approximates</em> leave-one-out cross-validation <span class="citation">(Golub, Heath, and Wahba <a href="#ref-golub1979generalized">1979</a>)</span>.</p>
+<h2><span class="header-section-number">10.3</span> Fitting a basic MARS model</h2>
+<p>We can fit a MARS model with the <strong>earth</strong> package <span class="citation">(Trevor Hastie and Thomas Lumley’s leaps wrapper. <a href="#ref-R-earth">2018</a>)</span>. By default, <code>earth::earth()</code> will assess all potential knots across all supplied features and then will prune to the optimal number of knots based on an expected change in <span class="math inline">\(R^2\)</span> (for the training data) of less than 0.001. This calculation is performed by the Generalized cross-validation procedure (GCV statistic), which is a computational shortcut for linear models that produces an error value that <em>approximates</em> leave-one-out cross-validation <span class="citation">(Golub, Heath, and Wahba <a href="#ref-golub1979generalized">1979</a>)</span>.</p>
 <div class="note">
 <p>
 The term “MARS” is trademarked and licensed exclusively to Salford Systems <a href="http://www.salfordsystems.com" class="uri">http://www.salfordsystems.com</a>. We can use MARS as an abbreviation; however, it cannot be used for competing software solutions. This is why the R package uses the name <strong>earth</strong>.
@@ -417,9 +447,9 @@ mars1 &lt;-<span class="st"> </span><span class="kw">earth</span>(
 <span class="kw">print</span>(mars1)
 ## Selected 37 of 45 terms, and 26 of 307 predictors
 ## Termination condition: RSq changed by less than 0.001 at 45 terms
-## Importance: Gr_Liv_Area, Year_Built, Total_Bsmt_SF, ...
+## Importance: Gr_Liv_Area, Year_Built, ...
 ## Number of terms at each degree of interaction: 1 36 (additive model)
-## GCV 521186626    RSS 995776275391    GRSq 0.9165386    RSq 0.92229</code></pre>
+## GCV 521186626    RSS 9.958e+11    GRSq 0.9165    RSq 0.9223</code></pre>
 <p>It also shows us that 38 of 41 terms were used from 27 of the 307 original predictors. But what does this mean? If we were to look at all the coefficients, we would see that there are 38 terms in our model (including the intercept). These terms include hinge functions produced from the original 307 predictors (307 predictors because the model automatically dummy encodes our categorical variables). Looking at the first 10 terms in our model, we see that <code>Gr_Liv_Area</code> is included with a knot at 2945 (the coefficient for <span class="math inline">\(h(2945-Gr_Liv_Area)\)</span> is -49.85), <code>Year_Built</code> is included with a knot at 2003, etc.</p>
 <div class="tip">
 <p>
@@ -427,23 +457,23 @@ You can check out all the coefficients with <code>summary(mars1)</code>.
 </p>
 </div>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mars1) <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>coefficients <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dv">10</span>)
-##                              Sale_Price
-## (Intercept)                301399.98345
-## h(2945-Gr_Liv_Area)           -49.84518
-## h(Year_Built-2003)           2698.39864
-## h(2003-Year_Built)           -357.11319
-## h(Total_Bsmt_SF-2171)        -265.30709
-## h(2171-Total_Bsmt_SF)         -29.77024
-## Overall_QualExcellent       88345.90068
-## Overall_QualVery_Excellent 116330.48509
-## Overall_QualVery_Good       36646.55568
-## h(Bsmt_Unf_SF-278)            -21.15661</code></pre>
-<p>The plot method for MARS model objects provide convenient performance and residual plots. Figure <a href="MARS.html#fig:basic-mod-plot">8.4</a> illustrates the model selection plot that graphs the GCV <span class="math inline">\(R^2\)</span> (left-hand y-axis and solid black line) based on the number of terms retained in the model (x-axis) which are constructed from a certain number of original predictors (right-hand y-axis). The vertical dashed lined at 37 tells us the optimal number of non-intercept terms retained where marginal increases in GCV <span class="math inline">\(R^2\)</span> are less than 0.001.</p>
+##                            Sale_Price
+## (Intercept)                 301399.98
+## h(2945-Gr_Liv_Area)            -49.85
+## h(Year_Built-2003)            2698.40
+## h(2003-Year_Built)            -357.11
+## h(Total_Bsmt_SF-2171)         -265.31
+## h(2171-Total_Bsmt_SF)          -29.77
+## Overall_QualExcellent        88345.90
+## Overall_QualVery_Excellent  116330.49
+## Overall_QualVery_Good        36646.56
+## h(Bsmt_Unf_SF-278)             -21.16</code></pre>
+<p>The plot method for MARS model objects provide convenient performance and residual plots. Figure <a href="MARS.html#fig:basic-mod-plot">10.4</a> illustrates the model selection plot that graphs the GCV <span class="math inline">\(R^2\)</span> (left-hand y-axis and solid black line) based on the number of terms retained in the model (x-axis) which are constructed from a certain number of original predictors (right-hand y-axis). The vertical dashed lined at 37 tells us the optimal number of non-intercept terms retained where marginal increases in GCV <span class="math inline">\(R^2\)</span> are less than 0.001.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(mars1, <span class="dt">which =</span> <span class="dv">1</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:basic-mod-plot"></span>
 <img src="abar_files/figure-html/basic-mod-plot-1.png" alt="Model summary capturing GCV $R^2$ (left-hand y-axis and solid black line) based on the number of terms retained (x-axis) which is based on the number of predictors used to make those terms (right-hand side y-axis). For this model, 37 non-intercept terms were retained which are based on 26 predictors.  Any additional terms retained in the model, over and above these 37, results in less than 0.001 improvement in the GCV $R^2$." width="480" />
 <p class="caption">
-Figure 8.4: Model summary capturing GCV <span class="math inline">\(R^2\)</span> (left-hand y-axis and solid black line) based on the number of terms retained (x-axis) which is based on the number of predictors used to make those terms (right-hand side y-axis). For this model, 37 non-intercept terms were retained which are based on 26 predictors. Any additional terms retained in the model, over and above these 37, results in less than 0.001 improvement in the GCV <span class="math inline">\(R^2\)</span>.
+Figure 10.4: Model summary capturing GCV <span class="math inline">\(R^2\)</span> (left-hand y-axis and solid black line) based on the number of terms retained (x-axis) which is based on the number of predictors used to make those terms (right-hand side y-axis). For this model, 37 non-intercept terms were retained which are based on 26 predictors. Any additional terms retained in the model, over and above these 37, results in less than 0.001 improvement in the GCV <span class="math inline">\(R^2\)</span>.
 </p>
 </div>
 <p>In addition to pruning the number of knots, <code>earth::earth()</code> allows us to also assess potential interactions between different hinge functions. The following illustrates by including a <code>degree = 2</code> argument. You can see that now our model includes interaction terms between multiple hinge functions (i.e. <code>h(Year_Built-2003)*h(Gr_Liv_Area-2274)</code>) is an interaction effect for those houses built prior to 2003 and have less than 2,274 square feet of living space above ground).</p>
@@ -456,20 +486,20 @@ mars2 &lt;-<span class="st"> </span><span class="kw">earth</span>(
 
 <span class="co"># check out the first 10 coefficient terms</span>
 <span class="kw">summary</span>(mars2) <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>coefficients <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dv">10</span>)
-##                                             Sale_Price
-## (Intercept)                               242611.63686
-## h(Gr_Liv_Area-2945)                          144.39175
-## h(2945-Gr_Liv_Area)                          -57.71864
-## h(Year_Built-2003)                         10909.70322
-## h(2003-Year_Built)                          -780.24246
-## h(Year_Built-2003)*h(Gr_Liv_Area-2274)        18.54860
-## h(Year_Built-2003)*h(2274-Gr_Liv_Area)       -10.30826
-## h(Total_Bsmt_SF-1035)                         62.11901
-## h(1035-Total_Bsmt_SF)                        -33.03537
-## h(Total_Bsmt_SF-1035)*Kitchen_QualTypical    -32.75942</code></pre>
+##                                           Sale_Price
+## (Intercept)                                242611.64
+## h(Gr_Liv_Area-2945)                           144.39
+## h(2945-Gr_Liv_Area)                           -57.72
+## h(Year_Built-2003)                          10909.70
+## h(2003-Year_Built)                           -780.24
+## h(Year_Built-2003)*h(Gr_Liv_Area-2274)         18.55
+## h(Year_Built-2003)*h(2274-Gr_Liv_Area)        -10.31
+## h(Total_Bsmt_SF-1035)                          62.12
+## h(1035-Total_Bsmt_SF)                         -33.04
+## h(Total_Bsmt_SF-1035)*Kitchen_QualTypical     -32.76</code></pre>
 </div>
 <div id="tuning" class="section level2">
-<h2><span class="header-section-number">8.4</span> Tuning</h2>
+<h2><span class="header-section-number">10.4</span> Tuning</h2>
 <p>Since there are two tuning parameters associated with our MARS model: the degree of interactions and the number of retained terms, we need to perform a grid search to identify the optimal combination of these hyperparameters that minimize prediction error (the above pruning process was based only on an approximation of cross-validated performance on the training data rather than an actual <em>k</em>-fold cross validation process). As in previous chapters, we will perform a cross-validated grid search to identify the optimal mix. Here, we set up a search grid that assesses 30 different combinations of interaction effects (<code>degree</code>) and the number of terms to retain (<code>nprune</code>).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a tuning grid</span>
 hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(
@@ -485,7 +515,7 @@ hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(
 ## 4      1     12
 ## 5      2     12
 ## 6      3     12</code></pre>
-<p>As in the previous chapters, we can use <strong>caret</strong> to perform a grid search using 10-fold cross-validation. The model that provides the optimal combination includes second degree interactions and retains 34 terms. The cross-validated RMSE for these models are illustrated in Figure <a href="MARS.html#fig:grid-search">8.5</a> and the optimal model’s cross-validated RMSE is $24,021.68.</p>
+<p>As in the previous chapters, we can use <strong>caret</strong> to perform a grid search using 10-fold cross-validation. The model that provides the optimal combination includes second degree interactions and retains 34 terms. The cross-validated RMSE for these models are illustrated in Figure <a href="MARS.html#fig:grid-search">10.5</a> and the optimal model’s cross-validated RMSE is $24,021.68.</p>
 <div class="warning">
 <p>
 This grid search took 5 minutes to complete.
@@ -514,7 +544,7 @@ tuned_mars<span class="op">$</span>bestTune
 <div class="figure" style="text-align: center"><span id="fig:grid-search"></span>
 <img src="abar_files/figure-html/grid-search-1.png" alt="Cross-validated RMSE for the 30 different hyperparameter combinations in our grid search. The optimal model retains 34 terms and includes up to 2$^{nd}$ degree interactions." width="672" />
 <p class="caption">
-Figure 8.5: Cross-validated RMSE for the 30 different hyperparameter combinations in our grid search. The optimal model retains 34 terms and includes up to 2<span class="math inline">\(^{nd}\)</span> degree interactions.
+Figure 10.5: Cross-validated RMSE for the 30 different hyperparameter combinations in our grid search. The optimal model retains 34 terms and includes up to 2<span class="math inline">\(^{nd}\)</span> degree interactions.
 </p>
 </div>
 <p>The above grid search helps to focus where we can further refine our model tuning. As a next step, we could perform a grid search that focuses in on a refined grid space for <code>nprune</code> (i.e. comparing 25-40 terms retained). However, for brevity we will leave this as an exercise for the reader.</p>
@@ -553,22 +583,22 @@ NA’s
 Multiple_regression
 </td>
 <td style="text-align:right;">
-21304.89
+21305
 </td>
 <td style="text-align:right;">
-24402.89
+24403
 </td>
 <td style="text-align:right;">
-46474.70
+46475
 </td>
 <td style="text-align:right;">
-41438.00
+41438
 </td>
 <td style="text-align:right;">
-53957.79
+53958
 </td>
 <td style="text-align:right;">
-63246.61
+63247
 </td>
 <td style="text-align:right;">
 0
@@ -579,22 +609,22 @@ Multiple_regression
 PCR
 </td>
 <td style="text-align:right;">
-28213.52
+28214
 </td>
 <td style="text-align:right;">
-30774.58
+30775
 </td>
 <td style="text-align:right;">
-36547.70
+36548
 </td>
 <td style="text-align:right;">
-35769.99
+35770
 </td>
 <td style="text-align:right;">
-40252.77
+40253
 </td>
 <td style="text-align:right;">
-44759.98
+44760
 </td>
 <td style="text-align:right;">
 0
@@ -605,22 +635,22 @@ PCR
 PLS
 </td>
 <td style="text-align:right;">
-22812.20
+22812
 </td>
 <td style="text-align:right;">
-24196.47
+24196
 </td>
 <td style="text-align:right;">
-31161.78
+31162
 </td>
 <td style="text-align:right;">
-31522.47
+31522
 </td>
 <td style="text-align:right;">
-35383.46
+35383
 </td>
 <td style="text-align:right;">
-44894.62
+44895
 </td>
 <td style="text-align:right;">
 0
@@ -631,22 +661,22 @@ PLS
 Elastic_net
 </td>
 <td style="text-align:right;">
-20969.67
+20970
 </td>
 <td style="text-align:right;">
-24265.17
+24265
 </td>
 <td style="text-align:right;">
-30590.49
+30590
 </td>
 <td style="text-align:right;">
-30716.68
+30717
 </td>
 <td style="text-align:right;">
-34216.06
+34216
 </td>
 <td style="text-align:right;">
-45241.09
+45241
 </td>
 <td style="text-align:right;">
 0
@@ -657,22 +687,22 @@ Elastic_net
 MARS
 </td>
 <td style="text-align:right;">
-18439.82
+18440
 </td>
 <td style="text-align:right;">
-20744.73
+20745
 </td>
 <td style="text-align:right;">
-23147.04
+23147
 </td>
 <td style="text-align:right;">
-24021.68
+24022
 </td>
 <td style="text-align:right;">
-26241.44
+26241
 </td>
 <td style="text-align:right;">
-31755.20
+31755
 </td>
 <td style="text-align:right;">
 0
@@ -681,9 +711,9 @@ MARS
 </tbody>
 </table>
 </div>
-<div id="feature-interpretation-2" class="section level2">
-<h2><span class="header-section-number">8.5</span> Feature interpretation</h2>
-<p>MARS models via <code>earth::earth()</code> include a backwards elimination feature selection routine that looks at reductions in the GCV estimate of error as each predictor is added to the model. This total reduction is used as the variable importance measure (<code>value = &quot;gcv&quot;</code>). Since MARS will automatically include and exclude terms during the pruning process, it essentially performs automated feature selection. If a predictor was never used in any of the MARS basis functions in the final model (after pruning), it has an importance value of zero. This is illustrated in Figure <a href="MARS.html#fig:vip">8.6</a> where 27 features have <span class="math inline">\(&gt;0\)</span> importance values while the rest of the features have an importance value of zero since they were no included in the final model. Alternatively, you can also monitor the change in the residual sums of squares (RSS) as terms are added (<code>value = &quot;rss&quot;</code>); however, you will see very little difference between these methods.</p>
+<div id="feature-interpretation-1" class="section level2">
+<h2><span class="header-section-number">10.5</span> Feature interpretation</h2>
+<p>MARS models via <code>earth::earth()</code> include a backwards elimination feature selection routine that looks at reductions in the GCV estimate of error as each predictor is added to the model. This total reduction is used as the variable importance measure (<code>value = &quot;gcv&quot;</code>). Since MARS will automatically include and exclude terms during the pruning process, it essentially performs automated feature selection. If a predictor was never used in any of the MARS basis functions in the final model (after pruning), it has an importance value of zero. This is illustrated in Figure <a href="MARS.html#fig:vip">10.6</a> where 27 features have <span class="math inline">\(&gt;0\)</span> importance values while the rest of the features have an importance value of zero since they were no included in the final model. Alternatively, you can also monitor the change in the residual sums of squares (RSS) as terms are added (<code>value = &quot;rss&quot;</code>); however, you will see very little difference between these methods.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># variable importance plots</span>
 p1 &lt;-<span class="st"> </span><span class="kw">vip</span>(tuned_mars, <span class="dt">num_features =</span> <span class="dv">40</span>, <span class="dt">bar =</span> <span class="ot">FALSE</span>, <span class="dt">value =</span> <span class="st">&quot;gcv&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;GCV&quot;</span>)
 p2 &lt;-<span class="st"> </span><span class="kw">vip</span>(tuned_mars, <span class="dt">num_features =</span> <span class="dv">40</span>, <span class="dt">bar =</span> <span class="ot">FALSE</span>, <span class="dt">value =</span> <span class="st">&quot;rss&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;RSS&quot;</span>)
@@ -692,32 +722,32 @@ gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, 
 <div class="figure" style="text-align: center"><span id="fig:vip"></span>
 <img src="abar_files/figure-html/vip-1.png" alt="Variable importance based on impact to GCV (left) and RSS (right) values as predictors are added to the model. Both variable importance measures will usually give you very similar results." width="864" />
 <p class="caption">
-Figure 8.6: Variable importance based on impact to GCV (left) and RSS (right) values as predictors are added to the model. Both variable importance measures will usually give you very similar results.
+Figure 10.6: Variable importance based on impact to GCV (left) and RSS (right) values as predictors are added to the model. Both variable importance measures will usually give you very similar results.
 </p>
 </div>
-<p>Its important to realize that variable importance will only measure the impact of the prediction error as features are included; however, it does not measure the impact for particular hinge functions created for a given feature. For example, in Figure <a href="MARS.html#fig:vip">8.6</a> we see that <code>Gr_Liv_Area</code> and <code>Year_Built</code> are the two most influential variables; however, variable importance does not tell us how our model is treating the non-linear patterns for each feature. Also, if we look at the interaction terms our model retained, we see interactions between different hinge functions for <code>Gr_Liv_Area</code> and <code>Year_Built</code>.</p>
+<p>Its important to realize that variable importance will only measure the impact of the prediction error as features are included; however, it does not measure the impact for particular hinge functions created for a given feature. For example, in Figure <a href="MARS.html#fig:vip">10.6</a> we see that <code>Gr_Liv_Area</code> and <code>Year_Built</code> are the two most influential variables; however, variable importance does not tell us how our model is treating the non-linear patterns for each feature. Also, if we look at the interaction terms our model retained, we see interactions between different hinge functions for <code>Gr_Liv_Area</code> and <code>Year_Built</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(tuned_mars<span class="op">$</span>finalModel) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">tidy</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(stringr<span class="op">::</span><span class="kw">str_detect</span>(names, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">*&quot;</span>))
 ## # A tibble: 16 x 2
-##    names                                                   x
-##    &lt;chr&gt;                                               &lt;dbl&gt;
-##  1 h(Year_Built-2003) * h(Gr_Liv_Area-2274)           18.7  
-##  2 h(Year_Built-2003) * h(2274-Gr_Liv_Area)          -10.9  
-##  3 h(Total_Bsmt_SF-1035) * Kitchen_QualTypical       -33.1  
-##  4 NeighborhoodEdwards * h(Gr_Liv_Area-2945)        -507.   
-##  5 h(Lot_Area-4058) * h(3-Garage_Cars)                -0.791
-##  6 h(2003-Year_Built) * h(Year_Remod_Add-1974)         7.00 
-##  7 Overall_QualExcellent * h(Total_Bsmt_SF-1035)     104.   
-##  8 NeighborhoodCrawford * h(2003-Year_Built)         424.   
-##  9 h(Lot_Area-4058) * Overall_CondFair                -3.29 
-## 10 Overall_QualAbove_Average * h(2003-Year_Built)    136.   
-## 11 h(Lot_Area-4058) * Overall_CondGood                 1.35 
-## 12 Bsmt_ExposureNo * h(Total_Bsmt_SF-1035)           -22.5  
-## 13 NeighborhoodGreen_Hills * h(5-Bedroom_AbvGr)    27362.   
-## 14 Overall_QualVery_Good * Bsmt_QualGood          -18641.   
-## 15 h(2003-Year_Built) * Sale_ConditionNormal         192.   
-## 16 h(Lot_Area-4058) * h(Full_Bath-2)                   1.61</code></pre>
+##    names                                             x
+##    &lt;chr&gt;                                         &lt;dbl&gt;
+##  1 h(Year_Built-2003) * h(Gr_Liv_Area-2274)    1.87e+1
+##  2 h(Year_Built-2003) * h(2274-Gr_Liv_Area)   -1.09e+1
+##  3 h(Total_Bsmt_SF-1035) * Kitchen_QualTypi…  -3.31e+1
+##  4 NeighborhoodEdwards * h(Gr_Liv_Area-2945)  -5.07e+2
+##  5 h(Lot_Area-4058) * h(3-Garage_Cars)        -7.91e-1
+##  6 h(2003-Year_Built) * h(Year_Remod_Add-19…   7.00e+0
+##  7 Overall_QualExcellent * h(Total_Bsmt_SF-…   1.04e+2
+##  8 NeighborhoodCrawford * h(2003-Year_Built)   4.24e+2
+##  9 h(Lot_Area-4058) * Overall_CondFair        -3.29e+0
+## 10 Overall_QualAbove_Average * h(2003-Year_…   1.36e+2
+## 11 h(Lot_Area-4058) * Overall_CondGood         1.35e+0
+## 12 Bsmt_ExposureNo * h(Total_Bsmt_SF-1035)    -2.25e+1
+## 13 NeighborhoodGreen_Hills * h(5-Bedroom_Ab…   2.74e+4
+## 14 Overall_QualVery_Good * Bsmt_QualGood      -1.86e+4
+## 15 h(2003-Year_Built) * Sale_ConditionNormal   1.92e+2
+## 16 h(Lot_Area-4058) * h(Full_Bath-2)           1.61e+0</code></pre>
 <p>To better understand the relationship between these features and <code>Sale_Price</code>, we can create partial dependence plots (PDPs) for each feature individually and also an interaction PDP. The individual PDPs illustrate that our model found that one knot in each feature provides the best fit. For <code>Gr_Liv_Area</code>, as homes exceed 2,945 square feet, each additional square foot demands a higher marginal increase in sale price than homes with less than 2,945 square feet. Similarly, for homes built after 2003, there is a greater marginal effect on sales price based on the age of the home than for homes built prior to 2003. The interaction plot (far right plot) illustrates the strong effect these two features have when combined.</p>
 <pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">partial</span>(tuned_mars, <span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">grid.resolution =</span> <span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()
 p2 &lt;-<span class="st"> </span><span class="kw">partial</span>(tuned_mars, <span class="dt">pred.var =</span> <span class="st">&quot;Year_Built&quot;</span>, <span class="dt">grid.resolution =</span> <span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()
@@ -728,13 +758,13 @@ gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, 
 <div class="figure" style="text-align: center"><span id="fig:pdp"></span>
 <img src="abar_files/figure-html/pdp-1.png" alt="Partial dependence plots to understand the relationship between `Sale_Price` and the `Gr_Liv_Area` and `Year_Built` features.  The PDPs tell us that as `Gr_Liv_Area` increases and for newer homes, `Sale_Price` increases dramatically." width="960" />
 <p class="caption">
-Figure 8.7: Partial dependence plots to understand the relationship between <code>Sale_Price</code> and the <code>Gr_Liv_Area</code> and <code>Year_Built</code> features. The PDPs tell us that as <code>Gr_Liv_Area</code> increases and for newer homes, <code>Sale_Price</code> increases dramatically.
+Figure 10.7: Partial dependence plots to understand the relationship between <code>Sale_Price</code> and the <code>Gr_Liv_Area</code> and <code>Year_Built</code> features. The PDPs tell us that as <code>Gr_Liv_Area</code> increases and for newer homes, <code>Sale_Price</code> increases dramatically.
 </p>
 </div>
 </div>
 <div id="attrition-data-1" class="section level2">
-<h2><span class="header-section-number">8.6</span> Attrition data</h2>
-<p>We saw significant improvement to our predictive accuracy on the Ames data with a MARS model, but how about the attrition data? In Chapter <a href="logistic-regression.html#logistic-regression">6</a> we saw a slight improvement in our cross-validated accuracy rate using regularized regression. Here, we tune a MARS model using the same search grid as we did above. We see our best models include no interaction effects and the optimal model retains 45 terms.</p>
+<h2><span class="header-section-number">10.6</span> Attrition data</h2>
+<p>We saw significant improvement to our predictive accuracy on the Ames data with a MARS model, but how about the attrition data? In Chapter <a href="logistic-regression.html#logistic-regression">8</a> we saw a slight improvement in our cross-validated accuracy rate using regularized regression. Here, we tune a MARS model using the same search grid as we did above. We see our best models include no interaction effects and the optimal model retains 45 terms.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get attrition data</span>
 df &lt;-<span class="st"> </span>attrition <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.ordered, factor, <span class="dt">ordered =</span> <span class="ot">FALSE</span>)
 
@@ -768,7 +798,7 @@ tuned_mars<span class="op">$</span>bestTune
 <div class="figure" style="text-align: center"><span id="fig:tuned-marts-attrition"></span>
 <img src="abar_files/figure-html/tuned-marts-attrition-1.png" alt="Cross-validated accuracy rate for the 30 different hyperparameter combinations in our grid search. The optimal model retains 45 terms and includes no interaction effects." width="672" />
 <p class="caption">
-Figure 8.8: Cross-validated accuracy rate for the 30 different hyperparameter combinations in our grid search. The optimal model retains 45 terms and includes no interaction effects.
+Figure 10.8: Cross-validated accuracy rate for the 30 different hyperparameter combinations in our grid search. The optimal model retains 45 terms and includes no interaction effects.
 </p>
 </div>
 <p>However, comparing our MARS model to the previous linear models (logistic regression and regularized regression), we do not see any improvement in our overall accuracy rate.</p>
@@ -806,22 +836,22 @@ NA’s
 Logistic_model
 </td>
 <td style="text-align:right;">
-0.8058252
+0.8058
 </td>
 <td style="text-align:right;">
-0.8389423
+0.8389
 </td>
 <td style="text-align:right;">
-0.8585570
+0.8586
 </td>
 <td style="text-align:right;">
-0.8631848
+0.8632
 </td>
 <td style="text-align:right;">
-0.8949172
+0.8949
 </td>
 <td style="text-align:right;">
-0.9134615
+0.9135
 </td>
 <td style="text-align:right;">
 0
@@ -832,22 +862,22 @@ Logistic_model
 Elastic_net
 </td>
 <td style="text-align:right;">
-0.8446602
+0.8447
 </td>
 <td style="text-align:right;">
-0.8567961
+0.8568
 </td>
 <td style="text-align:right;">
-0.8744399
+0.8744
 </td>
 <td style="text-align:right;">
-0.8787288
+0.8787
 </td>
 <td style="text-align:right;">
-0.9068627
+0.9069
 </td>
 <td style="text-align:right;">
-0.9134615
+0.9135
 </td>
 <td style="text-align:right;">
 0
@@ -858,22 +888,22 @@ Elastic_net
 MARS_model
 </td>
 <td style="text-align:right;">
-0.7961165
+0.7961
 </td>
 <td style="text-align:right;">
-0.8450336
+0.8450
 </td>
 <td style="text-align:right;">
-0.8640777
+0.8641
 </td>
 <td style="text-align:right;">
-0.8593102
+0.8593
 </td>
 <td style="text-align:right;">
-0.8823529
+0.8824
 </td>
 <td style="text-align:right;">
-0.9134615
+0.9135
 </td>
 <td style="text-align:right;">
 0
@@ -883,7 +913,7 @@ MARS_model
 </table>
 </div>
 <div id="final-thoughts-3" class="section level2">
-<h2><span class="header-section-number">8.7</span> Final thoughts</h2>
+<h2><span class="header-section-number">10.7</span> Final thoughts</h2>
 <p>MARS provides a great stepping stone into nonlinear modeling and tends to be fairly intuitive due to being closely related to multiple regression techniques. They are also easy to train and tune. This chapter illustrated how incorporating non-linear relationships via MARS modeling greatly improved predictive accuracy on our Ames housing data. The chapters that follow will explore additional non-linear algorithms to see if we can further improve our predictive accuracy. The following summarizes some of the advantages and disadvantages discussed regarding MARS modeling:</p>
 <p><strong>FIXME: refine this section</strong></p>
 <p><strong>Advantages</strong>:</p>
@@ -903,7 +933,7 @@ MARS_model
 </ul>
 </div>
 <div id="learning-more-3" class="section level2">
-<h2><span class="header-section-number">8.8</span> Learning more</h2>
+<h2><span class="header-section-number">10.8</span> Learning more</h2>
 <p>This will get you up and running with MARS modeling. Keep in mind that there is a lot more you can dig into so the following resources will help you learn more:</p>
 <ul>
 <li><a href="http://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning, Ch. 7</a></li>
@@ -917,7 +947,7 @@ MARS_model
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-R-earth">
-<p>Milborrow, Stephen. 2018. <em>Earth: Multivariate Adaptive Regression Splines</em>. <a href="https://CRAN.R-project.org/package=earth" class="uri">https://CRAN.R-project.org/package=earth</a>.</p>
+<p>Trevor Hastie, Stephen Milborrow. Derived from mda:mars by, and Rob Tibshirani. Uses Alan Miller’s Fortran utilities with Thomas Lumley’s leaps wrapper. 2018. <em>Earth: Multivariate Adaptive Regression Splines</em>. <a href="https://CRAN.R-project.org/package=earth" class="uri">https://CRAN.R-project.org/package=earth</a>.</p>
 </div>
 <div id="ref-golub1979generalized">
 <p>Golub, Gene H, Michael Heath, and Grace Wahba. 1979. “Generalized Cross-Validation as a Method for Choosing a Good Ridge Parameter.” <em>Technometrics</em> 21 (2). Taylor &amp; Francis Group: 215–23.</p>
@@ -929,16 +959,16 @@ MARS_model
         </div>
       </div>
 <a href="regularized-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="RF.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({

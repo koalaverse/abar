@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</title>
   <meta name="description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
   <meta property="og:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2018-07-27">
+<meta name="date" content="2018-10-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,12 +34,12 @@
   
 <link rel="prev" href="intro.html">
 <link rel="next" href="visualization.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
 
 
 
@@ -47,44 +47,80 @@
 
 
 
+<script src="libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="libs/plotly-binding/plotly.js"></script>
+<script src="libs/typedarray/typedarray.min.js"></script>
+<link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main/plotly-latest.min.js"></script>
+<script src="libs/kePrint/kePrint.js"></script>
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -124,7 +160,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>1.1</b> Descriptive</a></li>
 <li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#predictive"><i class="fa fa-check"></i><b>1.2</b> Predictive</a></li>
 <li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#prescriptive"><i class="fa fa-check"></i><b>1.3</b> Prescriptive</a></li>
-<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#data-sets"><i class="fa fa-check"></i><b>1.4</b> Data sets</a><ul>
+<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#data"><i class="fa fa-check"></i><b>1.4</b> Data sets</a><ul>
 <li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#ames-iowa-housing-data"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
 <li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
@@ -162,7 +198,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>3.5</b> Data quality</a></li>
 <li class="chapter" data-level="3.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>3.6</b> Further reading</a></li>
-<li class="chapter" data-level="3.7" data-path="descriptive.html"><a href="descriptive.html#exercises"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+<li class="chapter" data-level="3.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>4</b> Statistical Inference</a><ul>
 <li class="chapter" data-level="4.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>4.1</b> The frequentist approach</a><ul>
@@ -180,15 +216,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>4.3</b> Tests involving more than two means: ANOVA models</a></li>
 <li class="chapter" data-level="4.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>4.4</b> Testing for association in contingency tables</a></li>
 <li class="chapter" data-level="4.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>4.5</b> Nonparametric tests</a></li>
-<li class="chapter" data-level="4.6" data-path="inference.html"><a href="inference.html#the-nonparametric-bootstrap"><i class="fa fa-check"></i><b>4.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="4.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>4.6</b> The nonparametric bootstrap</a><ul>
 <li class="chapter" data-level="4.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>4.6.1</b> Bootstrap confidence intervals</a></li>
 </ul></li>
 <li class="chapter" data-level="4.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>4.7</b> Further reading</a></li>
-<li class="chapter" data-level="4.8" data-path="inference.html"><a href="inference.html#exercises-1"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
+<li class="chapter" data-level="4.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a><ul>
 <li class="chapter" data-level="5.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="5.2" data-path="unsupervised.html"><a href="unsupervised.html#principal-components-analysis"><i class="fa fa-check"></i><b>5.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="5.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>5.2</b> Principal Components Analysis</a><ul>
 <li class="chapter" data-level="5.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>5.2.1</b> Finding principal components</a></li>
 <li class="chapter" data-level="5.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Performing PCA in R</a></li>
 <li class="chapter" data-level="5.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>5.2.3</b> Selecting the Number of Principal Components</a></li>
@@ -202,42 +238,95 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>5.3.4</b> Clustering with mixed data</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>II Predictive Analytics</b></span><ul>
-<li class="chapter" data-level="5.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>5.4</b> Regression problems</a></li>
-<li class="chapter" data-level="5.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>5.5</b> Classification problems</a></li>
-<li class="chapter" data-level="5.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>5.6</b> Algorithm Comparison Guide</a></li>
-<li class="chapter" data-level="5.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>5.7</b> General modeling process</a><ul>
-<li class="chapter" data-level="5.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>5.7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="5.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_split"><i class="fa fa-check"></i><b>5.7.2</b> Data splitting</a></li>
-<li class="chapter" data-level="5.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>5.7.3</b> Feature engineering</a></li>
-<li class="chapter" data-level="5.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>5.7.4</b> Basic model formulation</a></li>
-<li class="chapter" data-level="5.7.5" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_tune"><i class="fa fa-check"></i><b>5.7.5</b> Model tuning</a></li>
-<li class="chapter" data-level="5.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>5.7.6</b> Cross Validation for Generalization</a></li>
-<li class="chapter" data-level="5.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_eval"><i class="fa fa-check"></i><b>5.7.7</b> Model evaluation</a></li>
-<li class="chapter" data-level="5.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>5.7.8</b> Interpreting predictive models</a></li>
+<li class="part"><span><b>II Predictive Analytics</b></span></li>
+<li class="chapter" data-level="6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html"><i class="fa fa-check"></i><b>6</b> Fundamental concepts</a><ul>
+<li class="chapter" data-level="6.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#regression-problems"><i class="fa fa-check"></i><b>6.1</b> Regression problems</a></li>
+<li class="chapter" data-level="6.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#classification-problems"><i class="fa fa-check"></i><b>6.2</b> Classification problems</a></li>
+<li class="chapter" data-level="6.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>6.3</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="6.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#general-modeling-process"><i class="fa fa-check"></i><b>6.4</b> General modeling process</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_prereq"><i class="fa fa-check"></i><b>6.4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-split"><i class="fa fa-check"></i><b>6.4.2</b> Data splitting</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_feat"><i class="fa fa-check"></i><b>6.4.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="6.4.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#model-form"><i class="fa fa-check"></i><b>6.4.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="6.4.5" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#tune"><i class="fa fa-check"></i><b>6.4.5</b> Model tuning</a></li>
+<li class="chapter" data-level="6.4.6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#cv"><i class="fa fa-check"></i><b>6.4.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="6.4.7" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-eval"><i class="fa fa-check"></i><b>6.4.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="6.4.8" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>6.4.8</b> Interpreting predictive models</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>6</b> Linear regression</a><ul>
-<li class="chapter" data-level="6.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>6.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="6.2" data-path="linear-regression.html"><a href="linear-regression.html#the-idea"><i class="fa fa-check"></i><b>6.2</b> The Idea</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>6.2.1</b> Simple linear regression</a></li>
-<li class="chapter" data-level="6.2.2" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>6.2.2</b> Multiple linear regression</a></li>
-<li class="chapter" data-level="6.2.3" data-path="linear-regression.html"><a href="linear-regression.html#assumptions"><i class="fa fa-check"></i><b>6.2.3</b> Assumptions</a></li>
-<li class="chapter" data-level="6.2.4" data-path="linear-regression.html"><a href="linear-regression.html#advantages-disadvantages"><i class="fa fa-check"></i><b>6.2.4</b> Advantages &amp; Disadvantages</a></li>
+<li class="chapter" data-level="7" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>7</b> Linear regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="7.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple linear regression</a></li>
+<li class="chapter" data-level="7.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>7.3</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="7.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>7.4</b> Assessing Model Accuracy</a></li>
+<li class="chapter" data-level="7.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>7.5</b> Model concerns</a></li>
+<li class="chapter" data-level="7.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>7.6</b> Principal component regression</a></li>
+<li class="chapter" data-level="7.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>7.7</b> Partial least squares</a></li>
+<li class="chapter" data-level="7.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>7.8</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="7.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>7.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="7.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>7.10</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="linear-regression.html"><a href="linear-regression.html#basic-implementation"><i class="fa fa-check"></i><b>6.3</b> Basic implementation</a></li>
-<li class="chapter" data-level="6.4" data-path="linear-regression.html"><a href="linear-regression.html#predictive-accuracy"><i class="fa fa-check"></i><b>6.4</b> Predictive accuracy</a></li>
-<li class="chapter" data-level="6.5" data-path="linear-regression.html"><a href="linear-regression.html#adding-more-predictors"><i class="fa fa-check"></i><b>6.5</b> Adding more predictors</a></li>
-<li class="chapter" data-level="6.6" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>6.6</b> Model concerns</a></li>
-<li class="chapter" data-level="6.7" data-path="linear-regression.html"><a href="linear-regression.html#dimension-reduction-with-pca"><i class="fa fa-check"></i><b>6.7</b> Dimension reduction with PCA</a></li>
-<li class="chapter" data-level="6.8" data-path="linear-regression.html"><a href="linear-regression.html#dimension-reduction-with-pls"><i class="fa fa-check"></i><b>6.8</b> Dimension reduction with PLS</a></li>
-<li class="chapter" data-level="6.9" data-path="linear-regression.html"><a href="linear-regression.html#variable-importance"><i class="fa fa-check"></i><b>6.9</b> Variable importance</a></li>
-<li class="chapter" data-level="6.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>6.10</b> Learning more</a></li>
+<li class="chapter" data-level="8" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Logistic regression</a><ul>
+<li class="chapter" data-level="8.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="8.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>8.2</b> Why logistic regression</a></li>
+<li class="chapter" data-level="8.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>8.3</b> Simple logistic regression</a></li>
+<li class="chapter" data-level="8.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>8.4</b> Multiple logistic regression</a></li>
+<li class="chapter" data-level="8.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>8.5</b> Assessing model accuracy</a></li>
+<li class="chapter" data-level="8.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>8.6</b> Feature interpretation</a></li>
+<li class="chapter" data-level="8.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="8.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>9</b> Regularized regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="9.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>9.2</b> Why Regularize</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>9.2.1</b> Ridge penalty</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>9.2.2</b> Lasso penalty</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>9.2.3</b> Elastic nets</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>9.3</b> Implementation</a></li>
+<li class="chapter" data-level="9.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>9.4</b> Tuning</a></li>
+<li class="chapter" data-level="9.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>9.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="9.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>9.6</b> Attrition data</a></li>
+<li class="chapter" data-level="9.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>9.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="9.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>9.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>10</b> Multivariate Adaptive Regression Splines</a><ul>
+<li class="chapter" data-level="10.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="10.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>10.2.1</b> Multivariate regression splines</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>10.3</b> Fitting a basic MARS model</a></li>
+<li class="chapter" data-level="10.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>10.4</b> Tuning</a></li>
+<li class="chapter" data-level="10.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>10.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="10.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>10.6</b> Attrition data</a></li>
+<li class="chapter" data-level="10.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>10.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="10.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>10.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>11</b> Random Forests</a><ul>
+<li class="chapter" data-level="11.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>11.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="11.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>11.2</b> Decision trees</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>11.2.1</b> A simple regression tree example</a></li>
+<li class="chapter" data-level="11.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>11.2.2</b> Deciding on splits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>11.3</b> Bagging</a></li>
+<li class="chapter" data-level="11.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>11.4</b> Random forests</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>11.4.1</b> OOB error vs. test set error</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>11.5</b> Fitting a basic random forest model</a></li>
+<li class="chapter" data-level="11.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>11.6</b> Tuning</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>11.6.1</b> Tuning via ranger</a></li>
+<li class="chapter" data-level="11.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>11.6.2</b> Tuning via caret</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>11.7</b> Feature interpretation</a></li>
+<li class="chapter" data-level="11.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>11.8</b> Attrition data</a></li>
+<li class="chapter" data-level="11.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>11.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="11.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>11.10</b> Learning more</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="7" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>7</b> (APPENDIX) Appendix {-}</a><ul>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+<li class="chapter" data-level="12" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) Appendix {-}</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html"><i class="fa fa-check"></i>Data sets</a><ul>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -267,7 +356,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">2.1</span> Prerequisites</h2>
 <p>The R package <code>stats</code> (which is part of the standard R distribution) provides functions for many of the descriptive statistics discussed in this chapter, plus more. For a complete list of functions, type <code>library(help = &quot;stats&quot;)</code> into the R console.</p>
 <p>For illustration, we will use two data sets: (1) the Ames housing data set <span class="citation">(Cock <a href="#ref-ames-cock-2011">2011</a>)</span> (in particular, the column labelled <code>Sale_Price</code>) and (2) the Adult data set <span class="citation">(Lichman <a href="#ref-uci">2013</a>)</span>; both of which are described in Chapter <a href="intro.html#intro">1</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ames housing data</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ames housing data</span>
 <span class="kw">dim</span>(ames &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>())  <span class="co"># construct data and print dimensions</span>
 ## [1] 2930   81
 <span class="kw">head</span>(Sale_Price &lt;-<span class="st"> </span>ames<span class="op">$</span>Sale_Price)  <span class="co"># extract Sale_Price column</span>
@@ -276,19 +365,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="co"># Adult data</span>
 <span class="kw">data</span>(AdultUCI, <span class="dt">package =</span> <span class="st">&quot;arules&quot;</span>)  <span class="co"># load data from arules package</span>
 <span class="kw">dim</span>(AdultUCI)  <span class="co"># print dimensions</span>
-## [1] 48842    15</code></pre></div>
+## [1] 48842    15</code></pre>
 </div>
 <div id="measures-of-location" class="section level2">
 <h2><span class="header-section-number">2.2</span> Measures of location</h2>
 <p>The first question we might ask of the <code>ames</code> data is “What is a typical value for the selling price?” In particular, we are interested in some measure of <em>central location</em> or <em>central tendency</em>. Such measures try to summarize a set of values with a “typical” number. There are a number of different measures of location, but the simplest and most commonly used is the <em>arithmetic mean</em> or <em>sample mean</em>.</p>
 <div id="the-sample-mean" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> The sample mean</h3>
-Suppose we have a set of <span class="math inline">\(n\)</span> observations denoted <span class="math inline">\(x_1, x_2, \dots, x_n\)</span>. The sample mean, denoted <span class="math inline">\(\bar{x}\)</span>, is defined as the sum of the observations divided <span class="math inline">\(n\)</span>:
+<p>Suppose we have a set of <span class="math inline">\(n\)</span> observations denoted <span class="math inline">\(x_1, x_2, \dots, x_n\)</span>. The sample mean, denoted <span class="math inline">\(\bar{x}\)</span>, is defined as the sum of the observations divided <span class="math inline">\(n\)</span>:
 <span class="math display">\[\begin{equation}
 \label{eqn:sample-mean}
   \bar{x} = \frac{1}{n}\sum_{i = 1}^n x_i = \frac{1}{n}\left(x_1 + x_2 + \dots + x_n\right),
 \end{equation}\]</span>
-<p>where <span class="math inline">\(\sum\)</span> is mathematical notation for summation and simply means “add up the values”. Another way to think of the sample mean is as the ``center of gravity’’ for a set of observations. That is, if the observations were placed on a number line, like a teeter-totter, the sample mean would be the balancing point. For example, the sample mean of 1.7, 3.3, 7.5, 8.1, and 8.9 is <span class="math inline">\(\bar{x} = 5.9\)</span> which is displayed in Figure <a href="descriptive.html#fig:teeter-totter">2.1</a>.</p>
+where <span class="math inline">\(\sum\)</span> is mathematical notation for summation and simply means “add up the values”. Another way to think of the sample mean is as the ``center of gravity’’ for a set of observations. That is, if the observations were placed on a number line, like a teeter-totter, the sample mean would be the balancing point. For example, the sample mean of 1.7, 3.3, 7.5, 8.1, and 8.9 is <span class="math inline">\(\bar{x} = 5.9\)</span> which is displayed in Figure <a href="descriptive.html#fig:teeter-totter">2.1</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:teeter-totter"></span>
 <img src="abar_files/figure-html/teeter-totter-1.png" alt="The sample mean as the balancing point of a set of five observations." width="480" />
 <p class="caption">
@@ -296,31 +385,31 @@ Figure 2.1: The sample mean as the balancing point of a set of five observations
 </p>
 </div>
 <p>In R, we can obtain the sample mean of a set of observations using the <code>mean()</code> function</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="fl">1.7</span>, <span class="fl">3.3</span>, <span class="fl">7.5</span>, <span class="fl">8.1</span>, <span class="fl">8.9</span>))
-## [1] 5.9</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="fl">1.7</span>, <span class="fl">3.3</span>, <span class="fl">7.5</span>, <span class="fl">8.1</span>, <span class="fl">8.9</span>))
+## [1] 5.9</code></pre>
 <p>For example, the sample mean of <code>Sale_Price</code> can be obtained using</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(Sale_Price)
-## [1] 180796.1
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(Sale_Price)
+## [1] 180796
 <span class="kw">mean</span>(Sale_Price)  <span class="co"># alternatively</span>
-## [1] 180796.1</code></pre></div>
+## [1] 180796</code></pre>
 <p>Thus, a typical or central value of selling price for the <code>ames</code> data frame would be $180,796.</p>
 
 <div class="note">
 Most of the descriptive statistical functions in R include an <code>na.rm</code> argument which defaults to <code>FALSE</code>. If <code>na.rm = FALSE</code>, the return value for these functions will be <code>NA</code> (i.e., R’s representation of a missing value; see <code>?NA</code> for details.) whenever the sample contains at least one <code>NA</code>. If set to <code>TRUE</code>, then all <code>NA</code>s will be removed from the sample prior to computing the statistic. This is illustrated in the following code chunk:
 </div>
 
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">4</span>, <span class="dv">12</span>, <span class="ot">NA</span>, <span class="dv">19</span>)
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">4</span>, <span class="dv">12</span>, <span class="ot">NA</span>, <span class="dv">19</span>)
 <span class="kw">mean</span>(x)
 ## [1] NA
 <span class="kw">mean</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
 ## [1] 13.25
 (<span class="dv">18</span> <span class="op">+</span><span class="st"> </span><span class="dv">4</span> <span class="op">+</span><span class="st"> </span><span class="dv">12</span> <span class="op">+</span><span class="st"> </span><span class="dv">19</span>) <span class="op">/</span><span class="st"> </span><span class="dv">4</span>  <span class="co"># sanity check</span>
-## [1] 13.25</code></pre></div>
+## [1] 13.25</code></pre>
 </div>
 <div id="the-sample-median" class="section level3">
 <h3><span class="header-section-number">2.2.2</span> The sample median</h3>
 <p>One problem with the sample mean is that it is not <em>robust</em> to outliers. To illustrate, suppose we have a sample of size two: <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> so that <span class="math inline">\(\bar{x} = \left(x_1 + x_2\right) / 2\)</span>. Then, regardless of the value of <span class="math inline">\(x_1\)</span>, we can change <span class="math inline">\(x_2\)</span> to achieve any value for the sample mean. Since it only takes one of the <span class="math inline">\(n\)</span> observations to arbitrarily change <span class="math inline">\(\bar{x}\)</span>, we say that <span class="math inline">\(\bar{x}\)</span> has a finite sample breakdown point (FSBP) of <span class="math inline">\(1 / n\)</span>. The higher the FSBP of a sample statistic, the less affected it is to outliers (i.e., the more robust it is). The highest FSBP a sample statistic can obtain is 50%.</p>
-A more robust measure of location is given by the <em>sample median</em>. Consider a sample of size <span class="math inline">\(n\)</span>: <span class="math inline">\(x_1, x_2, \dots, x_n\)</span>. Let <span class="math inline">\(x_{\left(i\right)}\)</span> denote the <span class="math inline">\(i\)</span>-th observation after the sample has been sorted in ascending order. The sample median, denoted <span class="math inline">\(M\)</span>, is defined as
+<p>A more robust measure of location is given by the <em>sample median</em>. Consider a sample of size <span class="math inline">\(n\)</span>: <span class="math inline">\(x_1, x_2, \dots, x_n\)</span>. Let <span class="math inline">\(x_{\left(i\right)}\)</span> denote the <span class="math inline">\(i\)</span>-th observation after the sample has been sorted in ascending order. The sample median, denoted <span class="math inline">\(M\)</span>, is defined as
 <span class="math display">\[\begin{equation*}
   M = 
   \begin{cases}
@@ -328,13 +417,13 @@ A more robust measure of location is given by the <em>sample median</em>. Consid
     \left(x_{\left(m\right)} + x_{\left(m + 1\right)}\right) / 2 &amp; \quad \text{if } n \text{ is even},
   \end{cases}
 \end{equation*}\]</span>
-<p>where <span class="math inline">\(m = \left(n + 1\right) / 2\)</span>. In other words, if <span class="math inline">\(n\)</span> is odd, the sample median is just the middle number, otherwise, we take the sample mean of the two middle numbers.</p>
+where <span class="math inline">\(m = \left(n + 1\right) / 2\)</span>. In other words, if <span class="math inline">\(n\)</span> is odd, the sample median is just the middle number, otherwise, we take the sample mean of the two middle numbers.</p>
 <p>Since the sample median only depends on the middle number (or middle two numbers), it is far more robust than the sample mean. In fact, the sample median has an FSBP of roughly 50%. In other words, close to 50% of the observations have to be outliers in order to affect the sample median. This makes the sample median more useful in practice when dealing with data that contain outliers or come from skewed distributions.</p>
 <p>In R, we can compute the sample median using the <code>median()</code> function. For the Ames housing data, the median sale price is $160,000, which can be computed using</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">median</span>(Sale_Price)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">median</span>(Sale_Price)
 ## [1] 160000
 <span class="kw">median</span>(ames<span class="op">$</span>Sale_Price)  <span class="co"># alternatively</span>
-## [1] 160000</code></pre></div>
+## [1] 160000</code></pre>
 </div>
 <div id="the-mean-or-the-median" class="section level3">
 <h3><span class="header-section-number">2.2.3</span> The mean or the median</h3>
@@ -345,18 +434,18 @@ A more robust measure of location is given by the <em>sample median</em>. Consid
 <div id="measures-of-spread" class="section level2">
 <h2><span class="header-section-number">2.3</span> Measures of spread</h2>
 <p>Measures of location by themselves are not very useful. We often want to know how ``spread out’’ the data are. This can be summarized using various measures of <em>spread</em> or <em>dispersion</em>.</p>
-The most common measure of spread is the <em>sample variance</em>, denoted by <span class="math inline">\(s^2\)</span>. The sample variance of a sample is defined as
+<p>The most common measure of spread is the <em>sample variance</em>, denoted by <span class="math inline">\(s^2\)</span>. The sample variance of a sample is defined as
 <span class="math display">\[\begin{equation*}
   s ^ 2 = \sum_{i = 1} ^ n \left(x_i - \bar{x}\right) ^ 2 / \left(n - 1\right).
 \end{equation*}\]</span>
-<p>That is, the sample variance is just the sum of the squared deviations of each observation from the sample mean dived by <span class="math inline">\(n - 1\)</span>. The <span class="math inline">\(n - 1\)</span> is used to make <span class="math inline">\(s ^ 2\)</span> an <em>unbiased estimator</em><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> of the population variance. Since the sample variance involves squaring the differences, it does not retain the original units, unlike the sample mean and variance. Oftentimes the positive square root of the sample variance, called the <em>sample standard deviation</em>, is used instead. The sample standard deviation, denoted <span class="math inline">\(s\)</span>, is more useful because is has the same units as the original observations (e.g., feet, dollars, etc.).</p>
+That is, the sample variance is just the sum of the squared deviations of each observation from the sample mean dived by <span class="math inline">\(n - 1\)</span>. The <span class="math inline">\(n - 1\)</span> is used to make <span class="math inline">\(s ^ 2\)</span> an <em>unbiased estimator</em><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> of the population variance. Since the sample variance involves squaring the differences, it does not retain the original units, unlike the sample mean and variance. Oftentimes the positive square root of the sample variance, called the <em>sample standard deviation</em>, is used instead. The sample standard deviation, denoted <span class="math inline">\(s\)</span>, is more useful because is has the same units as the original observations (e.g., feet, dollars, etc.).</p>
 <p>In R, the sample variance and sample standard deviation can be computed using the functions <code>var()</code> and <code>sd()</code>, respectively. The following example illustrates their use on the <code>ames</code> data frame using the variable <code>Sale_Price</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">var</span>(Sale_Price)  <span class="co"># sample variance</span>
-## [1] 6381883616
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">var</span>(Sale_Price)  <span class="co"># sample variance</span>
+## [1] 6.382e+09
 <span class="kw">sd</span>(Sale_Price)  <span class="co"># sample standard deviation</span>
-## [1] 79886.69
+## [1] 79887
 <span class="kw">sqrt</span>(<span class="kw">var</span>(Sale_Price))  <span class="co"># sanity check</span>
-## [1] 79886.69</code></pre></div>
+## [1] 79887</code></pre>
 <p>Since the sample standard deviation retains the original units, we can report this in dollar amount (e.g., the standard deviation of sale prices for homes sold from 2006–2010 is $79,886.69).</p>
 <div id="empirical-rule" class="section level3">
 <h3><span class="header-section-number">2.3.1</span> The empirical rule</h3>
@@ -382,92 +471,94 @@ Figure 2.3: Histogram estimates of the distribution of <code>Sale_Price</code> (
 <p>The formula for computing the <span class="math inline">\(p\)</span>-th percentile for a sample is not unique and many definitions exist. In fact, R includes nine different algorithms (controlled via the <code>type</code> argument) for computing percentiles! Therefore, it is important to realize that different software may produce slightly different results when computing percentiles.</p>
 
 <div class="note">
-To reproduce the same quantiles provided by SAS<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>, specify <code>type = 3</code> in the call to <code>quantile()</code>. <strong>FIXME: This needs to be verified!</strong>
+To reproduce the same quantiles provided by SAS<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, specify <code>type = 3</code> in the call to <code>quantile()</code>. <strong>FIXME: This needs to be verified!</strong>
 </div>
 
 <p>The R function for computing percentiles is <code>quantile()</code>. Quantiles are essentially the same as percentiles, but specified using decimals rather than percentages. For example, the 5-th percentile is equivalent to the 0.05 quantile. The following code chunk computes the quartiles of <code>Sale_Price</code> from the <code>ames</code> data frame. We use the default algorithm (i.e., <code>type = 7</code>); for specifics, see the help page <code>?stats::quantile</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(Sale_Price, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(Sale_Price, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))
 ##    25%    50%    75% 
-## 129500 160000 213500</code></pre></div>
+## 129500 160000 213500</code></pre>
 <p>In other words, 25% of the sale prices were below $129,500, 25% between $129,500 and $160,000, 25% between $160,000 and $213,500, and the rest greater than $213,500.</p>
 </div>
 <div id="robust-measures-of-spread" class="section level2">
 <h2><span class="header-section-number">2.5</span> Robust measures of spread</h2>
-Since the sample standard deviation relies on squared deviations from the sample mean (a non-robust measure of location), it is also sensitive to outliers. A measure of spread less affected by outliers is the <em>interquartile range</em> (IQR). The IQR is defined as the difference between the upper and lower quartiles:
+<p>Since the sample standard deviation relies on squared deviations from the sample mean (a non-robust measure of location), it is also sensitive to outliers. A measure of spread less affected by outliers is the <em>interquartile range</em> (IQR). The IQR is defined as the difference between the upper and lower quartiles:
 <span class="math display">\[\begin{equation*}
   \text{IQR} = Q_3 - Q_1.
 \end{equation*}\]</span>
-<p>The IQR describes the variability of the middle 50% of the data and has an FSBP of 25%. Therefore, the IQR is a more robust measure of spread than the sample standard deviation.</p>
-Perhaps a more useful, but less often used, robust measure of spread is the <em>median absolute deviation</em> (MAD). For a sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> with sample median <span class="math inline">\(M\)</span>, the MAD is given by the median of the absolute value of the deviations from <span class="math inline">\(M\)</span>:
+The IQR describes the variability of the middle 50% of the data and has an FSBP of 25%. Therefore, the IQR is a more robust measure of spread than the sample standard deviation.</p>
+<p>Perhaps a more useful, but less often used, robust measure of spread is the <em>median absolute deviation</em> (MAD). For a sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> with sample median <span class="math inline">\(M\)</span>, the MAD is given by the median of the absolute value of the deviations from <span class="math inline">\(M\)</span>:
 <span class="math display">\[\begin{equation*}
   \text{MAD} = median\left(\left|x_1 - M\right|, \left|x_2 - M\right|, \dots, \left|x_n - M\right|\right).
 \end{equation*}\]</span>
-<p>The MAD, like the median, has an FSBP of 50%, meaning nearly half the observations could be outliers without affecting the MAD. Some software, including R by default, actually computes an adjusted version of MAD, called MADN, by multiplying by the constant <span class="math inline">\(1.4826\)</span>: <span class="math inline">\(\text{MADN} = 1.4826 \times \text{MAD}\)</span>. This adjustment is to make MAD <em>asymptotically normally consistent</em> for the population standard deviation <span class="math inline">\(\sigma\)</span>. In other words, as the sample size <span class="math inline">\(n\)</span> gets larger, MADN is a good estimator of <span class="math inline">\(\sigma\)</span> for a normally distributed population. In practice, MADN is typically used/reported.</p>
+The MAD, like the median, has an FSBP of 50%, meaning nearly half the observations could be outliers without affecting the MAD. Some software, including R by default, actually computes an adjusted version of MAD, called MADN, by multiplying by the constant <span class="math inline">\(1.4826\)</span>: <span class="math inline">\(\text{MADN} = 1.4826 \times \text{MAD}\)</span>. This adjustment is to make MAD <em>asymptotically normally consistent</em> for the population standard deviation <span class="math inline">\(\sigma\)</span>. In other words, as the sample size <span class="math inline">\(n\)</span> gets larger, MADN is a good estimator of <span class="math inline">\(\sigma\)</span> for a normally distributed population. In practice, MADN is typically used/reported.</p>
 <p>To compute the IQR or MAD(N) in R, we can use the <code>IQR()</code> and <code>mad()</code> functions, respectively. For the <code>ames</code> data frame, the IQR and MAD(N) for <code>Sale_Price</code> are computed below. Note that since the IQR is based on the 25-th and 75-th percentiles, the <code>IQR()</code> function also includes the option <code>type</code> for specifying which algorithm to use for computing <span class="math inline">\(Q_1\)</span> and <span class="math inline">\(Q_3\)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">IQR</span>(Sale_Price)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">IQR</span>(Sale_Price)
 ## [1] 84000
 <span class="kw">mad</span>(Sale_Price)  <span class="co"># MADN</span>
-## [1] 54856.2
+## [1] 54856
 <span class="kw">mad</span>(Sale_Price, <span class="dt">constant =</span> <span class="dv">1</span>)  <span class="co"># MAD</span>
 ## [1] 37000
 <span class="kw">mad</span>(Sale_Price, <span class="dt">constant =</span> <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="fl">1.4826</span>  <span class="co"># sanity check</span>
-## [1] 54856.2</code></pre></div>
+## [1] 54856</code></pre>
 <p>In practice, it is common (and important) to report some measure of spread whenever reporting measures of location (and vice versa). The standard deviation is often reported with the mean. Whenever the median is used, the IQR or MAD(N) is often reported as well.</p>
 </div>
 <div id="outliers" class="section level2">
 <h2><span class="header-section-number">2.6</span> Outlier detection</h2>
 <p>In this section, we present a few simple rules for detecting potential outliers in univariate data; that is, data on a single variable. In later chapters, we present more sophisticated methods for detecting potential outliers and anomalies in multivariate data (i.e., data on more than one variable).</p>
 <p>The empirical rule (Section <a href="descriptive.html#empirical-rule">2.3.1</a>) probably offers the simplest method for detecting outliers, at least for reasonably bell-shaped data. Recall that for approximately bell-shaped distributions, 95% of the observations should lie within two standard deviations of the mean. Therefore, for approximately bell-shaped distributions, <span class="math inline">\(z\)</span>-scores greater than two in absolute value might be considered unusual (a cutoff of 2.24 has been shown to be more useful in practice <span class="citation">(Wilcox <a href="#ref-wilcox-applying-2003">2003</a>)</span>). To make this rule more robust, we can compute a modified <span class="math inline">\(z\)</span>-score based on the median and MADN. Below, we define a simple function for detecting outliers according to the empirical rule:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">detect_outliers &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">robust =</span> <span class="ot">FALSE</span>, <span class="dt">cutoff =</span> <span class="dv">2</span>) {
+<pre class="sourceCode r"><code class="sourceCode r">detect_outliers &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">robust =</span> <span class="ot">FALSE</span>, <span class="dt">cutoff =</span> <span class="dv">2</span>) {
   z_score &lt;-<span class="st"> </span><span class="cf">if</span> (robust) {
     (x <span class="op">-</span><span class="st"> </span><span class="kw">median</span>(x)) <span class="op">/</span><span class="st"> </span><span class="kw">mad</span>(x)  <span class="co"># modified z-score</span>
   } <span class="cf">else</span> {
     (x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(x)  <span class="co"># z-score</span>
   }
   <span class="kw">sort</span>(x[<span class="kw">abs</span>(z_score) <span class="op">&gt;</span><span class="st"> </span>cutoff])
-}</code></pre></div>
+}</code></pre>
 <p>Next, we simulate some data from a standard normal distribution (i.e., a bell-shaped distribution with mean zero and standard deviation one) with two outliers (5 and -100) and test out our <code>detect_outliers()</code> function. For a standard normal distribution, we would expect any observations greater than two in absolute value to be unlikely and should be flagged as potential outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">101</span>)  <span class="co"># for reproducibility</span>
-x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dv">100</span>), <span class="dv">5</span>, <span class="op">-</span><span class="dv">100</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">101</span>)  <span class="co"># for reproducibility</span>
+x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dv">100</span>), <span class="dv">5</span>, <span class="dv">-100</span>)
 <span class="kw">detect_outliers</span>(x)
 ## [1] -100
 <span class="kw">detect_outliers</span>(x, <span class="dt">robust =</span> <span class="ot">TRUE</span>)
-## [1] -100.000000   -2.319327   -2.073106   -2.050308    5.000000
+## [1] -100.000   -2.319   -2.073   -2.050    5.000
 <span class="kw">detect_outliers</span>(x, <span class="dt">cutoff =</span> <span class="fl">2.24</span>)  <span class="co"># following Wilcox (2003)</span>
-## [1] -100</code></pre></div>
+## [1] -100</code></pre>
 <p>Notice that five does not get flagged as an outlier when using the standard <span class="math inline">\(z\)</span>-score based on the sample mean and standard deviation. This is due to the fact that the extreme value -100 skews these descriptive statistics. Using the robust method, however, returns reasonable results.</p>
 <p>Using the empirical rule is rather limited in practice since distributions are often not bell-shaped, or even symmetric—though, as seen with <code>Sale_Price</code>, some can be transformed to appear more bell-shaped. A better outlier detection rule can be constructed using the IQR. This is the same method used to flag outliers in boxplots (see Section <a href="visualization.html#boxplots">3.2.1.3</a>). The general rule is to define an observation an outlier if it lies outside the interval <span class="math inline">\(\left(Q_1 - 1.5 \times IQR, Q_2 + 1.5 \times IQR\right)\)</span>. While it would be simple to write our own function for detecting outliers using the boxplot method, we can use R’s built-in function <code>boxplot.stats()</code> (see <code>?grDevices::boxplot.stats</code> for details). Notice how this method happens to catch the true outliers!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">boxplot.stats</span>(x)<span class="op">$</span>out
-## [1]    5 -100</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">boxplot.stats</span>(x)<span class="op">$</span>out
+## [1]    5 -100</code></pre>
 <p>We leave it to Exercise <a href="#ames-outlier"><strong>??</strong></a> to further explore outliers for the <code>Sale_Price</code> variable in the <code>ames</code> housing data frame.</p>
 </div>
 <div id="categorical" class="section level2">
 <h2><span class="header-section-number">2.7</span> Describing categorical data</h2>
-<p>All of the descriptive statistics discussed thusfar are appropriate for <em>continuous variables</em><a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>—that is, variables that can be measured on a continuum (e.g., the weight of an object measured in grams). Technically, no variable can be truly measured on a continuous scale due to precision limitations with how all variables are measured. So, in a sense, continuous variables in practice are numeric variables that can take on a lot of values. Oftentimes the data we are describing contains <em>categorical variables</em>. A categorical variable is a variable whose measurement scale consists of a set of categories (e.g., manufacturer and gender). Such variables are easy to describe using <em>contingency</em> or <em>cross-classification tables</em> (e.g., tables of frequencies and proportions).</p>
+<p>All of the descriptive statistics discussed thus far are appropriate for <em>continuous variables</em><a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>—that is, variables that can be measured on a continuum (e.g., the weight of an object measured in grams). Technically, no variable can be truly measured on a continuous scale due to precision limitations with how all variables are measured. So, in a sense, continuous variables in practice are numeric variables that can take on a lot of values. Oftentimes the data we are describing contains <em>categorical variables</em>. A categorical variable is a variable whose measurement scale consists of a set of categories (e.g., manufacturer and gender). Such variables are easy to describe using <em>contingency</em> or <em>cross-classification tables</em> (e.g., tables of frequencies and proportions).</p>
 <p>Categorical variables fall into one of two types: <em>nominal</em> and <em>ordinal</em>. Nominal variables are categorical variables whose categories do no have a natural ordering. The categories of an ordinal variable do have a natural ordering, but no defined distance between the categories. For example, the <code>AdultUCI</code> data frame contains the columns <code>income</code> (with unique categories <code>&quot;small&quot;</code> and <code>&quot;large&quot;</code>) and <code>sex</code> (with unique categories <code>&quot;Female&quot;</code> and <code>&quot;Male&quot;</code>). <code>income</code> would be an example of an ordered variable (since <code>&quot;small&quot; &lt; &quot;large&quot;</code>, but <code>&quot;large&quot; - &quot;small&quot;</code> has no meaningful interpretation) while <code>sex</code> is nominal.</p>
 <p>In R, categorical variables are typically represented using the <code>&quot;factor&quot;</code> class, but can also be represented by character strings (i.e., the more general <code>&quot;character&quot;</code> class). The <code>AdultUCI</code> data set contains several factors:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which</span>(<span class="kw">sapply</span>(AdultUCI, is.factor))  <span class="co"># positions and names of factor columns</span>
-##      workclass      education marital-status     occupation   relationship 
-##              2              4              6              7              8 
-##           race            sex native-country         income 
-##              9             10             14             15
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which</span>(<span class="kw">sapply</span>(AdultUCI, is.factor))  <span class="co"># positions and names of factor columns</span>
+##      workclass      education marital-status 
+##              2              4              6 
+##     occupation   relationship           race 
+##              7              8              9 
+##            sex native-country         income 
+##             10             14             15
 <span class="kw">which</span>(<span class="kw">sapply</span>(AdultUCI, is.character))  <span class="co"># sanity check</span>
 ## named integer(0)
 <span class="kw">which</span>(<span class="kw">sapply</span>(AdultUCI, is.ordered))  <span class="co"># check specifically for ordered factors</span>
 ## education    income 
-##         4        15</code></pre></div>
+##         4        15</code></pre>
 <p>To coerce a variable into a nominal or ordinal factor, we can use the functions <code>as.factor()</code> and <code>as.ordered()</code>, respectively. Some of the techniques discussed in this book can take ordinality into account, so it is good practice to make sure such variables are coerced to ordered factors.</p>
 <div id="contingency-tables" class="section level3">
 <h3><span class="header-section-number">2.7.1</span> Contingency tables</h3>
 <p>A <em>contingency table</em> is a rectangular table containing the frequencies (or proportions) of observations within the different categories of one or more categorical variables. Contingency tables typically cross-classifiy two categorical variables, but can be used to cross-classifiy more than two. R contains a number of functions for creating such tables, the most useful probably being <code>xtabs()</code> since it has a formula interface. To illustrate, we construct a <span class="math inline">\(2 \times 2\)</span> table cross-classifying <code>income</code> and <code>sex</code> from the <code>AdultUCI</code> data frame:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(tab &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> AdultUCI))
+<pre class="sourceCode r"><code class="sourceCode r">(tab &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> AdultUCI))
 ##         income
 ## sex      small large
 ##   Female  9592  1179
-##   Male   15128  6662</code></pre></div>
+##   Male   15128  6662</code></pre>
 <p>This table shows some disparity in income between females and males. In Chapter <a href="inference.html#inference">4</a>, we discuss ways of testing for association between a set of categorical variables.</p>
 <p>We can also request that margins (i.e., row/column summaries) be added to the table using the <code>addmargins()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">addmargins</span>(tab)  <span class="co"># defaults to adding row/column totals</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">addmargins</span>(tab)  <span class="co"># defaults to adding row/column totals</span>
 ##         income
 ## sex      small large   Sum
 ##   Female  9592  1179 10771
@@ -479,16 +570,16 @@ x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rnorm
 ## 1: sex
 ## 2: income
 ##         income
-## sex         small    large     mean
-##   Female  9592.00  1179.00  5385.50
-##   Male   15128.00  6662.00 10895.00
-##   mean   12360.00  3920.50  8140.25</code></pre></div>
+## sex      small large  mean
+##   Female  9592  1179  5386
+##   Male   15128  6662 10895
+##   mean   12360  3920  8140</code></pre>
 <p>We can can convert the frequencies to proportions using the <code>prop.table()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">prop.table</span>(tab)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">prop.table</span>(tab)
 ##         income
-## sex           small      large
-##   Female 0.29458555 0.03620896
-##   Male   0.46460490 0.20460060</code></pre></div>
+## sex        small   large
+##   Female 0.29459 0.03621
+##   Male   0.46460 0.20460</code></pre>
 <p>In Section <a href="#cramers-v"><strong>??</strong></a>, we discuss a statistic that can be used to quantify the strength of the association between two categorical variables.</p>
 </div>
 </div>
@@ -496,7 +587,7 @@ x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rnorm
 <h2><span class="header-section-number">2.8</span> Exercises</h2>
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-3" class="exercise"><strong>Exercise 2.1  (Groupwise descriptive statistics)  </strong></span>For the <code>ames</code> data set, we computed various measures of spread and location for the variable <code>Sale_Price</code>. However, these data span multiple years (2006–2010). Therefore, it might be of interest to see how various descriptive statistics change over time. For this exercise, compute the sample median and MADN for <code>Sale_Price</code> stratified by the year in which the house was sold (i.e., <code>Year_Sold</code>). <strong>Hint:</strong> use the built-in functions <code>tapply()</code> or <code>by()</code>; see <code>?tapply</code> and <code>?by</code> for example usage. Do typical sale prices seem to be different across the five years?
+<span id="exr:unnamed-chunk-11" class="exercise"><strong>Exercise 2.1  (Groupwise descriptive statistics)  </strong></span>For the <code>ames</code> data set, we computed various measures of spread and location for the variable <code>Sale_Price</code>. However, these data span multiple years (2006–2010). Therefore, it might be of interest to see how various descriptive statistics change over time. For this exercise, compute the sample median and MADN for <code>Sale_Price</code> stratified by the year in which the house was sold (i.e., <code>Year_Sold</code>). <strong>Hint:</strong> use the built-in functions <code>tapply()</code> or <code>by()</code>; see <code>?tapply</code> and <code>?by</code> for example usage. Do typical sale prices seem to be different across the five years?
 </div>
 
 <!-- Solution -->
@@ -508,22 +599,23 @@ x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rnorm
 <!-- Solution -->
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-6" class="exercise"><strong>Exercise 2.3  (Kurtosis and skewness)  </strong></span>TBD.
+<span id="exr:unnamed-chunk-14" class="exercise"><strong>Exercise 2.3  (Kurtosis and skewness)  </strong></span>TBD.
 </div>
 
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-7" class="exercise"><strong>Exercise 2.4  (The <code>apply()</code> function)  </strong></span>The <code>votes.repub</code> data set from the standard R package <code>cluster</code> <span class="citation">(Maechler et al. <a href="#ref-pkg-cluster">2016</a>)</span> contains the percentages of votes given to the republican candidate in presidential elections from 1856 to 1976. The rows represent the 50 US states, and the columns represent the 31 elections. The data can be loaded into R using <code>data(votes.repub, package = &quot;cluster&quot;)</code>. In this case, we may be interested in computing various descriptive statistics for each state across all years. Since the data are stored in rectangular format (i.e., state are in rows and years are in columns) we can efficiently compute descriptive statistics for each state using R’s built-in <code>apply()</code> function (see <code>?apply</code> for details). Using <code>apply()</code>, compute the sample mean percentage of votes and standard deviation for each state, taking care to handle <code>NA</code>’s appropriately. Which state had the highest average percentage of votes? Which had the lowest?
+<span id="exr:unnamed-chunk-15" class="exercise"><strong>Exercise 2.4  (The <code>apply()</code> function)  </strong></span>The <code>votes.repub</code> data set from the standard R package <code>cluster</code> <span class="citation">(Maechler et al. <a href="#ref-pkg-cluster">2016</a>)</span> contains the percentages of votes given to the republican candidate in presidential elections from 1856 to 1976. The rows represent the 50 US states, and the columns represent the 31 elections. The data can be loaded into R using <code>data(votes.repub, package = &quot;cluster&quot;)</code>. In this case, we may be interested in computing various descriptive statistics for each state across all years. Since the data are stored in rectangular format (i.e., state are in rows and years are in columns) we can efficiently compute descriptive statistics for each state using R’s built-in <code>apply()</code> function (see <code>?apply</code> for details). Using <code>apply()</code>, compute the sample mean percentage of votes and standard deviation for each state, taking care to handle <code>NA</code>’s appropriately. Which state had the highest average percentage of votes? Which had the lowest?
 </div>
 
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-8" class="exercise"><strong>Exercise 2.5  (Trimmed mean)  </strong></span>TBD.
+<span id="exr:unnamed-chunk-16" class="exercise"><strong>Exercise 2.5  (Trimmed mean)  </strong></span>TBD.
 </div>
 
 
 <div class="exercise">
-<span id="exr:unnamed-chunk-9" class="exercise"><strong>Exercise 2.6  (Sample variance <code>r emo::ji('scream')</code>)  </strong></span>Show that the formula for the sample is equivalent to <span class="math display">\[
+<span id="exr:unnamed-chunk-17" class="exercise"><strong>Exercise 2.6  (Sample variance <code>r emo::ji('scream')</code>)  </strong></span>Show that the formula for the sample is equivalent to
+<span class="math display">\[
   s^2 = \left(\frac{1}{n} \sum_{i = 1}^n x_i^2\right) - \bar{x}^2.
 \]</span>
 </div>
@@ -549,9 +641,9 @@ x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rnorm
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p>An unbiased estimator is one that does not, from sample to sample, systematically underestimate or overestimate a population parameter of interest. The sample mean is another example, as it is provides an unbiased estiamte of the population mean; that is, on average, the sample mean will be equal to the true population mean.<a href="descriptive.html#fnref1">↩</a></p></li>
-<li id="fn2"><p>TBD.<a href="descriptive.html#fnref2">↩</a></p></li>
-<li id="fn3"><p>Continuous variables, also referred to as quantitative variables, can be further categorized as <em>interval</em> or <em>ratio</em> variables. Though we do not make such distinction in this book, the interested reader is pointed to <strong>NEED REFERENCE</strong><a href="descriptive.html#fnref3">↩</a></p></li>
+<li id="fn1"><p>An unbiased estimator is one that does not, from sample to sample, systematically underestimate or overestimate a population parameter of interest. The sample mean is another example, as it is provides an unbiased estiamte of the population mean; that is, on average, the sample mean will be equal to the true population mean.<a href="descriptive.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>TBD.<a href="descriptive.html#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Continuous variables, also referred to as quantitative variables, can be further categorized as <em>interval</em> or <em>ratio</em> variables. Though we do not make such distinction in this book, the interested reader is pointed to <strong>NEED REFERENCE</strong><a href="descriptive.html#fnref3" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -563,13 +655,13 @@ x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rnorm
 <a href="visualization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -606,7 +698,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

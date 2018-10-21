@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</title>
   <meta name="description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
   <meta property="og:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2018-08-09">
+<meta name="date" content="2018-10-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,12 +34,12 @@
   
 <link rel="prev" href="linear-regression.html">
 <link rel="next" href="regularized-regression.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
 
 
 
@@ -47,6 +47,14 @@
 
 
 
+<script src="libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="libs/plotly-binding/plotly.js"></script>
+<script src="libs/typedarray/typedarray.min.js"></script>
+<link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main/plotly-latest.min.js"></script>
+<script src="libs/kePrint/kePrint.js"></script>
 
 
 <style type="text/css">
@@ -157,133 +165,168 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
-<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>1.5</b> Prerequisites</a></li>
-<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>1.6</b> Measures of location</a><ul>
-<li class="chapter" data-level="1.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>1.6.1</b> The sample mean</a></li>
-<li class="chapter" data-level="1.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>1.6.2</b> The sample median</a></li>
-<li class="chapter" data-level="1.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>1.6.3</b> The mean or the median</a></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>2</b> Descriptive Statistics</a><ul>
+<li class="chapter" data-level="2.1" data-path="descriptive.html"><a href="descriptive.html"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.2" data-path="descriptive.html"><a href="descriptive.html#measures-of-location"><i class="fa fa-check"></i><b>2.2</b> Measures of location</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="descriptive.html"><a href="descriptive.html#the-sample-mean"><i class="fa fa-check"></i><b>2.2.1</b> The sample mean</a></li>
+<li class="chapter" data-level="2.2.2" data-path="descriptive.html"><a href="descriptive.html#the-sample-median"><i class="fa fa-check"></i><b>2.2.2</b> The sample median</a></li>
+<li class="chapter" data-level="2.2.3" data-path="descriptive.html"><a href="descriptive.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>2.2.3</b> The mean or the median</a></li>
 </ul></li>
-<li class="chapter" data-level="1.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>1.7</b> Measures of spread</a><ul>
-<li class="chapter" data-level="1.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>1.7.1</b> The empirical rule</a></li>
+<li class="chapter" data-level="2.3" data-path="descriptive.html"><a href="descriptive.html#measures-of-spread"><i class="fa fa-check"></i><b>2.3</b> Measures of spread</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="descriptive.html"><a href="descriptive.html#empirical-rule"><i class="fa fa-check"></i><b>2.3.1</b> The empirical rule</a></li>
 </ul></li>
-<li class="chapter" data-level="1.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>1.8</b> Percentiles</a></li>
-<li class="chapter" data-level="1.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>1.9</b> Robust measures of spread</a></li>
-<li class="chapter" data-level="1.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>1.10</b> Outlier detection</a></li>
-<li class="chapter" data-level="1.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>1.11</b> Describing categorical data</a><ul>
-<li class="chapter" data-level="1.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>1.11.1</b> Contingency tables</a></li>
+<li class="chapter" data-level="2.4" data-path="descriptive.html"><a href="descriptive.html#percentiles"><i class="fa fa-check"></i><b>2.4</b> Percentiles</a></li>
+<li class="chapter" data-level="2.5" data-path="descriptive.html"><a href="descriptive.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>2.5</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="2.6" data-path="descriptive.html"><a href="descriptive.html#outliers"><i class="fa fa-check"></i><b>2.6</b> Outlier detection</a></li>
+<li class="chapter" data-level="2.7" data-path="descriptive.html"><a href="descriptive.html#categorical"><i class="fa fa-check"></i><b>2.7</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="descriptive.html"><a href="descriptive.html#contingency-tables"><i class="fa fa-check"></i><b>2.7.1</b> Contingency tables</a></li>
 </ul></li>
-<li class="chapter" data-level="1.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>1.12</b> Exercises</a></li>
+<li class="chapter" data-level="2.8" data-path="descriptive.html"><a href="descriptive.html#exercises"><i class="fa fa-check"></i><b>2.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>2</b> Visual data exploration</a><ul>
-<li class="chapter" data-level="2.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>2.2</b> Univariate data</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>2.2.1</b> Continuous Variables</a></li>
-<li class="chapter" data-level="2.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>2.2.2</b> Categorical Variables</a></li>
+<li class="chapter" data-level="3" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>3</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="3.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>3.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>3.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>3.2.2</b> Categorical Variables</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>2.3</b> Bivariate data</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.3.1</b> Scatter plots</a></li>
+<li class="chapter" data-level="3.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>3.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>3.3.1</b> Scatter plots</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>2.4</b> Multivariate data</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>2.4.1</b> Facetting</a></li>
+<li class="chapter" data-level="3.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>3.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>3.4.1</b> Facetting</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>2.5</b> Data quality</a></li>
-<li class="chapter" data-level="2.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>2.6</b> Further reading</a></li>
-<li class="chapter" data-level="2.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>2.7</b> Exercises</a></li>
+<li class="chapter" data-level="3.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>3.5</b> Data quality</a></li>
+<li class="chapter" data-level="3.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>3.6</b> Further reading</a></li>
+<li class="chapter" data-level="3.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>3</b> Statistical Inference</a><ul>
-<li class="chapter" data-level="3.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> The frequentist approach</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.1.1</b> The central limit theorem</a></li>
-<li class="chapter" data-level="3.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="3.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>3.1.3</b> One-sided versus two-sided tests</a></li>
-<li class="chapter" data-level="3.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>3.1.4</b> Type I and type II errors</a></li>
-<li class="chapter" data-level="3.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>3.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
-<li class="chapter" data-level="3.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>3.1.6</b> Confidence intervals</a></li>
+<li class="chapter" data-level="4" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="4.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>4.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>4.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="4.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="4.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>4.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="4.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>4.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="4.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>4.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="4.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>4.1.6</b> Confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>3.2</b> One- and two-sample t-tests</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.2.1</b> One-sample t-test</a></li>
-<li class="chapter" data-level="3.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>3.2.2</b> Two-sample t-test</a></li>
+<li class="chapter" data-level="4.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>4.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="4.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> Two-sample t-test</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>3.3</b> Tests involving more than two means: ANOVA models</a></li>
-<li class="chapter" data-level="3.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>3.4</b> Testing for association in contingency tables</a></li>
-<li class="chapter" data-level="3.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>3.5</b> Nonparametric tests</a></li>
-<li class="chapter" data-level="3.6" data-path="inference.html"><a href="inference.html#the-nonparametric-bootstrap"><i class="fa fa-check"></i><b>3.6</b> The nonparametric bootstrap</a><ul>
-<li class="chapter" data-level="3.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>3.6.1</b> Bootstrap confidence intervals</a></li>
+<li class="chapter" data-level="4.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>4.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="4.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>4.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="4.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>4.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="4.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>4.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>4.6.1</b> Bootstrap confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="3.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>3.7</b> Further reading</a></li>
-<li class="chapter" data-level="3.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>3.8</b> Exercises</a></li>
+<li class="chapter" data-level="4.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>4.7</b> Further reading</a></li>
+<li class="chapter" data-level="4.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>4</b> Unsupervised learning</a><ul>
-<li class="chapter" data-level="4.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>4.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="4.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>4.2</b> Principal Components Analysis</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>4.2.1</b> Finding principal components</a></li>
-<li class="chapter" data-level="4.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>4.2.2</b> Performing PCA in R</a></li>
-<li class="chapter" data-level="4.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>4.2.3</b> Selecting the Number of Principal Components</a></li>
-<li class="chapter" data-level="4.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>4.2.4</b> Extracting additional insights</a></li>
-<li class="chapter" data-level="4.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>4.2.5</b> PCA with mixed data</a></li>
+<li class="chapter" data-level="5" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="5.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>5.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>5.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="5.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="5.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>5.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="5.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>5.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="5.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>5.2.5</b> PCA with mixed data</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>4.3</b> Cluster Analysis</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>4.3.1</b> Clustering distance measures</a></li>
-<li class="chapter" data-level="4.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>4.3.2</b> K-means clustering</a></li>
-<li class="chapter" data-level="4.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.3.3</b> Hierarchical clustering</a></li>
-<li class="chapter" data-level="4.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>4.3.4</b> Clustering with mixed data</a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>II Predictive Analytics</b></span><ul>
-<li class="chapter" data-level="4.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>4.4</b> Regression problems</a></li>
-<li class="chapter" data-level="4.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>4.5</b> Classification problems</a></li>
-<li class="chapter" data-level="4.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>4.6</b> Algorithm Comparison Guide</a></li>
-<li class="chapter" data-level="4.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>4.7</b> General modeling process</a><ul>
-<li class="chapter" data-level="4.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>4.7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="4.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-split"><i class="fa fa-check"></i><b>4.7.2</b> Data splitting</a></li>
-<li class="chapter" data-level="4.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>4.7.3</b> Feature engineering</a></li>
-<li class="chapter" data-level="4.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>4.7.4</b> Basic model formulation</a></li>
-<li class="chapter" data-level="4.7.5" data-path="unsupervised.html"><a href="unsupervised.html#tune"><i class="fa fa-check"></i><b>4.7.5</b> Model tuning</a></li>
-<li class="chapter" data-level="4.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>4.7.6</b> Cross Validation for Generalization</a></li>
-<li class="chapter" data-level="4.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-eval"><i class="fa fa-check"></i><b>4.7.7</b> Model evaluation</a></li>
-<li class="chapter" data-level="4.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>4.7.8</b> Interpreting predictive models</a></li>
+<li class="chapter" data-level="5.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>5.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="5.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>5.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="5.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="5.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>5.3.4</b> Clustering with mixed data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5</b> Linear regression</a><ul>
-<li class="chapter" data-level="5.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="5.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>5.2</b> Simple linear regression</a></li>
-<li class="chapter" data-level="5.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>5.3</b> Multiple linear regression</a></li>
-<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>5.4</b> Assessing Model Accuracy</a></li>
-<li class="chapter" data-level="5.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>5.5</b> Model concerns</a></li>
-<li class="chapter" data-level="5.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>5.6</b> Principal component regression</a></li>
-<li class="chapter" data-level="5.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>5.7</b> Partial least squares</a></li>
-<li class="chapter" data-level="5.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>5.8</b> Model interpretation</a></li>
-<li class="chapter" data-level="5.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>5.9</b> Final thoughts</a></li>
-<li class="chapter" data-level="5.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>5.10</b> Learning more</a></li>
+<li class="part"><span><b>II Predictive Analytics</b></span></li>
+<li class="chapter" data-level="6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html"><i class="fa fa-check"></i><b>6</b> Fundamental concepts</a><ul>
+<li class="chapter" data-level="6.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#regression-problems"><i class="fa fa-check"></i><b>6.1</b> Regression problems</a></li>
+<li class="chapter" data-level="6.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#classification-problems"><i class="fa fa-check"></i><b>6.2</b> Classification problems</a></li>
+<li class="chapter" data-level="6.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>6.3</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="6.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#general-modeling-process"><i class="fa fa-check"></i><b>6.4</b> General modeling process</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_prereq"><i class="fa fa-check"></i><b>6.4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-split"><i class="fa fa-check"></i><b>6.4.2</b> Data splitting</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_feat"><i class="fa fa-check"></i><b>6.4.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="6.4.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#model-form"><i class="fa fa-check"></i><b>6.4.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="6.4.5" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#tune"><i class="fa fa-check"></i><b>6.4.5</b> Model tuning</a></li>
+<li class="chapter" data-level="6.4.6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#cv"><i class="fa fa-check"></i><b>6.4.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="6.4.7" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-eval"><i class="fa fa-check"></i><b>6.4.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="6.4.8" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>6.4.8</b> Interpreting predictive models</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>6</b> Logistic regression</a><ul>
-<li class="chapter" data-level="6.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>6.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="6.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Why logistic regression</a></li>
-<li class="chapter" data-level="6.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>6.3</b> Simple logistic regression</a></li>
-<li class="chapter" data-level="6.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>6.4</b> Multiple logistic regression</a></li>
-<li class="chapter" data-level="6.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>6.5</b> Assessing model accuracy</a></li>
-<li class="chapter" data-level="6.6" data-path="logistic-regression.html"><a href="logistic-regression.html#model-interpretation"><i class="fa fa-check"></i><b>6.6</b> Model interpretation</a></li>
-<li class="chapter" data-level="6.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>6.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="6.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>6.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>7</b> Regularized regression</a><ul>
-<li class="chapter" data-level="7.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="7.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>7.2</b> Why Regularize</a><ul>
-<li class="chapter" data-level="7.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>7.2.1</b> Ridge penalty</a></li>
-<li class="chapter" data-level="7.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>7.2.2</b> Lasso penalty</a></li>
-<li class="chapter" data-level="7.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>7.2.3</b> Elastic nets</a></li>
+<li class="chapter" data-level="7" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>7</b> Linear regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="7.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple linear regression</a></li>
+<li class="chapter" data-level="7.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>7.3</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="7.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>7.4</b> Assessing Model Accuracy</a></li>
+<li class="chapter" data-level="7.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>7.5</b> Model concerns</a></li>
+<li class="chapter" data-level="7.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>7.6</b> Principal component regression</a></li>
+<li class="chapter" data-level="7.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>7.7</b> Partial least squares</a></li>
+<li class="chapter" data-level="7.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>7.8</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="7.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>7.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="7.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>7.10</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>7.3</b> Implementation</a></li>
-<li class="chapter" data-level="7.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>7.4</b> Tuning</a></li>
-<li class="chapter" data-level="7.5" data-path="regularized-regression.html"><a href="regularized-regression.html#model-interpretation-1"><i class="fa fa-check"></i><b>7.5</b> Model interpretation</a></li>
-<li class="chapter" data-level="7.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>7.6</b> Attrition data</a></li>
-<li class="chapter" data-level="7.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>7.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="7.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>7.8</b> Learning more</a></li>
+<li class="chapter" data-level="8" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Logistic regression</a><ul>
+<li class="chapter" data-level="8.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="8.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>8.2</b> Why logistic regression</a></li>
+<li class="chapter" data-level="8.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>8.3</b> Simple logistic regression</a></li>
+<li class="chapter" data-level="8.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>8.4</b> Multiple logistic regression</a></li>
+<li class="chapter" data-level="8.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>8.5</b> Assessing model accuracy</a></li>
+<li class="chapter" data-level="8.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>8.6</b> Feature interpretation</a></li>
+<li class="chapter" data-level="8.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="8.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>9</b> Regularized regression</a><ul>
+<li class="chapter" data-level="9.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="9.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>9.2</b> Why Regularize</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>9.2.1</b> Ridge penalty</a></li>
+<li class="chapter" data-level="9.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>9.2.2</b> Lasso penalty</a></li>
+<li class="chapter" data-level="9.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>9.2.3</b> Elastic nets</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>9.3</b> Implementation</a></li>
+<li class="chapter" data-level="9.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>9.4</b> Tuning</a></li>
+<li class="chapter" data-level="9.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>9.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="9.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>9.6</b> Attrition data</a></li>
+<li class="chapter" data-level="9.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>9.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="9.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>9.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>10</b> Multivariate Adaptive Regression Splines</a><ul>
+<li class="chapter" data-level="10.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="10.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>10.2.1</b> Multivariate regression splines</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>10.3</b> Fitting a basic MARS model</a></li>
+<li class="chapter" data-level="10.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>10.4</b> Tuning</a></li>
+<li class="chapter" data-level="10.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>10.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="10.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>10.6</b> Attrition data</a></li>
+<li class="chapter" data-level="10.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>10.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="10.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>10.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>11</b> Random Forests</a><ul>
+<li class="chapter" data-level="11.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>11.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="11.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>11.2</b> Decision trees</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>11.2.1</b> A simple regression tree example</a></li>
+<li class="chapter" data-level="11.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>11.2.2</b> Deciding on splits</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>11.3</b> Bagging</a></li>
+<li class="chapter" data-level="11.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>11.4</b> Random forests</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>11.4.1</b> OOB error vs. test set error</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>11.5</b> Fitting a basic random forest model</a></li>
+<li class="chapter" data-level="11.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>11.6</b> Tuning</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>11.6.1</b> Tuning via ranger</a></li>
+<li class="chapter" data-level="11.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>11.6.2</b> Tuning via caret</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>11.7</b> Feature interpretation</a></li>
+<li class="chapter" data-level="11.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>11.8</b> Attrition data</a></li>
+<li class="chapter" data-level="11.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>11.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="11.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>11.10</b> Learning more</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="8" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>8</b> (APPENDIX) Appendix {-}</a><ul>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
-<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+<li class="chapter" data-level="12" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) Appendix {-}</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html"><i class="fa fa-check"></i>Data sets</a><ul>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -306,268 +349,272 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="logistic-regression" class="section level1">
-<h1><span class="header-section-number">Chapter 6</span> Logistic regression</h1>
-<p>Linear regression is used to approximate the relationship between a continuous response variable and a set of predictor variables. However, when the response variable is categorical rather than continuous, linear regression is not appropriate. Fortunately, analysts can turn to an analogous method, <em>logistic regression</em>, which is similar to linear regression in many ways. This chapter explores the use of logistic regression for binary response variables. Logistic regression can be expanded for multinomial problems (see <span class="citation">Faraway (<a href="#ref-faraway2016extending">2016</a>)</span> for discussion of multinomial logistic regression in R); however, that goes beyond our intent here.</p>
+<h1><span class="header-section-number">Chapter 8</span> Logistic regression</h1>
+<p>Linear regression is used to approximate the relationship between a continuous response variable and a set of predictor variables. However, when the response variable is categorical rather than continuous, linear regression is not appropriate. Fortunately, analysts can turn to an analogous method, <em>logistic regression</em>, which is similar to linear regression in many ways. This chapter explores the use of logistic regression for binary response variables. Logistic regression can be expanded for multinomial problems (see <span class="citation">Faraway (<a href="#ref-faraway2016extending">2016</a><a href="#ref-faraway2016extending">a</a>)</span> for discussion of multinomial logistic regression in R); however, that goes beyond our intent here.</p>
 <div id="prerequisites-4" class="section level2">
-<h2><span class="header-section-number">6.1</span> Prerequisites</h2>
+<h2><span class="header-section-number">8.1</span> Prerequisites</h2>
 <p>For this section we will use the following packages:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse)  <span class="co"># data manipulation &amp; visualization</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(rsample)    <span class="co"># data splitting</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(caret)      <span class="co"># logistic regression modeling</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(vip)        <span class="co"># variable importance</span></a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)  <span class="co"># data manipulation &amp; visualization</span>
+<span class="kw">library</span>(rsample)    <span class="co"># data splitting</span>
+<span class="kw">library</span>(caret)      <span class="co"># logistic regression modeling</span>
+<span class="kw">library</span>(vip)        <span class="co"># variable importance</span></code></pre>
 <p>To illustrate logistic regression concepts we will use the employee attrition data, where our intent is to predict the <code>Attrition</code> response variable (“Yes”|“no”). As in the previous chapter, we’ll set aside 30% of our data as a test set to assess our generalizability error.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">df &lt;-<span class="st"> </span>attrition <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.ordered, factor, <span class="dt">ordered =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Create training (70%) and test (30%) sets for the rsample::attrition data.</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Use set.seed for reproducibility</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">churn_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(df, <span class="dt">prop =</span> <span class="fl">.7</span>, <span class="dt">strata =</span> <span class="st">&quot;Attrition&quot;</span>)</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">train &lt;-<span class="st"> </span><span class="kw">training</span>(churn_split)</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">test  &lt;-<span class="st"> </span><span class="kw">testing</span>(churn_split)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span>attrition <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.ordered, factor, <span class="dt">ordered =</span> <span class="ot">FALSE</span>)
+
+<span class="co"># Create training (70%) and test (30%) sets for the rsample::attrition data.</span>
+<span class="co"># Use set.seed for reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+churn_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(df, <span class="dt">prop =</span> <span class="fl">.7</span>, <span class="dt">strata =</span> <span class="st">&quot;Attrition&quot;</span>)
+train &lt;-<span class="st"> </span><span class="kw">training</span>(churn_split)
+test  &lt;-<span class="st"> </span><span class="kw">testing</span>(churn_split)</code></pre>
 </div>
 <div id="why-logistic-regression" class="section level2">
-<h2><span class="header-section-number">6.2</span> Why logistic regression</h2>
-<p>To provide a clear motivation of logistic regression, assume we have credit card default data for customers and we want to understand if the credit card balance the customer has is an indicator of whether or not the customer will default on their credit card. To classify a customer as a high- vs. low-risk defaulter based on their balance we could use linear regression; however, the left plot in Figure <a href="logistic-regression.html#fig:whylogit">6.1</a> illustrates how linear regression would predict the probability of defaulting. Unfortunately, for balances close to zero we predict a negative probability of defaulting; if we were to predict for very large balances, we would get values bigger than 1. These predictions are not sensible, since of course the true probability of defaulting, regardless of credit card balance, must fall between 0 and 1. Contrast this with the logistic regression line (right plot) that is nonlinear (sigmoidal-shaped).</p>
+<h2><span class="header-section-number">8.2</span> Why logistic regression</h2>
+<p>To provide a clear motivation of logistic regression, assume we have credit card default data for customers and we want to understand if the credit card balance the customer has is an indicator of whether or not the customer will default on their credit card. To classify a customer as a high- vs. low-risk defaulter based on their balance we could use linear regression; however, the left plot in Figure <a href="logistic-regression.html#fig:whylogit">8.1</a> illustrates how linear regression would predict the probability of defaulting. Unfortunately, for balances close to zero we predict a negative probability of defaulting; if we were to predict for very large balances, we would get values bigger than 1. These predictions are not sensible, since of course the true probability of defaulting, regardless of credit card balance, must fall between 0 and 1. Contrast this with the logistic regression line (right plot) that is nonlinear (sigmoidal-shaped).</p>
 <div class="figure" style="text-align: center"><span id="fig:whylogit"></span>
 <img src="abar_files/figure-html/whylogit-1.png" alt="Comparing the predicted probabilities of linear regression (left) to logistic regression (right). Predicted probabilities using linear regression results in flawed logic whereas predicted values from logistic regression will always lie between 0 and 1." width="768" />
 <p class="caption">
-Figure 6.1: Comparing the predicted probabilities of linear regression (left) to logistic regression (right). Predicted probabilities using linear regression results in flawed logic whereas predicted values from logistic regression will always lie between 0 and 1.
+Figure 8.1: Comparing the predicted probabilities of linear regression (left) to logistic regression (right). Predicted probabilities using linear regression results in flawed logic whereas predicted values from logistic regression will always lie between 0 and 1.
 </p>
 </div>
-<p>To avoid the inadequecies of the linear model fit on a binary response, we must model the probability of our response using a function that gives outputs between 0 and 1 for all values of <span class="math inline">\(X\)</span>. Many functions meet this description. In logistic regression, we use the logistic function, which is defined in Equation <a href="logistic-regression.html#eq:logistic">(6.1)</a> and produces the S-curve in the right plot above.</p>
+<p>To avoid the inadequecies of the linear model fit on a binary response, we must model the probability of our response using a function that gives outputs between 0 and 1 for all values of <span class="math inline">\(X\)</span>. Many functions meet this description. In logistic regression, we use the logistic function, which is defined in Equation <a href="logistic-regression.html#eq:logistic">(8.1)</a> and produces the S-curve in the right plot above.</p>
 <p><span class="math display" id="eq:logistic">\[\begin{equation}
-\tag{6.1}
+\tag{8.1}
   p(X) = \frac{e^{\beta_0 + \beta_1X}}{1 + e^{\beta_0 + \beta_1X}}
 \end{equation}\]</span></p>
 <p>The <span class="math inline">\(\beta_i\)</span> parameters represent the coefficients as in linear regression and <span class="math inline">\(p(x)\)</span> may be interpreted as the probability that the positive class (default in the above example) is present. The minimum for <span class="math inline">\(p(x)\)</span> is obtained at <span class="math inline">\(\text{lim}_{a \rightarrow -\infty} \big[ \frac{e^a}{1+e^a} \big] = 0\)</span>, and the maximium for <span class="math inline">\(p(x)\)</span> is obtained at <span class="math inline">\(\text{lim}_{a \rightarrow \infty} \big[ \frac{e^a}{1+e^a} \big] = 1\)</span> which restricts the output probabilities to 0-1. Furthermore, a useful transformation for logistic regression is the <em>logit transformation</em> with follows:</p>
 <p><span class="math display" id="eq:logit">\[\begin{equation}
-\tag{6.2}
+\tag{8.2}
   g(X) = \text{ln} \bigg[ \frac{p(x)}{1 - p(x)} \bigg] = \beta_0 + \beta_1x
 \end{equation}\]</span></p>
 <p>The logit transformation exhibits several attractive properties of the linear regression model such as its linearity and interpretability, which we will come back to shortly.</p>
 </div>
 <div id="simple-logistic-regression" class="section level2">
-<h2><span class="header-section-number">6.3</span> Simple logistic regression</h2>
+<h2><span class="header-section-number">8.3</span> Simple logistic regression</h2>
 <p>We will fit two logistic regression models in order to predict the probability of an employee attriting. The first predicts the probability of attrition based on their monthly income (<code>MonthlyIncome</code>) and the second is based on whether or not the employee works overtime (<code>OverTime</code>). The <code>glm</code> function fits generalized linear models, a class of models that includes logistic regression. The syntax of the <code>glm</code> function is similar to that of <code>lm</code>, except that we must pass the argument <code>family = binomial</code> in order to tell R to run a logistic regression rather than some other type of generalized linear model.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">model1 &lt;-<span class="st"> </span><span class="kw">glm</span>(Attrition <span class="op">~</span><span class="st"> </span>MonthlyIncome, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> train)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">model2 &lt;-<span class="st"> </span><span class="kw">glm</span>(Attrition <span class="op">~</span><span class="st"> </span>OverTime, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> train)</a></code></pre></div>
-<p>In the background <code>glm</code>, uses <em>maximum likelihood</em> to fit the model. The basic intuition behind using maximum likelihood to fit a logistic regression model is as follows: we seek estimates for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> such that the predicted probability <span class="math inline">\(\hat p(x_i)\)</span> of attrition for each employee corresponds as closely as possible to the employee’s observed attrition status. In other words, we try to find <span class="math inline">\(\hat \beta_0\)</span> and <span class="math inline">\(\hat \beta_1\)</span> such that plugging these estimates into the model for <span class="math inline">\(p(x)\)</span> (Equation <a href="logistic-regression.html#eq:logistic">(6.1)</a>) yields a number close to one for all employees who attrited, and a number close to zero for all employees who did not. This intuition can be formalized using a mathematical equation called a <em>likelihood function</em>:</p>
+<pre class="sourceCode r"><code class="sourceCode r">model1 &lt;-<span class="st"> </span><span class="kw">glm</span>(Attrition <span class="op">~</span><span class="st"> </span>MonthlyIncome, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> train)
+model2 &lt;-<span class="st"> </span><span class="kw">glm</span>(Attrition <span class="op">~</span><span class="st"> </span>OverTime, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> train)</code></pre>
+<p>In the background <code>glm</code>, uses <em>maximum likelihood</em> to fit the model. The basic intuition behind using maximum likelihood to fit a logistic regression model is as follows: we seek estimates for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> such that the predicted probability <span class="math inline">\(\hat p(x_i)\)</span> of attrition for each employee corresponds as closely as possible to the employee’s observed attrition status. In other words, we try to find <span class="math inline">\(\hat \beta_0\)</span> and <span class="math inline">\(\hat \beta_1\)</span> such that plugging these estimates into the model for <span class="math inline">\(p(x)\)</span> (Equation <a href="logistic-regression.html#eq:logistic">(8.1)</a>) yields a number close to one for all employees who attrited, and a number close to zero for all employees who did not. This intuition can be formalized using a mathematical equation called a <em>likelihood function</em>:</p>
 <p><span class="math display" id="eq:max-like">\[\begin{equation}
-\tag{6.3}
+\tag{8.3}
   \ell(\beta_0, \beta_1) = \prod_{i:y_i=1}p(x_i) \prod_{i&#39;:y_i&#39;=0}(1-p(x_i&#39;))
 \end{equation}\]</span></p>
-<p>The estimates <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are chosen to <em>maximize</em> this likelihood function. Maximum likelihood is a very general approach that is used to fit many of the non-linear models that we will examine in future chapters. What results is the predicted probability of attrition. Figure <a href="logistic-regression.html#fig:glm-sigmoid">6.2</a> illustrates the predicted probablities for the two models.</p>
+<p>The estimates <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are chosen to <em>maximize</em> this likelihood function. Maximum likelihood is a very general approach that is used to fit many of the non-linear models that we will examine in future chapters. What results is the predicted probability of attrition. Figure <a href="logistic-regression.html#fig:glm-sigmoid">8.2</a> illustrates the predicted probablities for the two models.</p>
 <div class="figure" style="text-align: center"><span id="fig:glm-sigmoid"></span>
 <img src="abar_files/figure-html/glm-sigmoid-1.png" alt="Predicted probablilities of employee attrition based on monthly income (left) and overtime (right). As monthly income increases, `model1` predicts a decreased probability of attrition and if employees work overtime `model2` predicts an increased probability." width="768" />
 <p class="caption">
-Figure 6.2: Predicted probablilities of employee attrition based on monthly income (left) and overtime (right). As monthly income increases, <code>model1</code> predicts a decreased probability of attrition and if employees work overtime <code>model2</code> predicts an increased probability.
+Figure 8.2: Predicted probablilities of employee attrition based on monthly income (left) and overtime (right). As monthly income increases, <code>model1</code> predicts a decreased probability of attrition and if employees work overtime <code>model2</code> predicts an increased probability.
 </p>
 </div>
 <p>The below table shows the coefficient estimates and related information that result from fitting a logistic regression model in order to predict the probability of <em>Attrition = Yes</em> for our two models. Bear in mind that the coefficient estimates from logistic regression characterize the relationship between the predictor and response variable on a <em>log-odds</em> scale.</p>
-<p>Thus, we see that the <code>MonthlyIncome</code> <span class="math inline">\(\hat \beta_1 =\)</span> -1.144649210^{-4}. This indicates that an increase in <code>MonthlyIncome</code> is associated with a decrease in the probability of attrition. To be precise, a one-unit increase in <code>MonthlyIncome</code> is associated with a decrease in the log odds of attrition by -1.144649210^{-4} units. Similarly for <code>model2</code>, an employee that works <code>OverTime</code> has an increase of 1.3076258 logg odds of attrition.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">tidy</span>(model1)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">## # A tibble: 2 x 5</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">##   term           estimate std.error statistic  p.value</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">##   &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">## 1 (Intercept)   -0.984    0.152         -6.47 9.62e-11</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">## 2 MonthlyIncome -0.000114 0.0000244     -4.69 2.74e- 6</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw">tidy</span>(model2)</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">## # A tibble: 2 x 5</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">##   term        estimate std.error statistic  p.value</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">## 1 (Intercept)    -2.14     0.120    -17.9  2.21e-71</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">## 2 OverTimeYes     1.31     0.175      7.47 8.03e-14</a></code></pre></div>
+<p>Thus, we see that the <code>MonthlyIncome</code> <span class="math inline">\(\hat \beta_1 =\)</span> -1.144610^{-4}. This indicates that an increase in <code>MonthlyIncome</code> is associated with a decrease in the probability of attrition. To be precise, a one-unit increase in <code>MonthlyIncome</code> is associated with a decrease in the log odds of attrition by -1.144610^{-4} units. Similarly for <code>model2</code>, an employee that works <code>OverTime</code> has an increase of 1.3076 logg odds of attrition.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(model1)
+## # A tibble: 2 x 5
+##   term           estimate std.error statistic  p.value
+##   &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)   -0.984    0.152         -6.47 9.62e-11
+## 2 MonthlyIncome -0.000114 0.0000244     -4.69 2.74e- 6
+<span class="kw">tidy</span>(model2)
+## # A tibble: 2 x 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)    -2.14     0.120    -17.9  2.21e-71
+## 2 OverTimeYes     1.31     0.175      7.47 8.03e-14</code></pre>
 <p>Taking an exponential transformation of these coefficients converts them from log odds to odds. Furthermore, we can convert odds to a probability with <span class="math inline">\(\text{probability} = \frac{odds}{1 + odds}\)</span> Thus, for every one dollar increase in <code>MonthlyIncome</code>, the odds of an employee attriting decreases slightly, represented by a slightly less than 50% probability. Whereas an employee that works <code>OverTime</code> has nearly 4-1 odds of attriting over an employee that does not work <code>OverTime</code>, represented by an increased probability of 78.7%.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># convert to odds</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">exp</span>(<span class="kw">coef</span>(model1))</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">##   (Intercept) MonthlyIncome </a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">##     0.3739904     0.9998855</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">exp</span>(<span class="kw">coef</span>(model2))</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">## (Intercept) OverTimeYes </a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">##   0.1178248   3.6973851</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co"># convert to probability</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="kw">exp</span>(<span class="kw">coef</span>(model1)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="kw">coef</span>(model1)))</a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">##   (Intercept) MonthlyIncome </a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">##     0.2721929     0.4999714</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="kw">exp</span>(<span class="kw">coef</span>(model2)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="kw">coef</span>(model2)))</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">## (Intercept) OverTimeYes </a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">##   0.1054054   0.7871156</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># convert to odds</span>
+<span class="kw">exp</span>(<span class="kw">coef</span>(model1))
+##   (Intercept) MonthlyIncome 
+##        0.3740        0.9999
+<span class="kw">exp</span>(<span class="kw">coef</span>(model2))
+## (Intercept) OverTimeYes 
+##      0.1178      3.6974
+
+<span class="co"># convert to probability</span>
+<span class="kw">exp</span>(<span class="kw">coef</span>(model1)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="kw">coef</span>(model1)))
+##   (Intercept) MonthlyIncome 
+##        0.2722        0.5000
+<span class="kw">exp</span>(<span class="kw">coef</span>(model2)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="kw">coef</span>(model2)))
+## (Intercept) OverTimeYes 
+##      0.1054      0.7871</code></pre>
 <p>Many aspects of the coefficient output are similar to those discussed in the linear regression output. For example, we can measure the confidence intervals and accuracy of the coefficient estimates by computing their standard errors. For instance, both models’s <span class="math inline">\(\hat \beta_1\)</span> have a p-value &lt; 0.05 suggesting a strong probability that a relationship between these predictors and the probability of attrition exists. We can also use the standard errors to get confidence intervals as we did in the linear regression tutorial:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">confint</span>(model1)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">##                       2.5 %        97.5 %</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">## (Intercept)   -1.2812811971 -6.848677e-01</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">## MonthlyIncome -0.0001648285 -6.889915e-05</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw">confint</span>(model2)</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">##                  2.5 %    97.5 %</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">## (Intercept) -2.3807720 -1.910857</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">## OverTimeYes  0.9652939  1.652362</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(model1)
+##                    2.5 %     97.5 %
+## (Intercept)   -1.2812812 -0.6848677
+## MonthlyIncome -0.0001648 -0.0000689
+<span class="kw">confint</span>(model2)
+##               2.5 % 97.5 %
+## (Intercept) -2.3808 -1.911
+## OverTimeYes  0.9653  1.652</code></pre>
 </div>
 <div id="multiple-logistic-regression" class="section level2">
-<h2><span class="header-section-number">6.4</span> Multiple logistic regression</h2>
+<h2><span class="header-section-number">8.4</span> Multiple logistic regression</h2>
 <p>We can also extend our model as seen in Eq. 1 so that we can predict a binary response using multiple predictors where <span class="math inline">\(X = (X_1,\dots, X_p)\)</span> are <em>p</em> predictors:</p>
 <p><span class="math display" id="eq:multi-logistic">\[\begin{equation}
-\tag{6.4}
+\tag{8.4}
 p(X) = \frac{e^{\beta_0 + \beta_1X + \cdots + \beta_pX_p }}{1 + e^{\beta_0 + \beta_1X + \cdots + \beta_pX_p}} 
 \end{equation}\]</span></p>
-<p>Let’s go ahead and fit a model that predicts the probability of <code>Attrition</code> based on the <code>MonthlyIncome</code> and <code>OverTime</code>. Our results show that both features are statistically significant and Figure <a href="logistic-regression.html#fig:glm-sigmoid2">6.3</a> illustrates common trends between <code>MonthlyIncome</code> and <code>Attrition</code>; however, working <code>OverTime</code> tends to nearly double the probability of attrition.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">model3 &lt;-<span class="st"> </span><span class="kw">glm</span>(Attrition <span class="op">~</span><span class="st"> </span>MonthlyIncome <span class="op">+</span><span class="st"> </span>OverTime, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> train)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">tidy</span>(model3)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">## # A tibble: 3 x 5</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">##   term           estimate std.error statistic  p.value</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">##   &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">## 1 (Intercept)   -1.44     0.173         -8.32 9.00e-17</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">## 2 MonthlyIncome -0.000124 0.0000254     -4.88 1.06e- 6</a>
-<a class="sourceLine" id="cb7-8" data-line-number="8">## 3 OverTimeYes    1.36     0.179          7.61 2.75e-14</a></code></pre></div>
+<p>Let’s go ahead and fit a model that predicts the probability of <code>Attrition</code> based on the <code>MonthlyIncome</code> and <code>OverTime</code>. Our results show that both features are statistically significant and Figure <a href="logistic-regression.html#fig:glm-sigmoid2">8.3</a> illustrates common trends between <code>MonthlyIncome</code> and <code>Attrition</code>; however, working <code>OverTime</code> tends to nearly double the probability of attrition.</p>
+<pre class="sourceCode r"><code class="sourceCode r">model3 &lt;-<span class="st"> </span><span class="kw">glm</span>(Attrition <span class="op">~</span><span class="st"> </span>MonthlyIncome <span class="op">+</span><span class="st"> </span>OverTime, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> train)
+<span class="kw">tidy</span>(model3)
+## # A tibble: 3 x 5
+##   term           estimate std.error statistic  p.value
+##   &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)   -1.44     0.173         -8.32 9.00e-17
+## 2 MonthlyIncome -0.000124 0.0000254     -4.88 1.06e- 6
+## 3 OverTimeYes    1.36     0.179          7.61 2.75e-14</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:glm-sigmoid2"></span>
 <img src="abar_files/figure-html/glm-sigmoid2-1.png" alt="Predicted probability of attrition based on monthly income and whether or not employees work overtime." width="576" />
 <p class="caption">
-Figure 6.3: Predicted probability of attrition based on monthly income and whether or not employees work overtime.
+Figure 8.3: Predicted probability of attrition based on monthly income and whether or not employees work overtime.
 </p>
 </div>
 </div>
 <div id="assessing-model-accuracy-1" class="section level2">
-<h2><span class="header-section-number">6.5</span> Assessing model accuracy</h2>
+<h2><span class="header-section-number">8.5</span> Assessing model accuracy</h2>
 <p>With a basic understanding of logistic regression under our belt, similar to linear regression our concern now shifts to how well do our models predict. As in the last chapter, we will use <code>caret::train</code> and fit three 10-fold cross validated logistic regression models. Extracting the accuracy measures, we see that both <code>cv_model1</code> and <code>cv_model2</code> had an average accuracy of 83.89%. However, <code>cv_model3</code> which used all predictor variables in our data achieved an average accuracy rate of 86.3%.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">cv_model1 &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">  Attrition <span class="op">~</span><span class="st"> </span>MonthlyIncome, </a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">  <span class="dt">data =</span> train, </a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">  <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>,</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">cv_model2 &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
-<a class="sourceLine" id="cb8-12" data-line-number="12">  Attrition <span class="op">~</span><span class="st"> </span>MonthlyIncome <span class="op">+</span><span class="st"> </span>OverTime, </a>
-<a class="sourceLine" id="cb8-13" data-line-number="13">  <span class="dt">data =</span> train, </a>
-<a class="sourceLine" id="cb8-14" data-line-number="14">  <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</a>
-<a class="sourceLine" id="cb8-15" data-line-number="15">  <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>,</a>
-<a class="sourceLine" id="cb8-16" data-line-number="16">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb8-17" data-line-number="17">  )</a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb8-20" data-line-number="20">cv_model3 &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
-<a class="sourceLine" id="cb8-21" data-line-number="21">  Attrition <span class="op">~</span><span class="st"> </span>., </a>
-<a class="sourceLine" id="cb8-22" data-line-number="22">  <span class="dt">data =</span> train, </a>
-<a class="sourceLine" id="cb8-23" data-line-number="23">  <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,</a>
-<a class="sourceLine" id="cb8-24" data-line-number="24">  <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>,</a>
-<a class="sourceLine" id="cb8-25" data-line-number="25">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb8-26" data-line-number="26">  )</a>
-<a class="sourceLine" id="cb8-27" data-line-number="27"></a>
-<a class="sourceLine" id="cb8-28" data-line-number="28"><span class="co"># extract out of sample performance measures</span></a>
-<a class="sourceLine" id="cb8-29" data-line-number="29"><span class="kw">summary</span>(<span class="kw">resamples</span>(<span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb8-30" data-line-number="30">  <span class="dt">model1 =</span> cv_model1, </a>
-<a class="sourceLine" id="cb8-31" data-line-number="31">  <span class="dt">model2 =</span> cv_model2, </a>
-<a class="sourceLine" id="cb8-32" data-line-number="32">  <span class="dt">model3 =</span> cv_model3</a>
-<a class="sourceLine" id="cb8-33" data-line-number="33">  )))<span class="op">$</span>statistics<span class="op">$</span>Accuracy</a>
-<a class="sourceLine" id="cb8-34" data-line-number="34">##             Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA&#39;s</a>
-<a class="sourceLine" id="cb8-35" data-line-number="35">## model1 0.8349515 0.8353482 0.8365385 0.8388542 0.8431373 0.8446602    0</a>
-<a class="sourceLine" id="cb8-36" data-line-number="36">## model2 0.8349515 0.8353482 0.8365385 0.8388542 0.8431373 0.8446602    0</a>
-<a class="sourceLine" id="cb8-37" data-line-number="37">## model3 0.8058252 0.8389423 0.8585570 0.8631848 0.8949172 0.9134615    0</a></code></pre></div>
-<p>We can get greater understanding of our model’s performance by assessing the confusion matrix (see section <a href="unsupervised.html#reg-perf-eval">4.7.7</a>). We can use <code>train::confusionMatrix</code> to compute a confusion matrix. We need to supply our model’s predicted class and the actuals from our trainin data. Our confusion matrix provides a host of information. Particularly, we can see that although we do well predicting cases of non-attrition (note the high specificity), our model does particularly poor predicting actual cases of attrition (note the low sensitivity).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+cv_model1 &lt;-<span class="st"> </span><span class="kw">train</span>(
+  Attrition <span class="op">~</span><span class="st"> </span>MonthlyIncome, 
+  <span class="dt">data =</span> train, 
+  <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,
+  <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>,
+  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+  )
+
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+cv_model2 &lt;-<span class="st"> </span><span class="kw">train</span>(
+  Attrition <span class="op">~</span><span class="st"> </span>MonthlyIncome <span class="op">+</span><span class="st"> </span>OverTime, 
+  <span class="dt">data =</span> train, 
+  <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,
+  <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>,
+  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+  )
+
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+cv_model3 &lt;-<span class="st"> </span><span class="kw">train</span>(
+  Attrition <span class="op">~</span><span class="st"> </span>., 
+  <span class="dt">data =</span> train, 
+  <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,
+  <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>,
+  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+  )
+
+<span class="co"># extract out of sample performance measures</span>
+<span class="kw">summary</span>(<span class="kw">resamples</span>(<span class="kw">list</span>(
+  <span class="dt">model1 =</span> cv_model1, 
+  <span class="dt">model2 =</span> cv_model2, 
+  <span class="dt">model3 =</span> cv_model3
+  )))<span class="op">$</span>statistics<span class="op">$</span>Accuracy
+##          Min. 1st Qu. Median   Mean 3rd Qu.   Max.
+## model1 0.8350  0.8353 0.8365 0.8389  0.8431 0.8447
+## model2 0.8350  0.8353 0.8365 0.8389  0.8431 0.8447
+## model3 0.8058  0.8389 0.8586 0.8632  0.8949 0.9135
+##        NA&#39;s
+## model1    0
+## model2    0
+## model3    0</code></pre>
+<p>We can get greater understanding of our model’s performance by assessing the confusion matrix (see section <a href="fundamentalconcepts.html#reg-perf-eval">6.4.7</a>). We can use <code>train::confusionMatrix</code> to compute a confusion matrix. We need to supply our model’s predicted class and the actuals from our trainin data. Our confusion matrix provides a host of information. Particularly, we can see that although we do well predicting cases of non-attrition (note the high specificity), our model does particularly poor predicting actual cases of attrition (note the low sensitivity).</p>
 <div class="tip">
 <p>
 By default the <code>predict</code> function predicts the response class for a <strong>caret</strong> model; however, you can change the <code>type</code> argument to predict the probabilities (see <code>?predict.train</code>).
 </p>
 </div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># predict class</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">pred_class &lt;-<span class="st"> </span><span class="kw">predict</span>(cv_model3, train)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># create confusion matrix</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw">confusionMatrix</span>(<span class="kw">relevel</span>(pred_class, <span class="dt">ref =</span> <span class="st">&quot;Yes&quot;</span>), <span class="kw">relevel</span>(train<span class="op">$</span>Attrition, <span class="dt">ref =</span> <span class="st">&quot;Yes&quot;</span>))</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">## Confusion Matrix and Statistics</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">## </a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">##           Reference</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9">## Prediction Yes  No</a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">##        Yes  79  33</a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">##        No   87 831</a>
-<a class="sourceLine" id="cb9-12" data-line-number="12">##                                           </a>
-<a class="sourceLine" id="cb9-13" data-line-number="13">##                Accuracy : 0.8835          </a>
-<a class="sourceLine" id="cb9-14" data-line-number="14">##                  95% CI : (0.8623, 0.9025)</a>
-<a class="sourceLine" id="cb9-15" data-line-number="15">##     No Information Rate : 0.8388          </a>
-<a class="sourceLine" id="cb9-16" data-line-number="16">##     P-Value [Acc &gt; NIR] : 3.051e-05       </a>
-<a class="sourceLine" id="cb9-17" data-line-number="17">##                                           </a>
-<a class="sourceLine" id="cb9-18" data-line-number="18">##                   Kappa : 0.5039          </a>
-<a class="sourceLine" id="cb9-19" data-line-number="19">##  Mcnemar&#39;s Test P-Value : 1.310e-06       </a>
-<a class="sourceLine" id="cb9-20" data-line-number="20">##                                           </a>
-<a class="sourceLine" id="cb9-21" data-line-number="21">##             Sensitivity : 0.4759          </a>
-<a class="sourceLine" id="cb9-22" data-line-number="22">##             Specificity : 0.9618          </a>
-<a class="sourceLine" id="cb9-23" data-line-number="23">##          Pos Pred Value : 0.7054          </a>
-<a class="sourceLine" id="cb9-24" data-line-number="24">##          Neg Pred Value : 0.9052          </a>
-<a class="sourceLine" id="cb9-25" data-line-number="25">##              Prevalence : 0.1612          </a>
-<a class="sourceLine" id="cb9-26" data-line-number="26">##          Detection Rate : 0.0767          </a>
-<a class="sourceLine" id="cb9-27" data-line-number="27">##    Detection Prevalence : 0.1087          </a>
-<a class="sourceLine" id="cb9-28" data-line-number="28">##       Balanced Accuracy : 0.7189          </a>
-<a class="sourceLine" id="cb9-29" data-line-number="29">##                                           </a>
-<a class="sourceLine" id="cb9-30" data-line-number="30">##        &#39;Positive&#39; Class : Yes             </a>
-<a class="sourceLine" id="cb9-31" data-line-number="31">## </a></code></pre></div>
-<p>One thing to point out, in the confusion matrix above you will note the metric <code>No Information Rate: 0.8388</code>. This represents the ratio of non-attrition versus attrition in our trainin data (<code>table(train$Attrition) %&gt;% prop.table()</code>). Consequently, if we simply predicted “No” for every employee we would still get an accuracy rate of 83.88%. Therefore, our goal is to maximize our accuracy rate over and above this no information benchmark while also trying to balance sensitivity and specificity. To understand how well we are achieving this we can visualize the ROC curve (section <a href="unsupervised.html#reg-perf-eval">4.7.7</a>). If we compare our simple model (<code>cv_model1</code>) to our full model <code>cv_model3</code>, we can see that we the lift achieved with the more accurate model.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">library</span>(ROCR)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co"># create predicted probabilities</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">m1_prob &lt;-<span class="st"> </span><span class="kw">predict</span>(cv_model1, train, <span class="dt">type =</span> <span class="st">&quot;prob&quot;</span>)<span class="op">$</span>Yes</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">m3_prob &lt;-<span class="st"> </span><span class="kw">predict</span>(cv_model3, train, <span class="dt">type =</span> <span class="st">&quot;prob&quot;</span>)<span class="op">$</span>Yes</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co"># compute AUC metrics for cv_model1 and cv_model3</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">perf1 &lt;-<span class="st"> </span><span class="kw">prediction</span>(m1_prob, train<span class="op">$</span>Attrition) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="st">  </span><span class="kw">performance</span>(<span class="dt">measure =</span> <span class="st">&quot;tpr&quot;</span>, <span class="dt">x.measure =</span> <span class="st">&quot;fpr&quot;</span>)</a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11">perf2 &lt;-<span class="st"> </span><span class="kw">prediction</span>(m3_prob, train<span class="op">$</span>Attrition) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="st">  </span><span class="kw">performance</span>(<span class="dt">measure =</span> <span class="st">&quot;tpr&quot;</span>, <span class="dt">x.measure =</span> <span class="st">&quot;fpr&quot;</span>)</a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co"># plot both ROC curves for cv_model1 and cv_model3</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="kw">plot</span>(perf1, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="kw">plot</span>(perf2, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="kw">legend</span>(.<span class="dv">8</span>, <span class="fl">.2</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;cv_model1&quot;</span>, <span class="st">&quot;cv_model3&quot;</span>),</a>
-<a class="sourceLine" id="cb10-19" data-line-number="19">       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="dt">lty =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">cex =</span> <span class="fl">0.6</span>)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-3"></span>
-<img src="abar_files/figure-html/unnamed-chunk-3-1.png" alt="ROC curve for `cv_model1` and `cv_model3`. The increase in the AUC represents the 'lift' that we achieve with `cv_model3`." width="576" />
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># predict class</span>
+pred_class &lt;-<span class="st"> </span><span class="kw">predict</span>(cv_model3, train)
+
+<span class="co"># create confusion matrix</span>
+<span class="kw">confusionMatrix</span>(<span class="kw">relevel</span>(pred_class, <span class="dt">ref =</span> <span class="st">&quot;Yes&quot;</span>), <span class="kw">relevel</span>(train<span class="op">$</span>Attrition, <span class="dt">ref =</span> <span class="st">&quot;Yes&quot;</span>))
+## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction Yes  No
+##        Yes  79  33
+##        No   87 831
+##                                         
+##                Accuracy : 0.883         
+##                  95% CI : (0.862, 0.902)
+##     No Information Rate : 0.839         
+##     P-Value [Acc &gt; NIR] : 3.05e-05      
+##                                         
+##                   Kappa : 0.504         
+##  Mcnemar&#39;s Test P-Value : 1.31e-06      
+##                                         
+##             Sensitivity : 0.4759        
+##             Specificity : 0.9618        
+##          Pos Pred Value : 0.7054        
+##          Neg Pred Value : 0.9052        
+##              Prevalence : 0.1612        
+##          Detection Rate : 0.0767        
+##    Detection Prevalence : 0.1087        
+##       Balanced Accuracy : 0.7189        
+##                                         
+##        &#39;Positive&#39; Class : Yes           
+## </code></pre>
+<p>One thing to point out, in the confusion matrix above you will note the metric <code>No Information Rate: 0.8388</code>. This represents the ratio of non-attrition versus attrition in our trainin data (<code>table(train$Attrition) %&gt;% prop.table()</code>). Consequently, if we simply predicted “No” for every employee we would still get an accuracy rate of 83.88%. Therefore, our goal is to maximize our accuracy rate over and above this no information benchmark while also trying to balance sensitivity and specificity. To understand how well we are achieving this we can visualize the ROC curve (section <a href="fundamentalconcepts.html#reg-perf-eval">6.4.7</a>). If we compare our simple model (<code>cv_model1</code>) to our full model <code>cv_model3</code>, we can see that we the lift achieved with the more accurate model.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ROCR)
+
+<span class="co"># create predicted probabilities</span>
+m1_prob &lt;-<span class="st"> </span><span class="kw">predict</span>(cv_model1, train, <span class="dt">type =</span> <span class="st">&quot;prob&quot;</span>)<span class="op">$</span>Yes
+m3_prob &lt;-<span class="st"> </span><span class="kw">predict</span>(cv_model3, train, <span class="dt">type =</span> <span class="st">&quot;prob&quot;</span>)<span class="op">$</span>Yes
+
+<span class="co"># compute AUC metrics for cv_model1 and cv_model3</span>
+perf1 &lt;-<span class="st"> </span><span class="kw">prediction</span>(m1_prob, train<span class="op">$</span>Attrition) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">performance</span>(<span class="dt">measure =</span> <span class="st">&quot;tpr&quot;</span>, <span class="dt">x.measure =</span> <span class="st">&quot;fpr&quot;</span>)
+
+perf2 &lt;-<span class="st"> </span><span class="kw">prediction</span>(m3_prob, train<span class="op">$</span>Attrition) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">performance</span>(<span class="dt">measure =</span> <span class="st">&quot;tpr&quot;</span>, <span class="dt">x.measure =</span> <span class="st">&quot;fpr&quot;</span>)
+
+<span class="co"># plot both ROC curves for cv_model1 and cv_model3</span>
+<span class="kw">plot</span>(perf1, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">plot</span>(perf2, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
+
+<span class="kw">legend</span>(.<span class="dv">8</span>, <span class="fl">.2</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;cv_model1&quot;</span>, <span class="st">&quot;cv_model3&quot;</span>),
+       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="dt">lty =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">cex =</span> <span class="fl">0.6</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-82"></span>
+<img src="abar_files/figure-html/unnamed-chunk-82-1.png" alt="ROC curve for `cv_model1` and `cv_model3`. The increase in the AUC represents the 'lift' that we achieve with `cv_model3`." width="576" />
 <p class="caption">
-Figure 6.4: ROC curve for <code>cv_model1</code> and <code>cv_model3</code>. The increase in the AUC represents the ‘lift’ that we achieve with <code>cv_model3</code>.
+Figure 8.4: ROC curve for <code>cv_model1</code> and <code>cv_model3</code>. The increase in the AUC represents the ‘lift’ that we achieve with <code>cv_model3</code>.
 </p>
 </div>
 <p>Similar to linear regression, we can perform a PLS logistic regression to assess if reducing the dimension of our numeric predictors helps to achieve improved accuracy. There are 16 numeric features in our data set so the following performs a 10-fold cross-validated PLS model while tuning the number of principal components to use from 1-16. The optimal model uses 14 principal components, which is not reducing the dimension by much. However, the mean accuracy of 0.866 was only marginally better than the average CV accuracy of <code>cv_model3</code> (0.863), likely within the margin of error.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># perform 10-fold cross validation on a PLS model tuning the number of</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co"># principal components to use as predictors from 1-20</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">cv_model_pls &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">  Attrition <span class="op">~</span><span class="st"> </span>., </a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">  <span class="dt">data =</span> train, </a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">  <span class="dt">method =</span> <span class="st">&quot;pls&quot;</span>,</a>
-<a class="sourceLine" id="cb11-8" data-line-number="8">  <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>,</a>
-<a class="sourceLine" id="cb11-9" data-line-number="9">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb11-10" data-line-number="10">  <span class="dt">preProcess =</span> <span class="kw">c</span>(<span class="st">&quot;zv&quot;</span>, <span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),</a>
-<a class="sourceLine" id="cb11-11" data-line-number="11">  <span class="dt">tuneLength =</span> <span class="dv">16</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12">  )</a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co"># model with lowest RMSE</span></a>
-<a class="sourceLine" id="cb11-15" data-line-number="15">cv_model_pls<span class="op">$</span>bestTune</a>
-<a class="sourceLine" id="cb11-16" data-line-number="16">##    ncomp</a>
-<a class="sourceLine" id="cb11-17" data-line-number="17">## 14    14</a>
-<a class="sourceLine" id="cb11-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb11-19" data-line-number="19"><span class="co"># plot cross-validated RMSE</span></a>
-<a class="sourceLine" id="cb11-20" data-line-number="20"><span class="kw">plot</span>(cv_model_pls)</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># perform 10-fold cross validation on a PLS model tuning the number of</span>
+<span class="co"># principal components to use as predictors from 1-20</span>
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+cv_model_pls &lt;-<span class="st"> </span><span class="kw">train</span>(
+  Attrition <span class="op">~</span><span class="st"> </span>., 
+  <span class="dt">data =</span> train, 
+  <span class="dt">method =</span> <span class="st">&quot;pls&quot;</span>,
+  <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>,
+  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),
+  <span class="dt">preProcess =</span> <span class="kw">c</span>(<span class="st">&quot;zv&quot;</span>, <span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),
+  <span class="dt">tuneLength =</span> <span class="dv">16</span>
+  )
+
+<span class="co"># model with lowest RMSE</span>
+cv_model_pls<span class="op">$</span>bestTune
+##    ncomp
+## 14    14
+
+<span class="co"># plot cross-validated RMSE</span>
+<span class="kw">plot</span>(cv_model_pls)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:pls-logistic-regression"></span>
 <img src="abar_files/figure-html/pls-logistic-regression-1.png" alt="The 10-fold cross valdation RMSE obtained using PLS with 1-16 principal components." width="576" />
 <p class="caption">
-Figure 6.5: The 10-fold cross valdation RMSE obtained using PLS with 1-16 principal components.
+Figure 8.5: The 10-fold cross valdation RMSE obtained using PLS with 1-16 principal components.
 </p>
 </div>
 </div>
-<div id="model-interpretation" class="section level2">
-<h2><span class="header-section-number">6.6</span> Model interpretation</h2>
-<p>Similar to linear regression, once our preferred logistic regression model is identified, next we need to interpret how the features are influencing the results. As with normal linear regression models, variable importance for logistic regression models are computed with the absolute value of the <em>t</em>-statistic for each model parameter is used. Using <code>vip</code> we can extract our top 20 influential variables. Figure <a href="logistic-regression.html#fig:glm-vip">6.6</a> illustrates that <code>OverTime</code> is the most influential followed by <code>JobSatisfaction</code>, <code>NumCompaniesWorked</code>, and <code>EnvironmentSatisfaction</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">vip</span>(cv_model3, <span class="dt">num_features =</span> <span class="dv">20</span>)</a></code></pre></div>
+<div id="feature-interpretation" class="section level2">
+<h2><span class="header-section-number">8.6</span> Feature interpretation</h2>
+<p>Similar to linear regression, once our preferred logistic regression model is identified, next we need to interpret how the features are influencing the results. As with normal linear regression models, variable importance for logistic regression models are computed with the absolute value of the <em>t</em>-statistic for each model parameter is used. Using <code>vip</code> we can extract our top 20 influential variables. Figure <a href="logistic-regression.html#fig:glm-vip">8.6</a> illustrates that <code>OverTime</code> is the most influential followed by <code>JobSatisfaction</code>, <code>NumCompaniesWorked</code>, and <code>EnvironmentSatisfaction</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vip</span>(cv_model3, <span class="dt">num_features =</span> <span class="dv">20</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:glm-vip"></span>
 <img src="abar_files/figure-html/glm-vip-1.png" alt="Top 20 most important variables for the PLS model." width="672" />
 <p class="caption">
-Figure 6.6: Top 20 most important variables for the PLS model.
+Figure 8.6: Top 20 most important variables for the PLS model.
 </p>
 </div>
-<p>Similar to linear regression, logistic regression assumes a monotonic linear relationship. However, the linear relationship is in the form of a log-odds probability; therefore, the regular probability relationship will have a curvilinear effect. This is illustrated in Figure <a href="logistic-regression.html#fig:glm-pdp">6.7</a> by the change in predicted probability of attrition associated with the marginal change in the number of companies an employee has work for (<code>NumCompaniesWorked</code>). Employees that have experienced more employment changes tend to have a high probability of making another future change.</p>
+<p>Similar to linear regression, logistic regression assumes a monotonic linear relationship. However, the linear relationship is in the form of a log-odds probability; therefore, the regular probability relationship will have a curvilinear effect. This is illustrated in Figure <a href="logistic-regression.html#fig:glm-pdp">8.7</a> by the change in predicted probability of attrition associated with the marginal change in the number of companies an employee has work for (<code>NumCompaniesWorked</code>). Employees that have experienced more employment changes tend to have a high probability of making another future change.</p>
 <p>Furthermore, the partial dependence plots for the three top categorical predictors (<code>OverTime</code>, <code>JobSatisfaction</code>, and <code>EnvironmentSatisfaction</code>) illustrate the change in predicted probability of attrition based on the employee’s status for each predictor.</p>
 <div class="tip">
 <p>
@@ -577,19 +624,19 @@ See the supplemental material at [<a href="https://github.com/koalaverse/abar" c
 <div class="figure" style="text-align: center"><span id="fig:glm-pdp"></span>
 <img src="abar_files/figure-html/glm-pdp-1.png" alt="Partial dependence plots for the first four most important variables.  We can see how the predicted probability of attrition changes for each value of the influential predictors." width="672" />
 <p class="caption">
-Figure 6.7: Partial dependence plots for the first four most important variables. We can see how the predicted probability of attrition changes for each value of the influential predictors.
+Figure 8.7: Partial dependence plots for the first four most important variables. We can see how the predicted probability of attrition changes for each value of the influential predictors.
 </p>
 </div>
 </div>
 <div id="final-thoughts-1" class="section level2">
-<h2><span class="header-section-number">6.7</span> Final thoughts</h2>
+<h2><span class="header-section-number">8.7</span> Final thoughts</h2>
 <p>Logistic regression is a natural starting point for learning predictive models for classification purposes due to its similarity to linear regression. Later chapters will build on the concepts illustrated in this chapter and will compare cross-validated performance results to identify the best predictive model for our employee attrition problem. The following summarizes some of the advantages and disadvantages discussed regarding logistic regression.</p>
 <p><strong>FIXME: refine this section</strong></p>
 <p><strong>Advantages</strong>:</p>
 <p><strong>Disadvantages</strong>:</p>
 </div>
 <div id="learning-more-1" class="section level2">
-<h2><span class="header-section-number">6.8</span> Learning more</h2>
+<h2><span class="header-section-number">8.8</span> Learning more</h2>
 <p>This will get you up and running with logistic regression. Keep in mind that there is a lot more you can dig into so the following resources will help you learn more:</p>
 <ul>
 <li><a href="http://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning</a></li>
@@ -602,7 +649,7 @@ Figure 6.7: Partial dependence plots for the first four most important variables
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-faraway2016extending">
-<p>Faraway, Julian J. 2016. <em>Extending the Linear Model with R: Generalized Linear, Mixed Effects and Nonparametric Regression Models</em>. Vol. 124. CRC press.</p>
+<p>Faraway, Julian J. 2016a. <em>Extending the Linear Model with R: Generalized Linear, Mixed Effects and Nonparametric Regression Models</em>. Vol. 124. CRC press.</p>
 </div>
 </div>
             </section>
@@ -614,13 +661,13 @@ Figure 6.7: Partial dependence plots for the first four most important variables
 <a href="regularized-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
