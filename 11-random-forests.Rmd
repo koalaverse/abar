@@ -16,25 +16,44 @@ knitr::opts_chunk$set(
 )
 ```
 
-The previous chapters covered parametric models where the algorithm is based on estimated parameters (i.e. coefficients). ___Tree-based models___, however, are non-parametric models and work by stratifying and segmenting the predictor space into a number of smaller regions based on a set of splitting rules. Simpler tree-based methods such as decision trees can be easy to interpret; however, typically lack predictive performance.  More sophisticated tree-based models such as random forests and gradient boosting machines become more complex, are less intutititve, but tend to have very good predictive accuracy. This chapter will get you familiar with the idea of decision trees, bagging, and random forests.  In the next chapter we cover gradient boosting machines, which is a further extension of decision trees. 
+The previous chapters covered models where the algorithm is based on a linear expansions in simple basis functions of the form 
 
+$$
+  \sum_{i=1}^p\beta_ih_i\left(\boldsymbol{x}\right),
+  (\#eq:linear-combo)
+$$
+
+where the $\beta_i$ are unknown coefficients to be estimated and the $h_i\left(\cdot\right)$ are transformations applied to the features $\boldsymbol{x}$. For ordinalry linear regression (with or without regularization), these transformations are supplied by the user; hence, these are parametric models. For example, the prediction equation $f\left(\boldsymbol{x}\right) = \beta_0 + \beta_1x_1 + \beta_2x_2 + \beta_3x_1x_2 + \beta_4x_1^2$ has
+
+$$h_1\left(\boldsymbol{x}\right) = x_1 \quad \text{(main effect})$$
+
+$$h_2\left(\boldsymbol{x}\right) = x_2 \quad \text{(main effect})$$
+
+$$h_3\left(\boldsymbol{x}\right) = x_2x_4 \quad \text{(two-way interaction effect)}$$
+
+$$h_2\left(\boldsymbol{x}\right) = x_2^2 \quad \text{(quadratic effect})$$
+
+MARS, on the other hand, uses a specific algorithm to find the transformations to use automatically; hence, MARS is a nonparametric model. 
+
+*Tree-based models*, are also nonparametric, but they work very differently. Tree-based models use algorithms to partition the feature space into a number of smaller (non-overlapping) regions based on a set of splitting rules and then fits a simpler model (e.g., a constant) in each region. Such *divide-and-conquor* methods (e.g., a single decision tree) can produce simple rules that are easy to interpret and visualize with *tree diagrams*. Although fitted tree-based models can still be written as a linear expansions in simple basis functions (here the basis functions define the feature space partitioning), there is no benfit to doing so as other techniques, like *tree diagrams*, are better and conveying the information. Simple decision trees typically lack in predictive performance compared to more complex algorithms like neural networks and MARS. More sophisticated tree-based models, such as random forests and gradient boosting machines, are less interpretable, but tend to have very good predictive accuracy. This chapter will get you familiar with the basics behind decision trees, and two ways inwhich to combine them into a more accurate ensemble; namely, bagging and random forests. In the next chapter, we'll cover (stochastic) gradient boosting machines, which is another powerful way of combining decision trees into a more accurate ensemble. 
 
 
 ## Prerequisites
 
-For this chapter we will use the following packages:
+For this chapter we'll use the following packages:
 
-```{r rf-ch11-pkgs}
-library(rsample)      # data splitting 
-library(randomForest) # basic implementation
-library(ranger)       # a faster implementation of randomForest
-library(caret)        # automating the tuning process
-library(vip)          # plotting feature interpretation
-library(pdp)          # plotting feature interpretation
+```{r 11-load-pkgs}
+library(caret)         # for classification and regression training
+library(randomForest)  # for Breiman and Cutler's random forest
+library(ranger)        # for fast implementation of random forests
+library(rpart)         # for fitting CART-like decision trees
+library(rpart.plot)    # for flexible decision tree diagrams
+library(rsample)       # for data splitting 
+library(pdp)           # for partial dependence plots
+library(vip)           # for variable importance plots
 ```
 
-
-To illustrate the various modeling concepts we will use the Ames Housing data; however, at the end of the chapter we will also apply a random forest model to the employee attrition data.
+To illustrate the various concepts we'll use the Ames Housing data (regression); however, at the end of the chapter we'll also apply fit a random forest model to the employee attrition data (classification).
 
 ```{r rf-ch11-data}
 # Create training (70%) and test (30%) sets for the AmesHousing::make_ames() data.
@@ -47,66 +66,168 @@ ames_test  <- testing(ames_split)
 ```
 
 
-## The basic idea
+## Decision trees
 
-### Decision trees
+There are many methodologies for constructing decision trees but the most well-known is the **c**lassification **a**nd **r**egression **t**ree (CART&copy;) algorithm proposed in @breiman2017classification. Basic decision trees partition the training data into homogenious subgroups and then fit a simple *constant* in each (e.g., the mean of the within group response values for regression). The partitioning is achieved by recursive binary partitions formed by asking yes-or-no questions about each feature (e.g., is `age < 18`?). This is done a number of times until a suitable stopping critera is satiscfied (e.g., a maximum depth of the tree is reached). After all the partitioning has been done, the model predicts the output based on (1) the average response values for all observations that fall in that subgroup (regression problem), or (2) the class that has majority representation (classification problem). For classification, predicted probabilites can be obtained using the proportion of each class within the subgroups.
 
-There are many methodologies for constructing decision trees but one of the oldest is known as the **c**lassification **a**nd **r**egression **t**ree (CART) approach developed by @breiman2017classification. Basic regression trees _partition_ a data set into smaller subgroups and then fit a simple _constant_ for each observation in the subgroup.  The partitioning is achieved by successive binary partitions (aka _recursive partitioning_) based on the different predictors. After partitioning has been performed, the model predicts the output based on the average response values for all observations that fall in that subgroup (regression problem) or based on the class that has majority representation (classification problem). 
-
-For example, consider we want to predict the miles per gallon a car will average based on cylinders (cyl) and horsepower (hp). All observations go through this tree, are assessed at a particular node, and proceed to the left if the answer is "yes" or proceed to the right if the answer is "no".  So, first, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch.  Next, the left branch is further partitioned by horsepower.  Those 6 or 8 cylinder observations with horsepower equal to or greater than 192 proceed to the left branch; those with less than 192 hp proceed to the right.  These branches lead to _terminal nodes_ or _leafs_ which contain our predicted response value.  Basically, all observations (cars in this example) that do not have 6 or 8 cylinders (far right branch) average 27 mpg.  All observations that have 6 or 8 cylinders and have more than 192 hp (far left branch) average 13 mpg.
-
-```{r rf-decision-tree-example-image, echo=FALSE, fig.cap="Predicting mpg based on cyl & hp using a simple decision tree.", out.height="70%", out.width="70%"}
-knitr::include_graphics("illustrations/ex_regression_tree.png")
+```{block, type="tip"}
+The basic idea behind decision trees is to ask simple yes-or-no questions about each feature in order partion the training data into subgroups with similar response rates. Ideally, the repsonses within each subgroup will be as similar or homegenous as possible, while responses across subgroups will be as different or as heterogenous as possible.
 ```
 
-This simple example can be generalized to state we have a given response variable $Y$ and two inputs $X_1$ and $X_2$.  The recursive partitioning results in three regions ($R_1, R_2, R_3$) where the model predicts *Y* with a constant $c_m$ for region $R_m$:
 
-\begin{equation}
-(\#eq:regression_tree)
-  \hat f(X) = \sum^3_{m=1} c_mI{(X_1, X_2) \in R_m},
-\end{equation}
+### A simple regression tree example
 
-However, an important question remains of how to grow a decision tree.
+For example, suppose we want to use a decision tree to predict the miles per gallon a car will average (`mpg`) based on two features: the number of cylinders (`cyl`) and the horsepower (`hp`); such data are available in the `mtcars` data frame which is part of the standard **datasets** package. A (regression) tree is built using the **rpart** package [@R-rpart] (see the code chunk below and Figure \@ref(rf-decision-tree-example-image) which was produced using the **rpart.plot** package [@R-rpart.plot]), and all the training data are passed down this tree. Whenever an obervation reaches a partiular node in the tree (i.e., a yes-or-no question about one of the features; in this case, `cyl` or `hp`), it proceeds either to the left (if the answer is "yes") or to the right (if the answer is "no"). This tree has only three terminal nodes. To start traversing the tree, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch. Next, the left branch is further partitioned by `hp`. Of all the observations with 6 or 8 cylinders with `hp` equal to or greater than 192 proceed to the left branch; those with less than 192 `hp` proceed to the right.  These branches lead to *terminal nodes* or *leafs* which contain the predicted response value; in this case, the average mpg of cars that fall within that terminal node. In short, cars with less than 5 cylinders (region $R_1$) average 27 mpg, cars with `cyl` $\ge 5$ and `hp` $< 193$ (region $R_2$) average 18 mpg, and all other cars (region $R_3$) in the training data average 13 mph. This is sumamrized in the tree diagram in Figure \@ref(fig:decision-tree-example)
+
+```{r rf-decision-tree-example, echo=TRUE, fig.cap="Using a CART-like decision tree to predict `mpg` based on `cyl` and `hp`.", fig.width=6, fig.asp=0.618, out.width="70%"}
+tree <- rpart(mpg ~ cyl + hp, data = mtcars)  # CART-like regression tree
+rpart.plot(tree)  # tree diagram
+```
+
+Using a linear combination in simple basis functions, we can write the predicted `mpg` as
+
+$$
+\widehat{mpg} = 27 \cdot I\left(cyl < 5\right) + 18 \cdot I\left(cyl \ge 5 \text{ and } hp < 193 \right) + 13 \cdot I\left(cyl \ge 5 \text{ and } hp \ge 193\right),
+$$
+
+where $I\left(\cdot\right)$ is an *indicator function* that evaluates to one if its argument is true and zero otherwise. The coefficients (i.e., 27, 18, 13) correspond to the average response value within the respective region. While this simple example illustrates that decision trees are estimating a model of the same form as equation \@ref(eq:linear-combo), the results are more easily interpreted in the form of a tree diagram like in Figure \@ref(fig:decision-tree-example).
+
 
 ### Deciding on splits
 
-First, its important to realize the partitioning of variables are done in a top-down, _greedy_ fashion.  This just means that a partition performed earlier in the tree will not change based on later partitions.  But how are these partions made?  The model begins with the entire data set, *S*, and searches every distinct value of every input variable to find the predictor and split value that partitions the data into two regions ($R_1$ and $R_2$) such that the overall error is minimized (typically MSE for regression problems and Cross-entropy or Gini index for classification problems - see Section \@ref(reg-perf-eval)).
+**FIXME:** Continue with the previous example?
 
-Having found the best split, we partition the data into the two resulting regions and repeat the splitting process on each of the two regions.  This process is continued until some stopping criterion is reached.  What results is, typically, a very deep, complex tree that may produce good predictions on the training set, but is likely to overfit the data, leading to poor performance on unseen data.  
+How do decision trees partition the data into nonoverlapping regions? In particular, how did the tree in Figure \@ref(fig:decision-tree-example) decide which variables to split on and which split points to use? The answer depends on the tree algorithm used and therther or not context is classification or regression. For CART-like decision trees (like those discussed in this book and implemented in **rpart**), the partitioning of the feature space is done in a top-down, *greedy* fashion. This means that any partion in the tree depends on the previous partitions. But how are these partions made? The algorithm begins with the entire training data set and searches every distinct value of every input variable to find the "best" feature/split combination that partitions the data into two regions ($R_1$ and $R_2$) such that the overall error is minimized (typically, SSE for regression problems, and cross-entropy or the Gini index for classification problems--see Section \@ref(reg-perf-eval)). Having found the best feature/split combination, the data are partitioned into two regions and the splitting process is repeated on each of the two regions (hence the name *binary **r**ecursive **part**ioning*. This process is continued until some stopping criterion is reached (e.g., a mxaimu depth is reached or the tree becomes "too complex"). What results is, typically, a very deep, complex tree that may produce good predictions on the training set, but is likely to generalize well to new unseen data (i.e., overfitting), leading to poor generalization performance.  
 
-For example, using the well-known Boston housing data set [@harrison1978hedonic], three decision trees are created based on three different samples of the data.  You can see that the first few partitions are fairly similar at the top of each tree; however, they tend to differ substantially closer to the terminal nodes. These deeper nodes tend to overfit to specific attributes of the sample data; consequently, slightly different samples will result in highly variable predicted values in the terminal nodes.  
+To illustrate, we print the struture of the previous regression tree below. 
 
-```{r rf-tree-variance-image, echo=FALSE, fig.cap="Three decision trees based on slightly different samples.", out.height="70%", out.width="70%"}
-knitr::include_graphics("illustrations/tree-variance-1.svg")
+```{r rf-mtcars-partitioning}
+print(tree)
 ```
 
-### Bagging
+The root node refers to all of the training data. In this node, the mean response is `r mean(mtcars$mpg)` and the SSE is 
 
-Although pruning the tree helps reduce this variance[^prune], there are alternative methods that actually exploite the variability of single trees in a way that can significantly improve performance over and above that of single trees. _Bootstrap aggregating_ (_bagging_) is one such approach originally proposed by @breiman1996bagging. 
+```{r rf-mtcars-sse-01}
+sse <- function(x) sum((x - mean(x))^2)
+sse(mtcars$mpg)  # see the row labeled 1)
+```
 
-Bagging combines and averages multiple models.[^ensemble]  Averaging across multiple trees reduces the variability of any one tree and reduces overfitting, which improves predictive performance.  Bagging follows three simple steps:
+The feature/splint combination that gives the largest rediction to this SSE is defined by the regions `cyl>=5` and `cyl< 5`. The resulting SSEs within these regions are 
 
-1. Create *m* bootstrap samples (Section \@ref(bootstrap)) from the training data. Bootstrapped samples allow us to create many slightly different data sets but with the same distribution as the overall training set.
-2. For each bootstrap sample, train a single, unpruned decision tree.
-3. Average individual predictions from each tree to create an overall average predicted value.
+```{r rf-mtcars-sse-02}
+sse(mtcars[mtcars$cyl >= 5, ]$mpg)  # see the row labeled 2)
+sse(mtcars[mtcars$cyl <  5, ]$mpg)  # see the row labeled 3)
+```
+
+The algorithm further split the region defined by `cyl>=5` into to further regions. The feature/split combination that gave the biggest reduction to that node's SSE (i.e., 198.47240) is defined by the regions `hp>=192.5` and `hp< 192.5`. The resulting SSEs within these regions are
+
+```{r rf-mtcars-sse-03}
+sse(mtcars[mtcars$cyl >= 5 & mtcars$hp >= 192.5, ]$mpg)  # see the row labeled 4)
+sse(mtcars[mtcars$cyl >= 5 & mtcars$hp <  192.5, ]$mpg)  # see the row labeled 5)
+```
+
+At this point, a stopping criteria was reached (in this case, the minimum number of observations that must exist in a node in order for a split to be attempted) and the tree algorithm stopped partitioning the data. For a list of all the stopping criteria, see `?rpart::rpart.control`.
+
+<!-- For example, using the well-known Boston housing data [@harrison1978hedonic], three decision trees are created based on three different samples of the data.  You can see that the first few partitions are fairly similar at the top of each tree; however, they tend to differ substantially closer to the terminal nodes. These deeper nodes tend to overfit to specific attributes of the training data; consequently, slightly different samples will result in highly variable predicted values in the terminal nodes. For this reason, CART-like decision tree algorithms are often considered high variance (i.e., noisy) models fitting procedures.  -->
+
+<!-- **FIXME:** Brad, can we replace this with the code that produced the results; either hidden or shown? -->
+
+<!-- ```{r rf-tree-variance-image, echo=FALSE, fig.cap="Three decision trees based on slightly different samples.", out.height="70%", out.width="70%"} -->
+<!-- knitr::include_graphics("illustrations/tree-variance-1.svg") -->
+<!-- ``` -->
+
+
+## Bagging
+
+The major drawback of decision trees is that they are not typically as accurate as current state-of-the-art ML algorithms like neural networks. However, decision trees to have a number of desirable properties which are listed in Table X below. The idea behind the ensembles of decision trees discussed in this chapter and the next is to improve the predictive performance of trees while retaining most of the other properties.
+
+<table>
+  <caption>Table X. A comparison of binary recursive partitioning and neural networks.</caption>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> Property </th>
+   <th style="text-align:right;"> Recursive \n partitioning </th>
+   <th style="text-align:right;"> Neural networks </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> Naturally handles numeric and categorical variables </td>
+   <td style="text-align:right;"> `r emo::ji("check")` </td>
+   <td style="text-align:right;"> `r emo::ji("x")` </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> Naturally handles missing values </td>
+   <td style="text-align:right;"> `r emo::ji("check")` </td>
+   <td style="text-align:right;"> `r emo::ji("x")` </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> Robust to features with outliers </td>
+   <td style="text-align:right;"> `r emo::ji("check")` </td>
+   <td style="text-align:right;"> `r emo::ji("x")` </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> Insensitive to monotone
+transformations of features </td>
+   <td style="text-align:right;"> `r emo::ji("check")` </td>
+   <td style="text-align:right;"> `r emo::ji("x")` </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> Computational scalability </td>
+   <td style="text-align:right;"> `r emo::ji("check")` </td>
+   <td style="text-align:right;"> `r emo::ji("x")` </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> Ability to deal with irrelevant
+inputs </td>
+   <td style="text-align:right;"> `r emo::ji("check")` </td>
+   <td style="text-align:right;"> `r emo::ji("x")` </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> Interpretibility </td>
+   <td style="text-align:right;"> `r emo::ji("check")` </td>
+   <td style="text-align:right;"> `r emo::ji("x")` </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> Predictive accuracy </td>
+   <td style="text-align:right;"> `r emo::ji("warning")` </td>
+   <td style="text-align:right;"> `r emo::ji("check")` </td>
+  </tr>
+</tbody>
+</table>
+
+As discussed in @friedman2001elements, the key to accuracy is low bias and low variance. Trees are naturally high-variance models; a small change in the training data can lead to substantial different trees. Although *pruning* the tree (i.e., determining a nested sequence of subtrees by recursively snipping off the least important splits) helps reduce the variance[^prune] of a single tree (i.e., by helping to avoid overfitting), there are methods that exploit this variance in a way that can significantly improve performance over and above that of single trees. ***B**ootstrap **agg**regat**ing*** (bagging) [@breiman1996bagging] is one such approach. 
+
+Bagging creates an ensemble[^Combining multiple models is referred to as *ensembling*.] of decision trees with low bias and high variance. The bias of each tree is kept at a minimum by constructing overgrown decision trees (i.e., no pruning). In other words, the tree models constructed in bagging are intentionally overfitting the training data. The variance of the final predictions is reduced by averaging (regression) or popular vote (classification). In regression, for example, the prediction of a new observation is obtained by averaging the predictions from each individual tree. To construct bagger model of size $B$, we follow three simple steps:
+
+1. Create $B$ bootstrap replciates of the original training data (Section \@ref(bootstrap)) by selecting rows with replacement
+
+2. For each bootstrap sample, train a single, unpruned decision tree
+
+3. Average individual predictions from each tree to create an overall average predicted value (regression) or use a popular vote (classification)
 
 ```{r rf-bagging-image, echo=FALSE, fig.cap="The bagging process.", out.height="70%", out.width="70%"}
 knitr::include_graphics("illustrations/bagging.png")
 ```
 
-This process can actually be applied to any regression or classification model; however, it provides the greatest improvement for models that have high variance.  For example, more stable parametric models such as linear regression and multi-adaptive regression splines tend to experience less improvement in predictive performance when bagging.
+Technically, bagging can is a general algorithm that can be applied to any regression or classification algorithm; however, it provides the greatest improvement for models that are adaptive and have high variance. For example, more stable parametric models, such as linear regression and MARS, tend to experience less improvement in predictive performance with bagging.
 
-Although bagging trees can help reduce the variance of a single tree's prediction and improve predictive performance, the trees in bagging are not completely independent of each other since all the original predictors are considered at every split of every tree.  Rather, trees from different bootstrap samples typically have similar structure to each other (especially at the top of the tree) due to underlying relationships.
+Although bagging trees can help reduce the variance of a single tree's prediction and improve predictive performance, the trees in bagging are not completely independent of each other since all the original predictors are considered at every split of every tree. Rather, trees from different bootstrap samples typically have similar structure to each other (especially at the top of the tree) due to the fact that stronger relationships appear at the top.
 
-For example, if we create six decision trees with different bootstrapped samples of the Boston housing data, we see that the top of the trees all have a very similar structure.  Although there are 15 predictor variables to split on, all six trees have both `lstat` and `rm` variables driving the first few splits.  
+For example, if we create six decision trees with different bootstrapped samples of the Boston housing data, we see that the top of the trees all have a very similar structure. Although there are 15 predictor variables to split on, all six trees have both `lstat` and `rm` driving the first few splits. This *between-tree correlation* limits the effect of averaging to reduce the variance of the overall ensemble. In order to reduce variance further, we need to take an additiaonl step to help de-correlate the trees in the ensemble.
 
-```{r, echo=FALSE, fig.cap="Six decision trees based on different bootstrap samples.", out.height="70%", out.width="70%"}
-knitr::include_graphics("illustrations/tree-correlation-1.png")
+```{r, echo=FALSE, fig.width=6, fig.asp=0.618, out.width="100%", fig.cap="Six bagged decision trees fit to the Boston housing data set."}
+# knitr::include_graphics("illustrations/tree-correlation-1.png")
+set.seed(1859)
+par(mfrow = c(2, 3))
+for (i in 1:6) {
+  train <- pdp::boston[sample(nrow(pdp::boston), replace = TRUE), ]
+  rpart.plot(rpart(cmedv ~ ., data = train))
+}
 ```
 
-This characteristic is known as _tree correlation_ and prevents bagging from optimally reducing variance of the predicted values.  In order to reduce variance further, we need to minimize the amount of correlation between the trees.
 
-### Random forests
+## Random forests
 
 Random forests are an extension of bagging and injects more randomness into the tree-growing process. Random forests achieve this in two ways:
 
@@ -376,7 +497,7 @@ rf_permutation <- ranger(
   )
 ```
 
-For both options, you can directly access the variable importance values with `model_name$variable.importance`.  However, here we will plot the variable importance using the `vip` package.  Typically, you will not see the same variable importance order between the two options; however, you will often see similar variables at the top of the plots.  Consquently, in this example, we can comfortably state that there appears to be enough evidence to suggest that two variables stand out as most influential:
+For both options, you can directly access the variable importance values with `model_name$variable.importance`.  However, here we'll plot the variable importance using the `vip` package.  Typically, you will not see the same variable importance order between the two options; however, you will often see similar variables at the top of the plots.  Consquently, in this example, we can comfortably state that there appears to be enough evidence to suggest that two variables stand out as most influential:
 
 * `Overall_Qual`
 * `Gr_Liv_Area`
@@ -555,5 +676,4 @@ The literature behind random forests are rich and we have only touched on the fu
 
 
 [^task]: See the Random Forest section in the [Machine Learning Task View](https://CRAN.R-project.org/view=MachineLearning) on CRAN and Erin LeDell's [useR! Machine Learning Tutorial](https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r) for a non-comprehensive list.
-[^prune]: See @esposito1997comparative for various methods of pruning.
-[^ensemble]: Combining multiple models is referred to as _ensembling_.
+[^prune]: See @esposito1997comparative for various methods of pruning. In **rpart**, the amount of pruning is controlled by the *complexity parameters* `cp`.

@@ -44,6 +44,8 @@ knitr::write_bib(c(
   "randomForest",
   "ranger",
   "rmarkdown",
+  "rpart",
+  "rpart.plot",
   "rsample",
   "scales",
   "tibble",
