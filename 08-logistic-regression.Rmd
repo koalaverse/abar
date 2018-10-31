@@ -239,7 +239,7 @@ pred_class <- predict(cv_model3, train)
 confusionMatrix(relevel(pred_class, ref = "Yes"), relevel(train$Attrition, ref = "Yes"))
 ```
 
-One thing to point out, in the confusion matrix above you will note the metric `No Information Rate: 0.8388`.  This represents the ratio of non-attrition versus attrition in our trainin data (`table(train$Attrition) %>% prop.table()`). Consequently, if we simply predicted "No" for every employee we would still get an accuracy rate of 83.88\%.  Therefore, our goal is to maximize our accuracy rate over and above this no information benchmark while also trying to balance sensitivity and specificity.  To understand how well we are achieving this we can visualize the ROC curve (section \@ref(reg-perf-eval)).  If we compare our simple model (`cv_model1`) to our full model `cv_model3`, we can see that we the lift achieved with the more accurate model.  
+One thing to point out, in the confusion matrix above you will note the metric `No Information Rate: 0.8388`.  This represents the ratio of non-attrition versus attrition in our trainin data (`table(train$Attrition) %>% prop.table()`). Consequently, if we simply predicted "No" for every employee we would still get an accuracy rate of 83.88\%.  Therefore, our goal is to maximize our accuracy rate over and above this no information benchmark while also trying to balance sensitivity and specificity.  To understand how well we are achieving this we can visualize the ROC curve (section \@ref(reg-perf-eval)).  If we compare our simple model (`cv_model1`) to our full model `cv_model3`, we can see the lift achieved with the more accurate model.  
 
 ```{r, fig.width=6, fig.height=4.5, fig.cap="ROC curve for `cv_model1` and `cv_model3`. The increase in the AUC represents the 'lift' that we achieve with `cv_model3`."}
 library(ROCR)
@@ -302,7 +302,7 @@ Similar to linear regression, logistic regression assumes a monotonic linear rel
 Furthermore, the partial dependence plots for the three top categorical predictors (`OverTime`, `JobSatisfaction`, and `EnvironmentSatisfaction`) illustrate the change in predicted probability of attrition based on the employee's status for each predictor.
 
 ```{block, type="tip"}
-See the supplemental material at [https://github.com/koalaverse/abar](https://github.com/koalaverse/abar] for the code to produce the following plots.
+See the supplemental material at https://github.com/koalaverse/abar for the code to produce the following plots.
 ```
 
 ```{r glm-pdp, echo=FALSE, fig.height=5, fig.width=7, fig.cap="Partial dependence plots for the first four most important variables.  We can see how the predicted probability of attrition changes for each value of the influential predictors."}

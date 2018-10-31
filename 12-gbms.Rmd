@@ -1,0 +1,125 @@
+# Gradient Boosting Machines {#GBM}
+
+```{r gbm-ch12-setup, include=FALSE}
+
+# Set the graphical theme
+ggplot2::theme_set(ggplot2::theme_light())
+
+# Set global knitr chunk options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  warning = FALSE, 
+  message = FALSE, 
+  collapse = TRUE, 
+  fig.align = "center",
+  fig.height = 3.5
+)
+```
+
+Gradient boosted machines (GBMs) are an extremely popular machine learning algorithm that have proven successful across many domains and is one of the leading methods for winning Kaggle competitions. Whereas random forests (Chapter \@ref(RF)) build an ensemble of deep independent trees, GBMs build an ensemble of shallow and weak successive trees with each tree learning and improving on the previous. When combined, these many weak successive trees produce a powerful “committee” that are often hard to beat with other algorithms. This chapter will cover the fundamentals to understanding and implementing GBMs.
+
+## Prerequisites
+
+For this chapter we’ll use the following packages:
+
+```{r gbm-prereq-pkgs}
+library(rsample)  # data splitting
+library(gbm)
+```
+
+
+To illustrate the various concepts we’ll continue focusing on the Ames Housing data (regression); however, at the end of the chapter we’ll also apply fit a random forest model to the employee attrition data (classification).
+
+```{r gbm-prereq-data}
+# Create training (70%) and test (30%) sets for the AmesHousing::make_ames() data.
+# Use set.seed for reproducibility
+
+set.seed(123)
+ames_split <- initial_split(AmesHousing::make_ames(), prop = .7)
+ames_train <- training(ames_split)
+ames_test  <- testing(ames_split)
+```
+
+
+## The basic idea
+
+
+## Gradient descent
+
+
+## Fitting a basic GBM
+
+
+```{r}
+# for reproducibility
+set.seed(123)
+
+# train GBM model
+gbm.fit <- gbm(
+  formula = Sale_Price ~ .,
+  distribution = "gaussian",
+  data = ames_train,
+  n.trees = 5000,
+  interaction.depth = 1,
+  shrinkage = 0.001,
+  cv.folds = 5,
+  n.cores = NULL, # will use all cores by default
+  verbose = FALSE
+  )  
+
+print(gbm.fit)
+```
+
+```{r}
+# get MSE and compute RMSE
+sqrt(min(gbm.fit$cv.error))
+
+# plot loss function as a result of n trees added to the ensemble
+gbm.perf(gbm.fit, method = "cv")
+```
+
+
+## Tuning
+
+
+```{r}
+# for reproducibility
+set.seed(123)
+
+# train GBM model
+gbm.fit2 <- gbm(
+  formula = Sale_Price ~ .,
+  distribution = "gaussian",
+  data = ames_train,
+  n.trees = 5000,
+  interaction.depth = 3,
+  shrinkage = 0.1,
+  cv.folds = 5,
+  n.cores = NULL, # will use all cores by default
+  verbose = FALSE
+  )  
+
+# find index for n trees with minimum CV error
+min_MSE <- which.min(gbm.fit2$cv.error)
+
+# get MSE and compute RMSE
+sqrt(gbm.fit2$cv.error[min_MSE])
+
+# plot loss function as a result of n trees added to the ensemble
+gbm.perf(gbm.fit2, method = "cv")
+```
+
+
+
+
+
+## Feature Interpretation
+
+
+## Attrition data
+
+
+## Final thoughts
+
+
+## Learning more

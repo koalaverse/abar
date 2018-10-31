@@ -193,7 +193,7 @@ mars1 <- earth(
 print(mars1)
 ```
 
-It also shows us that 38 of 41 terms were used from 27 of the 307 original predictors. But what does this mean?  If we were to look at all the coefficients, we would see that there are 38 terms in our model (including the intercept).  These terms include hinge functions produced from the original 307 predictors (307 predictors because the model automatically dummy encodes our categorical variables). Looking at the first 10 terms in our model, we see that  `Gr_Liv_Area` is included with a knot at 2945 (the coefficient for $h(2945-Gr_Liv_Area)$ is -49.85), `Year_Built` is included with a knot at 2003, etc.
+It also shows us that 37 of 45 terms were used from 27 of the 307 original predictors. But what does this mean?  If we were to look at all the coefficients, we would see that there are 37 terms in our model (including the intercept).  These terms include hinge functions produced from the original 307 predictors (307 predictors because the model automatically dummy encodes our categorical variables). Looking at the first 10 terms in our model, we see that  `Gr_Liv_Area` is included with a knot at 2945 (the coefficient for $h(2945-\text{Gr_Liv_Area})$ is -49.85), `Year_Built` is included with a knot at 2003, etc.
 
 ```{block, type="tip"}
 You can check out all the coefficients with `summary(mars1)`.
@@ -209,7 +209,7 @@ The plot method for MARS model objects provide convenient performance and residu
 plot(mars1, which = 1)
 ```
 
-In addition to pruning the number of knots, `earth::earth()` allows us to also assess potential interactions between different hinge functions. The following illustrates by including a `degree = 2` argument. You can see that now our model includes interaction terms between multiple hinge functions (i.e. `h(Year_Built-2003)*h(Gr_Liv_Area-2274)`) is an interaction effect for those houses built prior to 2003 and have less than 2,274 square feet of living space above ground).
+In addition to pruning the number of knots, `earth::earth()` allows us to also assess potential interactions between different hinge functions. The following illustrates by including a `degree = 2` argument. You can see that now our model includes interaction terms between multiple hinge functions (i.e. `h(Year_Built-2003)*h(Gr_Liv_Area-2274)` is an interaction effect for those houses built prior to 2003 and have less than 2,274 square feet of living space above ground).
 
 ```{r fit-basic-model-m2}
 # Fit a basic MARS model
@@ -225,7 +225,7 @@ summary(mars2) %>% .$coefficients %>% head(10)
 
 ## Tuning
 
-Since there are two tuning parameters associated with our MARS model: the degree of interactions and the number of retained terms, we need to perform a grid search to identify the optimal combination of these hyperparameters that minimize prediction error (the above pruning process was based only on an approximation of cross-validated performance on the training data rather than an actual *k*-fold cross validation process). As in previous chapters, we will perform a cross-validated grid search to identify the optimal mix.  Here, we set up a search grid that assesses 30 different combinations of interaction effects (`degree`) and the number of terms to retain (`nprune`).
+Since there are two tuning parameters associated with our MARS model: the degree of interactions and the number of retained terms, we need to perform a grid search to identify the optimal combination of these hyperparameters that minimize prediction error (the above pruning process was based only on an approximation of cross-validated performance on the training data rather than an actual *k*-fold cross validation process). As in previous chapters, we will perform a cross-validated grid search to identify the optimal mix.  Here, we set up a grid that assesses 30 different combinations of interaction effects (`degree`) and the number of terms to retain (`nprune`).
 
 ```{r tuning-grid}
 # create a tuning grid

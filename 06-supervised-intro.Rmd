@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Predictive analytics continues to grow in importance for many organizations across nearly all domains. A ___predictive model___ is used for tasks that involve the prediction of a given output using other variables and their values (_features_) in the data set. Or as stated by @apm, predictive modeling is _"the process of developing a mathematical tool or model that generates an accurate prediction"_ (p. 2).  The learning algorithm in a predictive attempts to discover and model the relationship among the ___target___ response (the variable being predicted) and the other features (aka predictor variables). Examples of predictive modeling include:
+Predictive analytics continues to grow in importance for many organizations across nearly all domains. A ___predictive model___ is used for tasks that involve the prediction of a given output using other variables and their values (_features_) in the data set. Or as stated by @apm, predictive modeling is _"the process of developing a mathematical tool or model that generates an accurate prediction"_ (p. 2).  The learning algorithm in a predictive model attempts to discover and model the relationship among the ___target___ response (the variable being predicted) and the other features (aka predictor variables). Examples of predictive modeling include:
 
 * using customer attributes to predict the probability of the customer churning in the next 6 weeks,
 * using home attributes to predict the sales price,
@@ -35,7 +35,7 @@ Throughout this section we will use various terms interchangeably for:
 
 ```
 
-The predictive modeling examples above describe what is known as _supervised learning_.  The supervision refers to the fact that the target values provide a supervisory role, which indicates to the learner the task it needs to learn. Specifically, given a set of data, the learning algorithm attempts to optimize a function (the algorithmic steps) to find the combination of feature values that results in a predicted value that is as close to the actual target output as possible.
+The predictive modeling examples above describe what is known as _supervised learning_.  The supervision refers to the fact that the target values provide a supervisory role, which indicates to the algorithm the task it needs to learn. Specifically, given a set of data, the learning algorithm attempts to optimize a function (the algorithmic steps) to find the combination of feature values that results in a predicted value that is as close to the actual target output as possible.
 
 ```{block, type = "note"}
 In supervised learning, the training data you feed the algorithm includes the desired solutions.  Consequently, the solutions can be used to help _supervise_ the training process to find the optimal algorithm parameters.
