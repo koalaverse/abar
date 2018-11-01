@@ -55,7 +55,7 @@ ames_test  <- testing(ames_split)
 set.seed(123)
 
 # train GBM model
-gbm.fit <- gbm(
+gbm_mod1 <- gbm(
   formula = Sale_Price ~ .,
   distribution = "gaussian",
   data = ames_train,
@@ -67,15 +67,15 @@ gbm.fit <- gbm(
   verbose = FALSE
   )  
 
-print(gbm.fit)
+print(gbm_mod1)
 ```
 
 ```{r}
 # get MSE and compute RMSE
-sqrt(min(gbm.fit$cv.error))
+sqrt(min(gbm_mod1$cv.error))
 
 # plot loss function as a result of n trees added to the ensemble
-gbm.perf(gbm.fit, method = "cv")
+gbm.perf(gbm_mod1, method = "cv")
 ```
 
 
@@ -87,7 +87,7 @@ gbm.perf(gbm.fit, method = "cv")
 set.seed(123)
 
 # train GBM model
-gbm.fit2 <- gbm(
+gbm_mod2 <- gbm(
   formula = Sale_Price ~ .,
   distribution = "gaussian",
   data = ames_train,
@@ -100,13 +100,13 @@ gbm.fit2 <- gbm(
   )  
 
 # find index for n trees with minimum CV error
-min_MSE <- which.min(gbm.fit2$cv.error)
+min_MSE <- which.min(gbm_mod2$cv.error)
 
 # get MSE and compute RMSE
-sqrt(gbm.fit2$cv.error[min_MSE])
+sqrt(gbm_mod2$cv.error[min_MSE])
 
 # plot loss function as a result of n trees added to the ensemble
-gbm.perf(gbm.fit2, method = "cv")
+gbm.perf(gbm_mod2, method = "cv")
 ```
 
 
