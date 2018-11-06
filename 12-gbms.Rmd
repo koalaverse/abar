@@ -31,7 +31,7 @@ library(pdp)
 ```
 
 
-To illustrate the various concepts we’ll continue focusing on the Ames Housing data (regression); however, at the end of the chapter we’ll also apply fit a random forest model to the employee attrition data (classification).
+To illustrate the various concepts we’ll continue focusing on the Ames Housing data (regression); however, at the end of the chapter we’ll also fit a GBM model to the employee attrition data (classification).
 
 ```{r gbm-prereq-data}
 # Create training (70%) and test (30%) sets for the AmesHousing::make_ames() data.
@@ -46,6 +46,108 @@ ames_test  <- testing(ames_split)
 
 ## The basic idea
 
+Thus far, we have discussed several supervised machine learning algorithms that are founded on a single predictive model such as linear and logistic regression ($\S$\@ref(linear-regression), $\S$\@ref(logistic-regression)), regularized regression ($\S$\@ref(regularized-regression)), and multivariate adaptive regression splines ($\S$\@ref(MARS)). We have also introduced other approaches such as bagging and random forests ($\S$\@ref(RF)) that are built on the idea of building an ensemble of models where each individual model predicts the outcome and then the ensemble simply averages the predicted values. The family of boosting methods is based on a different, constructive strategy of ensemble formation.
+
+The main idea of boosting is to add new models to the ensemble ___sequentially___. At each particular iteration, a new weak, base-learner model is trained with respect to the error of the whole ensemble learnt so far.  
+
+```{r sequential-fig, echo=FALSE, fig.align='center', fig.cap="Sequential ensemble approach.", out.height="75%", out.width="75%"}
+knitr::include_graphics("illustrations/boosted-trees-process.png")
+```
+
+Let's discuss each component of the previous sentence in closer detail because they are important.
+
+__Base-learning models__:  Boosting is a framework that iteratively improves _any_ weak learning model.  Many gradient boosting applications allow you to "plug in" various classes of weak learners at your disposal. In practice however, boosted algorithms almost always use decision trees as the base-learner. Consequently, this chapter will discuss boosting in the context of decision trees.
+
+__Training weak models__: A weak model is one whose error rate is only slightly better than random guessing.  The idea behind boosting is that each sequential model builds a simple weak model to slightly improve the remaining errors.  With regards to decision trees, shallow trees represent a weak learner.  Commonly, trees with only 1-6 splits are used. Combining many weak models (versus strong ones) has a few benefits:
+
+- Speed: Constructing weak models is computationally cheap. 
+- Accuracy improvement: Weak models allow the algorithm to _learn slowly_; making minor adjustments in new areas where it does not perform well. In general, statistical approaches that learn slowly tend to perform well.
+- Avoids overfitting: Due to making only small incremental improvements with each model in the ensemble, this allows us to stop the learning process as soon as overfitting has been detected (typically by using cross-validation).
+
+__Sequential training with respect to errors__: Boosted trees are grown sequentially; each tree is grown using information from previously grown trees. The basic algorithm for boosted regression trees can be generalized to the following where _x_ represents our features and _y_ represents our response:
+
+1. Fit a decision tree to the data: $F_1(x) = y$,
+2. We then fit the next decision tree to the residuals of the previous: $h_1(x) = y - F_1(x)$,
+3. Add this new tree to our algorithm: $F_2(x) = F_1(x) + h_1(x)$,
+4. Fit the next decision tree to the residuals of $F_2$: $h_2(x) = y - F_2(x)$,
+5. Add this new tree to our algorithm: $F_3(x) = F_2(x) + h_1(x)$,
+6. Continue this process until some mechanism (i.e. cross validation) tells us to stop.
+
+The basic algorithm for boosted decision trees can be generalized to the following where the final model is simply a stagewise additive model of *b* individual trees:
+
+$$ f(x) =  \sum^B_{b=1}f^b(x) \tag{1} $$
+
+To illustrate the behavior, assume the following *x* and *y* observations.  The blue sine wave represents the true underlying function and the points represent observations that include some irriducible error (noise).  The boosted prediction illustrates the adjusted predictions after additional sequential trees are added to the algorithm.  Initially, there are large errors which the boosted algorithm improves upon immediately but as the predictions get closer to the true underlying function you see each additional tree make small improvements in different areas across the feature space where errors remain. If enough trees are added, the algorithm can overfit. As Figure \@ref(boosted-tree) shows, the predicted values approximately converge to the true underlying function at around 50-100 iterations; however, we definitely see that at larger iterations (500-1000) the predicted value becomes highly variable to the noise in the data.
+
+```{r boosted-tree, echo=FALSE, fig.align='center', fig.cap="Boosted regression tree predictions illustrating how gradient boosted trees sequentially reduce the error.", fig.height=6, fig.width=9}
+# Nicer color palette
+cols <- RColorBrewer::brewer.pal(9, "Set1")
+
+# Function to implement gradient boosting with squared-error loss. Based on
+# algorithm 17.2 on page 333 of Computer Age Statistical Inference, by Bradley
+# Efron amd Trevor Hastie
+rpartBoost <- function(X, y, data, num_trees = 100, learn_rate = 0.1, 
+                       tree_depth = 6, verbose = FALSE) {
+  require(rpart)
+  G_b_hat <- matrix(0, nrow = length(y), ncol = num_trees + 1)
+  r <- y
+  for (tree in seq_len(num_trees)) {
+    if (verbose) {
+      message("iter ", tree, " of ", num_trees)
+    }
+    g_b_tilde <- rpart(r ~ X, control = list(cp = 0, maxdepth = tree_depth))
+    g_b_hat <- learn_rate * predict(g_b_tilde)
+    G_b_hat[, tree + 1] <- G_b_hat[, tree] + matrix(g_b_hat)
+    r <- r - g_b_hat
+  }
+  colnames(G_b_hat) <- paste0("tree_", c(0, seq_len(num_trees)))
+  G_b_hat
+}
+
+# Function to plot the predictions from a particular boosting iteration
+plotIter <- function(object, iter, show_legend = FALSE, ...) {
+  plot(x, y, ...)
+  lines(x, sin(x), lwd = 3, col = cols[2L])
+  lines(x, object[, iter + 1], lwd = 3, col = cols[1L])
+  if (show_legend) {
+    legend("topright", legend = c("Boosted prediction", "True function"),
+           lty = 1L, lwd = 3L, col = cols[1L:2L], inset = 0.01)
+  }
+}
+
+# Simulate some sine wave data
+set.seed(101)
+x <- seq(from = 0, to = 2 * pi, length = 500)
+y <- sin(x) + rnorm(length(x), sd = 0.3)
+#plot(x, y)
+
+# gradient boosted decision trees
+bst <- rpartBoost(X = x, y = y, num_trees = 1000, learn_rate = 0.1, 
+                  tree_depth = 3, verbose = FALSE)
+
+# Plot first 15 iterations
+# par(mfrow = c(3, 3))
+# for (i in c(0, 5, 10, 15, 25, 50, 100, 500, 1000)) {
+#   plotIter(bst, iter = i, main = paste("Iter:", i))
+# }
+
+# plot 9 different iterations
+sin_data <- data.frame(x, y, sin = sin(x))
+
+as.data.frame(bst) %>% 
+  cbind(sin_data) %>%
+  gather(iteration, value, tree_0:tree_1000) %>% 
+  filter(iteration %in% paste0("tree_", c(0, 5, 10, 15, 25, 50, 100, 500, 1000))) %>%
+  mutate(
+    iteration = paste("Iteration", stringr::str_extract(iteration, "[[:digit:]]+")),
+    iteration = as.factor(iteration) %>% fct_inorder()
+    ) %>%
+  ggplot(aes(x, y)) +
+  geom_point(alpha = .1) +
+  geom_line(aes(x, sin), color = "blue", size = 1) +
+  geom_line(aes(y = value), color = "red", size = 1) +
+  facet_wrap(~ iteration)
+```
 
 ## Gradient descent
 

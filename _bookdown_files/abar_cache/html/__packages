@@ -36,3 +36,5 @@ rpart.plot
 Matrix
 foreach
 glmnet
+survival
+gbm

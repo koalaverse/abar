@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</title>
+  <meta name="description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods" />
+  
+  <meta name="twitter:description" content="A deep-dive into using R for descriptive, predictive, and prescriptive analytics." />
+  
+
+<meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
+
+
+<meta name="date" content="2018-11-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="RF.html">
+<link rel="next" href="references.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="extra.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Business Analytics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-for"><i class="fa fa-check"></i>Who this book is for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-not-for"><i class="fa fa-check"></i>Who this book is not for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#who-this-book-is-really-not-for"><i class="fa fa-check"></i>Who this book is really not for</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i>Why R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-this-book-is-organized"><i class="fa fa-check"></i>How this book is organized</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#conventions-used-in-this-book"><i class="fa fa-check"></i>Conventions used in this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#using-code-examples"><i class="fa fa-check"></i>Using code examples</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#feedback"><i class="fa fa-check"></i>Feedback</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information"><i class="fa fa-check"></i>Software information</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html"><i class="fa fa-check"></i>Who are these Guys?</a><ul>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html#bradley-c.-boehmke"><i class="fa fa-check"></i>Bradley C. Boehmke</a></li>
+<li class="chapter" data-level="" data-path="author.html"><a href="author.html#brandon-m.-greenwell"><i class="fa fa-check"></i>Brandon M. Greenwell</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>1.1</b> Descriptive</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#predictive"><i class="fa fa-check"></i><b>1.2</b> Predictive</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#prescriptive"><i class="fa fa-check"></i><b>1.3</b> Prescriptive</a></li>
+<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#data"><i class="fa fa-check"></i><b>1.4</b> Data sets</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#ames-iowa-housing-data"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
+<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>1.5</b> Prerequisites</a></li>
+<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>1.6</b> Measures of location</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>1.6.1</b> The sample mean</a></li>
+<li class="chapter" data-level="1.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>1.6.2</b> The sample median</a></li>
+<li class="chapter" data-level="1.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>1.6.3</b> The mean or the median</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>1.7</b> Measures of spread</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>1.7.1</b> The empirical rule</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>1.8</b> Percentiles</a></li>
+<li class="chapter" data-level="1.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>1.9</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="1.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>1.10</b> Outlier detection</a></li>
+<li class="chapter" data-level="1.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>1.11</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>1.11.1</b> Contingency tables</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>1.12</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>2</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="2.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>2.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>2.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>2.2.2</b> Categorical Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>2.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.3.1</b> Scatter plots</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>2.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>2.4.1</b> Facetting</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>2.5</b> Data quality</a></li>
+<li class="chapter" data-level="2.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>2.6</b> Further reading</a></li>
+<li class="chapter" data-level="2.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>2.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>3</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="3.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>3.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="3.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>3.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="3.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>3.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="3.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>3.1.6</b> Confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>3.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>3.2.2</b> Two-sample t-test</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>3.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="3.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>3.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="3.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>3.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="3.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>3.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>3.6.1</b> Bootstrap confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>3.7</b> Further reading</a></li>
+<li class="chapter" data-level="3.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>3.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>4</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="4.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>4.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>4.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="4.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>4.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="4.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>4.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="4.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>4.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="4.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>4.2.5</b> PCA with mixed data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>4.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>4.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="4.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>4.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="4.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="4.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>4.3.4</b> Clustering with mixed data</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Predictive Analytics</b></span><ul>
+<li class="chapter" data-level="4.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>4.4</b> Regression problems</a></li>
+<li class="chapter" data-level="4.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>4.5</b> Classification problems</a></li>
+<li class="chapter" data-level="4.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>4.6</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="4.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>4.7</b> General modeling process</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>4.7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="4.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-split"><i class="fa fa-check"></i><b>4.7.2</b> Data splitting</a></li>
+<li class="chapter" data-level="4.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>4.7.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="4.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>4.7.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="4.7.5" data-path="unsupervised.html"><a href="unsupervised.html#tune"><i class="fa fa-check"></i><b>4.7.5</b> Model tuning</a></li>
+<li class="chapter" data-level="4.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>4.7.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="4.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-eval"><i class="fa fa-check"></i><b>4.7.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="4.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>4.7.8</b> Interpreting predictive models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5</b> Linear regression</a><ul>
+<li class="chapter" data-level="5.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>5.2</b> Simple linear regression</a></li>
+<li class="chapter" data-level="5.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>5.3</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>5.4</b> Assessing Model Accuracy</a></li>
+<li class="chapter" data-level="5.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>5.5</b> Model concerns</a></li>
+<li class="chapter" data-level="5.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>5.6</b> Principal component regression</a></li>
+<li class="chapter" data-level="5.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>5.7</b> Partial least squares</a></li>
+<li class="chapter" data-level="5.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>5.8</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="5.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>5.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="5.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>5.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>6</b> Logistic regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>6.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Why logistic regression</a></li>
+<li class="chapter" data-level="6.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>6.3</b> Simple logistic regression</a></li>
+<li class="chapter" data-level="6.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>6.4</b> Multiple logistic regression</a></li>
+<li class="chapter" data-level="6.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>6.5</b> Assessing model accuracy</a></li>
+<li class="chapter" data-level="6.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>6.6</b> Feature interpretation</a></li>
+<li class="chapter" data-level="6.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>6.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="6.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>6.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>7</b> Regularized regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="7.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>7.2</b> Why Regularize</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>7.2.1</b> Ridge penalty</a></li>
+<li class="chapter" data-level="7.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>7.2.2</b> Lasso penalty</a></li>
+<li class="chapter" data-level="7.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>7.2.3</b> Elastic nets</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>7.3</b> Implementation</a></li>
+<li class="chapter" data-level="7.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>7.4</b> Tuning</a></li>
+<li class="chapter" data-level="7.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>7.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="7.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>7.6</b> Attrition data</a></li>
+<li class="chapter" data-level="7.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>7.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="7.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>7.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>8</b> Multivariate Adaptive Regression Splines</a><ul>
+<li class="chapter" data-level="8.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="8.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>8.2</b> The basic idea</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>8.2.1</b> Multivariate regression splines</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>8.3</b> Fitting a basic MARS model</a></li>
+<li class="chapter" data-level="8.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>8.4</b> Tuning</a></li>
+<li class="chapter" data-level="8.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>8.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="8.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>8.6</b> Attrition data</a></li>
+<li class="chapter" data-level="8.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="8.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>9</b> Random Forests</a><ul>
+<li class="chapter" data-level="9.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="9.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>9.2</b> Decision trees</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>9.2.1</b> A simple regression tree example</a></li>
+<li class="chapter" data-level="9.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>9.2.2</b> Deciding on splits</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>9.3</b> Bagging</a></li>
+<li class="chapter" data-level="9.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>9.4</b> Random forests</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>9.4.1</b> OOB error vs. test set error</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>9.5</b> Fitting a basic random forest model</a></li>
+<li class="chapter" data-level="9.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>9.6</b> Tuning</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>9.6.1</b> Tuning via ranger</a></li>
+<li class="chapter" data-level="9.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>9.6.2</b> Tuning via caret</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>9.7</b> Feature interpretation</a></li>
+<li class="chapter" data-level="9.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>9.8</b> Attrition data</a></li>
+<li class="chapter" data-level="9.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>9.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="9.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>9.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="GBM.html"><a href="GBM.html"><i class="fa fa-check"></i><b>10</b> Gradient Boosting Machines</a><ul>
+<li class="chapter" data-level="10.1" data-path="GBM.html"><a href="GBM.html#prerequisites-8"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="10.2" data-path="GBM.html"><a href="GBM.html#the-basic-idea-1"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a></li>
+<li class="chapter" data-level="10.3" data-path="GBM.html"><a href="GBM.html#gradient-descent"><i class="fa fa-check"></i><b>10.3</b> Gradient descent</a></li>
+<li class="chapter" data-level="10.4" data-path="GBM.html"><a href="GBM.html#fitting-a-basic-gbm"><i class="fa fa-check"></i><b>10.4</b> Fitting a basic GBM</a></li>
+<li class="chapter" data-level="10.5" data-path="GBM.html"><a href="GBM.html#tuning-2"><i class="fa fa-check"></i><b>10.5</b> Tuning</a></li>
+<li class="chapter" data-level="10.6" data-path="GBM.html"><a href="GBM.html#feature-interpretation-3"><i class="fa fa-check"></i><b>10.6</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="10.7" data-path="GBM.html"><a href="GBM.html#attrition-data-3"><i class="fa fa-check"></i><b>10.7</b> Attrition data</a></li>
+<li class="chapter" data-level="10.8" data-path="GBM.html"><a href="GBM.html#final-thoughts-5"><i class="fa fa-check"></i><b>10.8</b> Final thoughts</a></li>
+<li class="chapter" data-level="10.9" data-path="GBM.html"><a href="GBM.html#learning-more-5"><i class="fa fa-check"></i><b>10.9</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="11" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>11</b> (APPENDIX) Appendix {-}</a><ul>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Business Analytics with R: Descriptive, Predictive, and Prescriptive Methods</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="GBM" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> Gradient Boosting Machines</h1>
+<p>Gradient boosted machines (GBMs) are an extremely popular machine learning algorithm that have proven successful across many domains and is one of the leading methods for winning Kaggle competitions. Whereas random forests (Chapter <a href="RF.html#RF">9</a>) build an ensemble of deep independent trees, GBMs build an ensemble of shallow and weak successive trees with each tree learning and improving on the previous. When combined, these many weak successive trees produce a powerful “committee” that are often hard to beat with other algorithms. This chapter will cover the fundamentals to understanding and implementing GBMs.</p>
+<div id="prerequisites-8" class="section level2">
+<h2><span class="header-section-number">10.1</span> Prerequisites</h2>
+<p>For this chapter we’ll use the following packages:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)  <span class="co"># data splitting</span>
+<span class="kw">library</span>(gbm)
+<span class="kw">library</span>(caret)
+<span class="kw">library</span>(vip)
+<span class="kw">library</span>(pdp)</code></pre>
+<p>To illustrate the various concepts we’ll continue focusing on the Ames Housing data (regression); however, at the end of the chapter we’ll also fit a GBM model to the employee attrition data (classification).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create training (70%) and test (30%) sets for the AmesHousing::make_ames() data.</span>
+<span class="co"># Use set.seed for reproducibility</span>
+
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+ames_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(AmesHousing<span class="op">::</span><span class="kw">make_ames</span>(), <span class="dt">prop =</span> <span class="fl">.7</span>)
+ames_train &lt;-<span class="st"> </span><span class="kw">training</span>(ames_split)
+ames_test  &lt;-<span class="st"> </span><span class="kw">testing</span>(ames_split)</code></pre>
+</div>
+<div id="the-basic-idea-1" class="section level2">
+<h2><span class="header-section-number">10.2</span> The basic idea</h2>
+<p>Thus far, we have discussed several supervised machine learning algorithms that are founded on a single predictive model such as linear and logistic regression (<span class="math inline">\(\S\)</span><a href="linear-regression.html#linear-regression">5</a>, <span class="math inline">\(\S\)</span><a href="logistic-regression.html#logistic-regression">6</a>), regularized regression (<span class="math inline">\(\S\)</span><a href="regularized-regression.html#regularized-regression">7</a>), and multivariate adaptive regression splines (<span class="math inline">\(\S\)</span><a href="MARS.html#MARS">8</a>). We have also introduced other approaches such as bagging and random forests (<span class="math inline">\(\S\)</span><a href="RF.html#RF">9</a>) that are built on the idea of building an ensemble of models where each individual model predicts the outcome and then the ensemble simply averages the predicted values. The family of boosting methods is based on a different, constructive strategy of ensemble formation.</p>
+<p>The main idea of boosting is to add new models to the ensemble <strong><em>sequentially</em></strong>. At each particular iteration, a new weak, base-learner model is trained with respect to the error of the whole ensemble learnt so far.</p>
+<div class="figure" style="text-align: center"><span id="fig:sequential-fig"></span>
+<img src="illustrations/boosted-trees-process.png" alt="Sequential ensemble approach." width="75%" height="75%" />
+<p class="caption">
+Figure 10.1: Sequential ensemble approach.
+</p>
+</div>
+<p>Let’s discuss each component of the previous sentence in closer detail because they are important.</p>
+<p><strong>Base-learning models</strong>: Boosting is a framework that iteratively improves <em>any</em> weak learning model. Many gradient boosting applications allow you to “plug in” various classes of weak learners at your disposal. In practice however, boosted algorithms almost always use decision trees as the base-learner. Consequently, this chapter will discuss boosting in the context of decision trees.</p>
+<p><strong>Training weak models</strong>: A weak model is one whose error rate is only slightly better than random guessing. The idea behind boosting is that each sequential model builds a simple weak model to slightly improve the remaining errors. With regards to decision trees, shallow trees represent a weak learner. Commonly, trees with only 1-6 splits are used. Combining many weak models (versus strong ones) has a few benefits:</p>
+<ul>
+<li>Speed: Constructing weak models is computationally cheap.</li>
+<li>Accuracy improvement: Weak models allow the algorithm to <em>learn slowly</em>; making minor adjustments in new areas where it does not perform well. In general, statistical approaches that learn slowly tend to perform well.</li>
+<li>Avoids overfitting: Due to making only small incremental improvements with each model in the ensemble, this allows us to stop the learning process as soon as overfitting has been detected (typically by using cross-validation).</li>
+</ul>
+<p><strong>Sequential training with respect to errors</strong>: Boosted trees are grown sequentially; each tree is grown using information from previously grown trees. The basic algorithm for boosted regression trees can be generalized to the following where <em>x</em> represents our features and <em>y</em> represents our response:</p>
+<ol style="list-style-type: decimal">
+<li>Fit a decision tree to the data: <span class="math inline">\(F_1(x) = y\)</span>,</li>
+<li>We then fit the next decision tree to the residuals of the previous: <span class="math inline">\(h_1(x) = y - F_1(x)\)</span>,</li>
+<li>Add this new tree to our algorithm: <span class="math inline">\(F_2(x) = F_1(x) + h_1(x)\)</span>,</li>
+<li>Fit the next decision tree to the residuals of <span class="math inline">\(F_2\)</span>: <span class="math inline">\(h_2(x) = y - F_2(x)\)</span>,</li>
+<li>Add this new tree to our algorithm: <span class="math inline">\(F_3(x) = F_2(x) + h_1(x)\)</span>,</li>
+<li>Continue this process until some mechanism (i.e. cross validation) tells us to stop.</li>
+</ol>
+<p>The basic algorithm for boosted decision trees can be generalized to the following where the final model is simply a stagewise additive model of <em>b</em> individual trees:</p>
+<p><span class="math display">\[ f(x) =  \sum^B_{b=1}f^b(x) \tag{1} \]</span></p>
+<p>To illustrate the behavior, assume the following <em>x</em> and <em>y</em> observations. The blue sine wave represents the true underlying function and the points represent observations that include some irriducible error (noise). The boosted prediction illustrates the adjusted predictions after additional sequential trees are added to the algorithm. Initially, there are large errors which the boosted algorithm improves upon immediately but as the predictions get closer to the true underlying function you see each additional tree make small improvements in different areas across the feature space where errors remain. If enough trees are added, the algorithm can overfit. As Figure <a href="#boosted-tree"><strong>??</strong></a> shows, the predicted values approximately converge to the true underlying function at around 50-100 iterations; however, we definitely see that at larger iterations (500-1000) the predicted value becomes highly variable to the noise in the data.</p>
+<div class="figure" style="text-align: center"><span id="fig:boosted-tree"></span>
+<img src="abar_files/figure-html/boosted-tree-1.png" alt="Boosted regression tree predictions illustrating how gradient boosted trees sequentially reduce the error." width="864" />
+<p class="caption">
+Figure 10.2: Boosted regression tree predictions illustrating how gradient boosted trees sequentially reduce the error.
+</p>
+</div>
+</div>
+<div id="gradient-descent" class="section level2">
+<h2><span class="header-section-number">10.3</span> Gradient descent</h2>
+</div>
+<div id="fitting-a-basic-gbm" class="section level2">
+<h2><span class="header-section-number">10.4</span> Fitting a basic GBM</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+
+<span class="co"># train GBM model</span>
+gbm_mod1 &lt;-<span class="st"> </span><span class="kw">gbm</span>(
+  <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>.,
+  <span class="dt">distribution =</span> <span class="st">&quot;gaussian&quot;</span>,
+  <span class="dt">data =</span> ames_train,
+  <span class="dt">n.trees =</span> <span class="dv">10000</span>,
+  <span class="dt">interaction.depth =</span> <span class="dv">1</span>,
+  <span class="dt">shrinkage =</span> <span class="fl">0.001</span>,
+  <span class="dt">cv.folds =</span> <span class="dv">5</span>,
+  <span class="dt">n.cores =</span> <span class="ot">NULL</span>, <span class="co"># will use all cores by default</span>
+  <span class="dt">verbose =</span> <span class="ot">FALSE</span>
+  )  
+
+<span class="kw">print</span>(gbm_mod1)
+## gbm(formula = Sale_Price ~ ., distribution = &quot;gaussian&quot;, data = ames_train, 
+##     n.trees = 10000, interaction.depth = 1, shrinkage = 0.001, 
+##     cv.folds = 5, verbose = FALSE, n.cores = NULL)
+## A gradient boosted model with gaussian loss function.
+## 10000 iterations were performed.
+## The best cross-validation iteration was 10000.
+## There were 80 predictors of which 45 had non-zero influence.</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get MSE and compute RMSE</span>
+<span class="kw">sqrt</span>(<span class="kw">min</span>(gbm_mod1<span class="op">$</span>cv.error))
+## [1] 33079.61
+
+<span class="co"># plot loss function as a result of n trees added to the ensemble</span>
+<span class="kw">gbm.perf</span>(gbm_mod1, <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>)</code></pre>
+<p><img src="illustrations/gbm1_gradient_descent.png" width="364" style="display: block; margin: auto;" /></p>
+</div>
+<div id="tuning-2" class="section level2">
+<h2><span class="header-section-number">10.5</span> Tuning</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+
+<span class="co"># train GBM model</span>
+gbm_mod2 &lt;-<span class="st"> </span><span class="kw">gbm</span>(
+  <span class="dt">formula =</span> Sale_Price <span class="op">~</span><span class="st"> </span>.,
+  <span class="dt">distribution =</span> <span class="st">&quot;gaussian&quot;</span>,
+  <span class="dt">data =</span> ames_train,
+  <span class="dt">n.trees =</span> <span class="dv">5000</span>,
+  <span class="dt">interaction.depth =</span> <span class="dv">3</span>,
+  <span class="dt">shrinkage =</span> <span class="fl">0.1</span>,
+  <span class="dt">cv.folds =</span> <span class="dv">5</span>,
+  <span class="dt">n.cores =</span> <span class="ot">NULL</span>, <span class="co"># will use all cores by default</span>
+  <span class="dt">verbose =</span> <span class="ot">FALSE</span>
+  )  
+
+<span class="co"># find index for n trees with minimum CV error</span>
+min_MSE &lt;-<span class="st"> </span><span class="kw">which.min</span>(gbm_mod2<span class="op">$</span>cv.error)
+
+<span class="co"># get MSE and compute RMSE</span>
+<span class="kw">sqrt</span>(gbm_mod2<span class="op">$</span>cv.error[min_MSE])
+## [1] 23813.34
+
+<span class="co"># plot loss function as a result of n trees added to the ensemble</span>
+<span class="kw">gbm.perf</span>(gbm_mod2, <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>)</code></pre>
+<p><img src="illustrations/gbm2_gradient_descent.png" width="367" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">gbm_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(
+  <span class="dt">interaction.depth =</span> <span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dt">by =</span> <span class="dv">2</span>),
+  <span class="dt">shrinkage =</span> <span class="kw">c</span>(.<span class="dv">01</span>, <span class="fl">.1</span>, <span class="fl">.3</span>),
+  <span class="dt">n.minobsinnode =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>),
+  <span class="dt">n.trees =</span> <span class="dv">5000</span>
+)</code></pre>
+<div class="warning">
+<p>
+This grid search took 51 minutes to complete.
+</p>
+</div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create train() parameters</span>
+features &lt;-<span class="st"> </span><span class="kw">subset</span>(ames_train, <span class="dt">select =</span> <span class="op">-</span>Sale_Price) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.data.frame</span>()
+response &lt;-<span class="st"> </span>ames_train<span class="op">$</span>Sale_Price
+kfold &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>)
+
+<span class="co"># cross validated model</span>
+gbm_tune &lt;-<span class="st"> </span><span class="kw">train</span>(
+  <span class="dt">x =</span> features,
+  <span class="dt">y =</span> response,
+  <span class="dt">method =</span> <span class="st">&quot;gbm&quot;</span>,
+  <span class="dt">distribution =</span> <span class="st">&quot;gaussian&quot;</span>,
+  <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>,
+  <span class="dt">tuneGrid =</span> gbm_grid,
+  <span class="dt">trControl =</span> kfold,
+  <span class="dt">verbose =</span> <span class="ot">FALSE</span>
+)
+
+<span class="co"># plot results</span>
+<span class="kw">ggplot</span>(gbm_tune)</code></pre>
+<p><img src="illustrations/gbm-xval-tuned.png" width="489" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># best model</span>
+gbm_tune<span class="op">$</span>bestTune
+##   n.trees interaction.depth shrinkage n.minobsinnode
+## 7    5000                 5      0.01              5</code></pre>
+<p>Minimum RMSE was $22,424</p>
+</div>
+<div id="feature-interpretation-3" class="section level2">
+<h2><span class="header-section-number">10.6</span> Feature Interpretation</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vip</span>(gbm_final_fit)</code></pre>
+<p><img src="abar_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># PDP plot</span>
+gbm_pdp &lt;-<span class="st"> </span>gbm_final_fit <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">n.trees =</span> gbm_final_fit<span class="op">$</span>n.trees, <span class="dt">grid.resolution =</span> <span class="dv">100</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">autoplot</span>(<span class="dt">rug =</span> <span class="ot">TRUE</span>, <span class="dt">train =</span> ames_train) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;PDP plot&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>dollar)
+
+<span class="co"># ICE curves</span>
+gbm_ice &lt;-<span class="st"> </span>gbm_final_fit <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">n.trees =</span> gbm_final_fit<span class="op">$</span>n.trees, <span class="dt">grid.resolution =</span> <span class="dv">100</span>, <span class="dt">ice =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">autoplot</span>(<span class="dt">rug =</span> <span class="ot">TRUE</span>, <span class="dt">train =</span> ames_train, <span class="dt">alpha =</span> <span class="fl">.1</span>, <span class="dt">center =</span> <span class="ot">TRUE</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Centered ICE curves&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>dollar)
+
+gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(gbm_pdp, gbm_ice, <span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre>
+<p><img src="abar_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="abar_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="abar_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="attrition-data-3" class="section level2">
+<h2><span class="header-section-number">10.7</span> Attrition data</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get attrition data</span>
+df &lt;-<span class="st"> </span>rsample<span class="op">::</span>attrition <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">mutate_if</span>(is.ordered, factor, <span class="dt">ordered =</span> <span class="ot">FALSE</span>)
+
+<span class="co"># Create training (70%) and test (30%) sets for the rsample::attrition data.</span>
+<span class="co"># Use set.seed for reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+churn_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(df, <span class="dt">prop =</span> <span class="fl">.7</span>, <span class="dt">strata =</span> <span class="st">&quot;Attrition&quot;</span>)
+churn_train &lt;-<span class="st"> </span><span class="kw">training</span>(churn_split)
+churn_test  &lt;-<span class="st"> </span><span class="kw">testing</span>(churn_split)
+
+<span class="co"># create a tuning grid</span>
+gbm_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(
+  <span class="dt">interaction.depth =</span> <span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dt">by =</span> <span class="dv">2</span>),
+  <span class="dt">shrinkage =</span> <span class="kw">c</span>(.<span class="dv">01</span>, <span class="fl">.1</span>, <span class="fl">.3</span>),
+  <span class="dt">n.minobsinnode =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>),
+  <span class="dt">n.trees =</span> <span class="kw">c</span>(<span class="dv">5000</span>, <span class="dv">10000</span>)
+)
+
+<span class="co"># create train() parameters</span>
+features &lt;-<span class="st"> </span><span class="kw">subset</span>(churn_train, <span class="dt">select =</span> <span class="op">-</span>Attrition) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.data.frame</span>()
+response &lt;-<span class="st"> </span>churn_train<span class="op">$</span>Attrition
+kfold &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+
+<span class="co"># cross validated model</span>
+gbm_churn &lt;-<span class="st"> </span><span class="kw">train</span>(
+  <span class="dt">x =</span> features,
+  <span class="dt">y =</span> response,
+  <span class="dt">method =</span> <span class="st">&quot;gbm&quot;</span>,
+  <span class="dt">distribution =</span> <span class="st">&quot;bernoulli&quot;</span>,
+  <span class="dt">tuneGrid =</span> gbm_grid,
+  <span class="dt">trControl =</span> kfold,
+  <span class="dt">verbose =</span> <span class="ot">FALSE</span>
+)
+
+gbm_churn<span class="op">$</span>bestTune
+##   n.trees interaction.depth shrinkage n.minobsinnode
+## 1    5000                 1      0.01              5
+<span class="kw">min</span>(gbm_churn<span class="op">$</span>results<span class="op">$</span>RMSE)
+## [1] 0.8718578</code></pre>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Min.
+</th>
+<th style="text-align:right;">
+1st Qu.
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+3rd Qu.
+</th>
+<th style="text-align:right;">
+Max.
+</th>
+<th style="text-align:right;">
+NA’s
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Logistic_model
+</td>
+<td style="text-align:right;">
+0.8058252
+</td>
+<td style="text-align:right;">
+0.8455882
+</td>
+<td style="text-align:right;">
+0.8640777
+</td>
+<td style="text-align:right;">
+0.8639973
+</td>
+<td style="text-align:right;">
+0.8843353
+</td>
+<td style="text-align:right;">
+0.9126214
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Elastic_net
+</td>
+<td style="text-align:right;">
+0.8076923
+</td>
+<td style="text-align:right;">
+0.8578431
+</td>
+<td style="text-align:right;">
+0.8786765
+</td>
+<td style="text-align:right;">
+0.8728811
+</td>
+<td style="text-align:right;">
+0.8907767
+</td>
+<td style="text-align:right;">
+0.9134615
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MARS_model
+</td>
+<td style="text-align:right;">
+0.8349515
+</td>
+<td style="text-align:right;">
+0.8482076
+</td>
+<td style="text-align:right;">
+0.8641591
+</td>
+<td style="text-align:right;">
+0.8632027
+</td>
+<td style="text-align:right;">
+0.8734771
+</td>
+<td style="text-align:right;">
+0.8932039
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RF_model
+</td>
+<td style="text-align:right;">
+0.8269231
+</td>
+<td style="text-align:right;">
+0.8557692
+</td>
+<td style="text-align:right;">
+0.8627451
+</td>
+<td style="text-align:right;">
+0.8622196
+</td>
+<td style="text-align:right;">
+0.8734771
+</td>
+<td style="text-align:right;">
+0.8823529
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GBM_model
+</td>
+<td style="text-align:right;">
+0.8461538
+</td>
+<td style="text-align:right;">
+0.8592233
+</td>
+<td style="text-align:right;">
+0.8743932
+</td>
+<td style="text-align:right;">
+0.8748354
+</td>
+<td style="text-align:right;">
+0.8902715
+</td>
+<td style="text-align:right;">
+0.9019608
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="final-thoughts-5" class="section level2">
+<h2><span class="header-section-number">10.8</span> Final thoughts</h2>
+</div>
+<div id="learning-more-5" class="section level2">
+<h2><span class="header-section-number">10.9</span> Learning more</h2>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="RF.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["abar.pdf", "abar.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

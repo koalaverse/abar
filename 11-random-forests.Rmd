@@ -134,6 +134,36 @@ At this point, a stopping criteria was reached (in this case, the minimum number
 
 <!-- ```{r rf-tree-variance-image, echo=FALSE, fig.cap="Three decision trees based on slightly different samples.", out.height="70%", out.width="70%"} -->
 <!-- knitr::include_graphics("illustrations/tree-variance-1.svg") -->
+
+<!-- Below is code to reproduce the images.  May need to do some trimming of the image as I think I cropped it for aesthetic purposes. -->
+```{r tree-correlation, message=FALSE, warning=FALSE, fig.align='center', fig.cap="Six decision trees based on different bootstrap samples.", echo=FALSE, dev='png', eval=FALSE}
+iter = 6
+par(mfrow = c(3, 3))
+for(i in 1:iter){
+  set.seed(i+30)
+  # create train/test sets
+  train_index <- caret::createDataPartition(pdp::boston$cmedv, p = .6333,
+                                     list = FALSE,
+                                     times = 1)
+  
+  train_DF <- pdp::boston[train_index,]
+  validate_DF <- pdp::boston[-train_index,]
+  
+  train_y <- train_DF$cmedv
+  train_x <- train_DF[, setdiff(names(train_DF), "cmedv")]
+  
+  validate_y <- validate_DF$cmedv
+  validate_x <- validate_DF[, setdiff(names(validate_DF), "cmedv")]
+  
+  d_tree <- rpart::rpart(cmedv ~ ., train_DF)
+  
+  # graphs
+  
+  rpart.plot::rpart.plot(d_tree, main = paste0("Decision Tree ", i), type = 0, extra = 0) 
+  
+}
+```
+
 <!-- ``` -->
 
 
