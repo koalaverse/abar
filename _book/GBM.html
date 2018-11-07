@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2018-11-06">
+<meta name="date" content="2018-11-07">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -316,7 +316,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="GBM.html"><a href="GBM.html"><i class="fa fa-check"></i><b>10</b> Gradient Boosting Machines</a><ul>
 <li class="chapter" data-level="10.1" data-path="GBM.html"><a href="GBM.html#prerequisites-8"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
 <li class="chapter" data-level="10.2" data-path="GBM.html"><a href="GBM.html#the-basic-idea-1"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a></li>
-<li class="chapter" data-level="10.3" data-path="GBM.html"><a href="GBM.html#gradient-descent"><i class="fa fa-check"></i><b>10.3</b> Gradient descent</a></li>
+<li class="chapter" data-level="10.3" data-path="GBM.html"><a href="GBM.html#gbm-gradient"><i class="fa fa-check"></i><b>10.3</b> Gradient descent</a></li>
 <li class="chapter" data-level="10.4" data-path="GBM.html"><a href="GBM.html#fitting-a-basic-gbm"><i class="fa fa-check"></i><b>10.4</b> Fitting a basic GBM</a></li>
 <li class="chapter" data-level="10.5" data-path="GBM.html"><a href="GBM.html#tuning-2"><i class="fa fa-check"></i><b>10.5</b> Tuning</a></li>
 <li class="chapter" data-level="10.6" data-path="GBM.html"><a href="GBM.html#feature-interpretation-3"><i class="fa fa-check"></i><b>10.6</b> Feature Interpretation</a></li>
@@ -406,8 +406,31 @@ Figure 10.2: Boosted regression tree predictions illustrating how gradient boost
 </p>
 </div>
 </div>
-<div id="gradient-descent" class="section level2">
+<div id="gbm-gradient" class="section level2">
 <h2><span class="header-section-number">10.3</span> Gradient descent</h2>
+<p>Many algorithms, including decision trees, focus on minimizing the residuals and, therefore, emphasize the MSE loss function. The algorithm discussed above outlines the approach of sequentially fitting regression trees to minimize the errors. This specific approach is how gradient boosting minimizes the mean squared error (MSE) loss function. However, often we wish to focus on other loss functions such as mean absolute error (MAE) or to be able to apply the method to a classification problem with a loss function such as deviance or logloss. The name <strong><em>gradient</em></strong> boosting machine comes from the fact that this procedure can be generalized to loss functions other than MSE.</p>
+<p>Gradient boosting is considered a <strong><em>gradient descent</em></strong> algorithm. Gradient descent is a very generic optimization algorithm capable of finding optimal solutions to a wide range of problems. The general idea of gradient descent is to tweak parameters iteratively in order to minimize a loss function. Suppose you are a downhill skier racing your friend. A good strategy to beat your friend to the bottom is to take the path with the steepest slope. This is exactly what gradient descent does - it measures the local gradient of the loss function for a given set of parameters (<span class="math inline">\(\Theta\)</span>) and takes steps in the direction of the descending gradient. Once the gradient is zero, we have reached the minimum.</p>
+<div class="figure" style="text-align: center"><span id="fig:gradient-descent-fig"></span>
+<img src="abar_files/figure-html/gradient-descent-fig-1.png" alt="Gradient descent is the process of gradually decreasing the cost function (i.e. MSE) by tweaking parameters iteratively until you have reached a minimum." width="95%" height="95%" />
+<p class="caption">
+Figure 10.3: Gradient descent is the process of gradually decreasing the cost function (i.e. MSE) by tweaking parameters iteratively until you have reached a minimum.
+</p>
+</div>
+<p>Gradient descent can be performed on any loss function that is differentiable. Consequently, this allows GBMs to optimize different loss functions as desired (see <span class="citation">Friedman, Hastie, and Tibshirani (<a href="#ref-friedman2001elements">2001</a>)</span>, p. 360 for common loss functions). An important parameter in gradient descent is the size of the steps which is determined by the <em>learning rate</em>. If the learning rate is too small, then the algorithm will take many iterations to find the minimum. On the other hand, if the learning rate is too high, you might jump across the minimum and end up further away than when you started.</p>
+<div class="figure" style="text-align: center"><span id="fig:learning-rate-fig"></span>
+<img src="abar_files/figure-html/learning-rate-fig-1.png" alt="A learning rate that is too small will require many iterations to find the minimum. A learning rate too big may jump over the minimum." width="864" />
+<p class="caption">
+Figure 10.4: A learning rate that is too small will require many iterations to find the minimum. A learning rate too big may jump over the minimum.
+</p>
+</div>
+<p>Moreover, not all cost functions are convex (bowl shaped). There may be local minimas, plateaus, and other irregular terrain of the loss function that makes finding the global minimum difficult. <strong><em>Stochastic gradient descent</em></strong> can help us address this problem by sampling a fraction of the training observations (typically without replacement) and growing the next tree using that subsample. This makes the algorithm faster but the stochastic nature of random sampling also adds some random nature in descending the loss function gradient. Although this randomness does not allow the algorithm to find the absolute global minimum, it can actually help the algorithm jump out of local minima and off plateaus and get near the global minimum.</p>
+<div class="figure" style="text-align: center"><span id="fig:stochastic-gradient-descent-fig"></span>
+<img src="abar_files/figure-html/stochastic-gradient-descent-fig-1.png" alt="Stochastic gradient descent will often find a near-optimal solution by jumping out of local minimas and off plateaus." width="95%" height="95%" />
+<p class="caption">
+Figure 10.5: Stochastic gradient descent will often find a near-optimal solution by jumping out of local minimas and off plateaus.
+</p>
+</div>
+<p>As we’ll see in the next section, there are several hyperparameter tuning options that allow us to address how we approach the gradient descent of our loss function.</p>
 </div>
 <div id="fitting-a-basic-gbm" class="section level2">
 <h2><span class="header-section-number">10.4</span> Fitting a basic GBM</h2>
@@ -740,6 +763,12 @@ GBM_model
 <div id="learning-more-5" class="section level2">
 <h2><span class="header-section-number">10.9</span> Learning more</h2>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-friedman2001elements">
+<p>Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2001. <em>The Elements of Statistical Learning</em>. Vol. 1. 10. Springer series in statistics New York, NY, USA:</p>
 </div>
 </div>
             </section>
