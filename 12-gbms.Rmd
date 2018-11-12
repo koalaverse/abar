@@ -23,11 +23,10 @@ Gradient boosted machines (GBMs) are an extremely popular machine learning algor
 For this chapter we’ll use the following packages:
 
 ```{r gbm-prereq-pkgs}
-library(rsample)  # data splitting
-library(gbm)
-library(caret)
-library(vip)
-library(pdp)
+library(rsample)  # for data splitting
+library(gbm)      # for GBM implementation
+library(caret)    # for automated hyperparameter tuning
+library(pdp)      # for partial dependence plots
 ```
 
 
@@ -46,7 +45,7 @@ ames_test  <- testing(ames_split)
 
 ## The basic idea
 
-Thus far, we have discussed several supervised machine learning algorithms that are founded on a single predictive model such as linear ($\S$ \@ref(linear-regression)) and logistic regression ($\S$ \@ref(logistic-regression)), regularized regression ($\S$ \@ref(regularized-regression)), and multivariate adaptive regression splines ($\S$ \@ref(MARS)). We have also introduced other approaches such as bagging and random forests ($\S$ \@ref(RF)) that are built on the idea of building an ensemble of models where each individual model predicts the outcome and then the ensemble simply averages the predicted values. The family of boosting methods is based on a different, constructive strategy of ensemble formation.
+Thus far, we have discussed several supervised machine learning algorithms that are founded on a single predictive model such as linear ($\S$ \@ref(linear-regression)), logistic ($\S$ \@ref(logistic-regression)), and regularized ($\S$ \@ref(regularized-regression)) regression, along with multivariate adaptive regression splines ($\S$ \@ref(MARS)). We have also introduced other approaches such as bagging and random forests ($\S$ \@ref(RF)) that are built on the idea of building an ensemble of models where each individual model predicts the outcome and then the ensemble simply averages the predicted values. The family of boosting methods is based on a different, constructive strategy of ensemble formation.
 
 The main idea of boosting is to add new models to the ensemble ___sequentially___. At each particular iteration, a new weak, base-learner model is trained with respect to the error of the whole ensemble learnt so far.  
 
@@ -77,7 +76,7 @@ The basic algorithm for boosted decision trees can be generalized to the followi
 
 $$ f(x) =  \sum^B_{b=1}f^b(x) \tag{1} $$
 
-To illustrate the behavior, assume the following *x* and *y* observations.  The blue sine wave represents the true underlying function and the points represent observations that include some irriducible error (noise).  The boosted prediction (red) illustrates the adjusted predictions after additional sequential trees are added to the algorithm.  Initially, there are large errors which the boosted algorithm improves upon immediately but as the predictions get closer to the true underlying function you see each additional tree make small improvements in different areas across the feature space where errors remain. If enough trees are added, the algorithm can overfit. As Figure \@ref(fig:boosted-tree) shows, the predicted values approximately converge to the true underlying function at around 50-100 iterations; however, we definitely see that at larger iterations (500-1000) the predicted value becomes highly variable to the noise in the data.
+To illustrate the behavior, assume the following *x* and *y* observations.  The blue sine wave represents the true underlying function and the points represent observations that include some irriducible error (noise).  The boosted prediction (red) illustrates the adjusted predictions after additional sequential trees are added to the algorithm.  Initially, there are large errors which the boosted algorithm improves upon immediately but as the predictions get closer to the true underlying function you see each additional tree make small improvements in different areas across the feature space where errors remain. If enough trees are added, the algorithm can overfit. As Figure \@ref(fig:boosted-tree) shows, the predicted values approximately converge to the true underlying function at around 50-100 iterations; however, we definitely see that at larger iterations (500-1000) the predicted value becomes highly variable to the noise in the data suggesting the model has overfit.
 
 ```{r boosted-tree, echo=FALSE, fig.align='center', fig.cap="Boosted regression tree predictions illustrating how gradient boosted trees sequentially reduce the error of a model based on the sin function.", fig.height=6, fig.width=9}
 # Nicer color palette
@@ -302,7 +301,7 @@ There are many packages that implement GBMs and GBM variants. You can find a fai
 
 __gbm__ has two primary training functions - `gbm::gbm()` and `gbm::gbm.fit()`. The primary difference is that `gbm::gbm()` uses the formula interface to specify your model whereas `gbm::gbm.fit()` requires the separated `x` and `y` matrices.  When working with _many_ variables it is more efficient to use the matrix rather than formula interface.
 
-The default settings in __gbm__ includes a learning rate (`shrinkage`) of 0.001. This is a very small learning rate and typically requires a large number of trees to find the minimum MSE.  However, __gbm__ uses a default number of trees of 100, which is rarely sufficient.  Consequently, if you use the learning rate you will likely want to significantly increase the number of trees applied.  The default depth of each tree (`interaction.depth`) is 1, which means we are ensembling a bunch of stumps. Lastly, I also include `cv.folds` to perform a 5 fold cross validation.  
+The default settings in __gbm__ includes a learning rate (`shrinkage`) of 0.001. This is a very small learning rate and typically requires a large number of trees to find the minimum MSE.  However, __gbm__ uses a default number of trees of 100, which is rarely sufficient.  Consequently, if you use the default learning rate you will likely want to significantly increase the number of trees applied.  The default depth of each tree (`interaction.depth`) is 1, which means we are ensembling a bunch of stumps. Lastly, I also include `cv.folds` to perform a 5 fold cross validation.  
 
 ```{block, type="note"}
 The model took 48 seconds to run and the results show that our MSE loss function is minimized with 5,000 trees.
@@ -347,7 +346,7 @@ sqrt(min(gbm_mod1$cv.error))
 gbm.perf(gbm_mod1, method = "cv")
 ```
 
-```{r gbm1-gradient-descent, echo=FALSE, fig.cap="Training and cross-validated MSE as *n* trees are added to the GBM algorithm."}
+```{r gbm1-gradient-descent, echo=FALSE, fig.cap="Training and cross-validated MSE as *n* trees are added to the GBM algorithm.", out.height="90%", out.width="90%"}
 knitr::include_graphics("illustrations/gbm1_gradient_descent.png")
 ```
 
@@ -355,7 +354,7 @@ In this case, the small learning rate is resulting in very small incremental imp
 
 ## Tuning
 
-As we've seen in the previous chapters, rarely do the default settings suffice.  We could tune parameters one at a time to see how the results change.  For example, here, I increase the learning rate to take larger steps down the gradient descent, reduce the number of trees (since we are reducing the learning rate), and increase the depth of each tree from using a single split to 3 splits. Our RMSE (\$23,813.34) is lower than our initial model and the optimal number of trees required was 964.
+As we've seen in the previous chapters, rarely do the default settings suffice.  We could tune parameters one at a time to see how the results change.  For example, here, I increase the learning rate to take larger steps down the gradient descent, keep the number of trees the same (maybe moving down the gradient descent faster will allow us to find a minimum error with 5000 or less trees), and increase the depth of each tree from using a single split to 3 splits. Our RMSE (\$23,813.34) is lower than our initial model and the optimal number of trees required was 964.
 
 ```{r, eval=FALSE}
 # for reproducibility
@@ -385,7 +384,7 @@ sqrt(gbm_mod2$cv.error[min_MSE])
 gbm.perf(gbm_mod2, method = "cv")
 ```
 
-```{r gbm2-gradient-descent, echo=FALSE, fig.cap="Training and cross-validated MSE as *n* trees are added to the GBM algorithm. We can see that are new hyperparameter settings result in a much quicker progression down the gradient descent than our initial model."}
+```{r gbm2-gradient-descent, echo=FALSE, fig.cap="Training and cross-validated MSE as *n* trees are added to the GBM algorithm. We can see that are new hyperparameter settings result in a much quicker progression down the gradient descent than our initial model.", out.height="90%", out.width="90%"}
 knitr::include_graphics("illustrations/gbm2_gradient_descent.png")
 ```
 
@@ -405,14 +404,14 @@ gbm_grid <- expand.grid(
 )
 ```
 
-Our grid search revealed a few important attributes.  First, our top model has better performance than the models fit in previous chapters, with an RMSE of \$22,424. Second, looking at the top 10 models (`gbm_tune$results` or as illustrated in Figure \@ref(fig:gbm-tune-results)) you will see that:
+The grid search performed next reveals a few important attributes.  First, our top model has better performance than the models fit in previous chapters, with an RMSE of \$22,424. Second, looking at the top 10 models (`gbm_tune$results` or as illustrated in Figure \@ref(fig:gbm-tune-results)) you will see that:
 
-- all the top models used a learning rate of 0.1 or smaller; small incremental steps down the gradient descent appears to work best,
+- all the top models used a learning rate of 0.1 or smaller; small incremental steps down the gradient descent appear to work best,
 - all the top models used deeper trees (`interaction.depth = 5`); there are likely some important interactions that the deeper trees are able to capture,
 - allowing terminal nodes to have a smaller number of observations in them (`n.minobsinnode`) appears to improve model performance; there are likely pockets of price points or outliers that this allows our model to better capture. 
 
 ```{block, type="warning"}
-This grid search took 51 minutes to complete.
+This grid search took 51 minutes to complete!
 ```
 
 ```{r, eval=FALSE}
@@ -437,7 +436,7 @@ gbm_tune <- train(
 ggplot(gbm_tune)
 ```
 
-```{r gbm-tune-results, echo=FALSE, fig.cap="Model performance of our GBM grid search.  Smaller learning rate, greater tree depth, and terminal nodes with smaller number of observations all appear to help minimize error."}
+```{r gbm-tune-results, echo=FALSE, fig.cap="Model performance of our GBM grid search.  Smaller learning rate, greater tree depth, and terminal nodes with smaller number of observations all appear to help minimize error.", out.height="95%", out.width="95%"}
 knitr::include_graphics("illustrations/gbm-xval-tuned.png")
 ```
 
@@ -455,7 +454,7 @@ These results help us to zoom into areas where we can refine our search.  In pra
 * interaction depth: 5, 7, 9
 * minimum number of obs in terminal node: 1, 3, 5
 
-You may also want to assess the impact of including a stochastic gradient descent with `bag.fraction`.  Also, since this grid search would use a smaller learning rate, you may want to increasethe number of trees to ensure you are converging to a minimal error.
+You may also want to assess the impact of including a stochastic gradient descent with `bag.fraction`.  Also, since this grid search would use a smaller learning rate, you may want to increase the number of trees to ensure you are converging to a minimal error.
 
 ```{block, type = "note"}
 We'll leave this additional grid search to the reader to perform on their own!
@@ -496,7 +495,7 @@ min(gbm_tune2$results$RMSE) # --> CV RMSE was 22084.87
 
 Once we have found our top model we want to re-train the model within GBM and with the specific parameters. This is because `caret::train()` does not provide you with the optimal number of trees but, rather, uses all the trees specified. Re-running a __gbm__ model with the optimal hyperparameters and performing cross validation actually shows the optimal number of trees is 4911.  Consequently, the following applies our top model parameters to get our final model.  
 
-```{r, echo=FALSE}
+```{r}
 # for reproducibility
 set.seed(123)
 
@@ -521,7 +520,7 @@ Similar to random forests, GBMs make no assumption regarding the linearity and m
 
 After re-running our final model we likely want to understand the variables that have the largest influence on our response variable.  The `summary()` method for __gbm__ will output a data frame and a plot that shows the most influential variables.  `cBars` allows you to adjust the number of variables to show (in order of influence). The default method for computing variable importance is with relative influence but your options include: 
 
-1. `method = relative.influence`: At each split in each tree, `gbm` computes the improvement in the split-criterion (MSE for regression). `gbm` then averages the improvement made by each variable across all the trees that the variable is used. The variables with the largest average decrease in MSE are considered most important.
+1. `method = relative.influence`: At each split in each tree, `gbm` computes the improvement in the split-criterion (MSE for regression, Gini index for classification). `gbm` then averages the improvement made by each variable across all the trees that the variable is used. The variables with the largest average decrease in the loss function are considered most important.
 2. `method = permutation.test.gbm`: For each tree, the OOB sample is passed down the tree and the prediction accuracy is recorded. Then the values for each variable (one at a time) are randomly permuted and the accuracy is again computed. The decrease in accuracy as a result of this randomly “shaking up” of variable values is averaged over all the trees for each variable. The variables with the largest average decrease in accuracy are considered most important.
 
 ```{block, type = "tip"}
@@ -561,9 +560,9 @@ gbm_ice <- gbm_final_fit %>%
 gridExtra::grid.arrange(gbm_pdp, gbm_ice, nrow = 1)
 ```
 
-Looking at the other two top influential variables we see that as the quality of the home increases... 
+Looking at the other two top influential variables we see that as the quality of the home increases, in general we see an increase in sale price.  However, closer inspection of Figure \@ref(fig:overall-qual-gbm) shows several observations that have a decrease in sales price as the quality moves from very poor to average and then they increase beyond that.  We also see two diverging bands that have noticable differences in their home sales price when the quality improves to very good and higher.  This suggests that there may be some interaction effects happening behind the scenes.
 
-```{r, echo=FALSE}
+```{r overall-qual-gbm, echo=FALSE, fig.width=10, fig.cap="Centered ICE curves for the Overall Quality variable indicates that increasing a homes quality from very poor to very excellent can increase the predicted sales price by over $50,000 on average."}
 gbm_final_fit %>%
   partial(pred.var = "Overall_Qual", n.trees = gbm_final_fit$n.trees, train = as.data.frame(ames_train), ice = TRUE) %>%
   autoplot(center = TRUE, alpha = 0.03) +
@@ -571,9 +570,9 @@ gbm_final_fit %>%
 ```
 
 
-We also see that one neighbhorhood (Greens) sticks out above the others...
+Also, looking at the PDP plot for the Neighborhood variable indicates that the Greens neighborhood demands a substantially larger predicted sales price than all other neigbhorhoods. 
 
-```{r, echo=FALSE, fig.height=6}
+```{r, echo=FALSE, fig.height=6, fig.cap="PDP plot for the Neighborhood variable indicates that the Greens neighborhood demands a substantially larger predicted sales price than all other neigbhorhoods."}
 gbm_final_fit %>%
   partial(pred.var = "Neighborhood", n.trees = gbm_final_fit$n.trees, train = as.data.frame(ames_train)) %>%
   ggplot(aes(yhat, reorder(Neighborhood, yhat))) +
@@ -583,9 +582,33 @@ gbm_final_fit %>%
 
 ```
 
+We can use this information to create a partial dependence map that helps to visualize the average predicted sales prices based on geographic location.  
+
+```{r, eval=FALSE, echo=FALSE}
+geo <- ames_train %>% 
+  select(Neighborhood, lat = Latitude, lon = Longitude) %>% 
+  mutate(Neighborhood = as.character(Neighborhood)) %>%
+  group_by(Neighborhood) %>%
+  summarise(lat = median(lat), lon = median(lon))
+
+df <- gbm_final_fit %>%
+  partial(pred.var = "Neighborhood", n.trees = gbm_final_fit$n.trees, train = as.data.frame(ames_train)) %>%
+  inner_join(geo)
+
+qmplot(lon, lat, data = df, geom = "blank", maptype = "toner-background", darken = .7, legend = "topleft") +
+  stat_density_2d(aes(fill = ..level..), geom = "polygon", alpha = .3, color = NA) +
+  scale_fill_gradient2("Partial\nDependence", low = "white", mid = "yellow", high = "red", midpoint = 200)
+```
+
+```{r, echo=FALSE, out.height="80%", out.width="80%", fig.cap="Partial dependence map that clearly shows the geographic location of neighbhorhoods that drive predicted sales prices in our GBM model."}
+knitr::include_graphics("illustrations/partial-dependence-map.png")
+```
+
+
 
 ## Attrition data
 
+With the Ames data, the GBM model obtained the best predictive accuracy thus far, but how about the employee attrition data?  The following performs a grid search across 54 hyperparameter combinations.  
 
 ```{r, eval=FALSE}
 # get attrition data
@@ -626,9 +649,14 @@ gbm_churn$bestTune
 ##   n.trees interaction.depth shrinkage n.minobsinnode
 ## 1    5000                 1      0.01              5
 min(gbm_churn$results$RMSE)
-## [1] 0.8718578
+## [1] 0.8748354
 ```
 
+Our best GBM model provides an accuracy of 87.5%, which provides a slight improvement over the previous best model which was an Elast net.  
+
+```{block, type = "warning"}
+One thing to consider when your improvement is this small, does the additional time and computational resources required for a GBM model warrant the 0.002 improvement in accuracy?
+```
 
 
 ```{r gbm-attrition-model-comparison, echo=FALSE, eval=FALSE}
@@ -720,5 +748,41 @@ readRDS("data/gbm_attrition_model_comparison.rds") %>%
 
 ## Final thoughts
 
+GBMs are one of the most powerful ensemble algorithms that are often first-in-class with predictive accuracy. Although they are less intuitive and more computationally demanding than many other machine learning algorithms, they are essential to have in your toolbox. 
+
+__TODO__: may need to better tie in some of these advantages and disadvantages throughout the chapter.
+
+__Advantages:__
+
+- Often provides predictive accuracy that cannot be beat.
+- Lots of flexibility - can optimize on different loss functions and provides several hyperparameter tuning options that make the function fit very flexible.
+- No data pre-processing required - often works great with categorical and numerical values as is.
+- Handles missing data - imputation not required.
+
+__Disadvantages:__
+
+- GBMs will continue improving to minimize all errors.  This can overemphasize outliers and cause overfitting. Must use cross-validation to neutralize.
+- Computationally expensive - GBMs often require many trees (>1000) which can be time and memory exhaustive.
+- The high flexibility results in many parameters that interact and influence heavily the behavior of the approach (number of iterations, tree depth, regularization parameters, etc.). This requires a large grid search during tuning.
+- Less interpretable although this is easily addressed with various tools (variable importance, partial dependence plots, local variable importance, etc.).
+
 
 ## Learning more
+
+To learn more I would start with the following resources:
+
+__Traditional book resources:__
+
+- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/)
+- [Applied Predictive Modeling](http://appliedpredictivemodeling.com/)
+- [Computer Age Statistical Inference](https://www.amazon.com/Computer-Age-Statistical-Inference-Mathematical/dp/1107149894)
+- [The Elements of Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/)
+
+__Alternative online resources:__
+
+* [Trevor Hastie - Gradient Boosting & Random Forests at H2O World 2014](https://koalaverse.github.io/machine-learning-in-R/%20//www.youtube.com/watch?v=wPqtzj5VZus&index=16&list=PLNtMya54qvOFQhSZ4IKKXRbMkyL%20Mn0caa) (YouTube)
+* [Trevor Hastie - Data Science of GBM (2013)](http://www.slideshare.net/0xdata/gbm-27891077) (slides)
+* [Mark Landry - Gradient Boosting Method and Random Forest at H2O World 2015](https://www.youtube.com/watch?v=9wn1f-30_ZY) (YouTube)
+* [Peter Prettenhofer - Gradient Boosted Regression Trees in scikit-learn at PyData London 2014](https://www.youtube.com/watch?v=IXZKgIsZRm0) (YouTube)
+* [Alexey Natekin1 and Alois Knoll - Gradient boosting machines, a tutorial](http://journal.frontiersin.org/article/10.3389/fnbot.2013.00021/full) (blog post)
+
