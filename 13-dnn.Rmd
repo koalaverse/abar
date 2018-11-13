@@ -1,0 +1,298 @@
+# Deep Learning {#DL}
+
+```{r dnn-ch13-setup, include=FALSE}
+
+# Set the graphical theme
+ggplot2::theme_set(ggplot2::theme_light())
+
+# Set global knitr chunk options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  warning = FALSE, 
+  message = FALSE, 
+  collapse = TRUE, 
+  fig.align = "center",
+  fig.height = 3.5
+)
+```
+
+Machine learning algorithms typically search for the optimal representation of data using some feedback signal (aka objective/loss function).  However, most machine learning algorithms only have the ability to use one or two layers of data transformation to learn the output representation. As data sets continue to grow in the dimensions of the feature space, finding the optimal output representation with a *shallow* model is not always possible.  Deep learning provides a multi-layer approach to learn data representations, typically performed with a *multi-layer neural network*.  Like other machine learning algorithms, deep neural networks (DNN) perform learning by mapping features to targets through a process of simple data transformations and feedback signals; however, DNNs place an emphasis on learning successive layers of meaningful representations.  Although an intimidating subject, the overarching concept is rather simple and has proven highly successful in predicting a wide range of problems (i.e. image classification, speech recognition, autonomous driving).  This chapter will teach you the fundamentals of building a *feedfoward* deep learning model.
+
+This chapter will use a few supporting packages but the main emphasis will be on the `h2o` package.  
+
+```{r dnn-prereq-pkgs, eval=FALSE}
+library(rsample)  # for data splitting
+library(dplyr)    # data wrangling
+library(h2o)      # data modeling
+
+# launch h2o
+h2o.init()
+```
+
+```{r dnn-prereq-pkgs}
+library(rsample)  # for data splitting
+library(dplyr)    # data wrangling
+library(h2o)      # data modeling
+
+# launch h2o
+h2o.no_progress()
+h2o.init()
+```
+
+To illustrate the various concepts we’ll continue focusing on the Ames Housing data (regression); however, at the end of the chapter we’ll also fit a GBM model to the employee attrition data (classification).
+
+However, three important items need to be pointed out.  
+
+1. Feedfoward DNNs require all feature inputs to be numeric.  Consequently, all categorical variables need to be one-hot encoded.  Fortunately,  `h2o` will automatically one-hot encode categorical variables for you; however, other neural network packages do not always provide this service. 
+2. Due to the data transformation process that DNNs perform, they are highly sensitive to the individual scale of the feature values. Consequently, all features should be standardized prior to modeling.  Once again, `h2o` will do this for us.
+<!-- 3. Note that I perform a Box Cox transformation on our response variable (`NIEL_COMP_SPEND`) due to its skewness. -->
+
+```{r dnn-prereq-data}
+# Create training (70%) and test (30%) sets for the AmesHousing::make_ames() data.
+# Use set.seed for reproducibility
+
+set.seed(123)
+ames_split <- initial_split(AmesHousing::make_ames(), prop = .7)
+ames_train <- training(ames_split)
+ames_test  <- testing(ames_split)
+
+# convert data to h2o objects
+train_h2o <- as.h2o(ames_train)
+test_h2o <- as.h2o(ames_test)
+
+# get response and predictor names 
+response <- "Sale_Price"
+features <- setdiff(names(ames_train), response)
+```
+
+## Why deep learning {#dnn_why}
+
+Neural networks originated in the computer science field to answer questions that normal statistical approaches were not designed to answer.  A common example you will find is, assume we wanted to analyze hand-written digits and predict the numbers written.  This was a problem presented to AT&T Bell Lab's to help build automatic mail-sorting machines for the USPS.[@lecun1990handwritten]
+
+```{r digits-fig, echo=FALSE, fig.align='center', fig.cap="Sample images from MNIST test dataset."}
+knitr::include_graphics("illustrations/digits.png")
+```
+
+This problem is quite unique because many different features of the data can be represented.  As humans, we look at these numbers and consider features such as angles, edges, thickness, completeness of circles, etc.  We interpret these different representations of the features and combine them to recognize the digit.  In essence, neural networks perform the same task albeit in a far simpler manner than our brains. At their most basic levels, neural networks have an *input layer*, *hidden layer*, and *output layer*. The input layer reads in data values from a user provided input. Within the hidden layer is where a majority of the *learning* takes place, and the output layer projects the results.  
+
+```{r dnn-ffwd-fig, echo=FALSE, fig.align='center', fig.cap="Simple feedforward neural network."}
+knitr::include_graphics("illustrations/fig18_1.png")
+```
+
+Although simple on the surface, historically the magic being performed inside the neural net required lots of data for the neural net to learn and was computationally intense; ultimately making neural nets impractical.  However, in the last decade advancements in computer hardware (off the shelf CPUs became faster and GPUs were created) made computation more practical, the growth in data collection made them more relevant, and advancements in the underlying algorithms made the *depth* (number of hidden layers) of neural nets less of a constraint.  These advancements have resulted in the ability to run very deep and highly parameterized neural networks, which have become known as deep neural networks (DNNs).
+
+```{r dnn-deep-fig, echo=FALSE, fig.align='center', fig.cap="Deep feedforward neural network."}
+knitr::include_graphics("illustrations/deep_nn.png")
+```
+
+These DNNs allow for very complex representations of data to be modeled, which has opened the door to analyzing high-dimensional data (i.e. images, videos).  In traditional machine learning approaches, features of the data need to be defined prior to modeling. One can only imagine trying to create the features for the digit recognition problem above. However, with DNNs, the hidden layers provide the means to auto-identify features.  A simple way to think of this is to go back to our digit recognition problem.  The first hidden layer may learn about the angles of the line, the next hidden layer may learn about the thickness of the lines, the next learns the location and completeness of the circles, etc.  Aggregating these different attributes together by linking the layers allows the model to predict what digit each image is based on its features. 
+
+This is the reason that DNNs are so popular for very complex problems where feature engineering is impossible (i.e. image classification, facial recognition). However, at their core, DNNs perform successive non-linear transformations across each layer, allowing DNNs to model very complex and non-linear relationships.  This can make DNNs suitable machine learning approaches for traditional regression and classification problems as well. But it is important to keep in mind that deep learning thrives when dimensions of your data are sufficiently large.  As the number of observations (*n*) and feature inputs (*p*) decrease, traditional shallow machine learning approaches tend to perform just as well, if not better, and are more efficient. 
+
+## Feedforward DNNs {#dnn_ff}
+
+Multiple DNN models exist and, as interest and investment in this area have increased, expansions of DNN models have flurished. For example, convolutional neural networks (CNN or ConvNet) have wide applications in image and video recognition, recurrent neural networks (RNN) are used with speech recognition, and long short-term memory neural networks (LTSM) are advancing automated robotics and machine translation. @goodfellow2016deep and @chollet2018deep provide nice comprehensive details of the many DNN algorithms available.  However, fundamental to all these methods is the ___feedforward neural net___ (aka multilayer perceptron).  Feedforward DNNs are densely connected layers where inputs influence each successive layer which then influences the final output layer.
+
+```{r dnn-mlp-fig, echo=FALSE, fig.align='center', fig.cap="Feedforward neural network."}
+knitr::include_graphics("illustrations/mlp_network.png")
+```
+
+To build a feedforward DNN we need 4 key components:
+
+1. input data &#x2714;,
+2. a defined network architecture,
+3. our feedback mechanism to help our model learn,
+4. a model training approach.
+
+The next few sections will walk you through each of these components to build a feedforward DNN for our Ames housing data.
+
+## Network architecture {#dnn_arch}
+
+When developing the network architecture for a feedforward DNN, you really only need to worry about two features: (1) layers and nodes, (2) activation.
+
+### Layers and nodes
+
+The layers and nodes are the building blocks of our model and they decide how complex your network will be.  Layers are considered *dense* (fully connected) where all the nodes in each successive layer are connected.  Consequently, the more layers and nodes you add the more opportunities for new features to be learned (commonly referred to as the model's *capacity*).  Beyond the *input layer*, which is just our predictor variables, there are two main type of layers to consider: *hidden layers* and an *output layer*.  
+
+#### Hidden layers
+
+There is no well defined approach for selecting the number of hidden layers and nodes, rather, these are the first of many tuning parameters.  Typically, with regular rectangular data (think normal data frames in R), 2-5 hidden layers is sufficient. And the number of nodes you incorporate in these hidden layers is largely determined by the number of features in your data.  Often, the number of nodes in each layer is equal to or less than the number of features but this is not a hard requirement.  At the end of the day, the number of hidden layers and nodes in your network will drive the computational burden of your model.  Consequently, the goal is to find the simplest model with optimal performance.
+
+#### Output layers
+
+The output layer is driven by the type of modeling you are performing.  For regression problems, your output layer will contain one node because that one node will predict a continuous numeric output.  Classification problems are different.  If you are predicting a binary output (True/False, Win/Loss), your output layer will still contain only one node and that node will predict the probability of success (however you define success).  However, if you are predicting a multinomial output, the output layer will contain the same number of nodes as the number of classes being predicted. For example, in our digit recognition problem we would be predicting 10 classes (0-9); therefore, the output layer would have 10 nodes and the output would provide the probability of each class.
+
+#### Implementation
+
+To implement a feedforward DNN, we use `h2o.deeplearning()`. First, we specify the type of response variable (guassian is most common for continuous regression problems but poisson, gamma, and a few others are also available; see `?h2o.deeplearning` for more). This example creates two hidden layers, the first with 200 nodes and the second with 200 (these are actually the default values). By specifying a continuous distribution, h2o.deeplearning will automatically create a single node output layer for your predictions.
+
+```{r initial-model, eval=FALSE}
+fit1 <- h2o.deeplearning(
+  x = features, 
+  y = response, 
+  training_frame = train_h2o,
+  distribution = "gaussian",        # output is continuous
+  hidden = c(200, 200)              # two hidden layers
+  )
+```
+
+### Activation
+
+A key component with neural networks is what's called *activation*.  In the human body, the biologic neuron receives inputs from many adjacent neurons.  When these inputs accumulate beyond a certain threshold the neuron is *activated* suggesting there is a signal. DNNs work in a similar fashion. 
+
+#### Activation functions
+
+As stated previously, each node is connected to all the nodes in the previous layer.  Each connection gets a weight and then that node adds all the incoming inputs multiplied by its corresponding connection weight (plus an extra *bias* ($w_0$) but don't worry about that right now). The summed total of these inputs become an input to an *activation function*.    
+
+```{r activation-fig, echo=FALSE, fig.cap="Flow of information in an artificial neuron"}
+knitr::include_graphics("illustrations/perceptron_node.png")
+```
+
+
+The activation function is simply a mathematical function that determines if there is enough informative input at a node to fire a signal to the next layer.  There are multiple [activation functions](https://en.wikipedia.org/wiki/Activation_function) to choose from but the most common ones include:
+
+$$  
+\texttt{Linear (identity):} \;\; f(x)=x
+$$
+
+<br>
+
+$$  
+\texttt{Rectified linear unit (ReLU):} \;\; f(x)= \begin{cases}
+    0, & \text{for $x<0$}.\\
+    x, & \text{for $x\geq0$}.
+  \end{cases}
+$$
+
+<br>
+
+$$  
+\texttt{Sigmoid:} \;\; f(x)= \frac{1}{1 + e^{-x}}
+$$
+
+When using rectangular data such as our SOW data, the most common approach is to use ReLU activation functions in the hidden layers.  The ReLU activation function is simply taking the summed weighted inputs and transforming them to a 0 (not fire) or 1 (fire) if there is enough signal. For the output layers we use the linear activation function for regression problems and the sigmoid activation function for classification problems as this will provide the probability of the class (multinomial classification problems commonly us the softmax activation function).  
+
+
+#### Implementation
+
+To implement activation functions into our model we simply incorporate the `activation` argument. For the two hidden layers we add the ReLU activation function (aka "rectifier") and for the output layer we do not specify an activation function because the the default for regression models is a linear activation. 
+
+```{r activation, eval=FALSE}
+fit1 <- h2o.deeplearning(
+  x = features, 
+  y = response, 
+  training_frame = train_h2o,
+  distribution = "gaussian",        # output is continuous
+  hidden = c(200, 200),             # two hidden layers
+  activation = "Rectifier"          # hidden layer activation functions
+  )
+```
+
+We have created our basic network architecture: two hidden layers with 200 nodes each and both hidden layers using ReLU activation functions.  Next, we need to incorporate a feedback mechanism to help our model learn.
+
+## Backpropagation {#dnn_back}
+
+
+On the first model run (or *forward pass*), the DNN will select a batch of observations, randomly assign weights across all the node connections, and predict the output. The engine of neural networks is how it assesses its own accuracy and automatically adjusts the weights across all the node connections to try improve that accuracy. This process is called *backpropagation*.  To perform backpropagation we need two things:
+
+1. objective function
+2. optimizer
+
+First, you need to establish an objective (loss) function to measure performance.  Then, on each forward pass the DNN will measure its performance based on the loss function chosen. The DNN will then work backwards through the layers, compute the gradient ($\S$ \@ref(gbm-gradient)) of the loss with regards to the network weights, adjust the weights a little in the opposite direction of the gradient, grab another batch of observations to run through the model, ...rinse and repeat until the loss function is minimized. This process is known as *mini-batch stochastic gradient descent*[^stochastic] (mini-batch SGD).  There are several variants of mini-batch SGD algorithms; they primarily differ in how fast they go down the gradient descent (see @ruder2016overview for an overview of gradient descent algorithms).  `h2o.deeplearning()` uses Adadelta [@zeiler2012adadelta], which is sufficient for most regression and classification problems you'll encounter.  However, in the tuning section we will show you how to adjust a few different learning parameters, which can help you from getting stuck in a local optima with your loss function.
+
+To incorporate the backpropagation piece of our DNN we identify the loss metric. For regression problems, the loss function argument is "Automatic", which defaults to MSE. 
+
+```{r backpropagation, eval=FALSE}
+fit1 <- h2o.deeplearning(
+  x = features, 
+  y = response, 
+  training_frame = train_h2o,
+  distribution = "gaussian",        # output is continuous
+  hidden = c(200, 200),             # two hidden layers
+  activation = "Rectifier",         # hidden layer activation functions
+  loss = "Automatic",               # loss function is MSE
+  )
+```
+
+## Model training {#dnn_train}
+
+We've created a base model, now we just need to train it with our data.  To do so we provide a few other arguments that are worth mentioning:
+
+- `mini_batch_size`: As mentioned in the last section, the DNN will take a batch of data to run through the mini-batch SGD process.  Batch sizes can be between 1 and several hundred (h2o's default is 1).  Small values will be more computationally burdomesome while large values provide less feedback signal.  Typically, 32 is a good size to start with and the values are generally provided as a power of two that fit nicely into the memory requirements of the GPU or CPU hardware like 32, 64, 128, 256, and so on.
+- `epochs`: An *epoch* describes the number of times the algorithm sees the ___entire___ data set. So, each time the algorithm has seen all samples in the dataset, an epoch has completed. In our training set, we have `r nrow(ames_train)` observations so running batches of 32 will require `r round(nrow(ames_train) / 32, 0)` passes for one epoch. The more complex the features and relationships in your data, the more epochs you will require for your model to learn, adjust the weights, and minimize the loss function.
+- `n_folds`: Allows us to perform cross-validation (CV). The model will hold out XX% of the data so that we can compute a more accurate estimate of an out-of-sample error rate. When performing CV we need to retain our predictions for scoring purposes.
+- `seed`: Provides reproducible results.
+
+Our initial model provides an average cross validated RMSE of \$28,203.   
+
+```{r train-mod1, eval=FALSE}
+fit1 <- h2o.deeplearning(
+  x = features, 
+  y = response, 
+  training_frame = train_h2o,
+  distribution = "gaussian",                   # output is continuous
+  hidden = c(200, 200),                        # two hidden layers
+  activation = "Rectifier",                    # hidden layer activation f(x)
+  loss = "Automatic",                          # loss function is MSE
+  mini_batch_size = 32,                        # batch sizes
+  epochs = 20,                                 # of epochs
+  nfolds = 5,                                  # 5-fold CV
+  keep_cross_validation_predictions = TRUE,    # retain CV prediction values
+  seed = 123                                   # for reproducibility
+  )
+
+# check out cross validation results
+h2o.performance(fit1, xval = TRUE)
+## H2ORegressionMetrics: deeplearning
+## ** Reported on cross-validation data. **
+## ** 5-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+## 
+## MSE:  795418048
+## RMSE:  28203.16
+## MAE:  17504.01
+## RMSLE:  0.1557777
+## Mean Residual Deviance :  795418048
+```
+
+
+## Model tuning {#dnn_tuning}
+
+Now that we have an understanding of producing and running a basic DNN model, the next task is to find an optimal model by tuning different parameters.  There are many ways to tune a DNN.  Typically, the tuning process follows these general steps; however, there is often a lot of iteration among these:
+
+1. Adjust model capacity (layers & nodes)
+2. Add dropout
+3. Add weight regularization
+4. Adjust learning rate
+
+### Adjust model capacity
+
+Typically, we start with a high capacity model (several layers and nodes) and slowly reduce the layers and nodes.  The goal is to find the most simplistic model that still performs well.  Here, I fit a 3 layer model with 500, 250, and 125 nodes respectively.  I also add a few `stopping_` arguments, which stops the modeling automatically once the RMSE metric on the validation data stops improving by 0.01 for 2 consecutive epochs.  This allows us to increase the epochs to ensure convergence but the modeling will automatically stop when necessary to help minimize overfitting and computational burden.
+
+```{r train2, eval=FALSE}
+fit2 <- h2o.deeplearning(
+  x = features, 
+  y = response, 
+  training_frame = train_h2o,
+  distribution = "gaussian",                   
+  hidden = c(500, 250, 125),                   # deeper network
+  activation = "Rectifier",                    
+  loss = "Automatic",                          
+  mini_batch_size = 32,                        
+  epochs = 100,                                # increased epochs
+  nfolds = 5,                                  
+  keep_cross_validation_predictions = TRUE,    
+  seed = 123,                                  
+  stopping_metric = "RMSE",                    # stopping mechanism
+  stopping_rounds = 2,                         # number of rounds
+  stopping_tolerance = 0.01                    # looking for 1% improvement
+  )
+
+# assess RMSE
+h2o.rmse(fit2, train = TRUE, xval = TRUE)
+##    train      xval 
+## 4793.428 25494.783
+```
+
+
+
+[^stochastic]: Its considered stochastic because a random subset (*batch*) of observations are drawn for each forward pass.
