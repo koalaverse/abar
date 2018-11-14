@@ -22,8 +22,11 @@ This chapter will use a few supporting packages but the main emphasis will be on
 
 ```{r dnn-prereq-pkgs, eval=FALSE}
 library(rsample)  # for data splitting
-library(dplyr)    # data wrangling
-library(h2o)      # data modeling
+library(dplyr)    # for data wrangling
+library(h2o)      # for data modeling
+library(vip)      # for variable importance plots
+library(pdp)      # for partial dependence plots
+library(ggplot2)  # used in conjunction with pdp
 
 # launch h2o
 h2o.init()
@@ -31,8 +34,11 @@ h2o.init()
 
 ```{r dnn-prereq-pkgs}
 library(rsample)  # for data splitting
-library(dplyr)    # data wrangling
-library(h2o)      # data modeling
+library(dplyr)    # for data wrangling
+library(h2o)      # for data modeling
+library(vip)      # for variable importance plots
+library(pdp)      # for partial dependence plots
+library(ggplot2)
 
 # launch h2o
 h2o.no_progress()
@@ -45,7 +51,7 @@ However, three important items need to be pointed out.
 
 1. Feedfoward DNNs require all feature inputs to be numeric.  Consequently, all categorical variables need to be one-hot encoded.  Fortunately,  `h2o` will automatically one-hot encode categorical variables for you; however, other neural network packages do not always provide this service. 
 2. Due to the data transformation process that DNNs perform, they are highly sensitive to the individual scale of the feature values. Consequently, all features should be standardized prior to modeling.  Once again, `h2o` will do this for us.
-<!-- 3. Note that I perform a Box Cox transformation on our response variable (`NIEL_COMP_SPEND`) due to its skewness. -->
+3. Neural networks are sensitive to skewed response variables.  Consequently, we perform a log transformation on our response variable (`Sale_Price`) to normalize its distribution.
 
 ```{r dnn-prereq-data}
 # Create training (70%) and test (30%) sets for the AmesHousing::make_ames() data.
@@ -57,8 +63,8 @@ ames_train <- training(ames_split)
 ames_test  <- testing(ames_split)
 
 # convert data to h2o objects
-train_h2o <- as.h2o(ames_train)
-test_h2o <- as.h2o(ames_test)
+train_h2o <- ames_train %>% mutate(Sale_Price = log(Sale_Price)) %>% as.h2o()
+test_h2o <- ames_test %>% mutate(Sale_Price = log(Sale_Price)) %>% as.h2o()
 
 # get response and predictor names 
 response <- "Sale_Price"
@@ -223,7 +229,7 @@ We've created a base model, now we just need to train it with our data.  To do s
 - `n_folds`: Allows us to perform cross-validation (CV). The model will hold out XX% of the data so that we can compute a more accurate estimate of an out-of-sample error rate. When performing CV we need to retain our predictions for scoring purposes.
 - `seed`: Provides reproducible results.
 
-Our initial model provides an average cross validated RMSE of \$28,203.   
+Our initial model provides an average cross validated RMSE of 0.1506781.  Later, we'll re-transform our errors so we can interpret them as whole dollar values but for now, our objective is to find the model that minimizes RMSE. 
 
 ```{r train-mod1, eval=FALSE}
 fit1 <- h2o.deeplearning(
@@ -247,11 +253,11 @@ h2o.performance(fit1, xval = TRUE)
 ## ** Reported on cross-validation data. **
 ## ** 5-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
 ## 
-## MSE:  795418048
-## RMSE:  28203.16
-## MAE:  17504.01
-## RMSLE:  0.1557777
-## Mean Residual Deviance :  795418048
+## MSE:  0.02270388
+## RMSE:  0.1506781
+## MAE:  0.09666981
+## RMSLE:  0.01185965
+## Mean Residual Deviance :  0.02270388
 ```
 
 
@@ -266,7 +272,7 @@ Now that we have an understanding of producing and running a basic DNN model, th
 
 ### Adjust model capacity
 
-Typically, we start with a high capacity model (several layers and nodes) and slowly reduce the layers and nodes.  The goal is to find the most simplistic model that still performs well.  Here, I fit a 3 layer model with 500, 250, and 125 nodes respectively.  I also add a few `stopping_` arguments, which stops the modeling automatically once the RMSE metric on the validation data stops improving by 0.01 for 2 consecutive epochs.  This allows us to increase the epochs to ensure convergence but the modeling will automatically stop when necessary to help minimize overfitting and computational burden.
+Typically, we start with a high capacity model (several layers and nodes) and slowly reduce the layers and nodes.  The goal is to find the most simplistic model that still performs well.  Here, I fit a 3 layer model with 500, 250, and 125 nodes respectively.  I also add a few `stopping_` arguments, which stops the modeling automatically once the RMSE metric on the validation data stops improving by 0.01 (1%) for 2 consecutive epochs.  This allows us to increase the epochs to ensure convergence but the modeling will automatically stop when necessary to help minimize overfitting and computational burden.
 
 ```{r train2, eval=FALSE}
 fit2 <- h2o.deeplearning(
@@ -289,9 +295,318 @@ fit2 <- h2o.deeplearning(
 
 # assess RMSE
 h2o.rmse(fit2, train = TRUE, xval = TRUE)
-##    train      xval 
-## 4793.428 25494.783
+##      train       xval 
+## 0.03018675 0.14277913 
 ```
+
+
+### Add dropout
+
+*Dropout* is one of the most effective and commonly used approaches to prevent overfitting in neural networks.  Dropout randomly drops out (setting to zero) a number of output features in a layer during training.  By randomly removing different inputs and nodes, we help prevent the model from fitting patterns to happenstance patterns (noise) that are not significant.  We can apply dropout with `_dropout_ratio`. 
+
+A typical dropout rate for the input layer is 10-20% and for the hidden layers is 20-50%. In this example I drop out 10% of the inputs features and 20% from each hidden layer.  In this example we see slight improvement in our model's performance and in its overfitting.  Note that when using dropout, you must specify one of the dropout activation functions (i.e. `RectifierWithDropout`, `TanhWithDropout`).
+
+
+```{r train3, eval=FALSE}
+fit3 <- h2o.deeplearning(
+  x = features, 
+  y = response, 
+  training_frame = train_h2o,
+  distribution = "gaussian",                   
+  hidden = c(500, 250, 125),                   
+  activation = "RectifierWithDropout",  # need to specify new activation f(x)             
+  loss = "Automatic",                          
+  mini_batch_size = 32,                        
+  epochs = 100,                                
+  nfolds = 5,                                  
+  keep_cross_validation_predictions = TRUE,    
+  seed = 123,                                  
+  stopping_metric = "RMSE",                    
+  stopping_rounds = 2,                         
+  stopping_tolerance = 0.01,
+  input_dropout_ratio = 0.1,             # 10% dropout of input variables
+  hidden_dropout_ratios = c(.2, .2, .2)  # 20% dropout of hidden nodes
+  )
+
+# compare results
+h2o.rmse(fit3, train = TRUE, xval = TRUE)
+##      train       xval 
+## 0.06509407 0.14237935 
+```
+
+
+### Add weight regularization
+
+In the regularized regression chapter ($\S$ \@ref(regularized-regression)), we discussed the idea of $L_2$ (ridge) and $L_1$ (lasso) regularization.  The same idea can be applied in DNNs where we put constraints on the size that the weights can take.  In DNNs, the most common regularization is the $L_2$ *norm*, which is called *weight decay* in the context of neural networks.  Regularization of weights will force small signals (noise) to have weights nearly equal to zero and only allow signals with consistently strong signals to have relatively larger weights.
+
+We apply regularization with a `l1` or `l2` argument or both for a combination (elastic net). In this example I add the $L_2$ *norm* regularizer with a multiplier of 0.001, which means every weight coefficient in the hidden layers will be multiplied by 0.001.  We do not see improvement with weight decay.
+
+```{r train4, eval=FALSE}
+fit4 <- h2o.deeplearning(
+  x = features, 
+  y = response, 
+  training_frame = train_h2o,
+  distribution = "gaussian",                   
+  hidden = c(500, 250, 125),                   
+  activation = "RectifierWithDropout",            
+  loss = "Automatic",                          
+  mini_batch_size = 32,                        
+  epochs = 100,                                
+  nfolds = 5,                                  
+  keep_cross_validation_predictions = TRUE,    
+  seed = 123,                                  
+  stopping_metric = "RMSE",                    
+  stopping_rounds = 2,                         
+  stopping_tolerance = 0.01,
+  input_dropout_ratio = 0.1,             
+  hidden_dropout_ratios = c(.2, .2, .2),
+  l2 = 0.001                               # add weight decay
+  )
+
+# compare results
+h2o.rmse(fit4, train = TRUE, xval = TRUE)
+##      train       xval 
+## 0.04941897 0.14334937
+```
+
+
+### Adjust learning rate
+
+Another issue to be concerned with is whether or not we are finding a global minimum versus a local minimum with our loss value.  The mini-batch SGD optimizer we use will take incremental steps down our loss gradient until it no longer experiences improvement.  The size of the incremental steps (aka *learning rate*) will determine if we get stuck in a local minimum instead of making our way to the global minimum.
+
+```{r local-vs-global-fig, echo=FALSE, fig.align='center', fig.cap="A local minimum and a global minimum.."}
+knitr::include_graphics("illustrations/minimums.jpg")
+```
+
+Adadelt (h2o's stochastic gradient descent optimization) uses an adaptive learning rate to try prevent the optimization from getting stuck in a local optima.  This means the size of the steps it takes down the loss gradient automatically adjusts based on descent speed (momentum) and gradient flatness (plateaus).  There are only two tuning parameters for Adadelt: `rho` and `epsilon`, which balance the global and local search efficiencies. `rho` is the similarity to prior weight updates (similar to momentum), and epsilon is a parameter that prevents the optimization to get stuck in local optima. Defaults are `rho = 0.99` and `epsilon = 1e-8`.
+
+When discussing DNNs you will hear people discuss learning rates so its important to understand; however, vast majority of the time you will not need to adjust these parameters.  You do have the option to adjust these parameters but we suggest you stick with the defaults or consult with internal expertise prior to tuning these parameters.
+
+### Automate the tuning process
+
+Since there are a lot of parameters that can impact model accuracy, hyper-parameter tuning is especially important for DNNs. The simplest hyperparameter search method is a brute-force scan of the full Cartesian product of all combinations specified by a grid search.  This means every combination of hyper-parameters in the `hyper_params` list will be modeled and compared.  When tuning only a handful of parameters this approach can be appropriate; however, it will be computationally burdensome. We use `h2o.grid` to perform the grid search.
+
+```{r full_cartesian_search, eval=FALSE}
+# create hyper-parameter tuning grid
+hyper_params <- list(
+  hidden = list(c(500, 250, 150), c(250, 125)),
+  activation = c("Rectifier", "RectifierWithDropout"), 
+  input_dropout_ratio = c(0.05, 0.1),
+  hidden_dropout_ratios = list(c(.2, .2, .2), c(.3, .3, .3))
+  )
+
+# Rather than comparing models by using cross-validation (which is “better” but 
+# takes longer), we will simply partition our training set into two pieces – one 
+# for training and one for validiation.
+splits <- h2o.splitFrame(train_h2o, ratios = 0.8, seed = 1)
+
+# train the grid
+dl_grid <- h2o.grid(
+  algorithm = "deeplearning",
+  x = features, 
+  y = response,
+  distribution = "gaussian", 
+  grid_id = "dl_grid_full",
+  training_frame = splits[[1]],
+  validation_frame = splits[[2]],
+  keep_cross_validation_predictions = TRUE,
+  loss = "Automatic",                          
+  mini_batch_size = 32,                        
+  epochs = 100,                                
+  seed = 123,                                  
+  stopping_metric = "RMSE",                    
+  stopping_rounds = 2,                         
+  stopping_tolerance = 0.01,
+  hyper_params = hyper_params   # search space
+  )
+
+# collect the results and sort by our model performance metric of choice
+dl_gridperf <- h2o.getGrid(
+  grid_id = "dl_grid_full", 
+  sort_by = "mse", 
+  decreasing = TRUE
+  )
+
+# you can look at the rank-order of the models
+# print(dl_gridperf)
+
+# Grab the model_id for the top model, chosen by validation error
+best_dl_model_id <- dl_gridperf@model_ids[[1]]
+best_dl <- h2o.getModel(best_dl_model_id)
+
+# assess the performance
+h2o.rmse(best_dl, train = TRUE, valid = TRUE)
+##      train       xval 
+## 0.08778202 0.15877771 
+```
+
+
+Often, hyper-parameter search for more than 4 parameters can be done more efficiently with *random* parameter search than with a full grid search. Basically, chances are good you'll find one of many good models in less time than performing an exhaustive grid search. We simply build up to `max_models` models with parameters drawn randomly from user-specified distributions (here, uniform). For this example, we focus on tuning the network architecture along with dropout and regularization parameters. We also let the grid search stop automatically once the performance at the top of the leaderboard doesn't change much anymore, i.e., once the search has converged.
+
+```{r random_search, cache=TRUE, eval=FALSE}
+# hyper-parameter tuning grid
+hyper_params <- list(
+  hidden = list(c(500, 250, 150), c(250, 150, 50), c(250, 125)),
+  activation = c("Rectifier", "RectifierWithDropout", "Maxout", "MaxoutWithDropout"), 
+  input_dropout_ratio = c(0, 0.05),
+  l1 = c(0, 0.00001, 0.0001, 0.001, 0.01, 0.1),
+  l2 = c(0, 0.00001, 0.0001, 0.001, 0.01, 0.1)
+  )
+
+# Rather than comparing models by using cross-validation (which is “better” but 
+# takes longer), we will simply partition our training set into two pieces – one 
+# for training and one for validiation.
+splits <- h2o.splitFrame(train_h2o, ratios = 0.8, seed = 1)
+
+# For a larger search space we can use random grid search
+search_criteria <- list(
+  strategy = "RandomDiscrete", 
+  max_runtime_secs = 360, 
+  max_models = 100, 
+  seed = 123,
+  stopping_metric = "RMSE",
+  stopping_rounds = 5,        
+  stopping_tolerance = 0.01
+  )
+
+# train the grid
+dl_grid <- h2o.grid(
+  algorithm = "deeplearning",
+  x = features, 
+  y = response,
+  distribution = "gaussian", 
+  grid_id = "dl_grid_random",
+  training_frame = splits[[1]],
+  validation_frame = splits[[2]],
+  keep_cross_validation_predictions = TRUE,
+  loss = "Automatic",                          
+  mini_batch_size = 32,                        
+  epochs = 100, 
+  hyper_params = hyper_params,
+  search_criteria = search_criteria
+  )
+
+# collect the results and sort by our model performance metric of choice
+dl_gridperf <- h2o.getGrid(
+  grid_id = "dl_grid_random", 
+  sort_by = "mse", 
+  decreasing = TRUE
+  )
+
+# you can look at the rank-order of the models
+# print(dl_gridperf)
+
+# Grab the model_id for the top model, chosen by validation error
+best_dl_model_id <- dl_gridperf@model_ids[[1]]
+best_dl <- h2o.getModel(best_dl_model_id)
+
+# assess the performance
+## h2o.performance(best_dl, valid = TRUE)
+## H2ORegressionMetrics: deeplearning
+## ** Reported on validation data. **
+## ** Metrics reported on full validation frame **
+## 
+## MSE:  0.04227962
+## RMSE:  0.2056201
+## MAE:  0.1242647
+## RMSLE:  0.01643259
+## Mean Residual Deviance :  0.04227962
+```
+
+Thus far, the best model (`fit3`) came prior to tuning.  We'll use this model as our best model here forward.  Considering this model used a transformed response variable, we can get a better understanding of the error in whole dollar value by re-transforming our cross validation predictions and comparing to the actual sales price.  We see that our best performing neural net model RMSE of \$27,161 outperforms our earlier linear regression models but does not perform nearly as well as our regularized regression, MARS, random forest, and GBM models.
+
+```{r, echo=FALSE, eval=FALSE}
+# save best h2o model to date
+saveRDS(fit3, file = "data/h2o_dl_ames_model.rds")
+```
+
+```{r, echo=FALSE}
+fit3 <- readRDS("data/h2o_dl_ames_model.rds")
+```
+
+```{r}
+# use model 3 as our best model
+best_model <- fit3
+
+# compute cross validation error on re-transformed response variable
+h2o.cross_validation_holdout_predictions(fit3) %>%
+  as.data.frame() %>%
+  mutate(
+    predict_tran = exp(predict),
+    truth = ames_train$Sale_Price
+  ) %>%
+  yardstick::rmse(truth, predict_tran)
+```
+
+
+## Feature Interpretation
+
+
+
+```{r}
+vip(best_model, num_features = 20)
+```
+
+
+```{r}
+# prediction function
+pfun <- function(object, newdata) {
+  as.data.frame(predict(object, newdata = as.h2o(newdata)))[[1L]]
+}
+
+# compute ICE curves
+p1 <- best_model %>%
+  partial(
+    pred.var = "Gr_Liv_Area", 
+    train = ames_train,
+    pred.fun = pfun,
+    grid.resolution = 50
+  ) %>%
+  autoplot(rug = TRUE, train = ames_train, alpha = .1, center = TRUE) +
+  ggtitle("Centered ICE plot")
+
+# prediction function
+pfun <- function(object, newdata) {
+  mean(as.data.frame(predict(object, newdata = as.h2o(newdata)))[[1L]])
+}
+
+p2 <- best_model %>%
+  partial(
+    pred.var = "Overall_Qual", 
+    train = as.data.frame(ames_train),
+    pred.fun = pfun
+  ) %>%
+  autoplot() +
+  ggtitle("Partial dependence plot")
+
+gridExtra::grid.arrange(p1, p2)
+```
+
+
+
+
+## Final thoughts
+
+GBMs are one of the most powerful ensemble algorithms that are often first-in-class with predictive accuracy. Although they are less intuitive and more computationally demanding than many other machine learning algorithms, they are essential to have in your toolbox. 
+
+__TODO__: may need to better tie in some of these advantages and disadvantages throughout the chapter.
+
+__Advantages:__
+
+- Often provides predictive accuracy that cannot be beat.
+- Lots of flexibility - can optimize on different loss functions and provides several hyperparameter tuning options that make the function fit very flexible.
+- No data pre-processing required - often works great with categorical and numerical values as is.
+- Handles missing data - imputation not required.
+
+__Disadvantages:__
+
+- GBMs will continue improving to minimize all errors.  This can overemphasize outliers and cause overfitting. Must use cross-validation to neutralize.
+- Computationally expensive - GBMs often require many trees (>1000) which can be time and memory exhaustive.
+- The high flexibility results in many parameters that interact and influence heavily the behavior of the approach (number of iterations, tree depth, regularization parameters, etc.). This requires a large grid search during tuning.
+- Less interpretable although this is easily addressed with various tools (variable importance, partial dependence plots, local variable importance, etc.).
+
+
+
 
 
 
