@@ -121,7 +121,7 @@ The `coef()` function extracts the estimated coefficientes from the model. We ca
 summary(fm1)
 ```
 
-The estimated coefficients from our model are $\widehat{\beta}_0 =$ `r round(coef(fm1)[1L], digits = 2)` and $\widehat{\beta}_1 =$ `r round(coef(fm1)[2L], digits = 2)`. To interpret, we estimate that the mean selling price increases by `r round(coef(fm1)[2L], digits = 2)` for each additional one square foot of above ground living space.  This simple description of the relationship between the sale price and square footage using a single number (i.e., the slope) is what makes linear regression such an intuitive and popular modeling tool.
+The estimated coefficients from our model are $\widehat{\beta}_0 =$ `r round(coef(fm1)[1L], digits = 2)` and $\widehat{\beta}_1 =$ `r round(coef(fm1)[2L], digits = 2)`. To interpret, we estimate that the mean selling price increases by `r round(coef(fm1)[2L], digits = 2)` for each additional one square foot of above ground living space. This simple description of the relationship between the sale price and square footage using a single number (i.e., the slope) is what makes linear regression such an intuitive and popular modeling tool.
 
 One drawback of the LS procedure in linear regression is that it only provides estimates of the coefficents; it does not provide an estimate of the error variance $\sigma^2$! Note that LS makes no assumptions about the random errors. These assumptions are important for inference and in estimating the error variance which we're assuming is constant with a value of $\sigma^2$. One way to estimate $\sigma^2$ (which is required for characterizing the variability of our fitted model), is to use the method of _maximum likelihood_ (ML) estimation (see [@kutner-2005-applied sec 1.7] for details). The ML procedure requires that we assume a particular distribution for the random errors. Most often, we assume the errors to be normally distributed. In practice, under the usual assumptions stated above, an unbiased estimate of the error variance is given as the sum of the squared residuals divided by $n - p$ (where $p$ is the number of regression coefficients or parameters in the model):
 
@@ -171,7 +171,13 @@ If any or all of these assumptions are violated, then remdial measures nned to b
 
 ## Multiple linear regression {#multi-lm}
 
-However, in practice we often have more than one predictor. For example, in the Ames housing data, we may wish to understand if above ground square footage (`Gr_Liv_Area`) _and_ the year the house was built (`Year_Built`) are related to sales price (`Sale_Price`).  We can extend the SLR model so that it can directly accommodate multiple predictors; this is referred to as _multiple linear regression_ and is represented by Equation \@ref(eq:mlm) and illustrated in Figure \@ref(fig:07-visualize-model2).
+### TODO:
+
+1. Qualitative variables/factors
+2. Interactions
+3. Residual analysis
+
+However, in practice we often have more than one predictor. For example, in the Ames housing data, we may wish to understand if above ground square footage (`Gr_Liv_Area`) _and_ the year the house was built (`Year_Built`) are related to sales price (`Sale_Price`). We can extend the SLR model so that it can directly accommodate multiple predictors; this is referred to as _multiple linear regression_ and is represented by Equation \@ref(eq:mlm) and illustrated in Figure \@ref(fig:07-visualize-model2).
 
 \begin{equation}
 (\#eq:mlm)
@@ -249,7 +255,7 @@ We can continue to add predictors to our multiple regression and generalize the 
   Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \epsilon,
 \end{equation}
 
-Unfortunately, visualizing beyond three dimensions is not practical as our best-fit plane becomes a hyperplane. However, the motivation remains the same where the best-fit hyperplane is identified by minimizing the RSS.  The below creates a third model where we use all features in our data set to predict `Sale_Price`.
+Unfortunately, visualizing beyond three dimensions is not practical as our best-fit plane becomes a hyperplane. However, the motivation remains the same where the best-fit hyperplane is identified by minimizing the RSS. The below creates a third model where we use all features in our data set to predict `Sale_Price`.
 
 ```{block, type="tip"}
 The dot in `Sale_Price ~ .` signals to regress `Sale_Price` onto all other variables in your data set.
@@ -263,7 +269,7 @@ glance(model3)
 
 ## Assessing Model Accuracy
 
-We've fit three models, but the question remains, which model is "best". To get a good assessment of this accuracy, we want to use cross-validation as discussed in Section \@ref(cv).  We can use the `caret::train` function to apply a linear model (`method = "lm"`).  The benefit of __caret__ is that it provides built-in cross validation capabilities whereas the `lm` function does not.  The following shows an average root mean square error (RMSE) of 56873 across our 10 cross validation folds.  How should we interpret this? When applied to unseen data, the predictions this model makes are, on average, about \$56,873 off from the actual sale price. 
+We've fit three models, but the question remains, which model is "best". To get a good assessment of this accuracy, we want to use cross-validation as discussed in Section \@ref(cv). We can use the `caret::train` function to apply a linear model (`method = "lm"`). The benefit of __caret__ is that it provides built-in cross validation capabilities whereas the `lm` function does not. The following shows an average root mean square error (RMSE) of 56873 across our 10 cross validation folds. How should we interpret this? When applied to unseen data, the predictions this model makes are, on average, about \$56,873 off from the actual sale price. 
 
 
 ```{r fm1-accuracy}
@@ -281,7 +287,7 @@ cv_fm1 <- train(
 cv_fm1
 ```
 
-We can perform cross validation on the other two models.  Extracting the results for each model we see that by adding more information via more predictors, we are able to improve the out-of-sample cross validation performance metrics. Specifically, our average prediction RMSE reduces from __\$56,872__ down to __\$41,438__ for our full model.
+We can perform cross validation on the other two models. Extracting the results for each model we see that by adding more information via more predictors, we are able to improve the out-of-sample cross validation performance metrics. Specifically, our average prediction RMSE reduces from __\$56,872__ down to __\$41,438__ for our full model.
 
 ```{r mult-models}
 set.seed(123)
@@ -311,9 +317,9 @@ summary(resamples(list(
 
 ## Model concerns
 
-As previously stated, linear regression has been a popular modeling tool due to the ease of interpreting the coefficients. However, linear regression makes several strong assumptions that are often violated as we include more predictors in our model.  Violation of these assumptions can lead to flawed interpretation of the coefficients and prediction results. 
+As previously stated, linear regression has been a popular modeling tool due to the ease of interpreting the coefficients. However, linear regression makes several strong assumptions that are often violated as we include more predictors in our model. Violation of these assumptions can lead to flawed interpretation of the coefficients and prediction results. 
 
-__1. Linear relationship:__ Linear regression assumes a linear relationship between the predictor and the response variable. When a linear relationship does not hold then the coefficient estimate makes a flawed assumption that a constant relationship holds.  However, as discussed in Chapter \@ref(descriptive), non-linear relationships can be made linear (or near-linear) by applying power transformations to the response and/or predictor.  For example, Figure \@ref(fig:07-linear-relationship) illustrates the relationship between sale price and the year a home was built.  The left plot illustrates the non-linear relationship that exists.  However, we can achieve a near-linear relationship by log transforming sale price; although some non-linearity still exists for older homes.
+__1. Linear relationship:__ Linear regression assumes a linear relationship between the predictor and the response variable. When a linear relationship does not hold then the coefficient estimate makes a flawed assumption that a constant relationship holds. However, as discussed in Chapter \@ref(descriptive), non-linear relationships can be made linear (or near-linear) by applying power transformations to the response and/or predictor. For example, Figure \@ref(fig:07-linear-relationship) illustrates the relationship between sale price and the year a home was built. The left plot illustrates the non-linear relationship that exists. However, we can achieve a near-linear relationship by log transforming sale price; although some non-linearity still exists for older homes.
 
 
 ```{r 07-linear-relationship, fig.align='center', fig.width=8, fig.height=3.5, fig.cap="Linear regression assumes a linear relationship between the predictor(s) and the response variable; however, non-linear relationships can often be altered to be near-linear by appying a transformation to the variable(s)."}
@@ -334,7 +340,7 @@ p2 <- ggplot(trn, aes(Year_Built, Sale_Price)) +
 gridExtra::grid.arrange(p1, p2, nrow = 1)
 ```
 
-__2. Constant variance among residuals:__ Linear regression assumes the variance among error terms ($\epsilon_1, \epsilon_2, ..., \epsilon_p$) are constant (also referred to as homoscedasticity). When residuals are not constant, the _p_-values and confidence intervals of the coefficients are invalid resulting in invalid prediction estimates and confidence intervals.  Similar to the linear relationships assumption, non-constant variance can often be resolved with variable transformations or by including additional predictors.  For example, Figure \@ref(fig:07-homoskedasticity) shows residuals across predicted values for our linear regression models `fm1` and `model3`. `fm1` displays a classic violation of constant variance with cone-shaped residuals.  However, `model3` appears to have near-constant variance.
+__2. Constant variance among residuals:__ Linear regression assumes the variance among error terms ($\epsilon_1, \epsilon_2, ..., \epsilon_p$) are constant (also referred to as homoscedasticity). When residuals are not constant, the _p_-values and confidence intervals of the coefficients are invalid resulting in invalid prediction estimates and confidence intervals. Similar to the linear relationships assumption, non-constant variance can often be resolved with variable transformations or by including additional predictors. For example, Figure \@ref(fig:07-homoskedasticity) shows residuals across predicted values for our linear regression models `fm1` and `model3`. `fm1` displays a classic violation of constant variance with cone-shaped residuals. However, `model3` appears to have near-constant variance.
 
 ```{block, type="tip"}
 The `broom::augment` function is an easy way to add model results to each observation (i.e. predicted values, residuals).
@@ -363,11 +369,11 @@ p2 <- ggplot(df2, aes(.fitted, .resid)) +
 gridExtra::grid.arrange(p1, p2, nrow = 1)
 ```
 
-__3. No autocorrelation:__ Linear regression assumes the error terms are also independent and uncorrelated. If in fact, there is correlation among the error terms, then the estimated standard errors of the coefficients will be biased leading to prediction intervals being narrower than they should be.  For example, the left plot in Figure \@ref(fig:07-autocorrelation) displays the residuals (y-axis) to the observation ID (x-axis) for `fm1`.  A clear pattern exists suggesting that information about $\epsilon_1$ provides information about $\epsilon_2$.
+__3. No autocorrelation:__ Linear regression assumes the error terms are also independent and uncorrelated. If in fact, there is correlation among the error terms, then the estimated standard errors of the coefficients will be biased leading to prediction intervals being narrower than they should be. For example, the left plot in Figure \@ref(fig:07-autocorrelation) displays the residuals (y-axis) to the observation ID (x-axis) for `fm1`. A clear pattern exists suggesting that information about $\epsilon_1$ provides information about $\epsilon_2$.
 
-This pattern is a result of the data being ordered by neighborhood, which we have not accounted for in this model.  Consequently, the residuals for homes in the same neighborhood are correlated (homes within a neighborhood are typically the same size and can often contain similar features).  Since the `Neighborhood` predictor is included in `model3` (right plot), our errors are no longer correlated.
+This pattern is a result of the data being ordered by neighborhood, which we have not accounted for in this model. Consequently, the residuals for homes in the same neighborhood are correlated (homes within a neighborhood are typically the same size and can often contain similar features). Since the `Neighborhood` predictor is included in `model3` (right plot), our errors are no longer correlated.
 
-```{r 07-autocorrelation, fig.align='center', fig.width=8, fig.height=3.5, fig.cap="Linear regression assumes uncorrelated errors. The residuals in `fm1` (left) have a distinct pattern suggesting that information about $\\epsilon_1$ provides information about $\\epsilon_2$.  Whereas residuals in `model3` have no signs of autocorrelation."}
+```{r 07-autocorrelation, fig.align='center', fig.width=8, fig.height=3.5, fig.cap="Linear regression assumes uncorrelated errors. The residuals in `fm1` (left) have a distinct pattern suggesting that information about $\\epsilon_1$ provides information about $\\epsilon_2$. Whereas residuals in `model3` have no signs of autocorrelation."}
 
 df1 <- mutate(df1, id = row_number())
 df2 <- mutate(df2, id = row_number())
@@ -390,9 +396,9 @@ gridExtra::grid.arrange(p1, p2, nrow = 1)
 ```
 
 
-__4. More observations than predictors:__ Although not an issue with the Ames housing data, when the number of features exceed the number of observations ($p > n$), the OLS solution matrix is not invertible. This causes significant issues because it means the least-squares estimates are not unique. In fact, there are an infinite set of solutions available so we lose our ability to meaningfully interpret coefficients.  Consequently, to resolve this issue an analyst can remove variables until $p < n$ and then fit an OLS regression model. Although an analyst can use pre-processing tools to guide this manual approach [@apm, 43-47], it can be cumbersome and prone to errors. Alternatively, we will introduce regularized regression in Chapter \@ref(regularize) which provides you an alternative linear regression technique when $p > n$.
+__4. More observations than predictors:__ Although not an issue with the Ames housing data, when the number of features exceed the number of observations ($p > n$), the OLS solution matrix is not invertible. This causes significant issues because it means the least-squares estimates are not unique. In fact, there are an infinite set of solutions available so we lose our ability to meaningfully interpret coefficients. Consequently, to resolve this issue an analyst can remove variables until $p < n$ and then fit an OLS regression model. Although an analyst can use pre-processing tools to guide this manual approach [@apm, 43-47], it can be cumbersome and prone to errors. Alternatively, we will introduce regularized regression in Chapter \@ref(regularize) which provides you an alternative linear regression technique when $p > n$.
 
-__5. No or little multicollinearity:__  _Collinearity_ refers to the situation in which two or more predictor variables are closely related to one another. The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response. In fact, collinearity can cause predictor variables to appear as statistically insignificant when in fact they are significant.  This, obviously, leads to inaccurate interpretation of coefficients and identifying influential predictors.  
+__5. No or little multicollinearity:__  _Collinearity_ refers to the situation in which two or more predictor variables are closely related to one another. The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response. In fact, collinearity can cause predictor variables to appear as statistically insignificant when in fact they are significant. This, obviously, leads to inaccurate interpretation of coefficients and identifying influential predictors. 
 
 For example, in our data, `Garage_Area` and `Garage_Cars` are two variables that have a correlation of `r round(cor(trn$Garage_Area, trn$Garage_Cars), 2)` and both variables are strongly correlated to our response variable (`Sale_Price`). Looking at our full model where both of these variables are included, we see that `Garage_Area` is found to be statistically significant but `Garage_Cars` is not.
 
@@ -420,13 +426,13 @@ summary(mod_wo_Garage_Area) %>%
   filter(term == "Garage_Cars")
 ```
 
-This reflects the instability in the linear regression model caused by the between-predictor relationships and this instability gets propagated directly to the model predictions. Considering 16 of our 34 numeric predictors have medium to strong correlation (Section \@ref(pca)), the biased coefficients of these predictors are likely restricting the predictive accuracy of our model.  How can we control for this problem?  One option is to manually remove one of the offending predictors.  However, when the number of predictors is large such as in our case, this becomes difficult.  Moreover, relationships between predictors can become complex and involve many predictors. In these cases, manual removal of specific predictors may not be possible.  Consequently, the following sections offers two simple extensions of linear regression where dimension reduction is applied prior to performing linear regression.  Chapter \@ref(regularize) offers a modified regression approach that helps to deal with the problem.  And future chapters provide alternative methods that are not effected by multicollinearity.
+This reflects the instability in the linear regression model caused by the between-predictor relationships and this instability gets propagated directly to the model predictions. Considering 16 of our 34 numeric predictors have medium to strong correlation (Section \@ref(pca)), the biased coefficients of these predictors are likely restricting the predictive accuracy of our model. How can we control for this problem?  One option is to manually remove one of the offending predictors. However, when the number of predictors is large such as in our case, this becomes difficult. Moreover, relationships between predictors can become complex and involve many predictors. In these cases, manual removal of specific predictors may not be possible. Consequently, the following sections offers two simple extensions of linear regression where dimension reduction is applied prior to performing linear regression. Chapter \@ref(regularize) offers a modified regression approach that helps to deal with the problem. And future chapters provide alternative methods that are not effected by multicollinearity.
 
 ## Principal component regression
 
 As discussed in Chapter \@ref(unsupervised), principal components analysis can be used to represent correlated variables in a lower dimension and the resulting components can be used as predictors in the linear regression model. This two-step process is known as __principal component regression__ (PCR) [@massy1965principal]. 
 
-Performing PCR with __caret__ is an easy extension from our previous model.  We simply change the `method` to "pcr" within `train` to perform PCA on all our numeric predictors prior to applying the multiple regression.  Often, we can greatly improve performance by only using a small subset of all principal components as predictors.  Consequently, you can think of the number of principal components as a tuning parameter (see Section \@ref(tune)).  The following performs cross validated PCR with $1, 2, \dots, 20$ principal components, and Figure \@ref(fig:pcr-regression) illustrates the cross-validated RMSE.  You can see a significant drop in prediction error using just five principal components followed by a gradual decrease.  Using 17 principal components provided the lowest RMSE of \$35,769.99 (see `cv_model_pcr` for a comparison of the cross-validated results).
+Performing PCR with __caret__ is an easy extension from our previous model. We simply change the `method` to "pcr" within `train` to perform PCA on all our numeric predictors prior to applying the multiple regression. Often, we can greatly improve performance by only using a small subset of all principal components as predictors. Consequently, you can think of the number of principal components as a tuning parameter (see Section \@ref(tune)). The following performs cross validated PCR with $1, 2, \dots, 20$ principal components, and Figure \@ref(fig:pcr-regression) illustrates the cross-validated RMSE. You can see a significant drop in prediction error using just five principal components followed by a gradual decrease. Using 17 principal components provided the lowest RMSE of \$35,769.99 (see `cv_model_pcr` for a comparison of the cross-validated results).
 
 ```{block, type="warning"}
 Per Section \@ref(pca), don't forget to center and scale your predictors, which you can do by incorporating the `preProcess` argument.
@@ -454,11 +460,11 @@ cv_model_pcr$bestTune
 plot(cv_model_pcr)
 ```
 
-By controlling for multicollinearity with PCR, we saw significant improvement in our predictive accuary (reducing out-of-sample RMSE from 41438 down to 35770).  However, since PCR is a two step process, the PCA step does not consider any aspects of the response when it selects the components.  Consequently, the new predictors produced by the PCA step are not designed to maximize the relationship with the response. Instead, it simply seeks to reduce the variability present throughout the predictor space. If that variability happens to be related to the response variability, then PCR has a good chance to identify a predictive relationship, as in our case. If, however, the variability in the predictor space is not related to the variability of the response, then PCR can have difficulty identifying a predictive relationship when one might actually exists (i.e. we may actually experience a decrease in our predictive accuracy).  Thus, an alternative approach to reduce the impact of multicollinearity is partial least squares.
+By controlling for multicollinearity with PCR, we saw significant improvement in our predictive accuary (reducing out-of-sample RMSE from 41438 down to 35770). However, since PCR is a two step process, the PCA step does not consider any aspects of the response when it selects the components. Consequently, the new predictors produced by the PCA step are not designed to maximize the relationship with the response. Instead, it simply seeks to reduce the variability present throughout the predictor space. If that variability happens to be related to the response variability, then PCR has a good chance to identify a predictive relationship, as in our case. If, however, the variability in the predictor space is not related to the variability of the response, then PCR can have difficulty identifying a predictive relationship when one might actually exists (i.e. we may actually experience a decrease in our predictive accuracy). Thus, an alternative approach to reduce the impact of multicollinearity is partial least squares.
 
 ## Partial least squares
 
-_Partial least squares (PLS)_ can be viewed as a supervised dimension reduction procedure [@apm]. Similar to PCR this technique also constructs a set of linear combinations of the inputs for regression, but unlike PCR it uses the response variable to aid the construction of the principal components.  Thus, we can think of PLS as a supervised dimension reduction procedure that finds new features that not only appromxate the old features well, but also that are related to the response.
+_Partial least squares (PLS)_ can be viewed as a supervised dimension reduction procedure [@apm]. Similar to PCR this technique also constructs a set of linear combinations of the inputs for regression, but unlike PCR it uses the response variable to aid the construction of the principal components. Thus, we can think of PLS as a supervised dimension reduction procedure that finds new features that not only appromxate the old features well, but also that are related to the response.
 
 __TODO: IMAGE of PCR vs PLS__
 
@@ -470,7 +476,7 @@ To compute the second principal ($z_2$), we first regress each variable on $z_1$
 See @friedman2001elements and @geladi1986partial for a thorough discussion of PLS.
 ```
 
-Similar to PCR, we can easily fit a PLS model by changing the `method` argument in `caret::train`.  As with PCR, the number of principal components to use is a tuning parameter that is determined by the model that maximize predictive accuracy (minimizes RMSE in this case). The following performs cross validated PLS with $1, 2, \dots, 20$ principal components, and Figure \@ref(fig:pls-regression) illustrates the cross-validated RMSE.  You can see a greater drop in prediction error than PCR. Using PLS with $m = 10$ principal components provided the lowest RMSE of \$31,522.47.
+Similar to PCR, we can easily fit a PLS model by changing the `method` argument in `caret::train`. As with PCR, the number of principal components to use is a tuning parameter that is determined by the model that maximize predictive accuracy (minimizes RMSE in this case). The following performs cross validated PLS with $1, 2, \dots, 20$ principal components, and Figure \@ref(fig:pls-regression) illustrates the cross-validated RMSE. You can see a greater drop in prediction error than PCR. Using PLS with $m = 10$ principal components provided the lowest RMSE of \$31,522.47.
 
 ```{r pls-regression, fig.height=3.5, fig.width=6, fig.cap="The 10-fold cross valdation RMSE obtained using PLS with 1-20 principal components."}
 # perform 10-fold cross validation on a PLS model tuning the number of
@@ -495,17 +501,17 @@ plot(cv_model_pls)
 
 ## Feature Interpretation {#lm-model-interp}
 
-Once we've found the model that minimizes the predictive accuracy, our next goal is to interpret the model structure.  Linear regression models provide a very intuitive model structure as they assume a ___monotonic linear relationship___ between the predictor variables and the response. The _linear_ relationship part of that statement just means, for a given predictor variable, it assumes for every one unit change in a given predictor variable there is a constant change in the response. As discussed earlier in the chapter, this constant change is provided by the given coefficient for a predictor. The _monotonic_ relationship means that a given predictor variable will always have a positive or negative relationship.  But how do we determine the most influential variables?
+Once we've found the model that minimizes the predictive accuracy, our next goal is to interpret the model structure. Linear regression models provide a very intuitive model structure as they assume a ___monotonic linear relationship___ between the predictor variables and the response. The _linear_ relationship part of that statement just means, for a given predictor variable, it assumes for every one unit change in a given predictor variable there is a constant change in the response. As discussed earlier in the chapter, this constant change is provided by the given coefficient for a predictor. The _monotonic_ relationship means that a given predictor variable will always have a positive or negative relationship. But how do we determine the most influential variables?
 
-Variable importance seeks to identify those variables that are most influential in our model.  For linear regression models, this is most often measured by the absolute value of the _t_-statistic (Equation \@ref(eq:tstat)) for each model parameter used. For a PLS model, variable importance is based on weighted sums of the absolute regression coefficients. The weights are a function of the reduction of the RSS across the number of PLS components and are computed separately for each outcome. Therefore, the contribution of the coefficients are weighted proportionally to the reduction in the RSS.
+Variable importance seeks to identify those variables that are most influential in our model. For linear regression models, this is most often measured by the absolute value of the _t_-statistic (Equation \@ref(eq:tstat)) for each model parameter used. For a PLS model, variable importance is based on weighted sums of the absolute regression coefficients. The weights are a function of the reduction of the RSS across the number of PLS components and are computed separately for each outcome. Therefore, the contribution of the coefficients are weighted proportionally to the reduction in the RSS.
 
-We can use `vip::vip` to extract and plot the most important variables.  The importance measure is normalized from 100 (most important) to 0 (least important). Figure \@ref(fig:pls-vip) illustrates that the top 4 most important variables are `Gr_liv_Area`, `First_Flr_SF`, `Garage_Area`, and `Garage_Cars` respectively.
+We can use `vip::vip` to extract and plot the most important variables. The importance measure is normalized from 100 (most important) to 0 (least important). Figure \@ref(fig:pls-vip) illustrates that the top 4 most important variables are `Gr_liv_Area`, `First_Flr_SF`, `Garage_Area`, and `Garage_Cars` respectively.
 
 ```{r pls-vip, fig.cap="Top 20 most important variables for the PLS model."}
 vip(cv_model_pls, num_features = 20, method = "model")
 ```
 
-As stated earlier, linear regression models assume a monotonic linear relationship.  To illustrate this, we can apply partial dependence plots (PDPs). PDPs plot the change in the average predicted value ($\hat y$) as specified feature(s) vary over their marginal distribution. As you will see in later chapters, PDPs become more useful when non-linear relationships are present.  However, PDPs of linear models help illustrate how a fixed change in $x_i$ relates to a fixed linear change in $\hat y_i$.  
+As stated earlier, linear regression models assume a monotonic linear relationship. To illustrate this, we can apply partial dependence plots (PDPs). PDPs plot the change in the average predicted value ($\hat y$) as specified feature(s) vary over their marginal distribution. As you will see in later chapters, PDPs become more useful when non-linear relationships are present. However, PDPs of linear models help illustrate how a fixed change in $x_i$ relates to a fixed linear change in $\hat y_i$. 
 
 ```{block, type="tip"}
 The __pdp__ package [@pkg-pdp] provides convenient functions for computing and plotting PDPs. For example, the following code chunk would plot the PDP for the `Gr_Liv_Area` predictor.
@@ -536,7 +542,7 @@ grid.arrange(p1, p2, p3, p4, nrow = 2)
 
 ## Final thoughts
 
-Linear regression is a great starting point in learning more advanced predictive analytic approaches because, in its simplest form, it is very intuitive and easy to interpret.  Training a linear regression model is very easy and computationally efficient.  However, due to the many assumptions required, the disadvantages of linear regression often outweigh their benefits. In our example, we saw how multicollinearity was interferring with predictive accuracy.  By controlling multicollinearity with PCR and PLS we were able to improve predictive accuracy.  Later chapters will build on the concepts illustrated in this chapter and will compare cross-validated performance results to identify the best predictive model.  The following summarizes some of the advantages and disadvantages discussed regarding linear regression.
+Linear regression is a great starting point in learning more advanced predictive analytic approaches because, in its simplest form, it is very intuitive and easy to interpret. Training a linear regression model is very easy and computationally efficient. However, due to the many assumptions required, the disadvantages of linear regression often outweigh their benefits. In our example, we saw how multicollinearity was interferring with predictive accuracy. By controlling multicollinearity with PCR and PLS we were able to improve predictive accuracy. Later chapters will build on the concepts illustrated in this chapter and will compare cross-validated performance results to identify the best predictive model. The following summarizes some of the advantages and disadvantages discussed regarding linear regression.
 
 __FIXME: refine this section__
 
@@ -559,7 +565,7 @@ __Disadvantages__:
 
 ## Learning more
 
-This will get you up and running with linear regression.  Keep in mind that there is a lot more you can dig into so the following resources will help you learn more:
+This will get you up and running with linear regression. Keep in mind that there is a lot more you can dig into so the following resources will help you learn more:
 
 - [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/)
 - [Applied Predictive Modeling](http://appliedpredictivemodeling.com/)
