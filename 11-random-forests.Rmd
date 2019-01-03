@@ -68,12 +68,32 @@ ames_test  <- testing(ames_split)
 
 ## Decision trees
 
-There are many methodologies for constructing decision trees but the most well-known is the **c**lassification **a**nd **r**egression **t**ree (CART&copy;) algorithm proposed in @breiman2017classification. Basic decision trees partition the training data into homogenious subgroups and then fit a simple *constant* for each subgroup (e.g., the mean of the within group response values for regression). The partitioning is achieved by recursive binary partitions formed by asking yes-or-no questions about each feature (e.g., is `age < 18`?). This is done a number of times until a suitable stopping critera is satisfied (e.g., a maximum depth of the tree is reached). After all the partitioning has been done, the model predicts the output based on (1) the average response values for all observations that fall in that subgroup (regression problem), or (2) the class that has majority representation (classification problem). For classification, predicted probabilites can be obtained using the proportion of each class within the subgroups.
+There are many methodologies for constructing decision trees but the most well-known is the **c**lassification **a**nd **r**egression **t**ree (CART&copy;) algorithm proposed in @breiman2017classification.[^other] Basic decision trees partition the training data into homogeneous subgroups and then fit a simple *constant* for each subgroup (e.g., the mean of the within group response values for regression). The partitioning is achieved by recursive binary partitions formed by asking yes-or-no questions about each feature (e.g., is `age < 18`?). This is done a number of times until a suitable stopping critera is satisfied (e.g., a maximum depth of the tree is reached). After all the partitioning has been done, the model predicts the output based on (1) the average response values for all observations that fall in that subgroup (regression problem), or (2) the class that has majority representation (classification problem). For classification, predicted probabilites can be obtained using the proportion of each class within the subgroups.
 
-```{block, type="tip"}
-The basic idea behind decision trees is to ask simple yes-or-no questions about each feature in order partion the training data into subgroups with similar response rates. Ideally, the repsonses within each subgroup will be as similar or homegenous as possible, while responses across subgroups will be as different or as heterogenous as possible.
+What results is an inverted tree-like structure such as that in Figure \@ref(fig:exemplar-decision-tree).  In essence, our tree is a set of rules that allows us to traverse the tree based on simple questions about each feature.  For example, if the customer is loyal, has household income greater than \$150,000, and is shopping in a store, the exemplar decision tree would predict that the customer will redeem a coupon. 
+
+```{r exemplar-decision-tree, echo=FALSE, fig.cap="Exemplar decision tree predicting if a customer will redeem a coupon (yes or no) based on the customer's loyalty, household income, last month's spend, coupon placement, and shopping mode.", out.height="70%", out.width="70%"}
+knitr::include_graphics("illustrations/exemplar-decision-tree.png")
 ```
 
+We refer to the first feature used to split as the *root node*, the next $n$ features used are the *internal nodes*, the outcome region (prediction) as the *leaf* or *terminal node*, and the connections as *branches*. 
+
+```{r exemplar-decision-tree, echo=FALSE, fig.cap="Terminology of a decision tree.", out.height="70%", out.width="70%"}
+knitr::include_graphics("illustrations/decision-tree-terminology.png")
+```
+
+### Partitioning
+
+As illustrated above, CART uses binary partitioning. The objective is to assess an individual feature ($x_i$) and split that feature to segment the response variable into one of two regions.  The best binary split is the one in which each subgroup will be as similar or homegenous as possible, while responses across subgroups will be as different or as heterogenous as possible.
+
+
+### Depth of a tree
+
+TODO: Brad's slides
+
+### Minimizing overfitting
+
+TODO: Brad's slides
 
 ### A simple regression tree example
 
@@ -704,6 +724,6 @@ The literature behind random forests are rich and we have only touched on the fu
 * [Computer Age Statistical Inference](https://www.amazon.com/Computer-Age-Statistical-Inference-Mathematical/dp/1107149894)
 * [The Elements of Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/)
 
-
+[^other]: Other decision tree algorithms include the Iterative Dichotomiser 3 [@quinlan1986induction], C4.5 [@quinlan1996bagging], Chi-square automatic interaction detection [@kass1980exploratory], Conditional inference trees [@hothorn2006unbiased], and more. 
 [^task]: See the Random Forest section in the [Machine Learning Task View](https://CRAN.R-project.org/view=MachineLearning) on CRAN and Erin LeDell's [useR! Machine Learning Tutorial](https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r) for a non-comprehensive list.
 [^prune]: See @esposito1997comparative for various methods of pruning. In **rpart**, the amount of pruning is controlled by the *complexity parameters* `cp`.

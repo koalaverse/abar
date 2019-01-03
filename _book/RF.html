@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2018-10-21">
+<meta name="date" content="2019-01-03">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,13 +33,13 @@
   
   
 <link rel="prev" href="MARS.html">
-<link rel="next" href="references.html">
-<script src="libs/jquery/jquery.min.js"></script>
-<link href="libs/gitbook/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link rel="next" href="GBM.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 
 
 
@@ -47,20 +47,13 @@
 
 
 
-<script src="libs/htmlwidgets/htmlwidgets.js"></script>
-<script src="libs/plotly-binding/plotly.js"></script>
-<script src="libs/typedarray/typedarray.min.js"></script>
-<link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main/plotly-latest.min.js"></script>
-<script src="libs/kePrint/kePrint.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
 
 
 <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -73,13 +66,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -165,168 +156,201 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>I Descriptive Analytics</b></span></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>2</b> Descriptive Statistics</a><ul>
-<li class="chapter" data-level="2.1" data-path="descriptive.html"><a href="descriptive.html"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2.2" data-path="descriptive.html"><a href="descriptive.html#measures-of-location"><i class="fa fa-check"></i><b>2.2</b> Measures of location</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="descriptive.html"><a href="descriptive.html#the-sample-mean"><i class="fa fa-check"></i><b>2.2.1</b> The sample mean</a></li>
-<li class="chapter" data-level="2.2.2" data-path="descriptive.html"><a href="descriptive.html#the-sample-median"><i class="fa fa-check"></i><b>2.2.2</b> The sample median</a></li>
-<li class="chapter" data-level="2.2.3" data-path="descriptive.html"><a href="descriptive.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>2.2.3</b> The mean or the median</a></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
+<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>1.5</b> Prerequisites</a></li>
+<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>1.6</b> Measures of location</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>1.6.1</b> The sample mean</a></li>
+<li class="chapter" data-level="1.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>1.6.2</b> The sample median</a></li>
+<li class="chapter" data-level="1.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>1.6.3</b> The mean or the median</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="descriptive.html"><a href="descriptive.html#measures-of-spread"><i class="fa fa-check"></i><b>2.3</b> Measures of spread</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="descriptive.html"><a href="descriptive.html#empirical-rule"><i class="fa fa-check"></i><b>2.3.1</b> The empirical rule</a></li>
+<li class="chapter" data-level="1.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>1.7</b> Measures of spread</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>1.7.1</b> The empirical rule</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="descriptive.html"><a href="descriptive.html#percentiles"><i class="fa fa-check"></i><b>2.4</b> Percentiles</a></li>
-<li class="chapter" data-level="2.5" data-path="descriptive.html"><a href="descriptive.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>2.5</b> Robust measures of spread</a></li>
-<li class="chapter" data-level="2.6" data-path="descriptive.html"><a href="descriptive.html#outliers"><i class="fa fa-check"></i><b>2.6</b> Outlier detection</a></li>
-<li class="chapter" data-level="2.7" data-path="descriptive.html"><a href="descriptive.html#categorical"><i class="fa fa-check"></i><b>2.7</b> Describing categorical data</a><ul>
-<li class="chapter" data-level="2.7.1" data-path="descriptive.html"><a href="descriptive.html#contingency-tables"><i class="fa fa-check"></i><b>2.7.1</b> Contingency tables</a></li>
+<li class="chapter" data-level="1.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>1.8</b> Percentiles</a></li>
+<li class="chapter" data-level="1.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>1.9</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="1.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>1.10</b> Outlier detection</a></li>
+<li class="chapter" data-level="1.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>1.11</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>1.11.1</b> Contingency tables</a></li>
 </ul></li>
-<li class="chapter" data-level="2.8" data-path="descriptive.html"><a href="descriptive.html#exercises"><i class="fa fa-check"></i><b>2.8</b> Exercises</a></li>
+<li class="chapter" data-level="1.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>1.12</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>3</b> Visual data exploration</a><ul>
-<li class="chapter" data-level="3.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="3.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>3.2</b> Univariate data</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>3.2.1</b> Continuous Variables</a></li>
-<li class="chapter" data-level="3.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>3.2.2</b> Categorical Variables</a></li>
+<li class="chapter" data-level="2" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>2</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="2.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>2.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>2.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>2.2.2</b> Categorical Variables</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>3.3</b> Bivariate data</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>3.3.1</b> Scatter plots</a></li>
+<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>2.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.3.1</b> Scatter plots</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>3.4</b> Multivariate data</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>3.4.1</b> Facetting</a></li>
+<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>2.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>2.4.1</b> Facetting</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>3.5</b> Data quality</a></li>
-<li class="chapter" data-level="3.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>3.6</b> Further reading</a></li>
-<li class="chapter" data-level="3.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+<li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>2.5</b> Data quality</a></li>
+<li class="chapter" data-level="2.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>2.6</b> Further reading</a></li>
+<li class="chapter" data-level="2.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>2.7</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>4</b> Statistical Inference</a><ul>
-<li class="chapter" data-level="4.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>4.1</b> The frequentist approach</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>4.1.1</b> The central limit theorem</a></li>
-<li class="chapter" data-level="4.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.1.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="4.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>4.1.3</b> One-sided versus two-sided tests</a></li>
-<li class="chapter" data-level="4.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>4.1.4</b> Type I and type II errors</a></li>
-<li class="chapter" data-level="4.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>4.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
-<li class="chapter" data-level="4.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>4.1.6</b> Confidence intervals</a></li>
+<li class="chapter" data-level="3" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>3</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="3.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>3.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="3.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>3.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="3.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>3.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="3.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>3.1.6</b> Confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>4.2</b> One- and two-sample t-tests</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> One-sample t-test</a></li>
-<li class="chapter" data-level="4.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> Two-sample t-test</a></li>
+<li class="chapter" data-level="3.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>3.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>3.2.2</b> Two-sample t-test</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>4.3</b> Tests involving more than two means: ANOVA models</a></li>
-<li class="chapter" data-level="4.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>4.4</b> Testing for association in contingency tables</a></li>
-<li class="chapter" data-level="4.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>4.5</b> Nonparametric tests</a></li>
-<li class="chapter" data-level="4.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>4.6</b> The nonparametric bootstrap</a><ul>
-<li class="chapter" data-level="4.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>4.6.1</b> Bootstrap confidence intervals</a></li>
+<li class="chapter" data-level="3.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>3.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="3.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>3.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="3.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>3.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="3.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>3.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>3.6.1</b> Bootstrap confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="4.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>4.7</b> Further reading</a></li>
-<li class="chapter" data-level="4.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
+<li class="chapter" data-level="3.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>3.7</b> Further reading</a></li>
+<li class="chapter" data-level="3.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>3.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a><ul>
-<li class="chapter" data-level="5.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="5.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>5.2</b> Principal Components Analysis</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>5.2.1</b> Finding principal components</a></li>
-<li class="chapter" data-level="5.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Performing PCA in R</a></li>
-<li class="chapter" data-level="5.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>5.2.3</b> Selecting the Number of Principal Components</a></li>
-<li class="chapter" data-level="5.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>5.2.4</b> Extracting additional insights</a></li>
-<li class="chapter" data-level="5.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>5.2.5</b> PCA with mixed data</a></li>
+<li class="chapter" data-level="4" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>4</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="4.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>4.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>4.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="4.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>4.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="4.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>4.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="4.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>4.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="4.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>4.2.5</b> PCA with mixed data</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>5.3.1</b> Clustering distance measures</a></li>
-<li class="chapter" data-level="5.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>5.3.2</b> K-means clustering</a></li>
-<li class="chapter" data-level="5.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.3.3</b> Hierarchical clustering</a></li>
-<li class="chapter" data-level="5.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>5.3.4</b> Clustering with mixed data</a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>II Predictive Analytics</b></span></li>
-<li class="chapter" data-level="6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html"><i class="fa fa-check"></i><b>6</b> Fundamental concepts</a><ul>
-<li class="chapter" data-level="6.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#regression-problems"><i class="fa fa-check"></i><b>6.1</b> Regression problems</a></li>
-<li class="chapter" data-level="6.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#classification-problems"><i class="fa fa-check"></i><b>6.2</b> Classification problems</a></li>
-<li class="chapter" data-level="6.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>6.3</b> Algorithm Comparison Guide</a></li>
-<li class="chapter" data-level="6.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#general-modeling-process"><i class="fa fa-check"></i><b>6.4</b> General modeling process</a><ul>
-<li class="chapter" data-level="6.4.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_prereq"><i class="fa fa-check"></i><b>6.4.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="6.4.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-split"><i class="fa fa-check"></i><b>6.4.2</b> Data splitting</a></li>
-<li class="chapter" data-level="6.4.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_feat"><i class="fa fa-check"></i><b>6.4.3</b> Feature engineering</a></li>
-<li class="chapter" data-level="6.4.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#model-form"><i class="fa fa-check"></i><b>6.4.4</b> Basic model formulation</a></li>
-<li class="chapter" data-level="6.4.5" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#tune"><i class="fa fa-check"></i><b>6.4.5</b> Model tuning</a></li>
-<li class="chapter" data-level="6.4.6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#cv"><i class="fa fa-check"></i><b>6.4.6</b> Cross Validation for Generalization</a></li>
-<li class="chapter" data-level="6.4.7" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-eval"><i class="fa fa-check"></i><b>6.4.7</b> Model evaluation</a></li>
-<li class="chapter" data-level="6.4.8" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>6.4.8</b> Interpreting predictive models</a></li>
+<li class="chapter" data-level="4.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>4.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>4.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="4.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>4.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="4.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="4.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>4.3.4</b> Clustering with mixed data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>7</b> Linear regression</a><ul>
-<li class="chapter" data-level="7.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="7.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple linear regression</a></li>
-<li class="chapter" data-level="7.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>7.3</b> Multiple linear regression</a></li>
-<li class="chapter" data-level="7.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>7.4</b> Assessing Model Accuracy</a></li>
-<li class="chapter" data-level="7.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>7.5</b> Model concerns</a></li>
-<li class="chapter" data-level="7.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>7.6</b> Principal component regression</a></li>
-<li class="chapter" data-level="7.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>7.7</b> Partial least squares</a></li>
-<li class="chapter" data-level="7.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>7.8</b> Feature Interpretation</a></li>
-<li class="chapter" data-level="7.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>7.9</b> Final thoughts</a></li>
-<li class="chapter" data-level="7.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>7.10</b> Learning more</a></li>
+<li class="part"><span><b>II Predictive Analytics</b></span><ul>
+<li class="chapter" data-level="4.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>4.4</b> Regression problems</a></li>
+<li class="chapter" data-level="4.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>4.5</b> Classification problems</a></li>
+<li class="chapter" data-level="4.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>4.6</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="4.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>4.7</b> General modeling process</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>4.7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="4.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-split"><i class="fa fa-check"></i><b>4.7.2</b> Data splitting</a></li>
+<li class="chapter" data-level="4.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>4.7.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="4.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>4.7.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="4.7.5" data-path="unsupervised.html"><a href="unsupervised.html#tune"><i class="fa fa-check"></i><b>4.7.5</b> Model tuning</a></li>
+<li class="chapter" data-level="4.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>4.7.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="4.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-eval"><i class="fa fa-check"></i><b>4.7.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="4.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>4.7.8</b> Interpreting predictive models</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Logistic regression</a><ul>
-<li class="chapter" data-level="8.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="8.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>8.2</b> Why logistic regression</a></li>
-<li class="chapter" data-level="8.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>8.3</b> Simple logistic regression</a></li>
-<li class="chapter" data-level="8.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>8.4</b> Multiple logistic regression</a></li>
-<li class="chapter" data-level="8.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>8.5</b> Assessing model accuracy</a></li>
-<li class="chapter" data-level="8.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>8.6</b> Feature interpretation</a></li>
-<li class="chapter" data-level="8.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="8.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>9</b> Regularized regression</a><ul>
-<li class="chapter" data-level="9.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="9.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>9.2</b> Why Regularize</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>9.2.1</b> Ridge penalty</a></li>
-<li class="chapter" data-level="9.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>9.2.2</b> Lasso penalty</a></li>
-<li class="chapter" data-level="9.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>9.2.3</b> Elastic nets</a></li>
+<li class="chapter" data-level="5" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5</b> Linear Regression</a><ul>
+<li class="chapter" data-level="5.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>5.2</b> Simple linear regression</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="linear-regression.html"><a href="linear-regression.html#estimation"><i class="fa fa-check"></i><b>5.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="linear-regression.html"><a href="linear-regression.html#inference-1"><i class="fa fa-check"></i><b>5.2.2</b> Inference</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>9.3</b> Implementation</a></li>
-<li class="chapter" data-level="9.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>9.4</b> Tuning</a></li>
-<li class="chapter" data-level="9.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>9.5</b> Feature interpretation</a></li>
-<li class="chapter" data-level="9.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>9.6</b> Attrition data</a></li>
-<li class="chapter" data-level="9.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>9.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="9.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>9.8</b> Learning more</a></li>
+<li class="chapter" data-level="5.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>5.3</b> Multiple linear regression</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="linear-regression.html"><a href="linear-regression.html#todo"><i class="fa fa-check"></i><b>5.3.1</b> TODO:</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>10</b> Multivariate Adaptive Regression Splines</a><ul>
-<li class="chapter" data-level="10.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="10.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a><ul>
-<li class="chapter" data-level="10.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>10.2.1</b> Multivariate regression splines</a></li>
+<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>5.4</b> Assessing Model Accuracy</a></li>
+<li class="chapter" data-level="5.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>5.5</b> Model concerns</a></li>
+<li class="chapter" data-level="5.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>5.6</b> Principal component regression</a></li>
+<li class="chapter" data-level="5.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>5.7</b> Partial least squares</a></li>
+<li class="chapter" data-level="5.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>5.8</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="5.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>5.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="5.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>5.10</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>10.3</b> Fitting a basic MARS model</a></li>
-<li class="chapter" data-level="10.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>10.4</b> Tuning</a></li>
-<li class="chapter" data-level="10.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>10.5</b> Feature interpretation</a></li>
-<li class="chapter" data-level="10.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>10.6</b> Attrition data</a></li>
-<li class="chapter" data-level="10.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>10.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="10.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>10.8</b> Learning more</a></li>
+<li class="chapter" data-level="6" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>6</b> Logistic regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>6.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Why logistic regression</a></li>
+<li class="chapter" data-level="6.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>6.3</b> Simple logistic regression</a></li>
+<li class="chapter" data-level="6.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>6.4</b> Multiple logistic regression</a></li>
+<li class="chapter" data-level="6.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>6.5</b> Assessing model accuracy</a></li>
+<li class="chapter" data-level="6.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>6.6</b> Feature interpretation</a></li>
+<li class="chapter" data-level="6.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>6.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="6.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>6.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>11</b> Random Forests</a><ul>
-<li class="chapter" data-level="11.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>11.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="11.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>11.2</b> Decision trees</a><ul>
-<li class="chapter" data-level="11.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>11.2.1</b> A simple regression tree example</a></li>
-<li class="chapter" data-level="11.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>11.2.2</b> Deciding on splits</a></li>
+<li class="chapter" data-level="7" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>7</b> Regularized regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="7.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>7.2</b> Why Regularize</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>7.2.1</b> Ridge penalty</a></li>
+<li class="chapter" data-level="7.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>7.2.2</b> Lasso penalty</a></li>
+<li class="chapter" data-level="7.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>7.2.3</b> Elastic nets</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>11.3</b> Bagging</a></li>
-<li class="chapter" data-level="11.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>11.4</b> Random forests</a><ul>
-<li class="chapter" data-level="11.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>11.4.1</b> OOB error vs. test set error</a></li>
+<li class="chapter" data-level="7.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>7.3</b> Implementation</a></li>
+<li class="chapter" data-level="7.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>7.4</b> Tuning</a></li>
+<li class="chapter" data-level="7.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>7.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="7.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>7.6</b> Attrition data</a></li>
+<li class="chapter" data-level="7.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>7.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="7.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>7.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="11.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>11.5</b> Fitting a basic random forest model</a></li>
-<li class="chapter" data-level="11.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>11.6</b> Tuning</a><ul>
-<li class="chapter" data-level="11.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>11.6.1</b> Tuning via ranger</a></li>
-<li class="chapter" data-level="11.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>11.6.2</b> Tuning via caret</a></li>
+<li class="chapter" data-level="8" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>8</b> Multivariate Adaptive Regression Splines</a><ul>
+<li class="chapter" data-level="8.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="8.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>8.2</b> The basic idea</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>8.2.1</b> Multivariate regression splines</a></li>
 </ul></li>
-<li class="chapter" data-level="11.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>11.7</b> Feature interpretation</a></li>
-<li class="chapter" data-level="11.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>11.8</b> Attrition data</a></li>
-<li class="chapter" data-level="11.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>11.9</b> Final thoughts</a></li>
-<li class="chapter" data-level="11.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>11.10</b> Learning more</a></li>
+<li class="chapter" data-level="8.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>8.3</b> Fitting a basic MARS model</a></li>
+<li class="chapter" data-level="8.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>8.4</b> Tuning</a></li>
+<li class="chapter" data-level="8.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>8.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="8.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>8.6</b> Attrition data</a></li>
+<li class="chapter" data-level="8.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="8.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>9</b> Random Forests</a><ul>
+<li class="chapter" data-level="9.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="9.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>9.2</b> Decision trees</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>9.2.1</b> A simple regression tree example</a></li>
+<li class="chapter" data-level="9.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>9.2.2</b> Deciding on splits</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>9.3</b> Bagging</a></li>
+<li class="chapter" data-level="9.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>9.4</b> Random forests</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>9.4.1</b> OOB error vs. test set error</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>9.5</b> Fitting a basic random forest model</a></li>
+<li class="chapter" data-level="9.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>9.6</b> Tuning</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>9.6.1</b> Tuning via ranger</a></li>
+<li class="chapter" data-level="9.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>9.6.2</b> Tuning via caret</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>9.7</b> Feature interpretation</a></li>
+<li class="chapter" data-level="9.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>9.8</b> Attrition data</a></li>
+<li class="chapter" data-level="9.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>9.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="9.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>9.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="GBM.html"><a href="GBM.html"><i class="fa fa-check"></i><b>10</b> Gradient Boosting Machines</a><ul>
+<li class="chapter" data-level="10.1" data-path="GBM.html"><a href="GBM.html#prerequisites-8"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="10.2" data-path="GBM.html"><a href="GBM.html#the-basic-idea-1"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a></li>
+<li class="chapter" data-level="10.3" data-path="GBM.html"><a href="GBM.html#gbm-gradient"><i class="fa fa-check"></i><b>10.3</b> Gradient descent</a></li>
+<li class="chapter" data-level="10.4" data-path="GBM.html"><a href="GBM.html#gbm-tuning"><i class="fa fa-check"></i><b>10.4</b> Tuning</a></li>
+<li class="chapter" data-level="10.5" data-path="GBM.html"><a href="GBM.html#fitting-a-basic-gbm"><i class="fa fa-check"></i><b>10.5</b> Fitting a basic GBM</a></li>
+<li class="chapter" data-level="10.6" data-path="GBM.html"><a href="GBM.html#tuning-2"><i class="fa fa-check"></i><b>10.6</b> Tuning</a></li>
+<li class="chapter" data-level="10.7" data-path="GBM.html"><a href="GBM.html#feature-interpretation-3"><i class="fa fa-check"></i><b>10.7</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="10.8" data-path="GBM.html"><a href="GBM.html#attrition-data-3"><i class="fa fa-check"></i><b>10.8</b> Attrition data</a></li>
+<li class="chapter" data-level="10.9" data-path="GBM.html"><a href="GBM.html#final-thoughts-5"><i class="fa fa-check"></i><b>10.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="10.10" data-path="GBM.html"><a href="GBM.html#learning-more-5"><i class="fa fa-check"></i><b>10.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="DL.html"><a href="DL.html"><i class="fa fa-check"></i><b>11</b> Deep Learning</a><ul>
+<li class="chapter" data-level="11.1" data-path="DL.html"><a href="DL.html#dnn_why"><i class="fa fa-check"></i><b>11.1</b> Why deep learning</a></li>
+<li class="chapter" data-level="11.2" data-path="DL.html"><a href="DL.html#dnn_ff"><i class="fa fa-check"></i><b>11.2</b> Feedforward DNNs</a></li>
+<li class="chapter" data-level="11.3" data-path="DL.html"><a href="DL.html#dnn_arch"><i class="fa fa-check"></i><b>11.3</b> Network architecture</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="DL.html"><a href="DL.html#layers-and-nodes"><i class="fa fa-check"></i><b>11.3.1</b> Layers and nodes</a></li>
+<li class="chapter" data-level="11.3.2" data-path="DL.html"><a href="DL.html#activation"><i class="fa fa-check"></i><b>11.3.2</b> Activation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="DL.html"><a href="DL.html#dnn_back"><i class="fa fa-check"></i><b>11.4</b> Backpropagation</a></li>
+<li class="chapter" data-level="11.5" data-path="DL.html"><a href="DL.html#dnn_train"><i class="fa fa-check"></i><b>11.5</b> Model training</a></li>
+<li class="chapter" data-level="11.6" data-path="DL.html"><a href="DL.html#dnn_tuning"><i class="fa fa-check"></i><b>11.6</b> Model tuning</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="DL.html"><a href="DL.html#adjust-model-capacity"><i class="fa fa-check"></i><b>11.6.1</b> Adjust model capacity</a></li>
+<li class="chapter" data-level="11.6.2" data-path="DL.html"><a href="DL.html#add-dropout"><i class="fa fa-check"></i><b>11.6.2</b> Add dropout</a></li>
+<li class="chapter" data-level="11.6.3" data-path="DL.html"><a href="DL.html#add-weight-regularization"><i class="fa fa-check"></i><b>11.6.3</b> Add weight regularization</a></li>
+<li class="chapter" data-level="11.6.4" data-path="DL.html"><a href="DL.html#adjust-learning-rate"><i class="fa fa-check"></i><b>11.6.4</b> Adjust learning rate</a></li>
+<li class="chapter" data-level="11.6.5" data-path="DL.html"><a href="DL.html#automate-the-tuning-process"><i class="fa fa-check"></i><b>11.6.5</b> Automate the tuning process</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="DL.html"><a href="DL.html#feature-interpretation-4"><i class="fa fa-check"></i><b>11.7</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="11.8" data-path="DL.html"><a href="DL.html#final-thoughts-6"><i class="fa fa-check"></i><b>11.8</b> Final thoughts</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="12" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) Appendix {-}</a></li>
-<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html"><i class="fa fa-check"></i>Data sets</a><ul>
-<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
-<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+<li class="chapter" data-level="12" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) Appendix {-}</a><ul>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -349,11 +373,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="RF" class="section level1">
-<h1><span class="header-section-number">Chapter 11</span> Random Forests</h1>
+<h1><span class="header-section-number">Chapter 9</span> Random Forests</h1>
 <p>The previous chapters covered models where the algorithm is based on a linear expansions in simple basis functions of the form</p>
 <p><span class="math display" id="eq:linear-combo">\[
   \sum_{i=1}^p\beta_ih_i\left(\boldsymbol{x}\right),
-  \tag{11.1}
+  \tag{9.1}
 \]</span></p>
 <p>where the <span class="math inline">\(\beta_i\)</span> are unknown coefficients to be estimated and the <span class="math inline">\(h_i\left(\cdot\right)\)</span> are transformations applied to the features <span class="math inline">\(\boldsymbol{x}\)</span>. For ordinalry linear regression (with or without regularization), these transformations are supplied by the user; hence, these are parametric models. For example, the prediction equation <span class="math inline">\(f\left(\boldsymbol{x}\right) = \beta_0 + \beta_1x_1 + \beta_2x_2 + \beta_3x_1x_2 + \beta_4x_1^2\)</span> has</p>
 <p><span class="math display">\[h_1\left(\boldsymbol{x}\right) = x_1 \quad \text{(main effect})\]</span></p>
@@ -363,7 +387,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>MARS, on the other hand, uses a specific algorithm to find the transformations to use automatically; hence, MARS is a nonparametric model.</p>
 <p><em>Tree-based models</em>, are also nonparametric, but they work very differently. Tree-based models use algorithms to partition the feature space into a number of smaller (non-overlapping) regions based on a set of splitting rules and then fits a simpler model (e.g., a constant) in each region. Such <em>divide-and-conquor</em> methods (e.g., a single decision tree) can produce simple rules that are easy to interpret and visualize with <em>tree diagrams</em>. Although fitted tree-based models can still be written as a linear expansions in simple basis functions (here the basis functions define the feature space partitioning), there is no benfit to doing so as other techniques, like <em>tree diagrams</em>, are better and conveying the information. Simple decision trees typically lack in predictive performance compared to more complex algorithms like neural networks and MARS. More sophisticated tree-based models, such as random forests and gradient boosting machines, are less interpretable, but tend to have very good predictive accuracy. This chapter will get you familiar with the basics behind decision trees, and two ways inwhich to combine them into a more accurate ensemble; namely, bagging and random forests. In the next chapter, we’ll cover (stochastic) gradient boosting machines, which is another powerful way of combining decision trees into a more accurate ensemble.</p>
 <div id="prerequisites-7" class="section level2">
-<h2><span class="header-section-number">11.1</span> Prerequisites</h2>
+<h2><span class="header-section-number">9.1</span> Prerequisites</h2>
 <p>For this chapter we’ll use the following packages:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)         <span class="co"># for classification and regression training</span>
 <span class="kw">library</span>(randomForest)  <span class="co"># for Breiman and Cutler&#39;s random forest</span>
@@ -383,71 +407,72 @@ ames_train &lt;-<span class="st"> </span><span class="kw">training</span>(ames_s
 ames_test  &lt;-<span class="st"> </span><span class="kw">testing</span>(ames_split)</code></pre>
 </div>
 <div id="decision-trees" class="section level2">
-<h2><span class="header-section-number">11.2</span> Decision trees</h2>
-<p>There are many methodologies for constructing decision trees but the most well-known is the <strong>c</strong>lassification <strong>a</strong>nd <strong>r</strong>egression <strong>t</strong>ree (CART©) algorithm proposed in <span class="citation">Breiman (<a href="#ref-breiman2017classification">1984</a>)</span>. Basic decision trees partition the training data into homogenious subgroups and then fit a simple <em>constant</em> in each (e.g., the mean of the within group response values for regression). The partitioning is achieved by recursive binary partitions formed by asking yes-or-no questions about each feature (e.g., is <code>age &lt; 18</code>?). This is done a number of times until a suitable stopping critera is satiscfied (e.g., a maximum depth of the tree is reached). After all the partitioning has been done, the model predicts the output based on (1) the average response values for all observations that fall in that subgroup (regression problem), or (2) the class that has majority representation (classification problem). For classification, predicted probabilites can be obtained using the proportion of each class within the subgroups.</p>
+<h2><span class="header-section-number">9.2</span> Decision trees</h2>
+<p>There are many methodologies for constructing decision trees but the most well-known is the <strong>c</strong>lassification <strong>a</strong>nd <strong>r</strong>egression <strong>t</strong>ree (CART©) algorithm proposed in <span class="citation">Breiman (<a href="#ref-breiman2017classification">1984</a>)</span>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Basic decision trees partition the training data into homogenious subgroups and then fit a simple <em>constant</em> for each subgroup (e.g., the mean of the within group response values for regression). The partitioning is achieved by recursive binary partitions formed by asking yes-or-no questions about each feature (e.g., is <code>age &lt; 18</code>?). This is done a number of times until a suitable stopping critera is satisfied (e.g., a maximum depth of the tree is reached). After all the partitioning has been done, the model predicts the output based on (1) the average response values for all observations that fall in that subgroup (regression problem), or (2) the class that has majority representation (classification problem). For classification, predicted probabilites can be obtained using the proportion of each class within the subgroups.</p>
 <div class="tip">
 <p>
 The basic idea behind decision trees is to ask simple yes-or-no questions about each feature in order partion the training data into subgroups with similar response rates. Ideally, the repsonses within each subgroup will be as similar or homegenous as possible, while responses across subgroups will be as different or as heterogenous as possible.
 </p>
 </div>
 <div id="a-simple-regression-tree-example" class="section level3">
-<h3><span class="header-section-number">11.2.1</span> A simple regression tree example</h3>
-<p>For example, suppose we want to use a decision tree to predict the miles per gallon a car will average (<code>mpg</code>) based on two features: the number of cylinders (<code>cyl</code>) and the horsepower (<code>hp</code>); such data are available in the <code>mtcars</code> data frame which is part of the standard <strong>datasets</strong> package. A (regression) tree is built using the <strong>rpart</strong> package <span class="citation">(Therneau and Atkinson <a href="#ref-R-rpart">2018</a>)</span> (see the code chunk below and Figure <a href="#rf-decision-tree-example-image"><strong>??</strong></a> which was produced using the <strong>rpart.plot</strong> package <span class="citation">(Milborrow <a href="#ref-R-rpart.plot">2018</a>)</span>), and all the training data are passed down this tree. Whenever an obervation reaches a partiular node in the tree (i.e., a yes-or-no question about one of the features; in this case, <code>cyl</code> or <code>hp</code>), it proceeds either to the left (if the answer is “yes”) or to the right (if the answer is “no”). This tree has only three terminal nodes. To start traversing the tree, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch. Next, the left branch is further partitioned by <code>hp</code>. Of all the observations with 6 or 8 cylinders with <code>hp</code> equal to or greater than 192 proceed to the left branch; those with less than 192 <code>hp</code> proceed to the right. These branches lead to <em>terminal nodes</em> or <em>leafs</em> which contain the predicted response value; in this case, the average mpg of cars that fall within that terminal node. In short, cars with less than 5 cylinders (region <span class="math inline">\(R_1\)</span>) average 27 mpg, cars with <code>cyl</code> <span class="math inline">\(\ge 5\)</span> and <code>hp</code> <span class="math inline">\(&lt; 193\)</span> (region <span class="math inline">\(R_2\)</span>) average 18 mpg, and all other cars (region <span class="math inline">\(R_3\)</span>) in the training data average 13 mph. This is sumamrized in the tree diagram in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a></p>
+<h3><span class="header-section-number">9.2.1</span> A simple regression tree example</h3>
+<p>For example, suppose we want to use a decision tree to predict the miles per gallon a car will average (<code>mpg</code>) based on two features: the number of cylinders (<code>cyl</code>) and the horsepower (<code>hp</code>); such data are available in the <code>mtcars</code> data frame which is part of the standard <strong>datasets</strong> package. A (regression) tree is built using the <strong>rpart</strong> package <span class="citation">(Therneau and Atkinson <a href="#ref-R-rpart">2018</a>)</span> (see the code chunk below and Figure <a href="#rf-decision-tree-example-image"><strong>??</strong></a> which was produced using the <strong>rpart.plot</strong> package <span class="citation">(Milborrow <a href="#ref-R-rpart.plot">2018</a>)</span>), and all the training data are passed down this tree. Whenever an obervation reaches a particular node in the tree (i.e., a yes-or-no question about one of the features; in this case, <code>cyl</code> or <code>hp</code>), it proceeds either to the left (if the answer is “yes”) or to the right (if the answer is “no”). This tree has only three terminal nodes. To start traversing the tree, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch. Next, the left branch is further partitioned by <code>hp</code>. Of all the observations with 6 or 8 cylinders with <code>hp</code> equal to or greater than 192 proceed to the left branch; those with less than 192 <code>hp</code> proceed to the right. These branches lead to <em>terminal nodes</em> or <em>leafs</em> which contain the predicted response value; in this case, the average mpg of cars that fall within that terminal node. In short, cars with less than 5 cylinders (region <span class="math inline">\(R_1\)</span>) average 27 mpg, cars with <code>cyl</code> <span class="math inline">\(\ge 5\)</span> and <code>hp</code> <span class="math inline">\(&lt; 193\)</span> (region <span class="math inline">\(R_2\)</span>) average 18 mpg, and all other cars (region <span class="math inline">\(R_3\)</span>) in the training data average 13 mph. This is sumamrized in the tree diagram in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a></p>
 <pre class="sourceCode r"><code class="sourceCode r">tree &lt;-<span class="st"> </span><span class="kw">rpart</span>(mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>hp, <span class="dt">data =</span> mtcars)  <span class="co"># CART-like regression tree</span>
 <span class="kw">rpart.plot</span>(tree)  <span class="co"># tree diagram</span></code></pre>
 <div class="figure" style="text-align: center"><span id="fig:rf-decision-tree-example"></span>
 <img src="abar_files/figure-html/rf-decision-tree-example-1.png" alt="Using a CART-like decision tree to predict `mpg` based on `cyl` and `hp`." width="70%" />
 <p class="caption">
-Figure 11.1: Using a CART-like decision tree to predict <code>mpg</code> based on <code>cyl</code> and <code>hp</code>.
+Figure 9.1: Using a CART-like decision tree to predict <code>mpg</code> based on <code>cyl</code> and <code>hp</code>.
 </p>
 </div>
 <p>Using a linear combination in simple basis functions, we can write the predicted <code>mpg</code> as</p>
 <p><span class="math display">\[
 \widehat{mpg} = 27 \cdot I\left(cyl &lt; 5\right) + 18 \cdot I\left(cyl \ge 5 \text{ and } hp &lt; 193 \right) + 13 \cdot I\left(cyl \ge 5 \text{ and } hp \ge 193\right),
 \]</span></p>
-<p>where <span class="math inline">\(I\left(\cdot\right)\)</span> is an <em>indicator function</em> that evaluates to one if its argument is true and zero otherwise. The coefficients (i.e., 27, 18, 13) correspond to the average response value within the respective region. While this simple example illustrates that decision trees are estimating a model of the same form as equation <a href="RF.html#eq:linear-combo">(11.1)</a>, the results are more easily interpreted in the form of a tree diagram like in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a>.</p>
+<p>where <span class="math inline">\(I\left(\cdot\right)\)</span> is an <em>indicator function</em> that evaluates to one if its argument is true and zero otherwise. The coefficients (i.e., 27, 18, 13) correspond to the average response value within the respective region. While this simple example illustrates that decision trees are estimating a model of the same form as equation <a href="RF.html#eq:linear-combo">(9.1)</a>, the results are more easily interpreted in the form of a tree diagram like in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a>.</p>
 </div>
 <div id="deciding-on-splits" class="section level3">
-<h3><span class="header-section-number">11.2.2</span> Deciding on splits</h3>
+<h3><span class="header-section-number">9.2.2</span> Deciding on splits</h3>
 <p><strong>FIXME:</strong> Continue with the previous example?</p>
-<p>How do decision trees partition the data into nonoverlapping regions? In particular, how did the tree in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a> decide which variables to split on and which split points to use? The answer depends on the tree algorithm used and therther or not context is classification or regression. For CART-like decision trees (like those discussed in this book and implemented in <strong>rpart</strong>), the partitioning of the feature space is done in a top-down, <em>greedy</em> fashion. This means that any partion in the tree depends on the previous partitions. But how are these partions made? The algorithm begins with the entire training data set and searches every distinct value of every input variable to find the “best” feature/split combination that partitions the data into two regions (<span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>) such that the overall error is minimized (typically, SSE for regression problems, and cross-entropy or the Gini index for classification problems–see Section <a href="fundamentalconcepts.html#reg-perf-eval">6.4.7</a>). Having found the best feature/split combination, the data are partitioned into two regions and the splitting process is repeated on each of the two regions (hence the name <em>binary <strong>r</strong>ecursive <strong>part</strong>ioning</em>. This process is continued until some stopping criterion is reached (e.g., a mxaimu depth is reached or the tree becomes “too complex”). What results is, typically, a very deep, complex tree that may produce good predictions on the training set, but is likely to generalize well to new unseen data (i.e., overfitting), leading to poor generalization performance.</p>
+<p>How do decision trees partition the data into nonoverlapping regions? In particular, how did the tree in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a> decide which variables to split on and which split points to use? The answer depends on the tree algorithm used and whether or not context is classification or regression. For CART-like decision trees (like those discussed in this book and implemented in <strong>rpart</strong>), the partitioning of the feature space is done in a top-down, <em>greedy</em> fashion. This means that any partion in the tree depends on the previous partitions. But how are these partions made? The algorithm begins with the entire training data set and searches every distinct value of every input variable to find the “best” feature/split combination that partitions the data into two regions (<span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>) such that the overall error is minimized (typically, SSE for regression problems, and cross-entropy or the Gini index for classification problems–see Section <a href="unsupervised.html#reg-perf-eval">4.7.7</a>). Having found the best feature/split combination, the data are partitioned into two regions and the splitting process is repeated on each of the two regions (hence the name <em>binary <strong>r</strong>ecursive <strong>part</strong>ioning</em>. This process is continued until some stopping criterion is reached (e.g., a maximum depth is reached or the tree becomes “too complex”). What results is, typically, a very deep, complex tree that may produce good predictions on the training set, but is likely to generalize well to new unseen data (i.e., overfitting), leading to poor generalization performance.</p>
 <p>To illustrate, we print the struture of the previous regression tree below.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(tree)
-## n= 32 
-## 
-## node), split, n, deviance, yval
-##       * denotes terminal node
-## 
-## 1) root 32 1126.00 20.09  
-##   2) cyl&gt;=5 21  198.50 16.65  
-##     4) hp&gt;=192.5 7   28.83 13.41 *
-##     5) hp&lt; 192.5 14   59.87 18.26 *
-##   3) cyl&lt; 5 11  203.40 26.66 *</code></pre>
-<p>The root node refers to all of the training data. In this node, the mean response is 20.0906 and the SSE is</p>
+<span class="co">## n= 32 </span>
+<span class="co">## </span>
+<span class="co">## node), split, n, deviance, yval</span>
+<span class="co">##       * denotes terminal node</span>
+<span class="co">## </span>
+<span class="co">## 1) root 32 1126.04700 20.09062  </span>
+<span class="co">##   2) cyl&gt;=5 21  198.47240 16.64762  </span>
+<span class="co">##     4) hp&gt;=192.5 7   28.82857 13.41429 *</span>
+<span class="co">##     5) hp&lt; 192.5 14   59.87214 18.26429 *</span>
+<span class="co">##   3) cyl&lt; 5 11  203.38550 26.66364 *</span></code></pre>
+<p>The root node refers to all of the training data. In this node, the mean response is 20.090625 and the SSE is</p>
 <pre class="sourceCode r"><code class="sourceCode r">sse &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x))<span class="op">^</span><span class="dv">2</span>)
 <span class="kw">sse</span>(mtcars<span class="op">$</span>mpg)  <span class="co"># see the row labeled 1)</span>
-## [1] 1126</code></pre>
-<p>The feature/splint combination that gives the largest rediction to this SSE is defined by the regions <code>cyl&gt;=5</code> and <code>cyl&lt; 5</code>. The resulting SSEs within these regions are</p>
+<span class="co">## [1] 1126.047</span></code></pre>
+<p>The feature/splint combination that gives the largest reduction to this SSE is defined by the regions <code>cyl&gt;=5</code> and <code>cyl&lt; 5</code>. The resulting SSEs within these regions are</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 2)</span>
-## [1] 198.5
+<span class="co">## [1] 198.4724</span>
 <span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&lt;</span><span class="st">  </span><span class="dv">5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 3)</span>
-## [1] 203.4</code></pre>
+<span class="co">## [1] 203.3855</span></code></pre>
 <p>The algorithm further split the region defined by <code>cyl&gt;=5</code> into to further regions. The feature/split combination that gave the biggest reduction to that node’s SSE (i.e., 198.47240) is defined by the regions <code>hp&gt;=192.5</code> and <code>hp&lt; 192.5</code>. The resulting SSEs within these regions are</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>mtcars<span class="op">$</span>hp <span class="op">&gt;=</span><span class="st"> </span><span class="fl">192.5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 4)</span>
-## [1] 28.83
+<span class="co">## [1] 28.82857</span>
 <span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>mtcars<span class="op">$</span>hp <span class="op">&lt;</span><span class="st">  </span><span class="fl">192.5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 5)</span>
-## [1] 59.87</code></pre>
+<span class="co">## [1] 59.87214</span></code></pre>
 <p>At this point, a stopping criteria was reached (in this case, the minimum number of observations that must exist in a node in order for a split to be attempted) and the tree algorithm stopped partitioning the data. For a list of all the stopping criteria, see <code>?rpart::rpart.control</code>.</p>
 <!-- For example, using the well-known Boston housing data [@harrison1978hedonic], three decision trees are created based on three different samples of the data.  You can see that the first few partitions are fairly similar at the top of each tree; however, they tend to differ substantially closer to the terminal nodes. These deeper nodes tend to overfit to specific attributes of the training data; consequently, slightly different samples will result in highly variable predicted values in the terminal nodes. For this reason, CART-like decision tree algorithms are often considered high variance (i.e., noisy) models fitting procedures.  -->
 <!-- **FIXME:** Brad, can we replace this with the code that produced the results; either hidden or shown? -->
 <!-- ```{r rf-tree-variance-image, echo=FALSE, fig.cap="Three decision trees based on slightly different samples.", out.height="70%", out.width="70%"} -->
 <!-- knitr::include_graphics("illustrations/tree-variance-1.svg") -->
+<!-- Below is code to reproduce the images.  May need to do some trimming of the image as I think I cropped it for aesthetic purposes. -->
 <!-- ``` -->
 </div>
 </div>
 <div id="bagging" class="section level2">
-<h2><span class="header-section-number">11.3</span> Bagging</h2>
-<p>The major drawback of decision trees is that they are not typically as accurate as current state-of-the-art ML algorithms like neural networks. However, decision trees to have a number of desirable properties which are listed in Table X below. The idea behind the ensembles of decision trees discussed in this chapter and the next is to improve the predictive performance of trees while retaining most of the other properties.</p>
+<h2><span class="header-section-number">9.3</span> Bagging</h2>
+<p>The major drawback of decision trees is that they are not typically as accurate as current state-of-the-art ML algorithms like neural networks. However, decision trees do have a number of desirable properties which are listed in Table X below. The idea behind the ensembles of decision trees discussed in this chapter and the next is to improve the predictive performance of trees while retaining most of the other properties.</p>
 <table>
 <caption>
 Table X. A comparison of binary recursive partitioning and neural networks.
@@ -558,31 +583,31 @@ Predictive accuracy
 </tr>
 </tbody>
 </table>
-<p>As discussed in <span class="citation">Friedman, Hastie, and Tibshirani (<a href="#ref-friedman2001elements">2001</a>)</span>, the key to accuracy is low bias and low variance. Trees are naturally high-variance models; a small change in the training data can lead to substantial different trees. Although <em>pruning</em> the tree (i.e., determining a nested sequence of subtrees by recursively snipping off the least important splits) helps reduce the variance<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> of a single tree (i.e., by helping to avoid overfitting), there are methods that exploit this variance in a way that can significantly improve performance over and above that of single trees. <em><strong>B</strong>ootstrap <strong>agg</strong>regat<strong>ing</strong></em> (bagging) <span class="citation">(Breiman <a href="#ref-breiman1996bagging">1996</a>)</span> is one such approach.</p>
+<p>As discussed in <span class="citation">Friedman, Hastie, and Tibshirani (<a href="#ref-friedman2001elements">2001</a>)</span>, the key to accuracy is low bias and low variance. Trees are naturally high-variance models; a small change in the training data can lead to substantial different trees. Although <em>pruning</em> the tree (i.e., determining a nested sequence of subtrees by recursively snipping off the least important splits) helps reduce the variance<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> of a single tree (i.e., by helping to avoid overfitting), there are methods that exploit this variance in a way that can significantly improve performance over and above that of single trees. <em><strong>B</strong>ootstrap <strong>agg</strong>regat<strong>ing</strong></em> (bagging) <span class="citation">(Breiman <a href="#ref-breiman1996bagging">1996</a>)</span> is one such approach.</p>
 <p>Bagging creates an ensemble[^Combining multiple models is referred to as <em>ensembling</em>.] of decision trees with low bias and high variance. The bias of each tree is kept at a minimum by constructing overgrown decision trees (i.e., no pruning). In other words, the tree models constructed in bagging are intentionally overfitting the training data. The variance of the final predictions is reduced by averaging (regression) or popular vote (classification). In regression, for example, the prediction of a new observation is obtained by averaging the predictions from each individual tree. To construct bagger model of size <span class="math inline">\(B\)</span>, we follow three simple steps:</p>
 <ol style="list-style-type: decimal">
-<li><p>Create <span class="math inline">\(B\)</span> bootstrap replciates of the original training data (Section <a href="inference.html#bootstrap">4.6</a>) by selecting rows with replacement</p></li>
+<li><p>Create <span class="math inline">\(B\)</span> bootstrap replciates of the original training data (Section <a href="inference.html#bootstrap">3.6</a>) by selecting rows with replacement</p></li>
 <li><p>For each bootstrap sample, train a single, unpruned decision tree</p></li>
 <li><p>Average individual predictions from each tree to create an overall average predicted value (regression) or use a popular vote (classification)</p></li>
 </ol>
 <div class="figure" style="text-align: center"><span id="fig:rf-bagging-image"></span>
 <img src="illustrations/bagging.png" alt="The bagging process." width="70%" height="70%" />
 <p class="caption">
-Figure 11.2: The bagging process.
+Figure 9.2: The bagging process.
 </p>
 </div>
-<p>Technically, bagging can is a general algorithm that can be applied to any regression or classification algorithm; however, it provides the greatest improvement for models that are adaptive and have high variance. For example, more stable parametric models, such as linear regression and MARS, tend to experience less improvement in predictive performance with bagging.</p>
+<p>Technically, bagging is a general algorithm that can be applied to any regression or classification algorithm; however, it provides the greatest improvement for models that are adaptive and have high variance. For example, more stable parametric models, such as linear regression and MARS, tend to experience less improvement in predictive performance with bagging.</p>
 <p>Although bagging trees can help reduce the variance of a single tree’s prediction and improve predictive performance, the trees in bagging are not completely independent of each other since all the original predictors are considered at every split of every tree. Rather, trees from different bootstrap samples typically have similar structure to each other (especially at the top of the tree) due to the fact that stronger relationships appear at the top.</p>
 <p>For example, if we create six decision trees with different bootstrapped samples of the Boston housing data, we see that the top of the trees all have a very similar structure. Although there are 15 predictor variables to split on, all six trees have both <code>lstat</code> and <code>rm</code> driving the first few splits. This <em>between-tree correlation</em> limits the effect of averaging to reduce the variance of the overall ensemble. In order to reduce variance further, we need to take an additiaonl step to help de-correlate the trees in the ensemble.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-98"></span>
-<img src="abar_files/figure-html/unnamed-chunk-98-1.png" alt="Six bagged decision trees fit to the Boston housing data set." width="100%" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
+<img src="abar_files/figure-html/unnamed-chunk-2-1.png" alt="Six bagged decision trees fit to the Boston housing data set." width="100%" />
 <p class="caption">
-Figure 11.3: Six bagged decision trees fit to the Boston housing data set.
+Figure 9.3: Six bagged decision trees fit to the Boston housing data set.
 </p>
 </div>
 </div>
 <div id="random-forests" class="section level2">
-<h2><span class="header-section-number">11.4</span> Random forests</h2>
+<h2><span class="header-section-number">9.4</span> Random forests</h2>
 <p>Random forests are an extension of bagging and injects more randomness into the tree-growing process. Random forests achieve this in two ways:</p>
 <ol style="list-style-type: decimal">
 <li><strong>Bootstrap</strong>: similar to bagging, each tree is grown to a bootstrap resampled data set, which makes them different and <em>somewhat</em> decorrelates them.</li>
@@ -603,20 +628,20 @@ Figure 11.3: Six bagged decision trees fit to the Boston housing data set.
 <span class="fl">12.</span> end</code></pre>
 <p>Since the algorithm randomly selects a bootstrap sample to train on <strong><em>and</em></strong> predictors to use at each split, tree correlation will be lessened beyond bagged trees.</p>
 <div id="oob-error-vs.test-set-error" class="section level3">
-<h3><span class="header-section-number">11.4.1</span> OOB error vs. test set error</h3>
+<h3><span class="header-section-number">9.4.1</span> OOB error vs. test set error</h3>
 <p>One benefit of bagging (and thus also random forests) is that, on average, a bootstrap sample will contain 63% of the training data. This leaves about 37% of the data out of the bootstrapped sample. We call this the out-of-bag (OOB) sample. We can use the OOB observations to estimate the model’s accuracy, creating a natural cross-validation process, which allows you to not need to sacrifice any of your training data to use for validation. This makes identifying the number of trees required to stablize the error rate during tuning more efficient; however, as illustrated below some difference between the OOB error and test error are expected.</p>
 <div class="figure" style="text-align: center"><span id="fig:rf-oob-example-image"></span>
 <img src="illustrations/oob-error-compare-1.svg" alt="Random forest out-of-bag error versus validation error." width="70%" height="70%" />
 <p class="caption">
-Figure 11.4: Random forest out-of-bag error versus validation error.
+Figure 9.4: Random forest out-of-bag error versus validation error.
 </p>
 </div>
 <p>Furthermore, many packages do not keep track of which observations were part of the OOB sample for a given tree and which were not. If you are comparing multiple models to one-another, you’d want to score each on the same validation set to compare performance. Also, although technically it is possible to compute certain metrics such as root mean squared logarithmic error (RMSLE) on the OOB sample, it is not built in to all packages. So if you are looking to compare multiple models or use a slightly less traditional loss function you will likely want to still perform cross validation.</p>
 </div>
 </div>
 <div id="fitting-a-basic-random-forest-model" class="section level2">
-<h2><span class="header-section-number">11.5</span> Fitting a basic random forest model</h2>
-<p>There are over 20 random forest packages in R.<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a> To demonstrate the basic implementation we illustrate the use of the <strong>randomForest</strong> package <span class="citation">(Breiman et al. <a href="#ref-R-randomForest">2018</a>)</span>, the oldest and most well known implementation of the Random Forest algorithm in R.</p>
+<h2><span class="header-section-number">9.5</span> Fitting a basic random forest model</h2>
+<p>There are over 20 random forest packages in R.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> To demonstrate the basic implementation we illustrate the use of the <strong>randomForest</strong> package <span class="citation">(Breiman et al. <a href="#ref-R-randomForest">2018</a>)</span>, the oldest and most well known implementation of the Random Forest algorithm in R.</p>
 <div class="tip">
 <p>
 However, as your data set grows in size <strong>randomForest</strong> does not scale well (although you can parallelize with <strong>foreach</strong>).
@@ -633,35 +658,35 @@ rf1 &lt;-<span class="st"> </span><span class="kw">randomForest</span>(
 )
 
 rf1
-## 
-## Call:
-##  randomForest(formula = Sale_Price ~ ., data = ames_train) 
-##                Type of random forest: regression
-##                      Number of trees: 500
-## No. of variables tried at each split: 26
-## 
-##           Mean of squared residuals: 661089658
-##                     % Var explained: 89.8</code></pre>
+<span class="co">## </span>
+<span class="co">## Call:</span>
+<span class="co">##  randomForest(formula = Sale_Price ~ ., data = ames_train) </span>
+<span class="co">##                Type of random forest: regression</span>
+<span class="co">##                      Number of trees: 500</span>
+<span class="co">## No. of variables tried at each split: 26</span>
+<span class="co">## </span>
+<span class="co">##           Mean of squared residuals: 661089658</span>
+<span class="co">##                     % Var explained: 89.8</span></code></pre>
 <p>Plotting the model will illustrate the OOB error rate as we average across more trees and shows that our error rate stabalizes with around 100 trees but continues to decrease slowly until around 300 or so trees.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(rf1)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:rf-basic-model-plot"></span>
 <img src="abar_files/figure-html/rf-basic-model-plot-1.png" alt="OOB error (MSE) as a function of the number of trees.  We see the MSE reduces quickly for the first 100 trees and then slowly thereafter.  We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined." width="480" />
 <p class="caption">
-Figure 11.5: OOB error (MSE) as a function of the number of trees. We see the MSE reduces quickly for the first 100 trees and then slowly thereafter. We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined.
+Figure 9.5: OOB error (MSE) as a function of the number of trees. We see the MSE reduces quickly for the first 100 trees and then slowly thereafter. We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined.
 </p>
 </div>
 <p>The plotted error rate above is based on the OOB sample error and can be accessed directly at <code>rf1$mse</code>. Thus, we can find which number of trees provides the lowest error rate, which is 447 trees providing an average home sales price error of $25,649.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># number of trees with lowest MSE</span>
 <span class="kw">which.min</span>(rf1<span class="op">$</span>mse)
-## [1] 447
+<span class="co">## [1] 447</span>
 
 <span class="co"># RMSE of this optimal random forest</span>
 <span class="kw">sqrt</span>(rf1<span class="op">$</span>mse[<span class="kw">which.min</span>(rf1<span class="op">$</span>mse)])
-## [1] 25649</code></pre>
+<span class="co">## [1] 25648.78</span></code></pre>
 <p>Random forests are one of the best “out-of-the-box” machine learning algorithms. They typically perform remarkably well with very little tuning required. As illustrated above, we were able to get an RMSE of $25,649 without any tuning which is nearly as good as the best, fully tuned model we’ve explored thus far. However, we can still seek improvement by tuning hyperparameters in our random forest model.</p>
 </div>
 <div id="tuning-1" class="section level2">
-<h2><span class="header-section-number">11.6</span> Tuning</h2>
+<h2><span class="header-section-number">9.6</span> Tuning</h2>
 <p>Compared to the algorithms explored in the previous chapters, random forests have more hyperparameters to tune. However, compared to gradient boosting machines and neural networks, which we explore in future chapters, random forests are much easier to tune. Typically, the primary concern when starting out is tuning the number of candidate variables to select from at each split.</p>
 <div class="tip">
 <p>
@@ -698,8 +723,8 @@ features &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span cla
     <span class="dt">mtry    =</span> <span class="kw">floor</span>(<span class="kw">length</span>(features) <span class="op">/</span><span class="st"> </span><span class="dv">3</span>)
   )
 )
-##    user  system elapsed 
-##   36.75    0.12   36.94
+<span class="co">##    user  system elapsed </span>
+<span class="co">##  36.486   0.183  36.733</span>
 
 <span class="co"># ranger speed</span>
 <span class="kw">system.time</span>(
@@ -710,10 +735,10 @@ features &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span cla
     <span class="dt">mtry      =</span> <span class="kw">floor</span>(<span class="kw">length</span>(features) <span class="op">/</span><span class="st"> </span><span class="dv">3</span>)
   )
 )
-##    user  system elapsed 
-##   7.174   0.142   1.115</code></pre>
+<span class="co">##    user  system elapsed </span>
+<span class="co">##   7.450   0.139   1.153</span></code></pre>
 <div id="tuning-via-ranger" class="section level3">
-<h3><span class="header-section-number">11.6.1</span> Tuning via ranger</h3>
+<h3><span class="header-section-number">9.6.1</span> Tuning via ranger</h3>
 <p>There are two approaches to tuning a <strong>ranger</strong> model. The first is to tune <strong>ranger</strong> manually using a <code>for</code> loop. To perform a manual grid search, first we want to construct our grid of hyperparameters. We’re going to search across 48 different models with varying mtry, minimum node size, sample size, and trying different split rules.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a tuning grid</span>
 hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(
@@ -725,7 +750,7 @@ hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(
 )
 
 <span class="kw">dim</span>(hyper_grid)
-## [1] 48  5</code></pre>
+<span class="co">## [1] 48  5</span></code></pre>
 <p>We loop through each hyperparameter combination and apply 500 trees since our previous examples illustrated that 500 was plenty to achieve a stable error rate. Also note that we set the random number generator seed. This allows us to consistently sample the same observations for each sample size and make it more clear the impact that each change makes. Our OOB RMSE ranges between ~25,900-28,500. Our top 10 performing models all have RMSE values right around 26,000 and the results show that models with larger sample sizes (80%) and a variance splitrule perform best. However, no definitive evidence suggests that certain values of <code>mtry</code> or <code>min.node.size</code> are better than other values.</p>
 <div class="warning">
 <p>
@@ -753,36 +778,25 @@ This grid search took 69 seconds to complete.
 hyper_grid <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span>dplyr<span class="op">::</span><span class="kw">arrange</span>(OOB_RMSE) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)
-##    mtry min.node.size sample.fraction splitrule
-## 1    20             3             0.8  variance
-## 2    25             3             0.8  variance
-## 3    20             6             0.8  variance
-## 4    20             9             0.8  variance
-## 5    30             3             0.8  variance
-## 6    25             6             0.8  variance
-## 7    30             6             0.8  variance
-## 8    35             3             0.8  variance
-## 9    35             6             0.8  variance
-## 10   25             9             0.8  variance
-##    OOB_RMSE
-## 1     25964
-## 2     25981
-## 3     25982
-## 4     26091
-## 5     26123
-## 6     26145
-## 7     26167
-## 8     26176
-## 9     26189
-## 10    26210</code></pre>
+<span class="co">##    mtry min.node.size sample.fraction splitrule OOB_RMSE</span>
+<span class="co">## 1    20             3             0.8  variance 25963.96</span>
+<span class="co">## 2    25             3             0.8  variance 25981.28</span>
+<span class="co">## 3    20             6             0.8  variance 25981.66</span>
+<span class="co">## 4    20             9             0.8  variance 26091.08</span>
+<span class="co">## 5    30             3             0.8  variance 26123.07</span>
+<span class="co">## 6    25             6             0.8  variance 26145.15</span>
+<span class="co">## 7    30             6             0.8  variance 26167.42</span>
+<span class="co">## 8    35             3             0.8  variance 26175.66</span>
+<span class="co">## 9    35             6             0.8  variance 26189.23</span>
+<span class="co">## 10   25             9             0.8  variance 26210.44</span></code></pre>
 <p>However, using this approach does not provide us with a cross validated measure of error. To get a k-fold CV error, we would have to expand our <code>for</code> loop approach or use an alternative approach. One such approach follows.</p>
 </div>
 <div id="tuning-via-caret" class="section level3">
-<h3><span class="header-section-number">11.6.2</span> Tuning via caret</h3>
+<h3><span class="header-section-number">9.6.2</span> Tuning via caret</h3>
 <p>The second tuning approach is to use the <strong>caret</strong> package. <strong>caret</strong> only allows you to tune some, not all, of the available <strong>ranger</strong> hyperparameters (<code>mtry</code>, <code>splitrule</code>, <code>min.node.size</code>). However, <strong>caret</strong> will allow us to get a CV measure of error to compare to our previous models (i.e. regularized regression, MARS). The following creates a similar tuning grid as before but with only those hyperparameters that <strong>caret</strong> will accept.</p>
 <div class="tip">
 <p>
-If you do not know what hyperparameters <strong>caret</strong> allows you to tune for a specific model you can find that info at <a href="https://topepo.github.io/caret/train-models-by-tag.html" class="uri">https://topepo.github.io/caret/train-models-by-tag.html</a> or with <code>caret::getModelInfo</code>. For example, we can find the parameters available for a <code>ranger</code> with <code>caret::getModelInfo(“ranger”)<span class="math inline">\(ranger\)</span>parameter</code>.
+If you do not know what hyperparameters <strong>caret</strong> allows you to tune for a specific model you can find that info at <a href="https://topepo.github.io/caret/train-models-by-tag.html">https://topepo.github.io/caret/train-models-by-tag.html</a> or with <code>caret::getModelInfo</code>. For example, we can find the parameters available for a <code>ranger</code> with <code>caret::getModelInfo(“ranger”)<span class="math inline">\(ranger\)</span>parameter</code>.
 </p>
 </div>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a tuning grid</span>
@@ -811,21 +825,21 @@ tuned_rf &lt;-<span class="st"> </span><span class="kw">train</span>(
 
 <span class="co"># best model</span>
 tuned_rf<span class="op">$</span>bestTune
-##   mtry splitrule min.node.size
-## 7   25  variance             3
+<span class="co">##   mtry splitrule min.node.size</span>
+<span class="co">## 7   25  variance             3</span>
 
 <span class="co"># plot results</span>
 <span class="kw">ggplot</span>(tuned_rf)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:rf-grid-search2"></span>
 <img src="abar_files/figure-html/rf-grid-search2-1.png" alt="Cross validated RMSE for the __caret__ grid search." width="672" />
 <p class="caption">
-Figure 11.6: Cross validated RMSE for the <strong>caret</strong> grid search.
+Figure 9.6: Cross validated RMSE for the <strong>caret</strong> grid search.
 </p>
 </div>
 </div>
 </div>
 <div id="feature-interpretation-2" class="section level2">
-<h2><span class="header-section-number">11.7</span> Feature interpretation</h2>
+<h2><span class="header-section-number">9.7</span> Feature interpretation</h2>
 <p>Whereas many of the linear models discussed previously use the standardized coefficients to signal importance, random forests have, historically, applied two different approaches to measure variable importance.</p>
 <ol style="list-style-type: decimal">
 <li><strong>Impurity</strong>: At each split in each tree, compute the improvement in the split-criterion (MSE for regression Gini for classification). Then average the improvement made by each variable across all the trees that the variable is used. The variables with the largest average decrease in the error metric are considered most important.</li>
@@ -877,7 +891,7 @@ gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, 
 <div class="figure" style="text-align: center"><span id="fig:rf-vip-plots"></span>
 <img src="abar_files/figure-html/rf-vip-plots-1.png" alt="Top 25 most important variables based on impurity (left) and permutation (right)." width="864" />
 <p class="caption">
-Figure 11.7: Top 25 most important variables based on impurity (left) and permutation (right).
+Figure 9.7: Top 25 most important variables based on impurity (left) and permutation (right).
 </p>
 </div>
 <p>To better understand the relationship between these important features and <code>Sale_Price</code>, we can create partial dependence plots (PDPs). If you recall in the linear and regularized regression sections, we saw that the linear model assumed a continously increasing relationship between <code>Gr_Liv_Area</code> and <code>Sale_Price</code>. In the MARS chapter, we saw as homes exceed 2,945 square feet, each additional square foot demands a higher marginal increase in sale price than homes with less than 2,945 square feet. However, in between the knots of a MARS model, the relationship will remain linear. However, the PDP plot below displays how random forest models can capture unique non-linear and non-monotonic relationships between predictors and the target. In this case, <code>Sale_Price</code> appears to not be influenced by <code>Gr_Liv_Area</code> values below 750 sqft or above 3500 sqft. This change in realtionship was not well captured by the prior parametric models.</p>
@@ -888,10 +902,10 @@ rf_impurity <span class="op">%&gt;%</span>
 <div class="figure" style="text-align: center"><span id="fig:rf-pdp-GrLiv-Area"></span>
 <img src="abar_files/figure-html/rf-pdp-GrLiv-Area-1.png" alt="The mean predicted sale price as the above ground living area increases." width="384" />
 <p class="caption">
-Figure 11.8: The mean predicted sale price as the above ground living area increases.
+Figure 9.8: The mean predicted sale price as the above ground living area increases.
 </p>
 </div>
-<p>Additionally, if we assess the relationship between the <code>Overall_Qual</code> predictor and <code>Sale_Price</code>, we see a continual increase as the overall quality increases. This provides a more comprehensive understanding of the relationship than the results we saw in the regularized regression section (<a href="regularized-regression.html#lm-features">9.5</a>). We see that the largest impact on <code>Sale_Price</code> occurs when houses go from “Good” overall quality to “Very Good”.</p>
+<p>Additionally, if we assess the relationship between the <code>Overall_Qual</code> predictor and <code>Sale_Price</code>, we see a continual increase as the overall quality increases. This provides a more comprehensive understanding of the relationship than the results we saw in the regularized regression section (<a href="regularized-regression.html#lm-features">7.5</a>). We see that the largest impact on <code>Sale_Price</code> occurs when houses go from “Good” overall quality to “Very Good”.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># partial dependence of Sale_Price on Overall_Qual</span>
 rf_impurity <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Overall_Qual&quot;</span>, <span class="dt">train =</span> <span class="kw">as.data.frame</span>(ames_train)) <span class="op">%&gt;%</span>
@@ -899,7 +913,7 @@ rf_impurity <span class="op">%&gt;%</span>
 <div class="figure" style="text-align: center"><span id="fig:rf-pdp-Overall-Qual"></span>
 <img src="abar_files/figure-html/rf-pdp-Overall-Qual-1.png" alt="The mean predicted sale price for each level of the overall quality variable." width="768" />
 <p class="caption">
-Figure 11.9: The mean predicted sale price for each level of the overall quality variable.
+Figure 9.9: The mean predicted sale price for each level of the overall quality variable.
 </p>
 </div>
 <p>Individual conditional expectation (ICE) curves <span class="citation">(Goldstein et al. <a href="#ref-goldstein2015peeking">2015</a>)</span> are an extension of PDP plots but, rather than plot the <em>average</em> marginal effect on the response variable, we plot the change in the predicted response variable <strong><em>for each observation</em></strong> as we vary each predictor variable. Below shows the regular ICE curve plot (left) and the centered ICE curves (right). When the curves have a wide range of intercepts and are consequently “stacked” on each other, heterogeneity in the response variable values due to marginal changes in the predictor variable of interest can be difficult to discern. The centered ICE can help draw these inferences out and can highlight any strong heterogeneity in our results.</p>
@@ -919,13 +933,13 @@ gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(ice1, ic
 <div class="figure" style="text-align: center"><span id="fig:rf-ice-Gr-Liv-Area"></span>
 <img src="abar_files/figure-html/rf-ice-Gr-Liv-Area-1.png" alt="Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations." width="864" />
 <p class="caption">
-Figure 11.10: Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations.
+Figure 9.10: Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations.
 </p>
 </div>
 <p>Both PDPs and ICE curves should be assessed for the most influential variables as they help to explain the underlying patterns in the data that the random forest model is picking up.</p>
 </div>
 <div id="attrition-data-2" class="section level2">
-<h2><span class="header-section-number">11.8</span> Attrition data</h2>
+<h2><span class="header-section-number">9.8</span> Attrition data</h2>
 <p>With the Ames data, the random forest models obtained predictive accuracy that was close to our best MARS model, but how about the attrition data? The following performs a grid search across 48 hyperparameter combinations.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get attrition data</span>
 df &lt;-<span class="st"> </span>rsample<span class="op">::</span>attrition <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">mutate_if</span>(is.ordered, factor, <span class="dt">ordered =</span> <span class="ot">FALSE</span>)
@@ -957,15 +971,15 @@ tuned_rf &lt;-<span class="st"> </span><span class="kw">train</span>(
 
 <span class="co"># best model</span>
 tuned_rf<span class="op">$</span>bestTune
-##    mtry splitrule min.node.size
-## 31   12      gini            10
+<span class="co">##    mtry splitrule min.node.size</span>
+<span class="co">## 31   12      gini            10</span>
 
 <span class="co"># plot results</span>
 <span class="kw">ggplot</span>(tuned_rf)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:rf-tuned-rf-attrition"></span>
 <img src="abar_files/figure-html/rf-tuned-rf-attrition-1.png" alt="Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses `mtry` = 9, `splitrule` = gini, and `min.node.size` = 4, which obtained a 10-fold CV accuracy rate of 85.8%." width="672" />
 <p class="caption">
-Figure 11.11: Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses <code>mtry</code> = 9, <code>splitrule</code> = gini, and <code>min.node.size</code> = 4, which obtained a 10-fold CV accuracy rate of 85.8%.
+Figure 9.11: Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses <code>mtry</code> = 9, <code>splitrule</code> = gini, and <code>min.node.size</code> = 4, which obtained a 10-fold CV accuracy rate of 85.8%.
 </p>
 </div>
 <p>Similar to the MARS model, the random forest model does not improve predictive accuracy over an above the regularized regression model.</p>
@@ -1003,22 +1017,22 @@ NA’s
 Logistic_model
 </td>
 <td style="text-align:right;">
-0.8447
+0.8446602
 </td>
 <td style="text-align:right;">
-0.8533
+0.8532981
 </td>
 <td style="text-align:right;">
-0.8558
+0.8557692
 </td>
 <td style="text-align:right;">
-0.8670
+0.8670209
 </td>
 <td style="text-align:right;">
-0.8900
+0.8899914
 </td>
 <td style="text-align:right;">
-0.8942
+0.8942308
 </td>
 <td style="text-align:right;">
 0
@@ -1029,22 +1043,22 @@ Logistic_model
 Elastic_net
 </td>
 <td style="text-align:right;">
-0.8269
+0.8269231
 </td>
 <td style="text-align:right;">
-0.8662
+0.8661955
 </td>
 <td style="text-align:right;">
-0.8744
+0.8743932
 </td>
 <td style="text-align:right;">
-0.8749
+0.8749103
 </td>
 <td style="text-align:right;">
-0.8900
+0.8899914
 </td>
 <td style="text-align:right;">
-0.9314
+0.9313725
 </td>
 <td style="text-align:right;">
 0
@@ -1055,22 +1069,22 @@ Elastic_net
 MARS_model
 </td>
 <td style="text-align:right;">
-0.8039
+0.8039216
 </td>
 <td style="text-align:right;">
-0.8474
+0.8474375
 </td>
 <td style="text-align:right;">
-0.8647
+0.8647311
 </td>
 <td style="text-align:right;">
-0.8651
+0.8650623
 </td>
 <td style="text-align:right;">
-0.8811
+0.8810680
 </td>
 <td style="text-align:right;">
-0.9314
+0.9313725
 </td>
 <td style="text-align:right;">
 0
@@ -1081,22 +1095,22 @@ MARS_model
 RF_model
 </td>
 <td style="text-align:right;">
-0.8235
+0.8235294
 </td>
 <td style="text-align:right;">
-0.8410
+0.8409961
 </td>
 <td style="text-align:right;">
-0.8654
+0.8653846
 </td>
 <td style="text-align:right;">
-0.8612
+0.8612044
 </td>
 <td style="text-align:right;">
-0.8802
+0.8802113
 </td>
 <td style="text-align:right;">
-0.9020
+0.9019608
 </td>
 <td style="text-align:right;">
 0
@@ -1106,7 +1120,7 @@ RF_model
 </table>
 </div>
 <div id="final-thoughts-4" class="section level2">
-<h2><span class="header-section-number">11.9</span> Final thoughts</h2>
+<h2><span class="header-section-number">9.9</span> Final thoughts</h2>
 <p>Random forests provide a very powerful out-of-the-box algorithm that often has great predictive accuracy. Because of their more simplistic tuning nature and the fact that they require very little, if any, feature pre-processing they are often one of the first go-to algorithms when facing a predictive modeling problem. However, as we illustrated in this chapter, random forests are not guaranteed to improve predictive accuracy over and above linear models and their cousins. The following summarizes some of the advantages and disadvantages discussed regarding random forests modeling:</p>
 <p><strong>TODO</strong>: may need to better tie in some of these advantages and disadvantages throughout the chapter.</p>
 <p><strong>Advantages:</strong></p>
@@ -1128,7 +1142,7 @@ RF_model
 </ul>
 </div>
 <div id="learning-more-4" class="section level2">
-<h2><span class="header-section-number">11.10</span> Learning more</h2>
+<h2><span class="header-section-number">9.10</span> Learning more</h2>
 <p>The literature behind random forests are rich and we have only touched on the fundamentals. To learn more I would start with the following resources listed in order of complexity:</p>
 <ul>
 <li><a href="http://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning</a></li>
@@ -1145,10 +1159,10 @@ RF_model
 <p>Breiman, Leo. 1984. <em>Classification and Regression Trees</em>. Routledge.</p>
 </div>
 <div id="ref-R-rpart">
-<p>Therneau, Terry, and Beth Atkinson. 2018. <em>Rpart: Recursive Partitioning and Regression Trees</em>. <a href="https://CRAN.R-project.org/package=rpart" class="uri">https://CRAN.R-project.org/package=rpart</a>.</p>
+<p>Therneau, Terry, and Beth Atkinson. 2018. <em>Rpart: Recursive Partitioning and Regression Trees</em>. <a href="https://CRAN.R-project.org/package=rpart">https://CRAN.R-project.org/package=rpart</a>.</p>
 </div>
 <div id="ref-R-rpart.plot">
-<p>Milborrow, Stephen. 2018. <em>Rpart.plot: Plot ’Rpart’ Models: An Enhanced Version of ’Plot.rpart’</em>. <a href="https://CRAN.R-project.org/package=rpart.plot" class="uri">https://CRAN.R-project.org/package=rpart.plot</a>.</p>
+<p>Milborrow, Stephen. 2018. <em>Rpart.plot: Plot ’Rpart’ Models: An Enhanced Version of ’Plot.rpart’</em>. <a href="https://CRAN.R-project.org/package=rpart.plot">https://CRAN.R-project.org/package=rpart.plot</a>.</p>
 </div>
 <div id="ref-friedman2001elements">
 <p>Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2001. <em>The Elements of Statistical Learning</em>. Vol. 1. 10. Springer series in statistics New York, NY, USA:</p>
@@ -1157,13 +1171,13 @@ RF_model
 <p>Breiman, Leo. 1996. “Bagging Predictors.” <em>Machine Learning</em> 24 (2). Springer: 123–40.</p>
 </div>
 <div id="ref-R-randomForest">
-<p>Breiman, Leo, Adele Cutler, Andy Liaw, and Matthew Wiener. 2018. <em>RandomForest: Breiman and Cutler’s Random Forests for Classification and Regression</em>. <a href="https://CRAN.R-project.org/package=randomForest" class="uri">https://CRAN.R-project.org/package=randomForest</a>.</p>
+<p>Breiman, Leo, Adele Cutler, Andy Liaw, and Matthew Wiener. 2018. <em>RandomForest: Breiman and Cutler’s Random Forests for Classification and Regression</em>. <a href="https://CRAN.R-project.org/package=randomForest">https://CRAN.R-project.org/package=randomForest</a>.</p>
 </div>
 <div id="ref-geurts2006extremely">
 <p>Geurts, Pierre, Damien Ernst, and Louis Wehenkel. 2006. “Extremely Randomized Trees.” <em>Machine Learning</em> 63 (1). Springer: 3–42.</p>
 </div>
 <div id="ref-R-ranger">
-<p>Wright, Marvin N., Stefan Wager, and Philipp Probst. 2018. <em>Ranger: A Fast Implementation of Random Forests</em>. <a href="https://CRAN.R-project.org/package=ranger" class="uri">https://CRAN.R-project.org/package=ranger</a>.</p>
+<p>Wright, Marvin N., Stefan Wager, and Philipp Probst. 2018. <em>Ranger: A Fast Implementation of Random Forests</em>. <a href="https://CRAN.R-project.org/package=ranger">https://CRAN.R-project.org/package=ranger</a>.</p>
 </div>
 <div id="ref-goldstein2015peeking">
 <p>Goldstein, Alex, Adam Kapelner, Justin Bleich, and Emil Pitkin. 2015. “Peeking Inside the Black Box: Visualizing Statistical Learning with Plots of Individual Conditional Expectation.” <em>Journal of Computational and Graphical Statistics</em> 24 (1). Taylor &amp; Francis: 44–65.</p>
@@ -1171,9 +1185,10 @@ RF_model
 </div>
 <div class="footnotes">
 <hr />
-<ol start="14">
-<li id="fn14"><p>See <span class="citation">Esposito et al. (<a href="#ref-esposito1997comparative">1997</a>)</span> for various methods of pruning. In <strong>rpart</strong>, the amount of pruning is controlled by the <em>complexity parameters</em> <code>cp</code>.<a href="RF.html#fnref14" class="footnote-back">↩</a></p></li>
-<li id="fn15"><p>See the Random Forest section in the <a href="https://CRAN.R-project.org/view=MachineLearning">Machine Learning Task View</a> on CRAN and Erin LeDell’s <a href="https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r">useR! Machine Learning Tutorial</a> for a non-comprehensive list.<a href="RF.html#fnref15" class="footnote-back">↩</a></p></li>
+<ol start="1">
+<li id="fn1"><p>Other decision tree algorithms include the Iterative Dichotomiser 3 <span class="citation">(Quinlan <a href="#ref-quinlan1986induction">1986</a>)</span><a href="RF.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>See <span class="citation">Esposito et al. (<a href="#ref-esposito1997comparative">1997</a>)</span> for various methods of pruning. In <strong>rpart</strong>, the amount of pruning is controlled by the <em>complexity parameters</em> <code>cp</code>.<a href="RF.html#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>See the Random Forest section in the <a href="https://CRAN.R-project.org/view=MachineLearning">Machine Learning Task View</a> on CRAN and Erin LeDell’s <a href="https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r">useR! Machine Learning Tutorial</a> for a non-comprehensive list.<a href="RF.html#fnref3" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -1182,16 +1197,16 @@ RF_model
         </div>
       </div>
 <a href="MARS.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="GBM.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
-<script src="libs/gitbook/js/app.min.js"></script>
-<script src="libs/gitbook/js/lunr.js"></script>
-<script src="libs/gitbook/js/plugin-search.js"></script>
-<script src="libs/gitbook/js/plugin-sharing.js"></script>
-<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
