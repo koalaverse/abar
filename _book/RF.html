@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2019-01-03">
+<meta name="date" content="2019-01-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -47,7 +47,6 @@
 
 
 
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
 
 
 <style type="text/css">
@@ -299,8 +298,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>9</b> Random Forests</a><ul>
 <li class="chapter" data-level="9.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
 <li class="chapter" data-level="9.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>9.2</b> Decision trees</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>9.2.1</b> A simple regression tree example</a></li>
-<li class="chapter" data-level="9.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>9.2.2</b> Deciding on splits</a></li>
+<li class="chapter" data-level="9.2.1" data-path="RF.html"><a href="RF.html#partitioning"><i class="fa fa-check"></i><b>9.2.1</b> Partitioning</a></li>
+<li class="chapter" data-level="9.2.2" data-path="RF.html"><a href="RF.html#minimizing-overfitting"><i class="fa fa-check"></i><b>9.2.2</b> Minimizing overfitting</a></li>
+<li class="chapter" data-level="9.2.3" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>9.2.3</b> A simple regression tree example</a></li>
+<li class="chapter" data-level="9.2.4" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>9.2.4</b> Deciding on splits</a></li>
 </ul></li>
 <li class="chapter" data-level="9.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>9.3</b> Bagging</a></li>
 <li class="chapter" data-level="9.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>9.4</b> Random forests</a><ul>
@@ -408,23 +409,61 @@ ames_test  &lt;-<span class="st"> </span><span class="kw">testing</span>(ames_sp
 </div>
 <div id="decision-trees" class="section level2">
 <h2><span class="header-section-number">9.2</span> Decision trees</h2>
-<p>There are many methodologies for constructing decision trees but the most well-known is the <strong>c</strong>lassification <strong>a</strong>nd <strong>r</strong>egression <strong>t</strong>ree (CART©) algorithm proposed in <span class="citation">Breiman (<a href="#ref-breiman2017classification">1984</a>)</span>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Basic decision trees partition the training data into homogenious subgroups and then fit a simple <em>constant</em> for each subgroup (e.g., the mean of the within group response values for regression). The partitioning is achieved by recursive binary partitions formed by asking yes-or-no questions about each feature (e.g., is <code>age &lt; 18</code>?). This is done a number of times until a suitable stopping critera is satisfied (e.g., a maximum depth of the tree is reached). After all the partitioning has been done, the model predicts the output based on (1) the average response values for all observations that fall in that subgroup (regression problem), or (2) the class that has majority representation (classification problem). For classification, predicted probabilites can be obtained using the proportion of each class within the subgroups.</p>
-<div class="tip">
-<p>
-The basic idea behind decision trees is to ask simple yes-or-no questions about each feature in order partion the training data into subgroups with similar response rates. Ideally, the repsonses within each subgroup will be as similar or homegenous as possible, while responses across subgroups will be as different or as heterogenous as possible.
+<p>There are many methodologies for constructing decision trees but the most well-known is the <strong>c</strong>lassification <strong>a</strong>nd <strong>r</strong>egression <strong>t</strong>ree (CART©) algorithm proposed in <span class="citation">Breiman (<a href="#ref-breiman2017classification">1984</a>)</span>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Basic decision trees partition the training data into homogeneous subgroups and then fit a simple <em>constant</em> for each subgroup (e.g., the mean of the within group response values for regression). The partitioning is achieved by recursive binary partitions formed by asking yes-or-no questions about each feature (e.g., is <code>age &lt; 18</code>?). This is done a number of times until a suitable stopping critera is satisfied (e.g., a maximum depth of the tree is reached). After all the partitioning has been done, the model predicts the output based on (1) the average response values for all observations that fall in that subgroup (regression problem), or (2) the class that has majority representation (classification problem). For classification, predicted probabilites can be obtained using the proportion of each class within the subgroups.</p>
+<p>What results is an inverted tree-like structure such as that in Figure <a href="RF.html#fig:exemplar-decision-tree">9.1</a>. In essence, our tree is a set of rules that allows us to traverse the tree based on simple questions about each feature. For example, if the customer is loyal, has household income greater than $150,000, and is shopping in a store, the exemplar decision tree would predict that the customer will redeem a coupon.</p>
+<div class="figure" style="text-align: center"><span id="fig:exemplar-decision-tree"></span>
+<img src="illustrations/exemplar-decision-tree.png" alt="Exemplar decision tree predicting if a customer will redeem a coupon (yes or no) based on the customer's loyalty, household income, last month's spend, coupon placement, and shopping mode." width="100%" height="100%" />
+<p class="caption">
+Figure 9.1: Exemplar decision tree predicting if a customer will redeem a coupon (yes or no) based on the customer’s loyalty, household income, last month’s spend, coupon placement, and shopping mode.
 </p>
 </div>
+<p>We refer to the first feature used to split as the <em>root node</em>, the next <span class="math inline">\(n\)</span> features used are the <em>internal nodes</em>, the outcome region (prediction) as the <em>leaf</em> or <em>terminal node</em>, and the connections as <em>branches</em>.</p>
+<div class="figure" style="text-align: center"><span id="fig:decision-tree-terminology"></span>
+<img src="illustrations/decision-tree-terminology.png" alt="Terminology of a decision tree." width="80%" height="80%" />
+<p class="caption">
+Figure 9.2: Terminology of a decision tree.
+</p>
+</div>
+<div id="partitioning" class="section level3">
+<h3><span class="header-section-number">9.2.1</span> Partitioning</h3>
+<p>As illustrated above, CART uses <em>recursive binary partitioning</em>. The objective is to assess an individual feature (<span class="math inline">\(x_i\)</span>) and split that feature to segment the response variable into one of two regions (<span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>) such that the overall error is minimized (typically, SSE for regression problems, and cross-entropy or the Gini index for classification problems–see Section <a href="unsupervised.html#reg-perf-eval">4.7.7</a>). Having found the best feature/split combination, the data are partitioned into two regions and the splitting process is repeated on each of the two regions (hence the name binary recursive partioning). This process is continued until some stopping criterion is reached (e.g., a maximum depth is reached or the tree becomes “too complex”)</p>
+<p>It’s important to note that a single feature can be used multiple times in a tree. For example, say we have data generated from an underlying sin function with <span class="math inline">\(\stackrel{iid}{\sim} \left(0, \sigma^2\right)\)</span> errors. A regression tree built with a single root node (often referred to as a decision stump) leads to a split occurring at <span class="math inline">\(x = 3.1\)</span>.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<div class="figure" style="text-align: center"><span id="fig:decision-stump"></span>
+<img src="abar_files/figure-html/decision-stump-1.png" alt="Decision tree illustrating the single split on feature x (left). The resulting decision boundary illustrates the predicted value when x &lt; 3.1 (0.64), and when x &gt; 3.1 (-0.67) (right)." width="384" /><img src="abar_files/figure-html/decision-stump-2.png" alt="Decision tree illustrating the single split on feature x (left). The resulting decision boundary illustrates the predicted value when x &lt; 3.1 (0.64), and when x &gt; 3.1 (-0.67) (right)." width="384" />
+<p class="caption">
+Figure 9.3: Decision tree illustrating the single split on feature x (left). The resulting decision boundary illustrates the predicted value when x &lt; 3.1 (0.64), and when x &gt; 3.1 (-0.67) (right).
+</p>
+</div>
+<p>If we build a deeper tree, we will continue to split on the same feature (<span class="math inline">\(x\)</span>) as illustrated in Figure <a href="RF.html#fig:depth-3-decision-tree">9.4</a>. In this example, this is because <span class="math inline">\(x\)</span> is the only feature available to split on so it will continue finding the optimal splits along this feature’s values until a pre-determined stopping criteria is reached.</p>
+<div class="figure" style="text-align: center"><span id="fig:depth-3-decision-tree"></span>
+<img src="abar_files/figure-html/depth-3-decision-tree-1.png" alt="Decision tree illustrating with depth = 3, resulting in 7 decision splits along values of feature x and 8 prediction regions (left). The resulting decision boundary (right)." width="384" /><img src="abar_files/figure-html/depth-3-decision-tree-2.png" alt="Decision tree illustrating with depth = 3, resulting in 7 decision splits along values of feature x and 8 prediction regions (left). The resulting decision boundary (right)." width="384" />
+<p class="caption">
+Figure 9.4: Decision tree illustrating with depth = 3, resulting in 7 decision splits along values of feature x and 8 prediction regions (left). The resulting decision boundary (right).
+</p>
+</div>
+<p>However, in an example where many features are included, the same can be experienced if a single feature provides the best splitting criterion multiple times. For example, a decision tree applied to the iris data set <span class="citation">(Fisher <a href="#ref-fisher1936use">1936</a>)</span> where the species of the flower (setosa, versicolor, and virginica) is predicted based on two features (sepal width and sepal length) results in an optimal decision tree with two splits on each feature. Also, note how the decision boundary in a classification problem results in rectangular regions enclosing the observations.</p>
+<div class="figure" style="text-align: center"><span id="fig:iris-decision-tree"></span>
+<img src="abar_files/figure-html/iris-decision-tree-1.png" alt="Decision tree for the iris classification problem (left). The decision boundary results in rectangular regions that enclose the observations.  The class with the highest proportion in each region is the predicted value (right)." width="384" /><img src="abar_files/figure-html/iris-decision-tree-2.png" alt="Decision tree for the iris classification problem (left). The decision boundary results in rectangular regions that enclose the observations.  The class with the highest proportion in each region is the predicted value (right)." width="384" />
+<p class="caption">
+Figure 9.5: Decision tree for the iris classification problem (left). The decision boundary results in rectangular regions that enclose the observations. The class with the highest proportion in each region is the predicted value (right).
+</p>
+</div>
+</div>
+<div id="minimizing-overfitting" class="section level3">
+<h3><span class="header-section-number">9.2.2</span> Minimizing overfitting</h3>
+<p>This leads to an important question, how deep should we fit a tree?</p>
+<div class="figure" style="text-align: center"><span id="fig:deep-overfit-tree"></span>
+<img src="abar_files/figure-html/deep-overfit-tree-1.png" alt="TBD" width="384" /><img src="abar_files/figure-html/deep-overfit-tree-2.png" alt="TBD" width="384" />
+<p class="caption">
+Figure 9.6: TBD
+</p>
+</div>
+</div>
 <div id="a-simple-regression-tree-example" class="section level3">
-<h3><span class="header-section-number">9.2.1</span> A simple regression tree example</h3>
+<h3><span class="header-section-number">9.2.3</span> A simple regression tree example</h3>
 <p>For example, suppose we want to use a decision tree to predict the miles per gallon a car will average (<code>mpg</code>) based on two features: the number of cylinders (<code>cyl</code>) and the horsepower (<code>hp</code>); such data are available in the <code>mtcars</code> data frame which is part of the standard <strong>datasets</strong> package. A (regression) tree is built using the <strong>rpart</strong> package <span class="citation">(Therneau and Atkinson <a href="#ref-R-rpart">2018</a>)</span> (see the code chunk below and Figure <a href="#rf-decision-tree-example-image"><strong>??</strong></a> which was produced using the <strong>rpart.plot</strong> package <span class="citation">(Milborrow <a href="#ref-R-rpart.plot">2018</a>)</span>), and all the training data are passed down this tree. Whenever an obervation reaches a particular node in the tree (i.e., a yes-or-no question about one of the features; in this case, <code>cyl</code> or <code>hp</code>), it proceeds either to the left (if the answer is “yes”) or to the right (if the answer is “no”). This tree has only three terminal nodes. To start traversing the tree, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch. Next, the left branch is further partitioned by <code>hp</code>. Of all the observations with 6 or 8 cylinders with <code>hp</code> equal to or greater than 192 proceed to the left branch; those with less than 192 <code>hp</code> proceed to the right. These branches lead to <em>terminal nodes</em> or <em>leafs</em> which contain the predicted response value; in this case, the average mpg of cars that fall within that terminal node. In short, cars with less than 5 cylinders (region <span class="math inline">\(R_1\)</span>) average 27 mpg, cars with <code>cyl</code> <span class="math inline">\(\ge 5\)</span> and <code>hp</code> <span class="math inline">\(&lt; 193\)</span> (region <span class="math inline">\(R_2\)</span>) average 18 mpg, and all other cars (region <span class="math inline">\(R_3\)</span>) in the training data average 13 mph. This is sumamrized in the tree diagram in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a></p>
 <pre class="sourceCode r"><code class="sourceCode r">tree &lt;-<span class="st"> </span><span class="kw">rpart</span>(mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>hp, <span class="dt">data =</span> mtcars)  <span class="co"># CART-like regression tree</span>
 <span class="kw">rpart.plot</span>(tree)  <span class="co"># tree diagram</span></code></pre>
-<div class="figure" style="text-align: center"><span id="fig:rf-decision-tree-example"></span>
-<img src="abar_files/figure-html/rf-decision-tree-example-1.png" alt="Using a CART-like decision tree to predict `mpg` based on `cyl` and `hp`." width="70%" />
-<p class="caption">
-Figure 9.1: Using a CART-like decision tree to predict <code>mpg</code> based on <code>cyl</code> and <code>hp</code>.
-</p>
-</div>
 <p>Using a linear combination in simple basis functions, we can write the predicted <code>mpg</code> as</p>
 <p><span class="math display">\[
 \widehat{mpg} = 27 \cdot I\left(cyl &lt; 5\right) + 18 \cdot I\left(cyl \ge 5 \text{ and } hp &lt; 193 \right) + 13 \cdot I\left(cyl \ge 5 \text{ and } hp \ge 193\right),
@@ -432,35 +471,20 @@ Figure 9.1: Using a CART-like decision tree to predict <code>mpg</code> based on
 <p>where <span class="math inline">\(I\left(\cdot\right)\)</span> is an <em>indicator function</em> that evaluates to one if its argument is true and zero otherwise. The coefficients (i.e., 27, 18, 13) correspond to the average response value within the respective region. While this simple example illustrates that decision trees are estimating a model of the same form as equation <a href="RF.html#eq:linear-combo">(9.1)</a>, the results are more easily interpreted in the form of a tree diagram like in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a>.</p>
 </div>
 <div id="deciding-on-splits" class="section level3">
-<h3><span class="header-section-number">9.2.2</span> Deciding on splits</h3>
+<h3><span class="header-section-number">9.2.4</span> Deciding on splits</h3>
 <p><strong>FIXME:</strong> Continue with the previous example?</p>
 <p>How do decision trees partition the data into nonoverlapping regions? In particular, how did the tree in Figure <a href="#fig:decision-tree-example"><strong>??</strong></a> decide which variables to split on and which split points to use? The answer depends on the tree algorithm used and whether or not context is classification or regression. For CART-like decision trees (like those discussed in this book and implemented in <strong>rpart</strong>), the partitioning of the feature space is done in a top-down, <em>greedy</em> fashion. This means that any partion in the tree depends on the previous partitions. But how are these partions made? The algorithm begins with the entire training data set and searches every distinct value of every input variable to find the “best” feature/split combination that partitions the data into two regions (<span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>) such that the overall error is minimized (typically, SSE for regression problems, and cross-entropy or the Gini index for classification problems–see Section <a href="unsupervised.html#reg-perf-eval">4.7.7</a>). Having found the best feature/split combination, the data are partitioned into two regions and the splitting process is repeated on each of the two regions (hence the name <em>binary <strong>r</strong>ecursive <strong>part</strong>ioning</em>. This process is continued until some stopping criterion is reached (e.g., a maximum depth is reached or the tree becomes “too complex”). What results is, typically, a very deep, complex tree that may produce good predictions on the training set, but is likely to generalize well to new unseen data (i.e., overfitting), leading to poor generalization performance.</p>
 <p>To illustrate, we print the struture of the previous regression tree below.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(tree)
-<span class="co">## n= 32 </span>
-<span class="co">## </span>
-<span class="co">## node), split, n, deviance, yval</span>
-<span class="co">##       * denotes terminal node</span>
-<span class="co">## </span>
-<span class="co">## 1) root 32 1126.04700 20.09062  </span>
-<span class="co">##   2) cyl&gt;=5 21  198.47240 16.64762  </span>
-<span class="co">##     4) hp&gt;=192.5 7   28.82857 13.41429 *</span>
-<span class="co">##     5) hp&lt; 192.5 14   59.87214 18.26429 *</span>
-<span class="co">##   3) cyl&lt; 5 11  203.38550 26.66364 *</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(tree)</code></pre>
 <p>The root node refers to all of the training data. In this node, the mean response is 20.090625 and the SSE is</p>
 <pre class="sourceCode r"><code class="sourceCode r">sse &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x))<span class="op">^</span><span class="dv">2</span>)
-<span class="kw">sse</span>(mtcars<span class="op">$</span>mpg)  <span class="co"># see the row labeled 1)</span>
-<span class="co">## [1] 1126.047</span></code></pre>
+<span class="kw">sse</span>(mtcars<span class="op">$</span>mpg)  <span class="co"># see the row labeled 1)</span></code></pre>
 <p>The feature/splint combination that gives the largest reduction to this SSE is defined by the regions <code>cyl&gt;=5</code> and <code>cyl&lt; 5</code>. The resulting SSEs within these regions are</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 2)</span>
-<span class="co">## [1] 198.4724</span>
-<span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&lt;</span><span class="st">  </span><span class="dv">5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 3)</span>
-<span class="co">## [1] 203.3855</span></code></pre>
+<span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&lt;</span><span class="st">  </span><span class="dv">5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 3)</span></code></pre>
 <p>The algorithm further split the region defined by <code>cyl&gt;=5</code> into to further regions. The feature/split combination that gave the biggest reduction to that node’s SSE (i.e., 198.47240) is defined by the regions <code>hp&gt;=192.5</code> and <code>hp&lt; 192.5</code>. The resulting SSEs within these regions are</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>mtcars<span class="op">$</span>hp <span class="op">&gt;=</span><span class="st"> </span><span class="fl">192.5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 4)</span>
-<span class="co">## [1] 28.82857</span>
-<span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>mtcars<span class="op">$</span>hp <span class="op">&lt;</span><span class="st">  </span><span class="fl">192.5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 5)</span>
-<span class="co">## [1] 59.87214</span></code></pre>
+<span class="kw">sse</span>(mtcars[mtcars<span class="op">$</span>cyl <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>mtcars<span class="op">$</span>hp <span class="op">&lt;</span><span class="st">  </span><span class="fl">192.5</span>, ]<span class="op">$</span>mpg)  <span class="co"># see the row labeled 5)</span></code></pre>
 <p>At this point, a stopping criteria was reached (in this case, the minimum number of observations that must exist in a node in order for a split to be attempted) and the tree algorithm stopped partitioning the data. For a list of all the stopping criteria, see <code>?rpart::rpart.control</code>.</p>
 <!-- For example, using the well-known Boston housing data [@harrison1978hedonic], three decision trees are created based on three different samples of the data.  You can see that the first few partitions are fairly similar at the top of each tree; however, they tend to differ substantially closer to the terminal nodes. These deeper nodes tend to overfit to specific attributes of the training data; consequently, slightly different samples will result in highly variable predicted values in the terminal nodes. For this reason, CART-like decision tree algorithms are often considered high variance (i.e., noisy) models fitting procedures.  -->
 <!-- **FIXME:** Brad, can we replace this with the code that produced the results; either hidden or shown? -->
@@ -583,28 +607,16 @@ Predictive accuracy
 </tr>
 </tbody>
 </table>
-<p>As discussed in <span class="citation">Friedman, Hastie, and Tibshirani (<a href="#ref-friedman2001elements">2001</a>)</span>, the key to accuracy is low bias and low variance. Trees are naturally high-variance models; a small change in the training data can lead to substantial different trees. Although <em>pruning</em> the tree (i.e., determining a nested sequence of subtrees by recursively snipping off the least important splits) helps reduce the variance<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> of a single tree (i.e., by helping to avoid overfitting), there are methods that exploit this variance in a way that can significantly improve performance over and above that of single trees. <em><strong>B</strong>ootstrap <strong>agg</strong>regat<strong>ing</strong></em> (bagging) <span class="citation">(Breiman <a href="#ref-breiman1996bagging">1996</a>)</span> is one such approach.</p>
+<p>As discussed in <span class="citation">Friedman, Hastie, and Tibshirani (<a href="#ref-friedman2001elements">2001</a>)</span>, the key to accuracy is low bias and low variance. Trees are naturally high-variance models; a small change in the training data can lead to substantial different trees. Although <em>pruning</em> the tree (i.e., determining a nested sequence of subtrees by recursively snipping off the least important splits) helps reduce the variance<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> of a single tree (i.e., by helping to avoid overfitting), there are methods that exploit this variance in a way that can significantly improve performance over and above that of single trees. <em><strong>B</strong>ootstrap <strong>agg</strong>regat<strong>ing</strong></em> (bagging) <span class="citation">(Breiman <a href="#ref-breiman1996bagging">1996</a>)</span> is one such approach.</p>
 <p>Bagging creates an ensemble[^Combining multiple models is referred to as <em>ensembling</em>.] of decision trees with low bias and high variance. The bias of each tree is kept at a minimum by constructing overgrown decision trees (i.e., no pruning). In other words, the tree models constructed in bagging are intentionally overfitting the training data. The variance of the final predictions is reduced by averaging (regression) or popular vote (classification). In regression, for example, the prediction of a new observation is obtained by averaging the predictions from each individual tree. To construct bagger model of size <span class="math inline">\(B\)</span>, we follow three simple steps:</p>
 <ol style="list-style-type: decimal">
 <li><p>Create <span class="math inline">\(B\)</span> bootstrap replciates of the original training data (Section <a href="inference.html#bootstrap">3.6</a>) by selecting rows with replacement</p></li>
 <li><p>For each bootstrap sample, train a single, unpruned decision tree</p></li>
 <li><p>Average individual predictions from each tree to create an overall average predicted value (regression) or use a popular vote (classification)</p></li>
 </ol>
-<div class="figure" style="text-align: center"><span id="fig:rf-bagging-image"></span>
-<img src="illustrations/bagging.png" alt="The bagging process." width="70%" height="70%" />
-<p class="caption">
-Figure 9.2: The bagging process.
-</p>
-</div>
 <p>Technically, bagging is a general algorithm that can be applied to any regression or classification algorithm; however, it provides the greatest improvement for models that are adaptive and have high variance. For example, more stable parametric models, such as linear regression and MARS, tend to experience less improvement in predictive performance with bagging.</p>
 <p>Although bagging trees can help reduce the variance of a single tree’s prediction and improve predictive performance, the trees in bagging are not completely independent of each other since all the original predictors are considered at every split of every tree. Rather, trees from different bootstrap samples typically have similar structure to each other (especially at the top of the tree) due to the fact that stronger relationships appear at the top.</p>
 <p>For example, if we create six decision trees with different bootstrapped samples of the Boston housing data, we see that the top of the trees all have a very similar structure. Although there are 15 predictor variables to split on, all six trees have both <code>lstat</code> and <code>rm</code> driving the first few splits. This <em>between-tree correlation</em> limits the effect of averaging to reduce the variance of the overall ensemble. In order to reduce variance further, we need to take an additiaonl step to help de-correlate the trees in the ensemble.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
-<img src="abar_files/figure-html/unnamed-chunk-2-1.png" alt="Six bagged decision trees fit to the Boston housing data set." width="100%" />
-<p class="caption">
-Figure 9.3: Six bagged decision trees fit to the Boston housing data set.
-</p>
-</div>
 </div>
 <div id="random-forests" class="section level2">
 <h2><span class="header-section-number">9.4</span> Random forests</h2>
@@ -630,18 +642,12 @@ Figure 9.3: Six bagged decision trees fit to the Boston housing data set.
 <div id="oob-error-vs.test-set-error" class="section level3">
 <h3><span class="header-section-number">9.4.1</span> OOB error vs. test set error</h3>
 <p>One benefit of bagging (and thus also random forests) is that, on average, a bootstrap sample will contain 63% of the training data. This leaves about 37% of the data out of the bootstrapped sample. We call this the out-of-bag (OOB) sample. We can use the OOB observations to estimate the model’s accuracy, creating a natural cross-validation process, which allows you to not need to sacrifice any of your training data to use for validation. This makes identifying the number of trees required to stablize the error rate during tuning more efficient; however, as illustrated below some difference between the OOB error and test error are expected.</p>
-<div class="figure" style="text-align: center"><span id="fig:rf-oob-example-image"></span>
-<img src="illustrations/oob-error-compare-1.svg" alt="Random forest out-of-bag error versus validation error." width="70%" height="70%" />
-<p class="caption">
-Figure 9.4: Random forest out-of-bag error versus validation error.
-</p>
-</div>
 <p>Furthermore, many packages do not keep track of which observations were part of the OOB sample for a given tree and which were not. If you are comparing multiple models to one-another, you’d want to score each on the same validation set to compare performance. Also, although technically it is possible to compute certain metrics such as root mean squared logarithmic error (RMSLE) on the OOB sample, it is not built in to all packages. So if you are looking to compare multiple models or use a slightly less traditional loss function you will likely want to still perform cross validation.</p>
 </div>
 </div>
 <div id="fitting-a-basic-random-forest-model" class="section level2">
 <h2><span class="header-section-number">9.5</span> Fitting a basic random forest model</h2>
-<p>There are over 20 random forest packages in R.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> To demonstrate the basic implementation we illustrate the use of the <strong>randomForest</strong> package <span class="citation">(Breiman et al. <a href="#ref-R-randomForest">2018</a>)</span>, the oldest and most well known implementation of the Random Forest algorithm in R.</p>
+<p>There are over 20 random forest packages in R.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> To demonstrate the basic implementation we illustrate the use of the <strong>randomForest</strong> package <span class="citation">(Breiman et al. <a href="#ref-R-randomForest">2018</a>)</span>, the oldest and most well known implementation of the Random Forest algorithm in R.</p>
 <div class="tip">
 <p>
 However, as your data set grows in size <strong>randomForest</strong> does not scale well (although you can parallelize with <strong>foreach</strong>).
@@ -657,32 +663,15 @@ rf1 &lt;-<span class="st"> </span><span class="kw">randomForest</span>(
   <span class="dt">data =</span> ames_train
 )
 
-rf1
-<span class="co">## </span>
-<span class="co">## Call:</span>
-<span class="co">##  randomForest(formula = Sale_Price ~ ., data = ames_train) </span>
-<span class="co">##                Type of random forest: regression</span>
-<span class="co">##                      Number of trees: 500</span>
-<span class="co">## No. of variables tried at each split: 26</span>
-<span class="co">## </span>
-<span class="co">##           Mean of squared residuals: 661089658</span>
-<span class="co">##                     % Var explained: 89.8</span></code></pre>
+rf1</code></pre>
 <p>Plotting the model will illustrate the OOB error rate as we average across more trees and shows that our error rate stabalizes with around 100 trees but continues to decrease slowly until around 300 or so trees.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(rf1)</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:rf-basic-model-plot"></span>
-<img src="abar_files/figure-html/rf-basic-model-plot-1.png" alt="OOB error (MSE) as a function of the number of trees.  We see the MSE reduces quickly for the first 100 trees and then slowly thereafter.  We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined." width="480" />
-<p class="caption">
-Figure 9.5: OOB error (MSE) as a function of the number of trees. We see the MSE reduces quickly for the first 100 trees and then slowly thereafter. We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined.
-</p>
-</div>
 <p>The plotted error rate above is based on the OOB sample error and can be accessed directly at <code>rf1$mse</code>. Thus, we can find which number of trees provides the lowest error rate, which is 447 trees providing an average home sales price error of $25,649.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># number of trees with lowest MSE</span>
 <span class="kw">which.min</span>(rf1<span class="op">$</span>mse)
-<span class="co">## [1] 447</span>
 
 <span class="co"># RMSE of this optimal random forest</span>
-<span class="kw">sqrt</span>(rf1<span class="op">$</span>mse[<span class="kw">which.min</span>(rf1<span class="op">$</span>mse)])
-<span class="co">## [1] 25648.78</span></code></pre>
+<span class="kw">sqrt</span>(rf1<span class="op">$</span>mse[<span class="kw">which.min</span>(rf1<span class="op">$</span>mse)])</code></pre>
 <p>Random forests are one of the best “out-of-the-box” machine learning algorithms. They typically perform remarkably well with very little tuning required. As illustrated above, we were able to get an RMSE of $25,649 without any tuning which is nearly as good as the best, fully tuned model we’ve explored thus far. However, we can still seek improvement by tuning hyperparameters in our random forest model.</p>
 </div>
 <div id="tuning-1" class="section level2">
@@ -723,8 +712,6 @@ features &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span cla
     <span class="dt">mtry    =</span> <span class="kw">floor</span>(<span class="kw">length</span>(features) <span class="op">/</span><span class="st"> </span><span class="dv">3</span>)
   )
 )
-<span class="co">##    user  system elapsed </span>
-<span class="co">##  36.486   0.183  36.733</span>
 
 <span class="co"># ranger speed</span>
 <span class="kw">system.time</span>(
@@ -734,9 +721,7 @@ features &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span cla
     <span class="dt">num.trees =</span> <span class="dv">500</span>,
     <span class="dt">mtry      =</span> <span class="kw">floor</span>(<span class="kw">length</span>(features) <span class="op">/</span><span class="st"> </span><span class="dv">3</span>)
   )
-)
-<span class="co">##    user  system elapsed </span>
-<span class="co">##   7.450   0.139   1.153</span></code></pre>
+)</code></pre>
 <div id="tuning-via-ranger" class="section level3">
 <h3><span class="header-section-number">9.6.1</span> Tuning via ranger</h3>
 <p>There are two approaches to tuning a <strong>ranger</strong> model. The first is to tune <strong>ranger</strong> manually using a <code>for</code> loop. To perform a manual grid search, first we want to construct our grid of hyperparameters. We’re going to search across 48 different models with varying mtry, minimum node size, sample size, and trying different split rules.</p>
@@ -749,8 +734,7 @@ hyper_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(
   <span class="dt">OOB_RMSE        =</span> <span class="dv">0</span>
 )
 
-<span class="kw">dim</span>(hyper_grid)
-<span class="co">## [1] 48  5</span></code></pre>
+<span class="kw">dim</span>(hyper_grid)</code></pre>
 <p>We loop through each hyperparameter combination and apply 500 trees since our previous examples illustrated that 500 was plenty to achieve a stable error rate. Also note that we set the random number generator seed. This allows us to consistently sample the same observations for each sample size and make it more clear the impact that each change makes. Our OOB RMSE ranges between ~25,900-28,500. Our top 10 performing models all have RMSE values right around 26,000 and the results show that models with larger sample sizes (80%) and a variance splitrule perform best. However, no definitive evidence suggests that certain values of <code>mtry</code> or <code>min.node.size</code> are better than other values.</p>
 <div class="warning">
 <p>
@@ -777,18 +761,7 @@ This grid search took 69 seconds to complete.
 
 hyper_grid <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span>dplyr<span class="op">::</span><span class="kw">arrange</span>(OOB_RMSE) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)
-<span class="co">##    mtry min.node.size sample.fraction splitrule OOB_RMSE</span>
-<span class="co">## 1    20             3             0.8  variance 25963.96</span>
-<span class="co">## 2    25             3             0.8  variance 25981.28</span>
-<span class="co">## 3    20             6             0.8  variance 25981.66</span>
-<span class="co">## 4    20             9             0.8  variance 26091.08</span>
-<span class="co">## 5    30             3             0.8  variance 26123.07</span>
-<span class="co">## 6    25             6             0.8  variance 26145.15</span>
-<span class="co">## 7    30             6             0.8  variance 26167.42</span>
-<span class="co">## 8    35             3             0.8  variance 26175.66</span>
-<span class="co">## 9    35             6             0.8  variance 26189.23</span>
-<span class="co">## 10   25             9             0.8  variance 26210.44</span></code></pre>
+<span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)</code></pre>
 <p>However, using this approach does not provide us with a cross validated measure of error. To get a k-fold CV error, we would have to expand our <code>for</code> loop approach or use an alternative approach. One such approach follows.</p>
 </div>
 <div id="tuning-via-caret" class="section level3">
@@ -825,17 +798,9 @@ tuned_rf &lt;-<span class="st"> </span><span class="kw">train</span>(
 
 <span class="co"># best model</span>
 tuned_rf<span class="op">$</span>bestTune
-<span class="co">##   mtry splitrule min.node.size</span>
-<span class="co">## 7   25  variance             3</span>
 
 <span class="co"># plot results</span>
 <span class="kw">ggplot</span>(tuned_rf)</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:rf-grid-search2"></span>
-<img src="abar_files/figure-html/rf-grid-search2-1.png" alt="Cross validated RMSE for the __caret__ grid search." width="672" />
-<p class="caption">
-Figure 9.6: Cross validated RMSE for the <strong>caret</strong> grid search.
-</p>
-</div>
 </div>
 </div>
 <div id="feature-interpretation-2" class="section level2">
@@ -888,34 +853,16 @@ rf_permutation &lt;-<span class="st"> </span><span class="kw">ranger</span>(
 p2 &lt;-<span class="st"> </span><span class="kw">vip</span>(rf_permutation, <span class="dt">num_features =</span> <span class="dv">25</span>, <span class="dt">bar =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Permutation-based variable importance&quot;</span>)
 
 gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:rf-vip-plots"></span>
-<img src="abar_files/figure-html/rf-vip-plots-1.png" alt="Top 25 most important variables based on impurity (left) and permutation (right)." width="864" />
-<p class="caption">
-Figure 9.7: Top 25 most important variables based on impurity (left) and permutation (right).
-</p>
-</div>
 <p>To better understand the relationship between these important features and <code>Sale_Price</code>, we can create partial dependence plots (PDPs). If you recall in the linear and regularized regression sections, we saw that the linear model assumed a continously increasing relationship between <code>Gr_Liv_Area</code> and <code>Sale_Price</code>. In the MARS chapter, we saw as homes exceed 2,945 square feet, each additional square foot demands a higher marginal increase in sale price than homes with less than 2,945 square feet. However, in between the knots of a MARS model, the relationship will remain linear. However, the PDP plot below displays how random forest models can capture unique non-linear and non-monotonic relationships between predictors and the target. In this case, <code>Sale_Price</code> appears to not be influenced by <code>Gr_Liv_Area</code> values below 750 sqft or above 3500 sqft. This change in realtionship was not well captured by the prior parametric models.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># partial dependence of Sale_Price on Gr_Liv_Area</span>
 rf_impurity <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Gr_Liv_Area&quot;</span>, <span class="dt">grid.resolution =</span> <span class="dv">50</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">autoplot</span>(<span class="dt">rug =</span> <span class="ot">TRUE</span>, <span class="dt">train =</span> ames_train)</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:rf-pdp-GrLiv-Area"></span>
-<img src="abar_files/figure-html/rf-pdp-GrLiv-Area-1.png" alt="The mean predicted sale price as the above ground living area increases." width="384" />
-<p class="caption">
-Figure 9.8: The mean predicted sale price as the above ground living area increases.
-</p>
-</div>
 <p>Additionally, if we assess the relationship between the <code>Overall_Qual</code> predictor and <code>Sale_Price</code>, we see a continual increase as the overall quality increases. This provides a more comprehensive understanding of the relationship than the results we saw in the regularized regression section (<a href="regularized-regression.html#lm-features">7.5</a>). We see that the largest impact on <code>Sale_Price</code> occurs when houses go from “Good” overall quality to “Very Good”.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># partial dependence of Sale_Price on Overall_Qual</span>
 rf_impurity <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">partial</span>(<span class="dt">pred.var =</span> <span class="st">&quot;Overall_Qual&quot;</span>, <span class="dt">train =</span> <span class="kw">as.data.frame</span>(ames_train)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">autoplot</span>()</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:rf-pdp-Overall-Qual"></span>
-<img src="abar_files/figure-html/rf-pdp-Overall-Qual-1.png" alt="The mean predicted sale price for each level of the overall quality variable." width="768" />
-<p class="caption">
-Figure 9.9: The mean predicted sale price for each level of the overall quality variable.
-</p>
-</div>
 <p>Individual conditional expectation (ICE) curves <span class="citation">(Goldstein et al. <a href="#ref-goldstein2015peeking">2015</a>)</span> are an extension of PDP plots but, rather than plot the <em>average</em> marginal effect on the response variable, we plot the change in the predicted response variable <strong><em>for each observation</em></strong> as we vary each predictor variable. Below shows the regular ICE curve plot (left) and the centered ICE curves (right). When the curves have a wide range of intercepts and are consequently “stacked” on each other, heterogeneity in the response variable values due to marginal changes in the predictor variable of interest can be difficult to discern. The centered ICE can help draw these inferences out and can highlight any strong heterogeneity in our results.</p>
 <p>The plots below show that marginal changes in <code>Gr_Liv_Area</code> have a fairly homogenous effect on our response variable. As <code>Gr_Liv_Area</code> increases, the vast majority of observations show a similar increasing effect on the predicted <code>Sale_Price</code> value. The primary differences is in the magnitude of the increasing effect. However, in the centered ICE plot you see evidence of a few observations that display a different pattern. Some have a higher <span class="math inline">\(\hat y\)</span> value when <code>Gr_Liv_Area</code> is between 2500-4000 and some have a decreasing <span class="math inline">\(\hat y\)</span> as <code>Gr_Liv_AreA</code> increases. These results may be a sign of interaction effects and would be worth exploring more closely.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ice curves of Sale_Price on Gr_Liv_Area</span>
@@ -930,12 +877,6 @@ ice2 &lt;-<span class="st"> </span>rf_impurity <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Centered ICE plot&quot;</span>)
 
 gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(ice1, ice2, <span class="dt">nrow =</span> <span class="dv">1</span>)</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:rf-ice-Gr-Liv-Area"></span>
-<img src="abar_files/figure-html/rf-ice-Gr-Liv-Area-1.png" alt="Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations." width="864" />
-<p class="caption">
-Figure 9.10: Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations.
-</p>
-</div>
 <p>Both PDPs and ICE curves should be assessed for the most influential variables as they help to explain the underlying patterns in the data that the random forest model is picking up.</p>
 </div>
 <div id="attrition-data-2" class="section level2">
@@ -971,153 +912,10 @@ tuned_rf &lt;-<span class="st"> </span><span class="kw">train</span>(
 
 <span class="co"># best model</span>
 tuned_rf<span class="op">$</span>bestTune
-<span class="co">##    mtry splitrule min.node.size</span>
-<span class="co">## 31   12      gini            10</span>
 
 <span class="co"># plot results</span>
 <span class="kw">ggplot</span>(tuned_rf)</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:rf-tuned-rf-attrition"></span>
-<img src="abar_files/figure-html/rf-tuned-rf-attrition-1.png" alt="Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses `mtry` = 9, `splitrule` = gini, and `min.node.size` = 4, which obtained a 10-fold CV accuracy rate of 85.8%." width="672" />
-<p class="caption">
-Figure 9.11: Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses <code>mtry</code> = 9, <code>splitrule</code> = gini, and <code>min.node.size</code> = 4, which obtained a 10-fold CV accuracy rate of 85.8%.
-</p>
-</div>
 <p>Similar to the MARS model, the random forest model does not improve predictive accuracy over an above the regularized regression model.</p>
-<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-Min.
-</th>
-<th style="text-align:right;">
-1st Qu.
-</th>
-<th style="text-align:right;">
-Median
-</th>
-<th style="text-align:right;">
-Mean
-</th>
-<th style="text-align:right;">
-3rd Qu.
-</th>
-<th style="text-align:right;">
-Max.
-</th>
-<th style="text-align:right;">
-NA’s
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Logistic_model
-</td>
-<td style="text-align:right;">
-0.8446602
-</td>
-<td style="text-align:right;">
-0.8532981
-</td>
-<td style="text-align:right;">
-0.8557692
-</td>
-<td style="text-align:right;">
-0.8670209
-</td>
-<td style="text-align:right;">
-0.8899914
-</td>
-<td style="text-align:right;">
-0.8942308
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Elastic_net
-</td>
-<td style="text-align:right;">
-0.8269231
-</td>
-<td style="text-align:right;">
-0.8661955
-</td>
-<td style="text-align:right;">
-0.8743932
-</td>
-<td style="text-align:right;">
-0.8749103
-</td>
-<td style="text-align:right;">
-0.8899914
-</td>
-<td style="text-align:right;">
-0.9313725
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MARS_model
-</td>
-<td style="text-align:right;">
-0.8039216
-</td>
-<td style="text-align:right;">
-0.8474375
-</td>
-<td style="text-align:right;">
-0.8647311
-</td>
-<td style="text-align:right;">
-0.8650623
-</td>
-<td style="text-align:right;">
-0.8810680
-</td>
-<td style="text-align:right;">
-0.9313725
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-RF_model
-</td>
-<td style="text-align:right;">
-0.8235294
-</td>
-<td style="text-align:right;">
-0.8409961
-</td>
-<td style="text-align:right;">
-0.8653846
-</td>
-<td style="text-align:right;">
-0.8612044
-</td>
-<td style="text-align:right;">
-0.8802113
-</td>
-<td style="text-align:right;">
-0.9019608
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div id="final-thoughts-4" class="section level2">
 <h2><span class="header-section-number">9.9</span> Final thoughts</h2>
@@ -1158,6 +956,9 @@ RF_model
 <div id="ref-breiman2017classification">
 <p>Breiman, Leo. 1984. <em>Classification and Regression Trees</em>. Routledge.</p>
 </div>
+<div id="ref-fisher1936use">
+<p>Fisher, Ronald A. 1936. “The Use of Multiple Measurements in Taxonomic Problems.” <em>Annals of Eugenics</em> 7 (2). Wiley Online Library: 179–88.</p>
+</div>
 <div id="ref-R-rpart">
 <p>Therneau, Terry, and Beth Atkinson. 2018. <em>Rpart: Recursive Partitioning and Regression Trees</em>. <a href="https://CRAN.R-project.org/package=rpart">https://CRAN.R-project.org/package=rpart</a>.</p>
 </div>
@@ -1186,9 +987,11 @@ RF_model
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p>Other decision tree algorithms include the Iterative Dichotomiser 3 <span class="citation">(Quinlan <a href="#ref-quinlan1986induction">1986</a>)</span><a href="RF.html#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>See <span class="citation">Esposito et al. (<a href="#ref-esposito1997comparative">1997</a>)</span> for various methods of pruning. In <strong>rpart</strong>, the amount of pruning is controlled by the <em>complexity parameters</em> <code>cp</code>.<a href="RF.html#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>See the Random Forest section in the <a href="https://CRAN.R-project.org/view=MachineLearning">Machine Learning Task View</a> on CRAN and Erin LeDell’s <a href="https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r">useR! Machine Learning Tutorial</a> for a non-comprehensive list.<a href="RF.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>Other decision tree algorithms include the Iterative Dichotomiser 3
+<span class="citation">(Quinlan <a href="#ref-quinlan1986induction">1986</a>)</span>, C4.5 <span class="citation">(Quinlan and others <a href="#ref-quinlan1996bagging">1996</a>)</span>, Chi-square automatic interaction detection <span class="citation">(Kass <a href="#ref-kass1980exploratory">1980</a>)</span>, Conditional inference trees <span class="citation">(Hothorn, Hornik, and Zeileis <a href="#ref-hothorn2006unbiased">2006</a>)</span>, and more.<a href="RF.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>This decision tree was built using the <strong>rpart</strong> package <span class="citation">(Therneau and Atkinson <a href="#ref-R-rpart">2018</a>)</span>, the tree graphic which was produced using the <strong>rpart.plot</strong> package <span class="citation">(Milborrow <a href="#ref-R-rpart.plot">2018</a>)</span>), and the decision boundary was illustrated with <strong>ggplot2</strong>.<a href="RF.html#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>See <span class="citation">Esposito et al. (<a href="#ref-esposito1997comparative">1997</a>)</span> for various methods of pruning. In <strong>rpart</strong>, the amount of pruning is controlled by the <em>complexity parameters</em> <code>cp</code>.<a href="RF.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>See the Random Forest section in the <a href="https://CRAN.R-project.org/view=MachineLearning">Machine Learning Task View</a> on CRAN and Erin LeDell’s <a href="https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r">useR! Machine Learning Tutorial</a> for a non-comprehensive list.<a href="RF.html#fnref4" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>

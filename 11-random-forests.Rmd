@@ -72,34 +72,122 @@ There are many methodologies for constructing decision trees but the most well-k
 
 What results is an inverted tree-like structure such as that in Figure \@ref(fig:exemplar-decision-tree).  In essence, our tree is a set of rules that allows us to traverse the tree based on simple questions about each feature.  For example, if the customer is loyal, has household income greater than \$150,000, and is shopping in a store, the exemplar decision tree would predict that the customer will redeem a coupon. 
 
-```{r exemplar-decision-tree, echo=FALSE, fig.cap="Exemplar decision tree predicting if a customer will redeem a coupon (yes or no) based on the customer's loyalty, household income, last month's spend, coupon placement, and shopping mode.", out.height="70%", out.width="70%"}
+```{r exemplar-decision-tree, echo=FALSE, fig.cap="Exemplar decision tree predicting if a customer will redeem a coupon (yes or no) based on the customer's loyalty, household income, last month's spend, coupon placement, and shopping mode.", out.height="100%", out.width="100%"}
 knitr::include_graphics("illustrations/exemplar-decision-tree.png")
 ```
 
 We refer to the first feature used to split as the *root node*, the next $n$ features used are the *internal nodes*, the outcome region (prediction) as the *leaf* or *terminal node*, and the connections as *branches*. 
 
-```{r exemplar-decision-tree, echo=FALSE, fig.cap="Terminology of a decision tree.", out.height="70%", out.width="70%"}
+```{r decision-tree-terminology, echo=FALSE, fig.cap="Terminology of a decision tree.", out.height="80%", out.width="80%"}
 knitr::include_graphics("illustrations/decision-tree-terminology.png")
 ```
 
 ### Partitioning
 
-As illustrated above, CART uses binary partitioning. The objective is to assess an individual feature ($x_i$) and split that feature to segment the response variable into one of two regions.  The best binary split is the one in which each subgroup will be as similar or homegenous as possible, while responses across subgroups will be as different or as heterogenous as possible.
+As illustrated above, CART uses *recursive binary partitioning*. The objective is to assess an individual feature ($x_i$) and split that feature to segment the response variable into one of two regions ($R_1$ and $R_2$) such that the overall error is minimized (typically, SSE for regression problems, and cross-entropy or the Gini index for classification problems--see Section \@ref(reg-perf-eval)). Having found the best feature/split combination, the data are partitioned into two regions and the splitting process is repeated on each of the two regions (hence the name binary recursive partioning). This process is continued until some stopping criterion is reached (e.g., a maximum depth is reached or the tree becomes "too complex")
 
+It's important to note that a single feature can be used multiple times in a tree. For example, say we have data generated from an underlying sin function with $\stackrel{iid}{\sim} \left(0, \sigma^2\right)$ errors. A regression tree built with a single root node (often referred to as a decision stump) leads to a split occurring at $x = 3.1$.[^stump]
 
-### Depth of a tree
+```{r decision-stump, echo=FALSE, fig.width=4, fig.height=3, fig.show='hold', fig.cap="Decision tree illustrating the single split on feature x (left). The resulting decision boundary illustrates the predicted value when x < 3.1 (0.64), and when x > 3.1 (-0.67) (right)."}
+# create data
+set.seed(1112)  # for reproducibility
+df <- tibble::tibble(
+  x = seq(from = 0, to = 2 * pi, length = 500),
+  y = sin(x) + rnorm(length(x), sd = 0.5),
+  truth = sin(x)
+)
 
-TODO: Brad's slides
+# run decision stump model
+library(rpart)
+ctrl <- list(cp = 0, minbucket = 5, maxdepth = 1)
+fit <- rpart(y ~ x, data = df, control = ctrl)
+
+# plot tree 
+library(rpart.plot)
+par(mar = c(1, 1, 1, 1))
+rpart.plot(fit)
+
+# plot decision boundary
+library(ggplot2)
+library(dplyr)
+df %>%
+  mutate(pred = predict(fit, df)) %>%
+  ggplot(aes(x, y)) +
+  geom_point(alpha = .2, size = 1) +
+  geom_line(aes(x, y = truth), color = "blue", size = .75) +
+  geom_line(aes(y = pred), color = "red", size = .75) +
+  geom_segment(x = 3.1, xend = 3.1, y = -Inf, yend = -.95,
+               arrow = arrow(length = unit(0.25,"cm")), size = .25) +
+  annotate("text", x = 3.1, y = -Inf, label = "split", hjust = 1.2, vjust = -1, size = 3) +
+  geom_segment(x = 5.5, xend = 6, y = 2, yend = 2, size = .75, color = "blue") +
+  geom_segment(x = 5.5, xend = 6, y = 1.7, yend = 1.7, size = .75, color = "red") +
+  annotate("text", x = 5.3, y = 2, label = "truth", hjust = 1, size = 3, color = "blue") +
+  annotate("text", x = 5.3, y = 1.7, label = "decision boundary", hjust = 1, size = 3, color = "red")
+```
+
+If we build a deeper tree, we will continue to split on the same feature ($x$) as illustrated in Figure \@ref(fig:depth-3-decision-tree). In this example, this is because $x$ is the only feature available to split on so it will continue finding the optimal splits along this feature's values until a pre-determined stopping criteria is reached. 
+
+```{r depth-3-decision-tree, echo=FALSE, fig.width=4, fig.height=3, fig.show='hold', fig.cap="Decision tree illustrating with depth = 3, resulting in 7 decision splits along values of feature x and 8 prediction regions (left). The resulting decision boundary (right)."}
+# fit depth 3 decision tree
+ctrl <- list(cp = 0, minbucket = 5, maxdepth = 3)
+fit <- rpart(y ~ x, data = df, control = ctrl)
+rpart.plot(fit)
+
+# plot decision boundary
+df %>%
+  mutate(pred = predict(fit, df)) %>%
+  ggplot(aes(x, y)) +
+  geom_point(alpha = .2, size = 1) +
+  geom_line(aes(x, y = truth), color = "blue", size = .75) +
+  geom_line(aes(y = pred), color = "red", size = .75)
+```
+
+However, in an example where many features are included, the same can be experienced if a single feature provides the best splitting criterion multiple times.  For example, a decision tree applied to the iris data set [@fisher1936use] where the species of the flower (setosa, versicolor, and virginica) is predicted based on two features (sepal width and sepal length) results in an optimal decision tree with two splits on each feature.  Also, note how the decision boundary in a classification problem results in rectangular regions enclosing the observations.
+
+```{r iris-decision-tree, echo=FALSE, fig.width=4, fig.height=3, fig.show='hold', fig.cap="Decision tree for the iris classification problem (left). The decision boundary results in rectangular regions that enclose the observations.  The class with the highest proportion in each region is the predicted value (right)."}
+# decision tree
+iris_fit <- rpart(Species ~ Sepal.Length + Sepal.Width, data = iris)
+rpart.plot(iris_fit)
+
+# decision boundary
+ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species, shape = Species)) +
+  geom_point(show.legend = FALSE) +
+  annotate("rect", xmin = -Inf, xmax = 5.44, ymin = 2.8, ymax = Inf, alpha = .75, fill = "orange") +
+  annotate("text", x = 4.0, y = 4.4, label = "setosa", hjust = 0, size = 3) +
+  annotate("rect", xmin = -Inf, xmax = 5.44, ymin = 2.79, ymax = -Inf, alpha = .75, fill = "grey") +
+  annotate("text", x = 4.0, y = 2, label = "versicolor", hjust = 0, size = 3) +
+  annotate("rect", xmin = 5.45, xmax = 6.15, ymin = 3.1, ymax = Inf, alpha = .75, fill = "orange") +
+  annotate("text", x = 6, y = 4.4, label = "setosa", hjust = 1, vjust = 0, size = 3) +
+  annotate("rect", xmin = 5.45, xmax = 6.15, ymin = 3.09, ymax = -Inf, alpha = .75, fill = "grey") +
+  annotate("text", x = 6.15, y = 2, label = "versicolor", hjust = 1, vjust = 0, fill = "grey", size = 3) +
+  annotate("rect", xmin = 6.16, xmax = Inf, ymin = -Inf, ymax = Inf, alpha = .75, fill = "green") +
+  annotate("text", x = 8, y = 2, label = "virginica", hjust = 1, vjust = 0, fill = "green", size = 3)
+
+```
 
 ### Minimizing overfitting
 
-TODO: Brad's slides
+This leads to an important question, how deep should we fit a tree?
+
+```{r deep-overfit-tree, echo=FALSE, fig.width=4, fig.height=3, fig.show='hold', fig.cap="TBD"}
+ctrl <- list(cp = 0, minbucket = 1, maxdepth = 50)
+fit <- rpart(y ~ x, data = df, control = ctrl)
+rpart.plot(fit)
+
+df %>%
+  mutate(pred = predict(fit, df)) %>%
+  ggplot(aes(x, y)) +
+  geom_point(alpha = .2, size = 1) +
+  geom_line(aes(x, y = truth), color = "blue", size = 0.75) +
+  geom_line(aes(y = pred), color = "red", size = 0.75)
+```
+
 
 ### A simple regression tree example
 
 For example, suppose we want to use a decision tree to predict the miles per gallon a car will average (`mpg`) based on two features: the number of cylinders (`cyl`) and the horsepower (`hp`); such data are available in the `mtcars` data frame which is part of the standard **datasets** package. A (regression) tree is built using the **rpart** package [@R-rpart] (see the code chunk below and Figure \@ref(rf-decision-tree-example-image) which was produced using the **rpart.plot** package [@R-rpart.plot]), and all the training data are passed down this tree. Whenever an obervation reaches a particular node in the tree (i.e., a yes-or-no question about one of the features; in this case, `cyl` or `hp`), it proceeds either to the left (if the answer is "yes") or to the right (if the answer is "no"). This tree has only three terminal nodes. To start traversing the tree, all observations that have 6 or 8 cylinders go to the left branch, all other observations proceed to the right branch. Next, the left branch is further partitioned by `hp`. Of all the observations with 6 or 8 cylinders with `hp` equal to or greater than 192 proceed to the left branch; those with less than 192 `hp` proceed to the right.  These branches lead to *terminal nodes* or *leafs* which contain the predicted response value; in this case, the average mpg of cars that fall within that terminal node. In short, cars with less than 5 cylinders (region $R_1$) average 27 mpg, cars with `cyl` $\ge 5$ and `hp` $< 193$ (region $R_2$) average 18 mpg, and all other cars (region $R_3$) in the training data average 13 mph. This is sumamrized in the tree diagram in Figure \@ref(fig:decision-tree-example)
 
-```{r rf-decision-tree-example, echo=TRUE, fig.cap="Using a CART-like decision tree to predict `mpg` based on `cyl` and `hp`.", fig.width=6, fig.asp=0.618, out.width="70%"}
+```{r rf-decision-tree-example, echo=TRUE, fig.cap="Using a CART-like decision tree to predict `mpg` based on `cyl` and `hp`.", fig.width=6, fig.asp=0.618, out.width="70%", eval=FALSE}
 tree <- rpart(mpg ~ cyl + hp, data = mtcars)  # CART-like regression tree
 rpart.plot(tree)  # tree diagram
 ```
@@ -121,27 +209,27 @@ How do decision trees partition the data into nonoverlapping regions? In particu
 
 To illustrate, we print the struture of the previous regression tree below. 
 
-```{r rf-mtcars-partitioning}
+```{r rf-mtcars-partitioning, eval=FALSE}
 print(tree)
 ```
 
 The root node refers to all of the training data. In this node, the mean response is `r mean(mtcars$mpg)` and the SSE is 
 
-```{r rf-mtcars-sse-01}
+```{r rf-mtcars-sse-01, eval=FALSE}
 sse <- function(x) sum((x - mean(x))^2)
 sse(mtcars$mpg)  # see the row labeled 1)
 ```
 
 The feature/splint combination that gives the largest reduction to this SSE is defined by the regions `cyl>=5` and `cyl< 5`. The resulting SSEs within these regions are 
 
-```{r rf-mtcars-sse-02}
+```{r rf-mtcars-sse-02, eval=FALSE}
 sse(mtcars[mtcars$cyl >= 5, ]$mpg)  # see the row labeled 2)
 sse(mtcars[mtcars$cyl <  5, ]$mpg)  # see the row labeled 3)
 ```
 
 The algorithm further split the region defined by `cyl>=5` into to further regions. The feature/split combination that gave the biggest reduction to that node's SSE (i.e., 198.47240) is defined by the regions `hp>=192.5` and `hp< 192.5`. The resulting SSEs within these regions are
 
-```{r rf-mtcars-sse-03}
+```{r rf-mtcars-sse-03, eval=FALSE}
 sse(mtcars[mtcars$cyl >= 5 & mtcars$hp >= 192.5, ]$mpg)  # see the row labeled 4)
 sse(mtcars[mtcars$cyl >= 5 & mtcars$hp <  192.5, ]$mpg)  # see the row labeled 5)
 ```
@@ -256,7 +344,7 @@ Bagging creates an ensemble[^Combining multiple models is referred to as *ensemb
 
 3. Average individual predictions from each tree to create an overall average predicted value (regression) or use a popular vote (classification)
 
-```{r rf-bagging-image, echo=FALSE, fig.cap="The bagging process.", out.height="70%", out.width="70%"}
+```{r rf-bagging-image, echo=FALSE, fig.cap="The bagging process.", out.height="70%", out.width="70%", eval=FALSE}
 knitr::include_graphics("illustrations/bagging.png")
 ```
 
@@ -266,7 +354,7 @@ Although bagging trees can help reduce the variance of a single tree's predictio
 
 For example, if we create six decision trees with different bootstrapped samples of the Boston housing data, we see that the top of the trees all have a very similar structure. Although there are 15 predictor variables to split on, all six trees have both `lstat` and `rm` driving the first few splits. This *between-tree correlation* limits the effect of averaging to reduce the variance of the overall ensemble. In order to reduce variance further, we need to take an additiaonl step to help de-correlate the trees in the ensemble.
 
-```{r, echo=FALSE, fig.width=6, fig.asp=0.618, out.width="100%", fig.cap="Six bagged decision trees fit to the Boston housing data set."}
+```{r, echo=FALSE, fig.width=6, fig.asp=0.618, out.width="100%", fig.cap="Six bagged decision trees fit to the Boston housing data set.", eval=FALSE}
 # knitr::include_graphics("illustrations/tree-correlation-1.png")
 set.seed(1859)
 par(mfrow = c(2, 3))
@@ -307,7 +395,7 @@ Since the algorithm randomly selects a bootstrap sample to train on ___and___ pr
 
 One benefit of bagging (and thus also random forests) is that, on average, a bootstrap sample will contain 63% of the training data. This leaves about 37% of the data out of the bootstrapped sample. We call this the out-of-bag (OOB) sample. We can use the OOB observations to estimate the model’s accuracy, creating a natural cross-validation process, which allows you to not need to sacrifice any of your training data to use for validation.  This makes identifying the number of trees required to stablize the error rate during tuning more efficient; however, as illustrated below some difference between the OOB error and test error are expected.
 
-```{r rf-oob-example-image, echo=FALSE, fig.cap="Random forest out-of-bag error versus validation error.", out.height="70%", out.width="70%"}
+```{r rf-oob-example-image, echo=FALSE, fig.cap="Random forest out-of-bag error versus validation error.", out.height="70%", out.width="70%", eval=FALSE}
 knitr::include_graphics("illustrations/oob-error-compare-1.svg")
 ```
 
@@ -324,7 +412,7 @@ However, as your data set grows in size __randomForest__ does not scale well (al
 `randomForest()` can use the formula or separate x, y matrix notation for specifying our model.  Below we apply the default __randomForest__ model using the formulaic specification.  The default random forest performs 500 trees and $\frac{features}{3} = 26$ randomly selected predictor variables at each split.  Averaging across all 500 trees provides an OOB $MSE = 661089658$ ($RMSE = \$25,711$).
 
 
-```{r rf-basic-model}
+```{r rf-basic-model, eval=FALSE}
 # for reproduciblity
 set.seed(123)
 
@@ -340,14 +428,14 @@ rf1
 Plotting the model will illustrate the OOB error rate as we average across more trees and shows that our error rate stabalizes with around 100 trees but continues to decrease slowly until around 300 or so trees.  
 
 
-```{r rf-basic-model-plot, fig.width=5, fig.height=3.5, fig.cap="OOB error (MSE) as a function of the number of trees.  We see the MSE reduces quickly for the first 100 trees and then slowly thereafter.  We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined."}
+```{r rf-basic-model-plot, fig.width=5, fig.height=3.5, fig.cap="OOB error (MSE) as a function of the number of trees.  We see the MSE reduces quickly for the first 100 trees and then slowly thereafter.  We want to make sure that we are providing enough trees so that our OOB error has stabalized or flatlined.", eval=FALSE}
 plot(rf1)
 ```
 
 The plotted error rate above is based on the OOB sample error and can be accessed directly at `rf1$mse`.  Thus, we can find which number of trees provides the lowest error rate, which is 447 trees providing an average home sales price error of \$25,649.
 
 
-```{r rf-basic-model-best}
+```{r rf-basic-model-best, eval=FALSE}
 # number of trees with lowest MSE
 which.min(rf1$mse)
 
@@ -381,7 +469,7 @@ However, there are a few additional hyperparameters that we should be aware of. 
 
 Tuning a larger set of hyperparameters requires a larger grid search than we've performed thus far.  Unfortunately, this is where __randomForest__ becomes quite inefficient since it does not scale well.  Instead, we can use __ranger__ [@R-ranger] which is a C++ implementation of Brieman's random forest algorithm and, as the following illustrates, is over 27 times faster than __randomForest__.
 
-```{r rf-randomForest-vs-ranger}
+```{r rf-randomForest-vs-ranger, eval=FALSE}
 # names of features
 features <- setdiff(names(ames_train), "Sale_Price")
 
@@ -410,7 +498,7 @@ system.time(
 
 There are two approaches to tuning a __ranger__ model.  The first is to tune __ranger__ manually using a `for` loop.  To perform a manual grid search, first we want to construct our grid of hyperparameters. We’re going to search across 48 different models with varying mtry, minimum node size, sample size, and trying different split rules.
 
-```{r rf-tuning-grid1}
+```{r rf-tuning-grid1, eval=FALSE}
 # create a tuning grid
 hyper_grid <- expand.grid(
   mtry            = seq(20, 35, by = 5),
@@ -431,7 +519,7 @@ This grid search took 69 seconds to complete.
 
 
 
-```{r rf-grid-search1}
+```{r rf-grid-search1, eval=FALSE}
 for(i in seq_len(nrow(hyper_grid))) {
   
   # train model
@@ -466,7 +554,7 @@ If you do not know what hyperparameters __caret__ allows you to tune for a speci
 ```
 
 
-```{r rf-tuning-grid2}
+```{r rf-tuning-grid2, eval=FALSE}
 # create a tuning grid
 hyper_grid <- expand.grid(
   mtry            = seq(20, 35, by = 5),
@@ -482,7 +570,7 @@ Tuning with __caret__ provides similar results as our __ranger__ grid search.  B
 This grid search took a little over 6 minutes to complete.
 ```
 
-```{r rf-grid-search2, fig.cap="Cross validated RMSE for the __caret__ grid search."}
+```{r rf-grid-search2, fig.cap="Cross validated RMSE for the __caret__ grid search.", eval=FALSE}
 # cross validated model
 tuned_rf <- train(
   x = subset(ames_train, select = -Sale_Price),
@@ -517,7 +605,7 @@ To compute these variable importance measures with __ranger__, you must include 
 Once you’ve identified the optimal parameter values from the grid search, you will want to re-run your model with these hyperparameter values.
 ```
 
-```{r rf-model-with-vi}
+```{r rf-model-with-vi, eval=FALSE}
 # re-run model with impurity-based variable importance
 rf_impurity <- ranger(
   formula = Sale_Price ~ ., 
@@ -554,7 +642,7 @@ For both options, you can directly access the variable importance values with `m
 
 Looking at the next ~10 variables in both plots, you will also see some commonality in influential variables (i.e. `Garage_Cars`, `Bsmt_Qual`, `Year_Built`, `Exter_Qual`).
 
-```{r rf-vip-plots, fig.width=9, fig.cap="Top 25 most important variables based on impurity (left) and permutation (right)."}
+```{r rf-vip-plots, fig.width=9, fig.cap="Top 25 most important variables based on impurity (left) and permutation (right).", eval=FALSE}
 p1 <- vip(rf_impurity, num_features = 25, bar = FALSE) + ggtitle("Impurity-based variable importance")
 p2 <- vip(rf_permutation, num_features = 25, bar = FALSE) + ggtitle("Permutation-based variable importance")
 
@@ -563,7 +651,7 @@ gridExtra::grid.arrange(p1, p2, nrow = 1)
 
 To better understand the relationship between these important features and `Sale_Price`, we can create partial dependence plots (PDPs). If you recall in the linear and regularized regression sections, we saw that the linear model assumed a continously increasing relationship between `Gr_Liv_Area` and `Sale_Price`.  In the MARS chapter, we saw as homes exceed 2,945 square feet, each additional square foot demands a higher marginal increase in sale price than homes with less than 2,945 square feet. However, in between the knots of a MARS model, the relationship will remain linear.  However, the PDP plot below displays how random forest models can capture unique non-linear and non-monotonic relationships between predictors and the target. In this case, `Sale_Price` appears to not be influenced by `Gr_Liv_Area` values below 750 sqft or above 3500 sqft.  This change in realtionship was not well captured by the prior parametric models.
 
-```{r rf-pdp-GrLiv-Area, fig.height=3, fig.width=4, fig.cap="The mean predicted sale price as the above ground living area increases."}
+```{r rf-pdp-GrLiv-Area, fig.height=3, fig.width=4, fig.cap="The mean predicted sale price as the above ground living area increases.", eval=FALSE}
 # partial dependence of Sale_Price on Gr_Liv_Area
 rf_impurity %>%
   partial(pred.var = "Gr_Liv_Area", grid.resolution = 50) %>%
@@ -572,7 +660,7 @@ rf_impurity %>%
 
 Additionally, if we assess the relationship between the `Overall_Qual` predictor and `Sale_Price`, we see a continual increase as the overall quality increases.  This provides a more comprehensive understanding of the relationship than the results we saw in the regularized regression section (\@ref(lm-features)).  We see that the largest impact on `Sale_Price` occurs when houses go from "Good" overall quality to "Very Good".
 
-```{r rf-pdp-Overall-Qual, fig.height=3, fig.width=8, fig.cap="The mean predicted sale price for each level of the overall quality variable."}
+```{r rf-pdp-Overall-Qual, fig.height=3, fig.width=8, fig.cap="The mean predicted sale price for each level of the overall quality variable.", eval=FALSE}
 # partial dependence of Sale_Price on Overall_Qual
 rf_impurity %>%
   partial(pred.var = "Overall_Qual", train = as.data.frame(ames_train)) %>%
@@ -585,7 +673,7 @@ Individual conditional expectation (ICE) curves [@goldstein2015peeking] are an e
 
 The plots below show that marginal changes in `Gr_Liv_Area` have a fairly homogenous effect on our response variable. As `Gr_Liv_Area` increases, the vast majority of observations show a similar increasing effect on the predicted `Sale_Price` value.  The primary differences is in the magnitude of the increasing effect. However, in the centered ICE plot you see evidence of a few observations that display a different pattern. Some have a higher $\hat y$ value when `Gr_Liv_Area` is between 2500-4000 and some have a decreasing $\hat y$ as `Gr_Liv_AreA` increases.  These results may be a sign of interaction effects and would be worth exploring more closely.
 
-```{r rf-ice-Gr-Liv-Area, fig.height=3, fig.width=9, fig.cap="Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations."}
+```{r rf-ice-Gr-Liv-Area, fig.height=3, fig.width=9, fig.cap="Non-centered (left) and centered (right) individual conditional expectation curve plots illustrate how changes in above ground square footage influences predicted sale price for all observations.", eval=FALSE}
 # ice curves of Sale_Price on Gr_Liv_Area
 ice1 <- rf_impurity %>%
   partial(pred.var = "Gr_Liv_Area", grid.resolution = 50, ice = TRUE) %>%
@@ -607,7 +695,7 @@ Both PDPs and ICE curves should be assessed for the most influential variables a
 
 With the Ames data, the random forest models obtained predictive accuracy that was close to our best MARS model, but how about the attrition data?  The following performs a grid search across 48 hyperparameter combinations.  
 
-```{r rf-tuned-rf-attrition, fig.cap="Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses `mtry` = 9, `splitrule` = gini, and `min.node.size` = 4, which obtained a 10-fold CV accuracy rate of 85.8%."}
+```{r rf-tuned-rf-attrition, fig.cap="Cross-validated accuracy rate for the 48 different hyperparameter combinations in our grid search. The optimal model uses `mtry` = 9, `splitrule` = gini, and `min.node.size` = 4, which obtained a 10-fold CV accuracy rate of 85.8%.", eval=FALSE}
 # get attrition data
 df <- rsample::attrition %>% dplyr::mutate_if(is.ordered, factor, ordered = FALSE)
 
@@ -645,7 +733,7 @@ ggplot(tuned_rf)
 
 Similar to the MARS model, the random forest model does not improve predictive accuracy over an above the regularized regression model.
 
-```{r rf-attrition-modeling-rf, echo=FALSE}
+```{r rf-attrition-modeling-rf, echo=FALSE, eval=FALSE}
 # train logistic regression model
 glm_mod <- train(
   Attrition ~ ., 
@@ -724,6 +812,11 @@ The literature behind random forests are rich and we have only touched on the fu
 * [Computer Age Statistical Inference](https://www.amazon.com/Computer-Age-Statistical-Inference-Mathematical/dp/1107149894)
 * [The Elements of Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/)
 
-[^other]: Other decision tree algorithms include the Iterative Dichotomiser 3 [@quinlan1986induction], C4.5 [@quinlan1996bagging], Chi-square automatic interaction detection [@kass1980exploratory], Conditional inference trees [@hothorn2006unbiased], and more. 
+[^other]: Other decision tree algorithms include the Iterative Dichotomiser 3
+[@quinlan1986induction], C4.5 [@quinlan1996bagging], Chi-square automatic interaction detection [@kass1980exploratory], Conditional inference trees [@hothorn2006unbiased], and more. 
+
+[^stump]: This decision tree was built using the **rpart** package [@R-rpart], the tree graphic which was produced using the **rpart.plot** package [@R-rpart.plot]), and the decision boundary was illustrated with **ggplot2**.
+
 [^task]: See the Random Forest section in the [Machine Learning Task View](https://CRAN.R-project.org/view=MachineLearning) on CRAN and Erin LeDell's [useR! Machine Learning Tutorial](https://koalaverse.github.io/machine-learning-in-R/random-forest.html#random-forest-software-in-r) for a non-comprehensive list.
 [^prune]: See @esposito1997comparative for various methods of pruning. In **rpart**, the amount of pruning is controlled by the *complexity parameters* `cp`.
+
