@@ -25,7 +25,6 @@ Linear regression, a staple of statistical modeling from the precomputer age of 
 In this chapter, we'll make use of the following packages:
 
 ```{r 07-pkgs, message=FALSE}
-library(broom)    # for converting statistical objects to tidy tibbles
 library(caret)    # for cross-validation and model training functions
 library(dplyr)    # for data manipulation
 library(ggplot2)  # for awesome graphics
@@ -83,16 +82,16 @@ where $\widehat{Y}_{new} = \widehat{E\left(Y_{new} | X = X_{new}\right)}$ is the
 
 With the Ames housing data, suppose we wanted to model a linear relationship between the year the house was built (`Year_Built`) and sale price (`Sale_Price`). To perform an OLS regression model in R we can use the `lm()` function: 
 
-```{r 07-fm1}
-fm1 <- lm(Sale_Price ~ Gr_Liv_Area, data = trn)
+```{r 07-model1}
+model1 <- lm(Sale_Price ~ Gr_Liv_Area, data = trn)
 ```
 
-The fitted model (`fm1`) is displayed in the left plot in Figure \@ref(fig:07-visualize-fm1) where the points represent the values of `Sale_Price` in the training data. In the right plot of Figure  \@ref(fig:07-visualize-fm1), the vertical lines represent the individual errors, called _residuals_, associated with each observation. The OLS criterion \@ref(eq:rss) identifies the "best fitting" line that minimizes the sum of squares of these residuals.
+The fitted model (`model1`) is displayed in the left plot in Figure \@ref(fig:07-visualize-model1) where the points represent the values of `Sale_Price` in the training data. In the right plot of Figure  \@ref(fig:07-visualize-model1), the vertical lines represent the individual errors, called _residuals_, associated with each observation. The OLS criterion \@ref(eq:rss) identifies the "best fitting" line that minimizes the sum of squares of these residuals.
 
-```{r 07-visualize-fm1, eval=TRUE, fig.width=10, fig.height=3.5, echo=FALSE, fig.cap="The least squares fit from regressing `Sale_Price` on `Gr_Liv_Area` for the the Ames housing data. _Left_: Fitted regresison line. _Right_: Fitted regression line with vertical grey bars representing the residuals."}
+```{r 07-visualize-model1, eval=TRUE, fig.width=10, fig.height=3.5, echo=FALSE, fig.cap="The least squares fit from regressing `Sale_Price` on `Gr_Liv_Area` for the the Ames housing data. _Left_: Fitted regresison line. _Right_: Fitted regression line with vertical grey bars representing the residuals."}
 # Fitted regression line (full training data)
-p1 <- fm1 %>%
-  augment() %>%
+p1 <- model1 %>%
+  broom::augment() %>%
   ggplot(aes(Gr_Liv_Area, Sale_Price)) + 
   geom_point(size = 1, alpha = 0.3) +
   geom_smooth(se = FALSE, method = "lm") +
@@ -100,8 +99,8 @@ p1 <- fm1 %>%
   ggtitle("Fitted regression line")
 
 # Fitted regression line (restricted range)
-p2 <- fm1 %>%
-  augment() %>%
+p2 <- model1 %>%
+  broom::augment() %>%
   ggplot(aes(Gr_Liv_Area, Sale_Price)) + 
   geom_segment(aes(x = Gr_Liv_Area, y = Sale_Price,
                    xend = Gr_Liv_Area, yend = .fitted), 
@@ -117,11 +116,11 @@ grid.arrange(p1, p2, nrow = 1)
 
 The `coef()` function extracts the estimated coefficientes from the model. We can also use `summary()` to get a more detailed report of the model results. 
 
-```{r 07-fm1-summary}
-summary(fm1)
+```{r 07-model1-summary}
+summary(model1)
 ```
 
-The estimated coefficients from our model are $\widehat{\beta}_0 =$ `r round(coef(fm1)[1L], digits = 2)` and $\widehat{\beta}_1 =$ `r round(coef(fm1)[2L], digits = 2)`. To interpret, we estimate that the mean selling price increases by `r round(coef(fm1)[2L], digits = 2)` for each additional one square foot of above ground living space. This simple description of the relationship between the sale price and square footage using a single number (i.e., the slope) is what makes linear regression such an intuitive and popular modeling tool.
+The estimated coefficients from our model are $\widehat{\beta}_0 =$ `r round(coef(model1)[1L], digits = 2)` and $\widehat{\beta}_1 =$ `r round(coef(model1)[2L], digits = 2)`. To interpret, we estimate that the mean selling price increases by `r round(coef(model1)[2L], digits = 2)` for each additional one square foot of above ground living space. This simple description of the relationship between the sale price and square footage using a single number (i.e., the slope) is what makes linear regression such an intuitive and popular modeling tool.
 
 One drawback of the LS procedure in linear regression is that it only provides estimates of the coefficents; it does not provide an estimate of the error variance $\sigma^2$! Note that LS makes no assumptions about the random errors. These assumptions are important for inference and in estimating the error variance which we're assuming is constant with a value of $\sigma^2$. One way to estimate $\sigma^2$ (which is required for characterizing the variability of our fitted model), is to use the method of _maximum likelihood_ (ML) estimation (see [@kutner-2005-applied sec 1.7] for details). The ML procedure requires that we assume a particular distribution for the random errors. Most often, we assume the errors to be normally distributed. In practice, under the usual assumptions stated above, an unbiased estimate of the error variance is given as the sum of the squared residuals divided by $n - p$ (where $p$ is the number of regression coefficients or parameters in the model):
 
@@ -131,9 +130,9 @@ One drawback of the LS procedure in linear regression is that it only provides e
 
 where $r_i = \left(Y_i - \widehat{Y}_i\right)$ is referred to as the _i_-th residual (i.e., the difference between the _i_-th observed and predicted response value). The quantity $\widehat{\sigma}^2$ is also referred to as the _mean square error_ (MSE) and is often used for comparing regression models (typically, the MSEs are computed on a separate validation set or using cross-validation). It's square root, denoted RMSE (for root mean square error) is also useful as it contains the same units as the response variable. In R, the RMSE of a linear model can be extracted using the `sigma()` function:
 
-```{r fm1-sigma}
-sigma(fm1)  # RMSE
-sigma(fm1)^2  # MSE
+```{r model1-sigma}
+sigma(model1)  # RMSE
+sigma(model1)^2  # MSE
 ```
 
 Note that the RMSE is also reported as the `Residual standard error` in the output from `summary()`.
@@ -153,10 +152,10 @@ Under the same assumptions, we can also derive confidence intervals for the coef
 In R, we can construct such (one-at-a-time) confidence intervals for each coefficient using `confint()`. For example, a 95% confidence intervals for the coefficients in our SLR example can be computed using
 
 ```{r}
-confint(fm1, level = 0.95)
+confint(model1, level = 0.95)
 ```
 
-To interpret, we estimate with 90% confidence that the mean selling price increases between `r round(confint(fm1)[2L, 1L], digits = 2)` and `r round(confint(fm1)[2L, 2L], digits = 2)` for each additional one square foot of above ground living space. We can also conclude that the slope $\beta_1$ is statistically significant from zero (or any other pre-specified value not included in the interval) at the $\alpha = 0.05$ level. This is also supported by the output from `summary()`.
+To interpret, we estimate with 90% confidence that the mean selling price increases between `r round(confint(model1)[2L, 1L], digits = 2)` and `r round(confint(model1)[2L, 2L], digits = 2)` for each additional one square foot of above ground living space. We can also conclude that the slope $\beta_1$ is statistically significant from zero (or any other pre-specified value not included in the interval) at the $\alpha = 0.05$ level. This is also supported by the output from `summary()`.
 
 ```{block2, type="note"}
 Most statistical software, including R, will include estimated standard errors, _t_-statistics, etc. as part of its regression output. However, it is important to remember that such quantities depend on three major assumptions of the linear regresion model:
@@ -177,142 +176,144 @@ If any or all of these assumptions are violated, then remdial measures nned to b
 2. Interactions
 3. Residual analysis
 
-However, in practice we often have more than one predictor. For example, in the Ames housing data, we may wish to understand if above ground square footage (`Gr_Liv_Area`) _and_ the year the house was built (`Year_Built`) are related to sales price (`Sale_Price`). We can extend the SLR model so that it can directly accommodate multiple predictors; this is referred to as _multiple linear regression_ and is represented by Equation \@ref(eq:mlm) and illustrated in Figure \@ref(fig:07-visualize-model2).
+In practice, we often have more than one predictor. For example, with the Ames housing data, we may wish to understand if above ground square footage (`Gr_Liv_Area`) and the year the house was built (`Year_Built`) are (linearly) related to sales price (`Sale_Price`). We can extend the SLR model so that it can directly accommodate multiple predictors; this is referred to as a _multiple linear regression_ (MLR) model. With two predictors, the MLR model becomes: 
 
 \begin{equation}
-(\#eq:mlm)
   Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon,
 \end{equation}
 
-where now $X_1$ represents `Gr_Liv_Area` and $X_2$ represents `Year_Built`.
+where $X_1$ and $X_2$ are features of interest. In our Ames housing exmple, $X_1$ represents `Gr_Liv_Area` and $X_2$ represents `Year_Built`. 
 
-```{r 07-visualize-model2, fig.align='left', fig.width=10, fig.height=6, echo=FALSE, fig.cap="In a three-dimensional setting, with two predictors and one response, the least squares regression line becomes a plane. The 'best-fit' plane minimizes the sum of squared errors between the actual sales price (individual dots) and the predicted sales price (plane)."}
-library(dplyr)
-library(plotly)
-
-# get coordinates of sub sample of data
-y_values <- round(trn$Sale_Price, 3)
-x1_values <- round(trn$Gr_Liv_Area, 3)
-x2_values <- round(trn$Year_Built, 3)
-
-# Construct x and y grid elements
-x_grid <- seq(from = min(x1_values), to = max(x1_values), length = 50)
-y_grid <- seq(from = min(x2_values), to = max(x2_values), length = 50)
-
-# Construct z grid by computing
-# 1) fitted beta coefficients
-# 2) fitted values of outer product of x_grid and y_grid
-# 3) extracting z_grid (matrix needs to be of specific dimensions)
-beta_hat <- trn %>% 
-  lm(Sale_Price ~ Gr_Liv_Area + Year_Built, data = .) %>% 
-  coef()
-fitted_values <- crossing(y_grid, x_grid) %>% 
-  mutate(z_grid = beta_hat[1] + beta_hat[2]*x_grid + beta_hat[3]*y_grid)
-z_grid <- fitted_values %>% 
-  pull(z_grid) %>%
-  matrix(nrow = length(x_grid)) %>%
-  t()
-
-# plot
-plot_ly() %>%
-  # 3D scatterplot:
-  add_markers(
-    x = x1_values,
-    y = x2_values,
-    z = y_values,
-    opacity = .3
-    ) %>%
-  # Regression plane:
-  add_surface(
-    x = x_grid,
-    y = y_grid,
-    z = z_grid,
-    showscale = FALSE
-  ) %>%
-  # Axes labels and title:
-  layout(
-    scene = list(
-      zaxis = list(title = "y: Sale_Price"),
-      yaxis = list(title = "x2: Year_Built"),
-      xaxis = list(title = "x1: Gr_Liv_Area")
-    )
-  ) %>%
-  hide_guides()
-```
-
-This model in R is built by simply adding the `Year_Built` variable to our original model. The below results illustrate that the best-fit plane identified in Figure \@ref(fig:07-visualize-model2) resulted in $\hat \beta_1 = 91.73$ and $\hat \beta_2 = 1098$. In other words, according to this approximation, an additional one square foot of above ground square footage is now associated with approximately an additional \$92 in selling price when holding the year the house was built constant. Likewise, for every year newer a home is there is approximately an increase of \$1,098 in selling price when holding the main floor square footage constant.
+In R, multiple linear regression models can be fit by separating all the features of interest with a `+`:
 
 ```{r model2}
-# fit model
-model2 <- lm(Sale_Price ~ Gr_Liv_Area + Year_Built, data = trn)
-summary(model2)
+(model2 <- lm(Sale_Price ~ Gr_Liv_Area + Year_Built, data = trn))
 ```
 
-We can continue to add predictors to our multiple regression and generalize the multiple regression model to Equation \@ref(eq:generalmlm) where we have *p* distinct predictors.
+Alternatively, we can use `update()` to update the model formula used in `model`. The new formula can use a `.` as short hand for keep everything on either the left or right hand side of the formula, and a `+` or `-` can be used to add or remove terms from the original model, respectively. In the case of adding `Year_Built` to to `model1`, we could've used:
+
+```{r model2-using-update}
+(model2 <- update(model1, . ~ . + Year_Built))
+```
+
+The LS estimates of the regression coefficients are $\widehat{\beta}_1 =$ `r round(coef(model2)[2L], digits = 3)` and $\widehat{\beta}_2 =$ `r round(coef(model2)[3L], digits = 3)` (the estimated intercept is `r round(coef(model2)[1L], digits = 3)`. In other words, every one square foot increase to above ground square footage is associated with an additional `r scales::dollar(coef(model2)[2L])` in **mean selling price** when holding the year the house was built constant. Likewise, for every year newer a home is there is approximately an increase of `r scales::dollar(coef(model2)[3L])` in selling price when holding the above ground square footage constant.
+
+A contour plot of the fitted regression surface is displayed in the left side of Figure \@ref(fig:07-mlr-fit) below. Note how the fitted regression surface is flat (i.e., it does not twist or bend). This is true for all linear models that include only *main effects* (i.e., terms involving only a single predictor). One way to model curvature is to include *interaction effects*. An interaction occurs when the effect of one predictor on the response depends on the values of other predictors. In linear regression, interactions are captured via products of features (i.e., $X1 \times X_2$). A model with two main effects can also include a two-way interaction. For example, to include an interaction between $X_1 =$ `Gr_Liv_Area` and $X_2 =$ `Year_Built`, we would include an additional product term:
 
 \begin{equation}
-(\#eq:generalmlm)
+  Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \epsilon.
+\end{equation}
+
+Note that in R, we use the `:` operator to include an interaction (techincally, we could use `*` as well, but `x1 * x2` is shortcut for `x1 + x2 + x1:x2` so is slightly redundant):
+
+```{r model2-w-interaction}
+lm(Sale_Price ~ Gr_Liv_Area + Year_Built + Gr_Liv_Area : Year_Built, data = trn)
+```
+
+A contour plot of the fitted regression surface with interaction is displayed in the right side of Figure \@ref(fig:07-mlr-fit). Note the curvature in the contour lines. 
+
+```{block, type="note"}
+Interaction effects are quite prevelant in predictive modeling. Since linear models are an example of parametric modeling, it is up to the analyst to decide if and when to include interaction effects. In later chapters, we'll discuss algorithms that can automatically detect and incoproarte interaction effects (albeit in different ways). It is also important to understand a concept called the *hierachy principle*---which demands that all lower-order terms corresponding to an interaction be retained in the model---when concidering interaction effects in linear regression models.
+```
+
+```{r 07-mlr-fit, echo=FALSE, fig.width=10, fig.height=4.5, fig.cap="In a three-dimensional setting, with two predictors and one response, the least squares regression line becomes a plane. The 'best-fit' plane minimizes the sum of squared errors between the actual sales price (individual dots) and the predicted sales price (plane)."}
+# Fitted models
+fit1 <- lm(Sale_Price ~ Gr_Liv_Area + Year_Built, data = trn)
+fit2 <- lm(Sale_Price ~ Gr_Liv_Area * Year_Built, data = trn)
+
+# Regression plane data
+plot_grid <- expand.grid(
+  Gr_Liv_Area = seq(from = min(trn$Gr_Liv_Area), to = max(trn$Gr_Liv_Area), 
+                    length = 100), 
+  Year_Built = seq(from = min(trn$Year_Built), to = max(trn$Year_Built), 
+                   length = 100)
+)
+plot_grid$y1 <- predict(fit1, newdata = plot_grid)
+plot_grid$y2 <- predict(fit2, newdata = plot_grid)
+
+# Level plots
+p1 <- ggplot(plot_grid, aes(x = Gr_Liv_Area, y = Year_Built, 
+                            z = y1, fill = y1)) +
+  geom_tile() +
+  geom_contour(color = "white") +
+  viridis::scale_fill_viridis(name = "Predicted\nvalue", option = "inferno") +
+  theme_bw() +
+  ggtitle("Main effects only")
+p2 <- ggplot(plot_grid, aes(x = Gr_Liv_Area, y = Year_Built, 
+                            z = y2, fill = y1)) +
+  geom_tile() +
+  geom_contour(color = "white") +
+  viridis::scale_fill_viridis(name = "Predicted\nvalue", option = "inferno") +
+  theme_bw() +
+  ggtitle("Main effects with two-way interaction")
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+```
+
+In general, we can include as many predicotrs as we want, as long as we have more rows than parmaters! The general multiple linear regression model with *p* distinct predictors is
+
+\begin{equation}
   Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \epsilon,
 \end{equation}
 
-Unfortunately, visualizing beyond three dimensions is not practical as our best-fit plane becomes a hyperplane. However, the motivation remains the same where the best-fit hyperplane is identified by minimizing the RSS. The below creates a third model where we use all features in our data set to predict `Sale_Price`.
+where $X_i$ for $i = 1, 2, \dots, p$ are the predictors of interest. Note some of these may represent interactions (e.g., $X_3 = X_1 \times X_2$) between or transformations^[Transofrmations of the features serve a number of purposes (e.g., modeling nonlinear relationships or alleviating departures from common regression assumptions). See @kutner-2005-applied for details.] (e.g., $X_4 = \sqrt{X_1}$) of the original features. Unfortunately, visualizing beyond three dimensions is not practical as our best-fit plane becomes a hyperplane. However, the motivation remains the same where the best-fit hyperplane is identified by minimizing the RSS. The below creates a third model where we use all features in our data set to predict `Sale_Price`.
 
 ```{block, type="tip"}
-The dot in `Sale_Price ~ .` signals to regress `Sale_Price` onto all other variables in your data set.
+When fitting an MLR model in R with may terms, we can make use of the `.` notation for conveniance. For example, the dot in `lm(Sale_Price ~ ., data = trn)` is shorthand for regressing `Sale_Price` onto all other columns `trn` whereas `lm(Sale_Price ~ .^2, data = trn)` will regress `Sale_Price` on all other columns in `trn` while also including all possible two-way interactions effects. The use of `.` within `lm()` is illustrated below for the Ames housing example where we now include all possible main effects.
 ```
-
 
 ```{r model3}
-model3 <- lm(Sale_Price ~ ., data = trn)
-glance(model3)
+model3 <- lm(Sale_Price ~ ., data = trn)  # include all possible main effects
+broom::tidy(model3)  # print estimated coefficients in a tidy data frame
 ```
+
 
 ## Assessing Model Accuracy
 
-We've fit three models, but the question remains, which model is "best". To get a good assessment of this accuracy, we want to use cross-validation as discussed in Section \@ref(cv). We can use the `caret::train` function to apply a linear model (`method = "lm"`). The benefit of __caret__ is that it provides built-in cross validation capabilities whereas the `lm` function does not. The following shows an average root mean square error (RMSE) of 56873 across our 10 cross validation folds. How should we interpret this? When applied to unseen data, the predictions this model makes are, on average, about \$56,873 off from the actual sale price. 
+We've fit three main effects models to the Ames housing data: a single predicor, two two predictors, and all possible predictors. But the question remains, which model is "best"? To answer this question we have to define what we mean by "best". In our case, we'll use the RMSE metric and cross-validation (Section \@ref(cv)) to determine the "best" model. We can use the `caret::train()` function to to train a linear model (i.e., `method = "lm"`) using cross-validation (or a variety of other validation methods). In practice, a number of factors should be considered in determining a "best" model (e.g., time constraints, model production cost, predictive accuracy, etc.). The benefit of __caret__ is that it provides built-in cross-validation capabilities, whereas the `lm()` function does not^[Although general cross-validation is not avilable in `lm()` alone, a simple metric calles the _PRESS_ statistic, for __PRE__dictive __S__um of __S__quare, (equivalent to a _leave-one-out_ cross-validated RMSE) can be computed by summing the PRESS residuals which are available using `rstandard(<lm-model-name>, type = "predictive")`. See `?rstandard` for details.]. The following code chunk uses `caret::train()` to refit `model1` using 10-fold cross-validation:
 
-
-```{r fm1-accuracy}
-# reproducible CV results
-set.seed(123)
-
-# use caret package to train 10-fold cross-validated model
-cv_fm1 <- train(
-  Sale_Price ~ Gr_Liv_Area, 
+```{r model1-accuracy}
+# Use caret package to train model using 10-fold cross-validation
+set.seed(123)  # for reproducibility
+(cv_model1 <- train(
+  form = Sale_Price ~ Gr_Liv_Area, 
   data = trn, 
   method = "lm",
   trControl = trainControl(method = "cv", number = 10)
-  )
-
-cv_fm1
+))
 ```
 
-We can perform cross validation on the other two models. Extracting the results for each model we see that by adding more information via more predictors, we are able to improve the out-of-sample cross validation performance metrics. Specifically, our average prediction RMSE reduces from __\$56,872__ down to __\$41,438__ for our full model.
+The resulting cross-validated RMSE is `r scales::dollar(cv_model1$results$RMSE)` (this is the average RMSE across the 10 cross-validation folds). How should we interpret this? When applied to unseen data, the predictions this model makes are, on average, about \$56,873 off from the actual sale price. 
+
+We can perform cross validation on the other two models in a similar fashion, which we do in the code chunk below. 
 
 ```{r mult-models}
+#
 set.seed(123)
 cv_model2 <- train(
   Sale_Price ~ Gr_Liv_Area + Year_Built, 
   data = trn, 
   method = "lm",
   trControl = trainControl(method = "cv", number = 10)
-  )
+)
 
+#
 set.seed(123)
 cv_model3 <- train(
   Sale_Price ~ ., 
   data = trn, 
   method = "lm",
   trControl = trainControl(method = "cv", number = 10)
-  )
+)
 
-# extract out of sample performance measures
+# Extract out of sample performance measures
 summary(resamples(list(
-  fm1 = cv_fm1, 
+  model1 = cv_model1, 
   model2 = cv_model2, 
   model3 = cv_model3
-  )))
+)))
 ```
+
+Extracting the results for each model, we see that by adding more information via more predictors, we are able to improve the out-of-sample cross validation performance metrics. Specifically, our average prediction RMSE reduces from `r scales::dollar(cv_model2$results$RMSE)` (the model with two predictors) down to `r scales::dollar(cv_model3$results$RMSE)` (for our full model). In this case, the model with all possible main effects performs the "best" (comapred with the other two).
 
 
 ## Model concerns
@@ -340,15 +341,15 @@ p2 <- ggplot(trn, aes(Year_Built, Sale_Price)) +
 gridExtra::grid.arrange(p1, p2, nrow = 1)
 ```
 
-__2. Constant variance among residuals:__ Linear regression assumes the variance among error terms ($\epsilon_1, \epsilon_2, ..., \epsilon_p$) are constant (also referred to as homoscedasticity). When residuals are not constant, the _p_-values and confidence intervals of the coefficients are invalid resulting in invalid prediction estimates and confidence intervals. Similar to the linear relationships assumption, non-constant variance can often be resolved with variable transformations or by including additional predictors. For example, Figure \@ref(fig:07-homoskedasticity) shows residuals across predicted values for our linear regression models `fm1` and `model3`. `fm1` displays a classic violation of constant variance with cone-shaped residuals. However, `model3` appears to have near-constant variance.
+__2. Constant variance among residuals:__ Linear regression assumes the variance among error terms ($\epsilon_1, \epsilon_2, ..., \epsilon_p$) are constant (also referred to as homoscedasticity). When residuals are not constant, the _p_-values and confidence intervals of the coefficients are invalid resulting in invalid prediction estimates and confidence intervals. Similar to the linear relationships assumption, non-constant variance can often be resolved with variable transformations or by including additional predictors. For example, Figure \@ref(fig:07-homoskedasticity) shows residuals across predicted values for our linear regression models `model1` and `model3`. `model1` displays a classic violation of constant variance with cone-shaped residuals. However, `model3` appears to have near-constant variance.
 
 ```{block, type="tip"}
 The `broom::augment` function is an easy way to add model results to each observation (i.e. predicted values, residuals).
 ```
 
-```{r 07-homoskedasticity, fig.align='center', fig.width=8, fig.height=3.5, fig.cap="Linear regression assumes constant variance among the residuals. `fm1` (left) shows definitive signs of heteroskedasticity whereas `model3` (right) appears to have constant variance."}
+```{r 07-homoskedasticity, fig.align='center', fig.width=8, fig.height=3.5, fig.cap="Linear regression assumes constant variance among the residuals. `model1` (left) shows definitive signs of heteroskedasticity whereas `model3` (right) appears to have constant variance."}
 
-df1 <- augment(cv_fm1$finalModel, data = trn)
+df1 <- broom::augment(cv_model1$finalModel, data = trn)
 
 p1 <- ggplot(df1, aes(.fitted, .resid)) + 
   geom_point(size = 1, alpha = .4) +
@@ -357,7 +358,7 @@ p1 <- ggplot(df1, aes(.fitted, .resid)) +
   ggtitle("Model 1",
     subtitle = "Sale_Price ~ Gr_Liv_Area")
 
-df2 <- augment(cv_model3$finalModel, data = trn)
+df2 <- broom::augment(cv_model3$finalModel, data = trn)
 
 p2 <- ggplot(df2, aes(.fitted, .resid)) + 
   geom_point(size = 1, alpha = .4)  +
@@ -369,11 +370,11 @@ p2 <- ggplot(df2, aes(.fitted, .resid)) +
 gridExtra::grid.arrange(p1, p2, nrow = 1)
 ```
 
-__3. No autocorrelation:__ Linear regression assumes the error terms are also independent and uncorrelated. If in fact, there is correlation among the error terms, then the estimated standard errors of the coefficients will be biased leading to prediction intervals being narrower than they should be. For example, the left plot in Figure \@ref(fig:07-autocorrelation) displays the residuals (y-axis) to the observation ID (x-axis) for `fm1`. A clear pattern exists suggesting that information about $\epsilon_1$ provides information about $\epsilon_2$.
+__3. No autocorrelation:__ Linear regression assumes the error terms are also independent and uncorrelated. If in fact, there is correlation among the error terms, then the estimated standard errors of the coefficients will be biased leading to prediction intervals being narrower than they should be. For example, the left plot in Figure \@ref(fig:07-autocorrelation) displays the residuals (y-axis) to the observation ID (x-axis) for `model1`. A clear pattern exists suggesting that information about $\epsilon_1$ provides information about $\epsilon_2$.
 
 This pattern is a result of the data being ordered by neighborhood, which we have not accounted for in this model. Consequently, the residuals for homes in the same neighborhood are correlated (homes within a neighborhood are typically the same size and can often contain similar features). Since the `Neighborhood` predictor is included in `model3` (right plot), our errors are no longer correlated.
 
-```{r 07-autocorrelation, fig.align='center', fig.width=8, fig.height=3.5, fig.cap="Linear regression assumes uncorrelated errors. The residuals in `fm1` (left) have a distinct pattern suggesting that information about $\\epsilon_1$ provides information about $\\epsilon_2$. Whereas residuals in `model3` have no signs of autocorrelation."}
+```{r 07-autocorrelation, fig.align='center', fig.width=8, fig.height=3.5, fig.cap="Linear regression assumes uncorrelated errors. The residuals in `model1` (left) have a distinct pattern suggesting that information about $\\epsilon_1$ provides information about $\\epsilon_2$. Whereas residuals in `model3` have no signs of autocorrelation."}
 
 df1 <- mutate(df1, id = row_number())
 df2 <- mutate(df2, id = row_number())
