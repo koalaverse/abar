@@ -57,7 +57,7 @@ has a standard normal distribution. From this sampling distribution, we can form
 \end{equation}
 @student-probable-1908 showed that $t_{obs}$ follows a $t$-distribution with $n - 1$ *degrees of freedom*.
 
-In more complicated examples, the sampling distribution of a statistic is not known, or is rather complicated (e.g., the correlation coefficient or the ratio of two means), but can be simulated through a process called the *booststrap*, which we discuss in \@ref(the-nonparametric-bootstrap).
+In more complicated examples, the sampling distribution of a statistic is not known, or is rather complicated (e.g., the correlation coefficient or the ratio of two means), but can be simulated through a process called the *booststrap*, which we discuss in \@ref(bootstrap).
 
 
 ### The central limit theorem
