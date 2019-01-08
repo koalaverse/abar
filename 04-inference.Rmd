@@ -66,7 +66,7 @@ One of the most common goals in classical statistical inference is to make infer
 $$
   H_0: \mu = \mu_0 \quad vs. \quad H_1: \mu \ne \mu_0,
 $$
-where $\mu$ is the true population mean and $\mu_0$ is some hypothetical value. Assume we have a random sample $x_1, x_2, \dots, x_n$ from the population of interest. If the data are normally distributed, we can test this hypothesis using a standard $t$-test (discussed later). If the data are not normally distributed, then the *central limit theorem* (CLM) tells us that the sampling distribution of the sample mean (or more simply the sample total) will be approximately normal for sufficiently large $n$. How large does $n$ need to be? The answer depends on how far the true distribution deviates from normality! A common rule of thumb, though not always adequate, is that $n > 30$ is sufficient to invoke the CLM. For instance, as we saw in Chapters 2--3, the distribution of `Sale_Price` is quite skewed to the right. However, the sampling distribution of the mean from this population will be approximately normal provided $n$ is sufficiently large. For example, we simulated `r (nsim <- 10000)` sample means from `Sale_Price` based on sample of various sizes. The resulting sampling distributions are displayed in Figure \@ref(fig:sale-price-clm). Clearly, the sampling distribution becomes more bell-shaped and normal looking as the sample size increases; for this population, $n = 30$ seems sufficient.
+where $\mu$ is the true population mean and $\mu_0$ is some hypothetical value. Assume we have a random sample $x_1, x_2, \dots, x_n$ from the population of interest. If the data are normally distributed, we can test this hypothesis using a standard $t$-test (discussed later). If the data are not normally distributed, then the *central limit theorem* (CLM) tells us that the sampling distribution of the sample mean (or more simply the sample total) will be approximately normal for sufficiently large $n$. How large does $n$ need to be? The answer depends on how far the true distribution deviates from normality! A common rule of thumb, though not always adequate, is that $n > 30$ is sufficient to invoke the CLM. For instance, as we saw in Chapters 2--3, the distribution of `Sale_Price` is quite skewed to the right. However, the sampling distribution of the mean from this population will be approximately normal provided $n$ is sufficiently large. For example, we simulated `r prettyNum((nsim <- 10000), big.mark = ",")` sample means from `Sale_Price` based on sample of various sizes. The resulting sampling distributions are displayed in Figure \@ref(fig:sale-price-clm). Clearly, the sampling distribution becomes more bell-shaped and normal looking as the sample size increases; for this population, $n = 30$ seems sufficient.
 ```{r sale-price-clm, echo=FALSE, fig.cap="Sampling distribution of mean sale price based on samples of size $n = 5$ (top left), $n = 10$ (top right), $n = 30$ (bottom left), and $n = 100$ (bottom right)."}
 # Simulate sampling distributions
 nsim <- 10000
@@ -78,6 +78,7 @@ sim_100 <- replicate(nsim, mean(sample(Sale_Price, size = 100)))
 sim <- data.frame(result = c(sim_5, sim_10, sim_30, sim_100),
                   n = rep(c(5, 10, 30, 100), each = nsim))
 sim$n <- paste0("n = ", sim$n)
+sim$n <- factor(sim$n, levels = c("n = 5", "n = 10", "n = 30", "n = 100"))
 
 # Plot results
 ggplot(sim, aes(x = result)) +
@@ -122,9 +123,62 @@ Whenever we conduct a statistical test of hypothesis, a decision is made regardi
 
 4. Fail to convict the defendant when the defendant is innocent (a good decision)
 
-Which decision is worst? Naturally, it would be worse to convict an innocent person than to let a guilty person go free. We call the first type of error a *type I error*, and the second a *type II error*. Furthermore, we denote the probability of making a type I error as $\alpha$ and the probability of making a type II error as $\beta$. The classic approach to statistical testing fixes the probability of making a type I error ahead of time (e.g., $\alpha = 0.05$), we then do our best to reduce the risk of making a type II error (e.g., collecting sufficient sample size). In order to carry out a test with the goal of mitigating the probability of making a type II error we would conduct a *power analysis*, which we do not discuss here---the classic reference is @cohen-statistical-1988.
+Which decision is worst? Naturally, it would be worse to convict an innocent person than to let a guilty person go free. We call the first type of error a *type I error*, and the second a *type II error*. Furthermore, we denote the probability of making a type I error as $\alpha$ and the probability of making a type II error as $\beta$. The classic approach to statistical testing fixes the probability of making a type I error ahead of time (e.g., $\alpha = 0.05$), we then do our best to reduce the risk of making a type II error.  
 
-**INSERT TABLE HERE**
+```{r, fig.cap="Type I versus type II errors.", echo=FALSE, out.width="80%", out.height="80%"}
+knitr::include_graphics("illustrations/type-1-type2-errors.png")
+```
+
+### Power analysis
+
+Mitigating the probability of making a type II error involves minimizing $\beta$; however, it is most common to discuss this in terms of *power analysis*.  The *power* of any test of statistical significance is defined as the probability that it will reject a false null hypothesis and is inversely related to $\beta$.
+
+$$
+\text{power} = 1 - \beta
+$$
+
+Power analysis is an important aspect of experimental design. It allows us to determine the sample size required to detect an effect of a given size with a given degree of confidence.  To conduct a power analysis, we generally need three of the following four quantities:
+
+1. sample size
+2. effect size - magnitude of the difference we desire to see
+3. significance level ($\alpha$)
+4. power ($1-\beta$)
+
+Often, in practice we have determined the magnitude of the effect size we desire to see for practical business impact and the level of confidence we have in our inference (provided by the various significance criterions: $\alpha$, $\beta$, and power).  Consequently, we can use these units of measure to estimate the sample size required for our hypothesis testing.  For example, assuming a two-sample t-test, the required sample size is given by
+
+$$
+n_i \ge 2\bigg( \frac{z_{1-\alpha/2} + z_{1-\beta}}{ES} \bigg)^2
+$$
+
+where $n_i$ is the sample size required in each group ($i=1,2$), $\alpha$ is the selected level of significance and $z_{1-\alpha/2}$ is the value from the standard normal distribution, and $1-\beta$ is the selected power and $z_{1-\beta}$ is the value from the standard normal distribution. $ES$ is the effect size, defined as:
+
+$$
+ES = \frac{|\mu_1 = \mu_2|}{\sigma}
+$$
+where $|\mu_1 = \mu_2|$ is the absolute value of the difference in means between the two groups *expected* under the alternative hypothesis, $H_1$. Figure \@ref(fig:power-analysis) illustrates the relationship between the effect size we desire to confidently identify exists or not and the resulting sample size required to adequately detect this effect.
+
+```{r power-analysis, echo=FALSE, fig.cap="Relationship between effect size and sample size via power analysis."}
+library(dplyr)
+library(purrr)
+
+delta <- seq(0.001, 40, by = 0.05)
+
+pwr <- function(x) {
+  power <- power.t.test(delta = x, power = .8, sig.level = 0.05)
+  power$n
+}
+
+delta %>%
+  map_dbl(~ pwr(x = .x)) %>%
+  data_frame(n = ., delta = delta) %>%
+  ggplot(aes(n, delta)) +
+  geom_line() +
+  scale_x_log10("Sample size required", labels = scales::comma) +
+  ylab("Effect size")
+```
+
+
+Power analyses and sample size calculations, differ depending on the type of hypothesis test (i.e. one-sided versus two-sided t-test, continuous versus binary responses) and are beyond the scope of this book (the classic reference is @cohen-statistical-1988). However, in section \@ref(abtesting) we illustrate how a power analyis helps inform A/B testing procedures.
 
 
 ### $p$-values 
@@ -228,7 +282,7 @@ Since the variances of two populations are not typically equal in practice, we d
 $$
   t_{obs} = \frac{\bar{x} - \bar{y}}{\sqrt{s_1 ^ 2 / n_1 + s_2 ^ 2 / n_2}}
 $$
-The trouble with Welch's $t$-test is that the $t_obs$ does not come from a $t$-distribution, but can be approximated by a $t$-distribution with $v$ degrees of freedom, where $v$ is given by the **Satterthwaite approximation**:
+The trouble with Welch's $t$-test is that the $t_{obs}$ does not come from a $t$-distribution, but can be approximated by a $t$-distribution with $v$ degrees of freedom, where $v$ is given by the **Satterthwaite approximation**:
 $$
   v = TBD.
 $$
@@ -240,7 +294,9 @@ $$
 $$
 where $t_{1 - \alpha / 2, v}$ is the $1 - \alpha / 2$ quantile from a $t$-distribution with $v$ degrees of freedom.
 
-**A/B test example**
+### A/B Testing {#abtesting}
+
+
 
 ## Tests involving more than two means: ANOVA models
 

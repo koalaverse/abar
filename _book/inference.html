@@ -25,7 +25,7 @@
 <meta name="author" content="Bradley C. Boehmke and Brandon M. Greenwell">
 
 
-<meta name="date" content="2018-10-21">
+<meta name="date" content="2019-01-08">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,12 +34,12 @@
   
 <link rel="prev" href="visualization.html">
 <link rel="next" href="unsupervised.html">
-<script src="libs/jquery/jquery.min.js"></script>
-<link href="libs/gitbook/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 
 
 
@@ -47,20 +47,12 @@
 
 
 
-<script src="libs/htmlwidgets/htmlwidgets.js"></script>
-<script src="libs/plotly-binding/plotly.js"></script>
-<script src="libs/typedarray/typedarray.min.js"></script>
-<link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main/plotly-latest.min.js"></script>
-<script src="libs/kePrint/kePrint.js"></script>
 
 
 <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -73,13 +65,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -165,168 +155,205 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#employee-attrition-data"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>I Descriptive Analytics</b></span></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html#descriptive"><i class="fa fa-check"></i><b>2</b> Descriptive Statistics</a><ul>
-<li class="chapter" data-level="2.1" data-path="descriptive.html"><a href="descriptive.html"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2.2" data-path="descriptive.html"><a href="descriptive.html#measures-of-location"><i class="fa fa-check"></i><b>2.2</b> Measures of location</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="descriptive.html"><a href="descriptive.html#the-sample-mean"><i class="fa fa-check"></i><b>2.2.1</b> The sample mean</a></li>
-<li class="chapter" data-level="2.2.2" data-path="descriptive.html"><a href="descriptive.html#the-sample-median"><i class="fa fa-check"></i><b>2.2.2</b> The sample median</a></li>
-<li class="chapter" data-level="2.2.3" data-path="descriptive.html"><a href="descriptive.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>2.2.3</b> The mean or the median</a></li>
+<li class="part"><span><b>I Descriptive Analytics</b></span><ul>
+<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i><b>1.5</b> Prerequisites</a></li>
+<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#measures-of-location"><i class="fa fa-check"></i><b>1.6</b> Measures of location</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="intro.html"><a href="intro.html#the-sample-mean"><i class="fa fa-check"></i><b>1.6.1</b> The sample mean</a></li>
+<li class="chapter" data-level="1.6.2" data-path="intro.html"><a href="intro.html#the-sample-median"><i class="fa fa-check"></i><b>1.6.2</b> The sample median</a></li>
+<li class="chapter" data-level="1.6.3" data-path="intro.html"><a href="intro.html#the-mean-or-the-median"><i class="fa fa-check"></i><b>1.6.3</b> The mean or the median</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="descriptive.html"><a href="descriptive.html#measures-of-spread"><i class="fa fa-check"></i><b>2.3</b> Measures of spread</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="descriptive.html"><a href="descriptive.html#empirical-rule"><i class="fa fa-check"></i><b>2.3.1</b> The empirical rule</a></li>
+<li class="chapter" data-level="1.7" data-path="intro.html"><a href="intro.html#measures-of-spread"><i class="fa fa-check"></i><b>1.7</b> Measures of spread</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="intro.html"><a href="intro.html#empirical-rule"><i class="fa fa-check"></i><b>1.7.1</b> The empirical rule</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="descriptive.html"><a href="descriptive.html#percentiles"><i class="fa fa-check"></i><b>2.4</b> Percentiles</a></li>
-<li class="chapter" data-level="2.5" data-path="descriptive.html"><a href="descriptive.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>2.5</b> Robust measures of spread</a></li>
-<li class="chapter" data-level="2.6" data-path="descriptive.html"><a href="descriptive.html#outliers"><i class="fa fa-check"></i><b>2.6</b> Outlier detection</a></li>
-<li class="chapter" data-level="2.7" data-path="descriptive.html"><a href="descriptive.html#categorical"><i class="fa fa-check"></i><b>2.7</b> Describing categorical data</a><ul>
-<li class="chapter" data-level="2.7.1" data-path="descriptive.html"><a href="descriptive.html#contingency-tables"><i class="fa fa-check"></i><b>2.7.1</b> Contingency tables</a></li>
+<li class="chapter" data-level="1.8" data-path="intro.html"><a href="intro.html#percentiles"><i class="fa fa-check"></i><b>1.8</b> Percentiles</a></li>
+<li class="chapter" data-level="1.9" data-path="intro.html"><a href="intro.html#robust-measures-of-spread"><i class="fa fa-check"></i><b>1.9</b> Robust measures of spread</a></li>
+<li class="chapter" data-level="1.10" data-path="intro.html"><a href="intro.html#outliers"><i class="fa fa-check"></i><b>1.10</b> Outlier detection</a></li>
+<li class="chapter" data-level="1.11" data-path="intro.html"><a href="intro.html#categorical"><i class="fa fa-check"></i><b>1.11</b> Describing categorical data</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="intro.html"><a href="intro.html#contingency-tables"><i class="fa fa-check"></i><b>1.11.1</b> Contingency tables</a></li>
 </ul></li>
-<li class="chapter" data-level="2.8" data-path="descriptive.html"><a href="descriptive.html#exercises"><i class="fa fa-check"></i><b>2.8</b> Exercises</a></li>
+<li class="chapter" data-level="1.12" data-path="intro.html"><a href="intro.html#exercises"><i class="fa fa-check"></i><b>1.12</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>3</b> Visual data exploration</a><ul>
-<li class="chapter" data-level="3.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="3.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>3.2</b> Univariate data</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>3.2.1</b> Continuous Variables</a></li>
-<li class="chapter" data-level="3.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>3.2.2</b> Categorical Variables</a></li>
+<li class="chapter" data-level="2" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>2</b> Visual data exploration</a><ul>
+<li class="chapter" data-level="2.1" data-path="visualization.html"><a href="visualization.html#prerequisites-1"><i class="fa fa-check"></i><b>2.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2.2" data-path="visualization.html"><a href="visualization.html#univariate-data"><i class="fa fa-check"></i><b>2.2</b> Univariate data</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="visualization.html"><a href="visualization.html#continuous-variables"><i class="fa fa-check"></i><b>2.2.1</b> Continuous Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="visualization.html"><a href="visualization.html#categorical-variables"><i class="fa fa-check"></i><b>2.2.2</b> Categorical Variables</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>3.3</b> Bivariate data</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>3.3.1</b> Scatter plots</a></li>
+<li class="chapter" data-level="2.3" data-path="visualization.html"><a href="visualization.html#bivariate-data"><i class="fa fa-check"></i><b>2.3</b> Bivariate data</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="visualization.html"><a href="visualization.html#scatter-plots"><i class="fa fa-check"></i><b>2.3.1</b> Scatter plots</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>3.4</b> Multivariate data</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>3.4.1</b> Facetting</a></li>
+<li class="chapter" data-level="2.4" data-path="visualization.html"><a href="visualization.html#multivariate-data"><i class="fa fa-check"></i><b>2.4</b> Multivariate data</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="visualization.html"><a href="visualization.html#facetting"><i class="fa fa-check"></i><b>2.4.1</b> Facetting</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>3.5</b> Data quality</a></li>
-<li class="chapter" data-level="3.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>3.6</b> Further reading</a></li>
-<li class="chapter" data-level="3.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+<li class="chapter" data-level="2.5" data-path="visualization.html"><a href="visualization.html#data-quality"><i class="fa fa-check"></i><b>2.5</b> Data quality</a></li>
+<li class="chapter" data-level="2.6" data-path="visualization.html"><a href="visualization.html#further-reading"><i class="fa fa-check"></i><b>2.6</b> Further reading</a></li>
+<li class="chapter" data-level="2.7" data-path="visualization.html"><a href="visualization.html#exercises-1"><i class="fa fa-check"></i><b>2.7</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>4</b> Statistical Inference</a><ul>
-<li class="chapter" data-level="4.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>4.1</b> The frequentist approach</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>4.1.1</b> The central limit theorem</a></li>
-<li class="chapter" data-level="4.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.1.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="4.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>4.1.3</b> One-sided versus two-sided tests</a></li>
-<li class="chapter" data-level="4.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>4.1.4</b> Type I and type II errors</a></li>
-<li class="chapter" data-level="4.1.5" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>4.1.5</b> <span class="math inline">\(p\)</span>-values</a></li>
-<li class="chapter" data-level="4.1.6" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>4.1.6</b> Confidence intervals</a></li>
+<li class="chapter" data-level="3" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>3</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.1" data-path="inference.html"><a href="inference.html#the-frequentist-approach"><i class="fa fa-check"></i><b>3.1</b> The frequentist approach</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="inference.html"><a href="inference.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.1.1</b> The central limit theorem</a></li>
+<li class="chapter" data-level="3.1.2" data-path="inference.html"><a href="inference.html#hypothesis-testing"><i class="fa fa-check"></i><b>3.1.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="3.1.3" data-path="inference.html"><a href="inference.html#one-sided-versus-two-sided-tests"><i class="fa fa-check"></i><b>3.1.3</b> One-sided versus two-sided tests</a></li>
+<li class="chapter" data-level="3.1.4" data-path="inference.html"><a href="inference.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i><b>3.1.4</b> Type I and type II errors</a></li>
+<li class="chapter" data-level="3.1.5" data-path="inference.html"><a href="inference.html#power-analysis"><i class="fa fa-check"></i><b>3.1.5</b> Power analysis</a></li>
+<li class="chapter" data-level="3.1.6" data-path="inference.html"><a href="inference.html#p-values"><i class="fa fa-check"></i><b>3.1.6</b> <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="3.1.7" data-path="inference.html"><a href="inference.html#confidence-intervals"><i class="fa fa-check"></i><b>3.1.7</b> Confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>4.2</b> One- and two-sample t-tests</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> One-sample t-test</a></li>
-<li class="chapter" data-level="4.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> Two-sample t-test</a></li>
+<li class="chapter" data-level="3.2" data-path="inference.html"><a href="inference.html#one--and-two-sample-t-tests"><i class="fa fa-check"></i><b>3.2</b> One- and two-sample t-tests</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="inference.html"><a href="inference.html#one-sample-t-test"><i class="fa fa-check"></i><b>3.2.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="3.2.2" data-path="inference.html"><a href="inference.html#two-sample-t-test"><i class="fa fa-check"></i><b>3.2.2</b> Two-sample t-test</a></li>
+<li class="chapter" data-level="3.2.3" data-path="inference.html"><a href="inference.html#abtesting"><i class="fa fa-check"></i><b>3.2.3</b> A/B Testing</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>4.3</b> Tests involving more than two means: ANOVA models</a></li>
-<li class="chapter" data-level="4.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>4.4</b> Testing for association in contingency tables</a></li>
-<li class="chapter" data-level="4.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>4.5</b> Nonparametric tests</a></li>
-<li class="chapter" data-level="4.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>4.6</b> The nonparametric bootstrap</a><ul>
-<li class="chapter" data-level="4.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>4.6.1</b> Bootstrap confidence intervals</a></li>
+<li class="chapter" data-level="3.3" data-path="inference.html"><a href="inference.html#tests-involving-more-than-two-means-anova-models"><i class="fa fa-check"></i><b>3.3</b> Tests involving more than two means: ANOVA models</a></li>
+<li class="chapter" data-level="3.4" data-path="inference.html"><a href="inference.html#testing-for-association-in-contingency-tables"><i class="fa fa-check"></i><b>3.4</b> Testing for association in contingency tables</a></li>
+<li class="chapter" data-level="3.5" data-path="inference.html"><a href="inference.html#nonparametric-tests"><i class="fa fa-check"></i><b>3.5</b> Nonparametric tests</a></li>
+<li class="chapter" data-level="3.6" data-path="inference.html"><a href="inference.html#bootstrap"><i class="fa fa-check"></i><b>3.6</b> The nonparametric bootstrap</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="inference.html"><a href="inference.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>3.6.1</b> Bootstrap confidence intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="4.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>4.7</b> Further reading</a></li>
-<li class="chapter" data-level="4.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
+<li class="chapter" data-level="3.7" data-path="inference.html"><a href="inference.html#further-reading-1"><i class="fa fa-check"></i><b>3.7</b> Further reading</a></li>
+<li class="chapter" data-level="3.8" data-path="inference.html"><a href="inference.html#exercises-2"><i class="fa fa-check"></i><b>3.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>5</b> Unsupervised learning</a><ul>
-<li class="chapter" data-level="5.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="5.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>5.2</b> Principal Components Analysis</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>5.2.1</b> Finding principal components</a></li>
-<li class="chapter" data-level="5.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Performing PCA in R</a></li>
-<li class="chapter" data-level="5.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>5.2.3</b> Selecting the Number of Principal Components</a></li>
-<li class="chapter" data-level="5.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>5.2.4</b> Extracting additional insights</a></li>
-<li class="chapter" data-level="5.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>5.2.5</b> PCA with mixed data</a></li>
+<li class="chapter" data-level="4" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>4</b> Unsupervised learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="unsupervised.html"><a href="unsupervised.html#prerequisites-2"><i class="fa fa-check"></i><b>4.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="4.2" data-path="unsupervised.html"><a href="unsupervised.html#pca"><i class="fa fa-check"></i><b>4.2</b> Principal Components Analysis</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="unsupervised.html"><a href="unsupervised.html#finding-principal-components"><i class="fa fa-check"></i><b>4.2.1</b> Finding principal components</a></li>
+<li class="chapter" data-level="4.2.2" data-path="unsupervised.html"><a href="unsupervised.html#performing-pca-in-r"><i class="fa fa-check"></i><b>4.2.2</b> Performing PCA in R</a></li>
+<li class="chapter" data-level="4.2.3" data-path="unsupervised.html"><a href="unsupervised.html#selecting-the-number-of-principal-components"><i class="fa fa-check"></i><b>4.2.3</b> Selecting the Number of Principal Components</a></li>
+<li class="chapter" data-level="4.2.4" data-path="unsupervised.html"><a href="unsupervised.html#extracting-additional-insights"><i class="fa fa-check"></i><b>4.2.4</b> Extracting additional insights</a></li>
+<li class="chapter" data-level="4.2.5" data-path="unsupervised.html"><a href="unsupervised.html#pca-with-mixed-data"><i class="fa fa-check"></i><b>4.2.5</b> PCA with mixed data</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>5.3.1</b> Clustering distance measures</a></li>
-<li class="chapter" data-level="5.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>5.3.2</b> K-means clustering</a></li>
-<li class="chapter" data-level="5.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>5.3.3</b> Hierarchical clustering</a></li>
-<li class="chapter" data-level="5.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>5.3.4</b> Clustering with mixed data</a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>II Predictive Analytics</b></span></li>
-<li class="chapter" data-level="6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html"><i class="fa fa-check"></i><b>6</b> Fundamental concepts</a><ul>
-<li class="chapter" data-level="6.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#regression-problems"><i class="fa fa-check"></i><b>6.1</b> Regression problems</a></li>
-<li class="chapter" data-level="6.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#classification-problems"><i class="fa fa-check"></i><b>6.2</b> Classification problems</a></li>
-<li class="chapter" data-level="6.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>6.3</b> Algorithm Comparison Guide</a></li>
-<li class="chapter" data-level="6.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#general-modeling-process"><i class="fa fa-check"></i><b>6.4</b> General modeling process</a><ul>
-<li class="chapter" data-level="6.4.1" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_prereq"><i class="fa fa-check"></i><b>6.4.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="6.4.2" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-split"><i class="fa fa-check"></i><b>6.4.2</b> Data splitting</a></li>
-<li class="chapter" data-level="6.4.3" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg_perf_feat"><i class="fa fa-check"></i><b>6.4.3</b> Feature engineering</a></li>
-<li class="chapter" data-level="6.4.4" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#model-form"><i class="fa fa-check"></i><b>6.4.4</b> Basic model formulation</a></li>
-<li class="chapter" data-level="6.4.5" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#tune"><i class="fa fa-check"></i><b>6.4.5</b> Model tuning</a></li>
-<li class="chapter" data-level="6.4.6" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#cv"><i class="fa fa-check"></i><b>6.4.6</b> Cross Validation for Generalization</a></li>
-<li class="chapter" data-level="6.4.7" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#reg-perf-eval"><i class="fa fa-check"></i><b>6.4.7</b> Model evaluation</a></li>
-<li class="chapter" data-level="6.4.8" data-path="fundamentalconcepts.html"><a href="fundamentalconcepts.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>6.4.8</b> Interpreting predictive models</a></li>
+<li class="chapter" data-level="4.3" data-path="unsupervised.html"><a href="unsupervised.html#cluster-analysis"><i class="fa fa-check"></i><b>4.3</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="unsupervised.html"><a href="unsupervised.html#clustering-distance-measures"><i class="fa fa-check"></i><b>4.3.1</b> Clustering distance measures</a></li>
+<li class="chapter" data-level="4.3.2" data-path="unsupervised.html"><a href="unsupervised.html#k-means-clustering"><i class="fa fa-check"></i><b>4.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="4.3.3" data-path="unsupervised.html"><a href="unsupervised.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.3.3</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="4.3.4" data-path="unsupervised.html"><a href="unsupervised.html#clustering-with-mixed-data"><i class="fa fa-check"></i><b>4.3.4</b> Clustering with mixed data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>7</b> Linear regression</a><ul>
-<li class="chapter" data-level="7.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="7.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple linear regression</a></li>
-<li class="chapter" data-level="7.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>7.3</b> Multiple linear regression</a></li>
-<li class="chapter" data-level="7.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>7.4</b> Assessing Model Accuracy</a></li>
-<li class="chapter" data-level="7.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>7.5</b> Model concerns</a></li>
-<li class="chapter" data-level="7.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>7.6</b> Principal component regression</a></li>
-<li class="chapter" data-level="7.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>7.7</b> Partial least squares</a></li>
-<li class="chapter" data-level="7.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>7.8</b> Feature Interpretation</a></li>
-<li class="chapter" data-level="7.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>7.9</b> Final thoughts</a></li>
-<li class="chapter" data-level="7.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>7.10</b> Learning more</a></li>
+<li class="part"><span><b>II Predictive Analytics</b></span><ul>
+<li class="chapter" data-level="4.4" data-path="unsupervised.html"><a href="unsupervised.html#regression-problems"><i class="fa fa-check"></i><b>4.4</b> Regression problems</a></li>
+<li class="chapter" data-level="4.5" data-path="unsupervised.html"><a href="unsupervised.html#classification-problems"><i class="fa fa-check"></i><b>4.5</b> Classification problems</a></li>
+<li class="chapter" data-level="4.6" data-path="unsupervised.html"><a href="unsupervised.html#algorithm-comparison-guide"><i class="fa fa-check"></i><b>4.6</b> Algorithm Comparison Guide</a></li>
+<li class="chapter" data-level="4.7" data-path="unsupervised.html"><a href="unsupervised.html#general-modeling-process"><i class="fa fa-check"></i><b>4.7</b> General modeling process</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_prereq"><i class="fa fa-check"></i><b>4.7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="4.7.2" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-split"><i class="fa fa-check"></i><b>4.7.2</b> Data splitting</a></li>
+<li class="chapter" data-level="4.7.3" data-path="unsupervised.html"><a href="unsupervised.html#reg_perf_feat"><i class="fa fa-check"></i><b>4.7.3</b> Feature engineering</a></li>
+<li class="chapter" data-level="4.7.4" data-path="unsupervised.html"><a href="unsupervised.html#model-form"><i class="fa fa-check"></i><b>4.7.4</b> Basic model formulation</a></li>
+<li class="chapter" data-level="4.7.5" data-path="unsupervised.html"><a href="unsupervised.html#tune"><i class="fa fa-check"></i><b>4.7.5</b> Model tuning</a></li>
+<li class="chapter" data-level="4.7.6" data-path="unsupervised.html"><a href="unsupervised.html#cv"><i class="fa fa-check"></i><b>4.7.6</b> Cross Validation for Generalization</a></li>
+<li class="chapter" data-level="4.7.7" data-path="unsupervised.html"><a href="unsupervised.html#reg-perf-eval"><i class="fa fa-check"></i><b>4.7.7</b> Model evaluation</a></li>
+<li class="chapter" data-level="4.7.8" data-path="unsupervised.html"><a href="unsupervised.html#interpreting-predictive-models"><i class="fa fa-check"></i><b>4.7.8</b> Interpreting predictive models</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Logistic regression</a><ul>
-<li class="chapter" data-level="8.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="8.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>8.2</b> Why logistic regression</a></li>
-<li class="chapter" data-level="8.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>8.3</b> Simple logistic regression</a></li>
-<li class="chapter" data-level="8.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>8.4</b> Multiple logistic regression</a></li>
-<li class="chapter" data-level="8.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>8.5</b> Assessing model accuracy</a></li>
-<li class="chapter" data-level="8.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>8.6</b> Feature interpretation</a></li>
-<li class="chapter" data-level="8.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="8.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>9</b> Regularized regression</a><ul>
-<li class="chapter" data-level="9.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="9.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>9.2</b> Why Regularize</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>9.2.1</b> Ridge penalty</a></li>
-<li class="chapter" data-level="9.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>9.2.2</b> Lasso penalty</a></li>
-<li class="chapter" data-level="9.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>9.2.3</b> Elastic nets</a></li>
+<li class="chapter" data-level="5" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5</b> Linear Regression</a><ul>
+<li class="chapter" data-level="5.1" data-path="linear-regression.html"><a href="linear-regression.html#prerequisites-3"><i class="fa fa-check"></i><b>5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="5.2" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>5.2</b> Simple linear regression</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="linear-regression.html"><a href="linear-regression.html#estimation"><i class="fa fa-check"></i><b>5.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="linear-regression.html"><a href="linear-regression.html#inference-1"><i class="fa fa-check"></i><b>5.2.2</b> Inference</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>9.3</b> Implementation</a></li>
-<li class="chapter" data-level="9.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>9.4</b> Tuning</a></li>
-<li class="chapter" data-level="9.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>9.5</b> Feature interpretation</a></li>
-<li class="chapter" data-level="9.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>9.6</b> Attrition data</a></li>
-<li class="chapter" data-level="9.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>9.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="9.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>9.8</b> Learning more</a></li>
+<li class="chapter" data-level="5.3" data-path="linear-regression.html"><a href="linear-regression.html#multi-lm"><i class="fa fa-check"></i><b>5.3</b> Multiple linear regression</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="linear-regression.html"><a href="linear-regression.html#todo"><i class="fa fa-check"></i><b>5.3.1</b> TODO:</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>10</b> Multivariate Adaptive Regression Splines</a><ul>
-<li class="chapter" data-level="10.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="10.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a><ul>
-<li class="chapter" data-level="10.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>10.2.1</b> Multivariate regression splines</a></li>
+<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html#assessing-model-accuracy"><i class="fa fa-check"></i><b>5.4</b> Assessing Model Accuracy</a></li>
+<li class="chapter" data-level="5.5" data-path="linear-regression.html"><a href="linear-regression.html#model-concerns"><i class="fa fa-check"></i><b>5.5</b> Model concerns</a></li>
+<li class="chapter" data-level="5.6" data-path="linear-regression.html"><a href="linear-regression.html#principal-component-regression"><i class="fa fa-check"></i><b>5.6</b> Principal component regression</a></li>
+<li class="chapter" data-level="5.7" data-path="linear-regression.html"><a href="linear-regression.html#partial-least-squares"><i class="fa fa-check"></i><b>5.7</b> Partial least squares</a></li>
+<li class="chapter" data-level="5.8" data-path="linear-regression.html"><a href="linear-regression.html#lm-model-interp"><i class="fa fa-check"></i><b>5.8</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="5.9" data-path="linear-regression.html"><a href="linear-regression.html#final-thoughts"><i class="fa fa-check"></i><b>5.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="5.10" data-path="linear-regression.html"><a href="linear-regression.html#learning-more"><i class="fa fa-check"></i><b>5.10</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>10.3</b> Fitting a basic MARS model</a></li>
-<li class="chapter" data-level="10.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>10.4</b> Tuning</a></li>
-<li class="chapter" data-level="10.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>10.5</b> Feature interpretation</a></li>
-<li class="chapter" data-level="10.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>10.6</b> Attrition data</a></li>
-<li class="chapter" data-level="10.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>10.7</b> Final thoughts</a></li>
-<li class="chapter" data-level="10.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>10.8</b> Learning more</a></li>
+<li class="chapter" data-level="6" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>6</b> Logistic regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="logistic-regression.html"><a href="logistic-regression.html#prerequisites-4"><i class="fa fa-check"></i><b>6.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="6.2" data-path="logistic-regression.html"><a href="logistic-regression.html#why-logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Why logistic regression</a></li>
+<li class="chapter" data-level="6.3" data-path="logistic-regression.html"><a href="logistic-regression.html#simple-logistic-regression"><i class="fa fa-check"></i><b>6.3</b> Simple logistic regression</a></li>
+<li class="chapter" data-level="6.4" data-path="logistic-regression.html"><a href="logistic-regression.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>6.4</b> Multiple logistic regression</a></li>
+<li class="chapter" data-level="6.5" data-path="logistic-regression.html"><a href="logistic-regression.html#assessing-model-accuracy-1"><i class="fa fa-check"></i><b>6.5</b> Assessing model accuracy</a></li>
+<li class="chapter" data-level="6.6" data-path="logistic-regression.html"><a href="logistic-regression.html#feature-interpretation"><i class="fa fa-check"></i><b>6.6</b> Feature interpretation</a></li>
+<li class="chapter" data-level="6.7" data-path="logistic-regression.html"><a href="logistic-regression.html#final-thoughts-1"><i class="fa fa-check"></i><b>6.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="6.8" data-path="logistic-regression.html"><a href="logistic-regression.html#learning-more-1"><i class="fa fa-check"></i><b>6.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>11</b> Random Forests</a><ul>
-<li class="chapter" data-level="11.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>11.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="11.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>11.2</b> Decision trees</a><ul>
-<li class="chapter" data-level="11.2.1" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>11.2.1</b> A simple regression tree example</a></li>
-<li class="chapter" data-level="11.2.2" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>11.2.2</b> Deciding on splits</a></li>
+<li class="chapter" data-level="7" data-path="regularized-regression.html"><a href="regularized-regression.html"><i class="fa fa-check"></i><b>7</b> Regularized regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="regularized-regression.html"><a href="regularized-regression.html#prerequisites-5"><i class="fa fa-check"></i><b>7.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="7.2" data-path="regularized-regression.html"><a href="regularized-regression.html#why"><i class="fa fa-check"></i><b>7.2</b> Why Regularize</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="regularized-regression.html"><a href="regularized-regression.html#ridge"><i class="fa fa-check"></i><b>7.2.1</b> Ridge penalty</a></li>
+<li class="chapter" data-level="7.2.2" data-path="regularized-regression.html"><a href="regularized-regression.html#lasso"><i class="fa fa-check"></i><b>7.2.2</b> Lasso penalty</a></li>
+<li class="chapter" data-level="7.2.3" data-path="regularized-regression.html"><a href="regularized-regression.html#elastic"><i class="fa fa-check"></i><b>7.2.3</b> Elastic nets</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>11.3</b> Bagging</a></li>
-<li class="chapter" data-level="11.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>11.4</b> Random forests</a><ul>
-<li class="chapter" data-level="11.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>11.4.1</b> OOB error vs. test set error</a></li>
+<li class="chapter" data-level="7.3" data-path="regularized-regression.html"><a href="regularized-regression.html#implementation"><i class="fa fa-check"></i><b>7.3</b> Implementation</a></li>
+<li class="chapter" data-level="7.4" data-path="regularized-regression.html"><a href="regularized-regression.html#regression-glmnet-tune"><i class="fa fa-check"></i><b>7.4</b> Tuning</a></li>
+<li class="chapter" data-level="7.5" data-path="regularized-regression.html"><a href="regularized-regression.html#lm-features"><i class="fa fa-check"></i><b>7.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="7.6" data-path="regularized-regression.html"><a href="regularized-regression.html#attrition-data"><i class="fa fa-check"></i><b>7.6</b> Attrition data</a></li>
+<li class="chapter" data-level="7.7" data-path="regularized-regression.html"><a href="regularized-regression.html#final-thoughts-2"><i class="fa fa-check"></i><b>7.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="7.8" data-path="regularized-regression.html"><a href="regularized-regression.html#learning-more-2"><i class="fa fa-check"></i><b>7.8</b> Learning more</a></li>
 </ul></li>
-<li class="chapter" data-level="11.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>11.5</b> Fitting a basic random forest model</a></li>
-<li class="chapter" data-level="11.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>11.6</b> Tuning</a><ul>
-<li class="chapter" data-level="11.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>11.6.1</b> Tuning via ranger</a></li>
-<li class="chapter" data-level="11.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>11.6.2</b> Tuning via caret</a></li>
+<li class="chapter" data-level="8" data-path="MARS.html"><a href="MARS.html"><i class="fa fa-check"></i><b>8</b> Multivariate Adaptive Regression Splines</a><ul>
+<li class="chapter" data-level="8.1" data-path="MARS.html"><a href="MARS.html#prerequisites-6"><i class="fa fa-check"></i><b>8.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="8.2" data-path="MARS.html"><a href="MARS.html#the-basic-idea"><i class="fa fa-check"></i><b>8.2</b> The basic idea</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="MARS.html"><a href="MARS.html#multivariate-regression-splines"><i class="fa fa-check"></i><b>8.2.1</b> Multivariate regression splines</a></li>
 </ul></li>
-<li class="chapter" data-level="11.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>11.7</b> Feature interpretation</a></li>
-<li class="chapter" data-level="11.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>11.8</b> Attrition data</a></li>
-<li class="chapter" data-level="11.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>11.9</b> Final thoughts</a></li>
-<li class="chapter" data-level="11.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>11.10</b> Learning more</a></li>
+<li class="chapter" data-level="8.3" data-path="MARS.html"><a href="MARS.html#fitting-a-basic-mars-model"><i class="fa fa-check"></i><b>8.3</b> Fitting a basic MARS model</a></li>
+<li class="chapter" data-level="8.4" data-path="MARS.html"><a href="MARS.html#tuning"><i class="fa fa-check"></i><b>8.4</b> Tuning</a></li>
+<li class="chapter" data-level="8.5" data-path="MARS.html"><a href="MARS.html#feature-interpretation-1"><i class="fa fa-check"></i><b>8.5</b> Feature interpretation</a></li>
+<li class="chapter" data-level="8.6" data-path="MARS.html"><a href="MARS.html#attrition-data-1"><i class="fa fa-check"></i><b>8.6</b> Attrition data</a></li>
+<li class="chapter" data-level="8.7" data-path="MARS.html"><a href="MARS.html#final-thoughts-3"><i class="fa fa-check"></i><b>8.7</b> Final thoughts</a></li>
+<li class="chapter" data-level="8.8" data-path="MARS.html"><a href="MARS.html#learning-more-3"><i class="fa fa-check"></i><b>8.8</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="RF.html"><a href="RF.html"><i class="fa fa-check"></i><b>9</b> Random Forests</a><ul>
+<li class="chapter" data-level="9.1" data-path="RF.html"><a href="RF.html#prerequisites-7"><i class="fa fa-check"></i><b>9.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="9.2" data-path="RF.html"><a href="RF.html#decision-trees"><i class="fa fa-check"></i><b>9.2</b> Decision trees</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="RF.html"><a href="RF.html#partitioning"><i class="fa fa-check"></i><b>9.2.1</b> Partitioning</a></li>
+<li class="chapter" data-level="9.2.2" data-path="RF.html"><a href="RF.html#minimizing-overfitting"><i class="fa fa-check"></i><b>9.2.2</b> Minimizing overfitting</a></li>
+<li class="chapter" data-level="9.2.3" data-path="RF.html"><a href="RF.html#a-simple-regression-tree-example"><i class="fa fa-check"></i><b>9.2.3</b> A simple regression tree example</a></li>
+<li class="chapter" data-level="9.2.4" data-path="RF.html"><a href="RF.html#deciding-on-splits"><i class="fa fa-check"></i><b>9.2.4</b> Deciding on splits</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="RF.html"><a href="RF.html#bagging"><i class="fa fa-check"></i><b>9.3</b> Bagging</a></li>
+<li class="chapter" data-level="9.4" data-path="RF.html"><a href="RF.html#random-forests"><i class="fa fa-check"></i><b>9.4</b> Random forests</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="RF.html"><a href="RF.html#oob-error-vs.test-set-error"><i class="fa fa-check"></i><b>9.4.1</b> OOB error vs. test set error</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="RF.html"><a href="RF.html#fitting-a-basic-random-forest-model"><i class="fa fa-check"></i><b>9.5</b> Fitting a basic random forest model</a></li>
+<li class="chapter" data-level="9.6" data-path="RF.html"><a href="RF.html#tuning-1"><i class="fa fa-check"></i><b>9.6</b> Tuning</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="RF.html"><a href="RF.html#tuning-via-ranger"><i class="fa fa-check"></i><b>9.6.1</b> Tuning via ranger</a></li>
+<li class="chapter" data-level="9.6.2" data-path="RF.html"><a href="RF.html#tuning-via-caret"><i class="fa fa-check"></i><b>9.6.2</b> Tuning via caret</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="RF.html"><a href="RF.html#feature-interpretation-2"><i class="fa fa-check"></i><b>9.7</b> Feature interpretation</a></li>
+<li class="chapter" data-level="9.8" data-path="RF.html"><a href="RF.html#attrition-data-2"><i class="fa fa-check"></i><b>9.8</b> Attrition data</a></li>
+<li class="chapter" data-level="9.9" data-path="RF.html"><a href="RF.html#final-thoughts-4"><i class="fa fa-check"></i><b>9.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="9.10" data-path="RF.html"><a href="RF.html#learning-more-4"><i class="fa fa-check"></i><b>9.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="GBM.html"><a href="GBM.html"><i class="fa fa-check"></i><b>10</b> Gradient Boosting Machines</a><ul>
+<li class="chapter" data-level="10.1" data-path="GBM.html"><a href="GBM.html#prerequisites-8"><i class="fa fa-check"></i><b>10.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="10.2" data-path="GBM.html"><a href="GBM.html#the-basic-idea-1"><i class="fa fa-check"></i><b>10.2</b> The basic idea</a></li>
+<li class="chapter" data-level="10.3" data-path="GBM.html"><a href="GBM.html#gbm-gradient"><i class="fa fa-check"></i><b>10.3</b> Gradient descent</a></li>
+<li class="chapter" data-level="10.4" data-path="GBM.html"><a href="GBM.html#gbm-tuning"><i class="fa fa-check"></i><b>10.4</b> Tuning</a></li>
+<li class="chapter" data-level="10.5" data-path="GBM.html"><a href="GBM.html#fitting-a-basic-gbm"><i class="fa fa-check"></i><b>10.5</b> Fitting a basic GBM</a></li>
+<li class="chapter" data-level="10.6" data-path="GBM.html"><a href="GBM.html#tuning-2"><i class="fa fa-check"></i><b>10.6</b> Tuning</a></li>
+<li class="chapter" data-level="10.7" data-path="GBM.html"><a href="GBM.html#feature-interpretation-3"><i class="fa fa-check"></i><b>10.7</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="10.8" data-path="GBM.html"><a href="GBM.html#attrition-data-3"><i class="fa fa-check"></i><b>10.8</b> Attrition data</a></li>
+<li class="chapter" data-level="10.9" data-path="GBM.html"><a href="GBM.html#final-thoughts-5"><i class="fa fa-check"></i><b>10.9</b> Final thoughts</a></li>
+<li class="chapter" data-level="10.10" data-path="GBM.html"><a href="GBM.html#learning-more-5"><i class="fa fa-check"></i><b>10.10</b> Learning more</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="DL.html"><a href="DL.html"><i class="fa fa-check"></i><b>11</b> Deep Learning</a><ul>
+<li class="chapter" data-level="11.1" data-path="DL.html"><a href="DL.html#dnn_why"><i class="fa fa-check"></i><b>11.1</b> Why deep learning</a></li>
+<li class="chapter" data-level="11.2" data-path="DL.html"><a href="DL.html#dnn_ff"><i class="fa fa-check"></i><b>11.2</b> Feedforward DNNs</a></li>
+<li class="chapter" data-level="11.3" data-path="DL.html"><a href="DL.html#dnn_arch"><i class="fa fa-check"></i><b>11.3</b> Network architecture</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="DL.html"><a href="DL.html#layers-and-nodes"><i class="fa fa-check"></i><b>11.3.1</b> Layers and nodes</a></li>
+<li class="chapter" data-level="11.3.2" data-path="DL.html"><a href="DL.html#activation"><i class="fa fa-check"></i><b>11.3.2</b> Activation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="DL.html"><a href="DL.html#dnn_back"><i class="fa fa-check"></i><b>11.4</b> Backpropagation</a></li>
+<li class="chapter" data-level="11.5" data-path="DL.html"><a href="DL.html#dnn_train"><i class="fa fa-check"></i><b>11.5</b> Model training</a></li>
+<li class="chapter" data-level="11.6" data-path="DL.html"><a href="DL.html#dnn_tuning"><i class="fa fa-check"></i><b>11.6</b> Model tuning</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="DL.html"><a href="DL.html#adjust-model-capacity"><i class="fa fa-check"></i><b>11.6.1</b> Adjust model capacity</a></li>
+<li class="chapter" data-level="11.6.2" data-path="DL.html"><a href="DL.html#add-dropout"><i class="fa fa-check"></i><b>11.6.2</b> Add dropout</a></li>
+<li class="chapter" data-level="11.6.3" data-path="DL.html"><a href="DL.html#add-weight-regularization"><i class="fa fa-check"></i><b>11.6.3</b> Add weight regularization</a></li>
+<li class="chapter" data-level="11.6.4" data-path="DL.html"><a href="DL.html#adjust-learning-rate"><i class="fa fa-check"></i><b>11.6.4</b> Adjust learning rate</a></li>
+<li class="chapter" data-level="11.6.5" data-path="DL.html"><a href="DL.html#automate-the-tuning-process"><i class="fa fa-check"></i><b>11.6.5</b> Automate the tuning process</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="DL.html"><a href="DL.html#feature-interpretation-4"><i class="fa fa-check"></i><b>11.7</b> Feature Interpretation</a></li>
+<li class="chapter" data-level="11.8" data-path="DL.html"><a href="DL.html#final-thoughts-6"><i class="fa fa-check"></i><b>11.8</b> Final thoughts</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="12" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) Appendix {-}</a></li>
-<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html"><i class="fa fa-check"></i>Data sets</a><ul>
-<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
-<li class="chapter" data-level="" data-path="data-sets.html"><a href="data-sets.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
+<li class="chapter" data-level="12" data-path="appendix-data.html"><a href="appendix-data.html"><i class="fa fa-check"></i><b>12</b> (APPENDIX) Appendix {-}</a><ul>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#ames-iowa-housing-data-1"><i class="fa fa-check"></i>Ames Iowa housing data</a></li>
+<li class="chapter" data-level="" data-path="appendix-data.html"><a href="appendix-data.html#employee-attrition-data-1"><i class="fa fa-check"></i>Employee attrition data</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -349,7 +376,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="inference" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Statistical Inference</h1>
+<h1><span class="header-section-number">Chapter 3</span> Statistical Inference</h1>
 <blockquote>
 <p>“To consult the statistician after an experiment is finished is often merely to ask him to conduct a post mortem examination. He can perhaps say what the experiment died of.”</p>
 <p>— Sir Ronald Fisher</p>
@@ -358,48 +385,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Say, for example, the price of a new home for sale in Ames, Iowa is $610,000. Using historical data, we can compare this price against a reference distribution. This is illustrated in the code chunk below using the <code>ames</code> data frame.</p>
 <pre class="sourceCode r"><code class="sourceCode r">Sale_Price &lt;-<span class="st"> </span>AmesHousing<span class="op">::</span><span class="kw">make_ames</span>()<span class="op">$</span>Sale_Price
 (<span class="dv">610000</span> <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Sale_Price)) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(Sale_Price)  <span class="co"># compute a z-score</span>
-## [1] 5.373</code></pre>
+<span class="co">## [1] 5.372659</span></code></pre>
 <p>So a house costing $610,000 is more than five standard deviations beyond the mean of all the houses sold between the years 2006 and 2010—of course, a more fair comparison would only involve houses with similar features (e.g., a fireplace, finished basement, same neighborhood, etc.).</p>
-<p>Classical statistical inference (e.g., <em>significance testing</em>) is a similar process. An investigator or analyst considers the result from a particular experiment and wants to know whether or not the result is <em>statistically significant</em><a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> (e.g., due to the varying experimental conditions), or due to chance alone. In order to make this conclusion, a relative reference set is required that characterizes the outcome if the varying experimental factors truly had no impact on the result. The observed outcome can then be compared to this reference distribution and the statistical significance of the result can be quantified. This approach to statistical inference is called the <em>frequentist</em> approach—in contrast to <em>Bayesian inference</em> which is not discussed in this book.</p>
+<p>Classical statistical inference (e.g., <em>significance testing</em>) is a similar process. An investigator or analyst considers the result from a particular experiment and wants to know whether or not the result is <em>statistically significant</em><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> (e.g., due to the varying experimental conditions), or due to chance alone. In order to make this conclusion, a relative reference set is required that characterizes the outcome if the varying experimental factors truly had no impact on the result. The observed outcome can then be compared to this reference distribution and the statistical significance of the result can be quantified. This approach to statistical inference is called the <em>frequentist</em> approach—in contrast to <em>Bayesian inference</em> which is not discussed in this book.</p>
 <div id="the-frequentist-approach" class="section level2">
-<h2><span class="header-section-number">4.1</span> The frequentist approach</h2>
+<h2><span class="header-section-number">3.1</span> The frequentist approach</h2>
 <p>The most common methods in statistical inference are based on the frequentist approach to probability. Many of the common statistical tests, like the one-sample <span class="math inline">\(t\)</span>-test, follow the same paradigm: compute a test statistic associated with the population attribute of interest (e.g., the mean), determine it’s <em>sampling distribution</em>, and use the sampling distribution to compute a <span class="math inline">\(p\)</span>-value, construct a <em>confidence interval</em>, etc.</p>
-<p>The sampling distribution of a statistic (e.g., a test statistic), based on a sample of size <span class="math inline">\(n\)</span>, is the distribution obtained after taking every possible sample of size <span class="math inline">\(n\)</span> from the population of interest and computing the sample statistic for each; see, for example, Figure <a href="inference.html#fig:sampling-distribution">4.1</a>.</p>
+<p>The sampling distribution of a statistic (e.g., a test statistic), based on a sample of size <span class="math inline">\(n\)</span>, is the distribution obtained after taking every possible sample of size <span class="math inline">\(n\)</span> from the population of interest and computing the sample statistic for each; see, for example, Figure <a href="inference.html#fig:sampling-distribution">3.1</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:sampling-distribution"></span>
-<img src="illustrations/sampling-distribution.png" alt="Frequentist approach to sampling and sampling distributions." width="380" />
+<img src="illustrations/sampling-distribution.png" alt="Frequentist approach to sampling and sampling distributions." width="70%" />
 <p class="caption">
-Figure 4.1: Frequentist approach to sampling and sampling distributions.
+Figure 3.1: Frequentist approach to sampling and sampling distributions.
 </p>
 </div>
 <p>In some cases, the sampling distribution of the statistic is known, provided certain assumptions are met (like independent observations and normality). For example, consider a random sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> from a normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma ^ 2\)</span>. As it turns out, the statistic
 <span class="math display" id="eq:zobs">\[\begin{equation}
   z_{obs} = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}},
-  \tag{4.1}
+  \tag{3.1}
 \end{equation}\]</span>
-has a standard normal distribution. From this sampling distribution, we can formulate a confidence for the true mean <span class="math inline">\(\mu\)</span>, or test specific hypotheses. In practice, <span class="math inline">\(\sigma\)</span> is unknown and is estimated using the sample standard deviation, <span class="math inline">\(s\)</span>. Replacing <span class="math inline">\(\sigma\)</span> with <span class="math inline">\(s\)</span> in Equation <a href="inference.html#eq:zobs">(4.1)</a> results in another statistic, called the <span class="math inline">\(t\)</span>-statistic, and is given by
+has a standard normal distribution. From this sampling distribution, we can formulate a confidence for the true mean <span class="math inline">\(\mu\)</span>, or test specific hypotheses. In practice, <span class="math inline">\(\sigma\)</span> is unknown and is estimated using the sample standard deviation, <span class="math inline">\(s\)</span>. Replacing <span class="math inline">\(\sigma\)</span> with <span class="math inline">\(s\)</span> in Equation <a href="inference.html#eq:zobs">(3.1)</a> results in another statistic, called the <span class="math inline">\(t\)</span>-statistic, and is given by
 <span class="math display" id="eq:tobs">\[\begin{equation}
   t_{obs} = \frac{\bar{x} - \mu}{s / \sqrt{n}}.
-  \tag{4.2}
+  \tag{3.2}
 \end{equation}\]</span>
 <span class="citation">Student (<a href="#ref-student-probable-1908">1908</a>)</span> showed that <span class="math inline">\(t_{obs}\)</span> follows a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> <em>degrees of freedom</em>.</p>
-<p>In more complicated examples, the sampling distribution of a statistic is not known, or is rather complicated (e.g., the correlation coefficient or the ratio of two means), but can be simulated through a process called the <em>booststrap</em>, which we discuss in <a href="#the-nonparametric-bootstrap"><strong>??</strong></a>.</p>
+<p>In more complicated examples, the sampling distribution of a statistic is not known, or is rather complicated (e.g., the correlation coefficient or the ratio of two means), but can be simulated through a process called the <em>booststrap</em>, which we discuss in <a href="inference.html#bootstrap">3.6</a>.</p>
 <div id="the-central-limit-theorem" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> The central limit theorem</h3>
+<h3><span class="header-section-number">3.1.1</span> The central limit theorem</h3>
 One of the most common goals in classical statistical inference is to make inference regarding the mean of a population:
 <span class="math display">\[
   H_0: \mu = \mu_0 \quad vs. \quad H_1: \mu \ne \mu_0,
 \]</span>
-where <span class="math inline">\(\mu\)</span> is the true population mean and <span class="math inline">\(\mu_0\)</span> is some hypothetical value. Assume we have a random sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> from the population of interest. If the data are normally distributed, we can test this hypothesis using a standard <span class="math inline">\(t\)</span>-test (discussed later). If the data are not normally distributed, then the <em>central limit theorem</em> (CLM) tells us that the sampling distribution of the sample mean (or more simply the sample total) will be approximately normal for sufficiently large <span class="math inline">\(n\)</span>. How large does <span class="math inline">\(n\)</span> need to be? The answer depends on how far the true distribution deviates from normality! A common rule of thumb, though not always adequate, is that <span class="math inline">\(n &gt; 30\)</span> is sufficient to invoke the CLM. For instance, as we saw in Chapters 2–3, the distribution of <code>Sale_Price</code> is quite skewed to the right. However, the sampling distribution of the mean from this population will be approximately normal provided <span class="math inline">\(n\)</span> is sufficiently large. For example, we simulated 10^{4} sample means from <code>Sale_Price</code> based on sample of various sizes. The resulting sampling distributions are displayed in Figure <a href="inference.html#fig:sale-price-clm">4.2</a>. Clearly, the sampling distribution becomes more bell-shaped and normal looking as the sample size increases; for this population, <span class="math inline">\(n = 30\)</span> seems sufficient.
+where <span class="math inline">\(\mu\)</span> is the true population mean and <span class="math inline">\(\mu_0\)</span> is some hypothetical value. Assume we have a random sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> from the population of interest. If the data are normally distributed, we can test this hypothesis using a standard <span class="math inline">\(t\)</span>-test (discussed later). If the data are not normally distributed, then the <em>central limit theorem</em> (CLM) tells us that the sampling distribution of the sample mean (or more simply the sample total) will be approximately normal for sufficiently large <span class="math inline">\(n\)</span>. How large does <span class="math inline">\(n\)</span> need to be? The answer depends on how far the true distribution deviates from normality! A common rule of thumb, though not always adequate, is that <span class="math inline">\(n &gt; 30\)</span> is sufficient to invoke the CLM. For instance, as we saw in Chapters 2–3, the distribution of <code>Sale_Price</code> is quite skewed to the right. However, the sampling distribution of the mean from this population will be approximately normal provided <span class="math inline">\(n\)</span> is sufficiently large. For example, we simulated 10,000 sample means from <code>Sale_Price</code> based on sample of various sizes. The resulting sampling distributions are displayed in Figure <a href="inference.html#fig:sale-price-clm">3.2</a>. Clearly, the sampling distribution becomes more bell-shaped and normal looking as the sample size increases; for this population, <span class="math inline">\(n = 30\)</span> seems sufficient.
 <div class="figure" style="text-align: center"><span id="fig:sale-price-clm"></span>
-<img src="abar_files/figure-html/sale-price-clm-1.png" alt="Sampling distribution of mean sale price based on samples of size $n = 5$ (top left), $n = 10$ (top right), $n = 30$ (bottom left), and $n = 100$ (bottom right)." width="672" />
+<img src="abar_files/figure-html/sale-price-clm-1.png" alt="Sampling distribution of mean sale price based on samples of size $n = 5$ (top left), $n = 10$ (top right), $n = 30$ (bottom left), and $n = 100$ (bottom right)." width="70%" />
 <p class="caption">
-Figure 4.2: Sampling distribution of mean sale price based on samples of size <span class="math inline">\(n = 5\)</span> (top left), <span class="math inline">\(n = 10\)</span> (top right), <span class="math inline">\(n = 30\)</span> (bottom left), and <span class="math inline">\(n = 100\)</span> (bottom right).
+Figure 3.2: Sampling distribution of mean sale price based on samples of size <span class="math inline">\(n = 5\)</span> (top left), <span class="math inline">\(n = 10\)</span> (top right), <span class="math inline">\(n = 30\)</span> (bottom left), and <span class="math inline">\(n = 100\)</span> (bottom right).
 </p>
 </div>
 <p>The classical tests and procedures discussed in this chapter assume that we are sampling from populations that are infinitely large. In most cases, however, the populations from which we obtain samples are finite.</p>
 </div>
 <div id="hypothesis-testing" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Hypothesis testing</h3>
+<h3><span class="header-section-number">3.1.2</span> Hypothesis testing</h3>
 <p>Univariate statistical tests of hypotheses usually concern a single parameter, say <span class="math inline">\(\theta\)</span>. For instance, <span class="math inline">\(\theta\)</span> could be the mean of a single population (i.e., <span class="math inline">\(\theta = \mu\)</span>), or the difference between the means of two populations (i.e., <span class="math inline">\(\theta = \mu_1 - \mu_2\)</span>). The <em>null hypothesis</em>, denoted <span class="math inline">\(H_0\)</span>, represents the status quo of <span class="math inline">\(\theta\)</span> and the alternative hypothesis, denoted <span class="math inline">\(H_1\)</span> or <span class="math inline">\(H_a\)</span>, represents the research hypothesis regarding <span class="math inline">\(\theta\)</span>. For instance, in comparing the means of two populations, we may be interested in testing
 <span class="math display">\[
 H_0: \mu_1 - \mu_2 = \delta_0 \quad \text{vs.} \quad H_1: \mu_1 - \mu_2 \ne \delta_0,
@@ -407,7 +434,7 @@ H_0: \mu_1 - \mu_2 = \delta_0 \quad \text{vs.} \quad H_1: \mu_1 - \mu_2 \ne \del
 where <span class="math inline">\(\delta_0\)</span> is some hypothetical value (usually <span class="math inline">\(0\)</span> signifying no difference in the means of the two populations). To carry out such tests, we require an estimate of <span class="math inline">\(\theta\)</span>, say <span class="math inline">\(\widehat{\theta}\)</span>, and its corresponding sampling distribution.</p>
 </div>
 <div id="one-sided-versus-two-sided-tests" class="section level3">
-<h3><span class="header-section-number">4.1.3</span> One-sided versus two-sided tests</h3>
+<h3><span class="header-section-number">3.1.3</span> One-sided versus two-sided tests</h3>
 <p>The previous hypothesis test involved a two-sided alternative (i.e., <span class="math inline">\(H_1: \mu_1 - \mu_2 \ne \delta_0\)</span>). Such a test is called a <em>two-sided test</em>. It is possible, though less common, to use a one-sided alternative of the form
 <span class="math display">\[
 H_1: \theta &lt; \theta_0 \quad \text{or} \quad H_1: \theta &gt; \theta_0
@@ -415,7 +442,7 @@ H_1: \theta &lt; \theta_0 \quad \text{or} \quad H_1: \theta &gt; \theta_0
 A word of caution regarding one-sided alternatives is to avoid them! These are more common in experimental studies where <em>a priori</em> information is available suggesting that the population attribute of interest is either less than or greater than some hypothetical value. Although the proceeding discussions apply specifically to two-sided tests, the methodology can easily be amended to accommodate one-sided tests.</p>
 </div>
 <div id="type-i-and-type-ii-errors" class="section level3">
-<h3><span class="header-section-number">4.1.4</span> Type I and type II errors</h3>
+<h3><span class="header-section-number">3.1.4</span> Type I and type II errors</h3>
 <p>Statistical significance testing relies on the <em>presumption of innocence</em>. That is, we fail to reject the null hypothesis unless the data provide sufficient evidence to say otherwise. For example, in the US criminal justice system, the defendant is assumed innocent until proven guilty:
 <span class="math display">\[
 H_0: \text{Defendant is innocent} \quad \text{vs.} \quad H_1: \text{Defendant is guilty}
@@ -427,11 +454,46 @@ Whenever we conduct a statistical test of hypothesis, a decision is made regardi
 <li><p>Fail to convict the defendant when the defendant is guilty (a bad decision)</p></li>
 <li><p>Fail to convict the defendant when the defendant is innocent (a good decision)</p></li>
 </ol>
-<p>Which decision is worst? Naturally, it would be worse to convict an innocent person than to let a guilty person go free. We call the first type of error a <em>type I error</em>, and the second a <em>type II error</em>. Furthermore, we denote the probability of making a type I error as <span class="math inline">\(\alpha\)</span> and the probability of making a type II error as <span class="math inline">\(\beta\)</span>. The classic approach to statistical testing fixes the probability of making a type I error ahead of time (e.g., <span class="math inline">\(\alpha = 0.05\)</span>), we then do our best to reduce the risk of making a type II error (e.g., collecting sufficient sample size). In order to carry out a test with the goal of mitigating the probability of making a type II error we would conduct a <em>power analysis</em>, which we do not discuss here—the classic reference is <span class="citation">Cohen (<a href="#ref-cohen-statistical-1988">1988</a>)</span>.</p>
-<p><strong>INSERT TABLE HERE</strong></p>
+<p>Which decision is worst? Naturally, it would be worse to convict an innocent person than to let a guilty person go free. We call the first type of error a <em>type I error</em>, and the second a <em>type II error</em>. Furthermore, we denote the probability of making a type I error as <span class="math inline">\(\alpha\)</span> and the probability of making a type II error as <span class="math inline">\(\beta\)</span>. The classic approach to statistical testing fixes the probability of making a type I error ahead of time (e.g., <span class="math inline">\(\alpha = 0.05\)</span>), we then do our best to reduce the risk of making a type II error.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
+<img src="illustrations/type-1-type2-errors.png" alt="Type I versus type II errors." width="70%" />
+<p class="caption">
+Figure 3.3: Type I versus type II errors.
+</p>
+</div>
+</div>
+<div id="power-analysis" class="section level3">
+<h3><span class="header-section-number">3.1.5</span> Power analysis</h3>
+<p>Mitigating the probability of making a type II error involves minimizing <span class="math inline">\(\beta\)</span>; however, it is most common to discuss this in terms of <em>power analysis</em>. The <em>power</em> of any test of statistical significance is defined as the probability that it will reject a false null hypothesis and is inversely related to <span class="math inline">\(\betat\)</span>.</p>
+<p><span class="math display">\[
+\text{power} = 1 - \beta
+\]</span></p>
+<p>Power analysis is an important aspect of experimental design. It allows us to determine the sample size required to detect an effect of a given size with a given degree of confidence. To conduct a power analysis, we generally need three of the following four quantities:</p>
+<ol style="list-style-type: decimal">
+<li>sample size</li>
+<li>effect size - magnitude of the difference we desire to see</li>
+<li>significance level (<span class="math inline">\(\alpha\)</span>)</li>
+<li>power (<span class="math inline">\(1-\beta\)</span>)</li>
+</ol>
+<p>Often, in practice we have determined the magnitude of the effect size we desire to see for practical business impact and the level of confidence we have in our inference (provided by the various significance criterions: <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, and power). Consequently, we can use these units of measure to estimate the sample size required for our hypothesis testing. For example, assuming a two-sample t-test, the required sample size is given by</p>
+<p><span class="math display">\[
+n_i \ge 2\bigg( \frac{z_{1-\alpha/2} + z_{1-\beta}}{ES} \bigg)^2
+\]</span></p>
+<p>where <span class="math inline">\(n_i\)</span> is the sample size required in each group (<span class="math inline">\(i=1,2\)</span>), <span class="math inline">\(\alpha\)</span> is the selected level of significance and <span class="math inline">\(z_{1-\alpha/2}\)</span> is the value from the standard normal distribution, and <span class="math inline">\(1-\beta\)</span> is the selected power and <span class="math inline">\(z_{1-\beta}\)</span> is the value from the standard normal distribution. <span class="math inline">\(ES\)</span> is the effect size, defined as:</p>
+<p><span class="math display">\[
+ES = \frac{|\mu_1 = \mu_2|}{\sigma}
+\]</span>
+where <span class="math inline">\(|\mu_1 = \mu_2|\)</span> is the absolute value of the difference in means between the two groups <em>expected</em> under the alternative hypothesis, <span class="math inline">\(H_1\)</span>. Figure <a href="inference.html#fig:power-analysis">3.4</a> illustrates the relationship between the effect size we desire to confidently identify exists or not and the resulting sample size required to adequately detect this effect.</p>
+<div class="figure" style="text-align: center"><span id="fig:power-analysis"></span>
+<img src="abar_files/figure-html/power-analysis-1.png" alt="Relationship between effect size and sample size via power analysis." width="70%" />
+<p class="caption">
+Figure 3.4: Relationship between effect size and sample size via power analysis.
+</p>
+</div>
+<p>Power analyses and sample size calculations, differ depending on the type of hypothesis test (i.e. one-sided versus two-sided t-test, continuous versus binary responses) and are beyond the scope of this book (the classic reference is <span class="citation">Cohen (<a href="#ref-cohen-statistical-1988">1988</a>)</span>). However, in section <a href="inference.html#abtesting">3.2.3</a> we illustrate how a power analyis helps inform A/B testing procedures.</p>
 </div>
 <div id="p-values" class="section level3">
-<h3><span class="header-section-number">4.1.5</span> <span class="math inline">\(p\)</span>-values</h3>
+<h3><span class="header-section-number">3.1.6</span> <span class="math inline">\(p\)</span>-values</h3>
 <p>There are three equivalent approaches to conducting hypothesis tests:</p>
 <ol style="list-style-type: decimal">
 <li><p>The <em>rejection region</em> approach (the least informative).</p></li>
@@ -439,9 +501,9 @@ Whenever we conduct a statistical test of hypothesis, a decision is made regardi
 <li><p>The <em>confidence interval</em> approach.</p></li>
 </ol>
 <p>The latter two are the most informative as they provide information beyond our decision to simply reject or fail to reject a null hypothesis. This section discusses <span class="math inline">\(p\)</span>-values.</p>
-<p><span class="math inline">\(p\)</span>-values provide a measure of evidence in favor of or against the null hypothesis. The <span class="math inline">\(p\)</span>-value, denoted <span class="math inline">\(p\)</span>, can be thought of as the <em>observed significance level</em>. We would reject the null hypothesis at the <span class="math inline">\(\alpha\)</span> level of significance whenever <span class="math inline">\(p &lt; \alpha\)</span>. Table <a href="inference.html#tab:p-values">4.1</a> provides a general guideline for interpreting <span class="math inline">\(p\)</span>-values.</p>
+<p><span class="math inline">\(p\)</span>-values provide a measure of evidence in favor of or against the null hypothesis. The <span class="math inline">\(p\)</span>-value, denoted <span class="math inline">\(p\)</span>, can be thought of as the <em>observed significance level</em>. We would reject the null hypothesis at the <span class="math inline">\(\alpha\)</span> level of significance whenever <span class="math inline">\(p &lt; \alpha\)</span>. Table <a href="inference.html#tab:p-values">3.1</a> provides a general guideline for interpreting <span class="math inline">\(p\)</span>-values.</p>
 <table>
-<caption><span id="tab:p-values">Table 4.1: </span> p-values.</caption>
+<caption><span id="tab:p-values">Table 3.1: </span> p-values.</caption>
 <thead>
 <tr class="header">
 <th align="center">Result</th>
@@ -474,24 +536,24 @@ Whenever we conduct a statistical test of hypothesis, a decision is made regardi
 <p>To put another way, <span class="math inline">\(p\)</span>-values tell us the smallest value of <span class="math inline">\(\alpha\)</span> that would result in rejecting the null hypothesis. Keep in mind, however, that it is highly unethical to change <span class="math inline">\(\alpha\)</span> after comparing it to the <span class="math inline">\(p\)</span>-value in order to change the resulting decision of the test—the significance level should be stated before the data are inspected, or even collected, and never be changed thereafter. To compute a <span class="math inline">\(p\)</span>-value, we need to be able to compute probabilities from the sampling distribution of the test statistic under the assumption that the null hypothesis is true. Most statistical tests built into R, however, compute <span class="math inline">\(p\)</span>-values that are provided in the output.</p>
 </div>
 <div id="confidence-intervals" class="section level3">
-<h3><span class="header-section-number">4.1.6</span> Confidence intervals</h3>
+<h3><span class="header-section-number">3.1.7</span> Confidence intervals</h3>
 <p><em>Confidence intervals</em> assign a range of plausible values to the population attribute of interest. A traditional <span class="math inline">\(100\left(1 - \alpha\right)\)</span>% confidence interval for a population parameter <span class="math inline">\(\theta\)</span> has the form
 <span class="math display" id="eq:conf-int">\[\begin{equation}
   \widehat{\theta} \pm \gamma_{1 - \alpha / 2} \widehat{SE}\left(\widehat{\theta}\right),
-  \tag{4.3}
+  \tag{3.3}
 \end{equation}\]</span>
-where <span class="math inline">\(\widehat{\theta}\)</span> is an appropriate estimate of <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\gamma_{1 - \alpha / 2}\)</span> is the <span class="math inline">\(1 - \alpha / 2\)</span> quantile from an appropriate reference distribution, and <span class="math inline">\(\widehat{SE}\left(\widehat{\theta}\right)\)</span> is the estimated standard error of <span class="math inline">\(\widehat{\theta}\)</span>. Confidence intervals of the form <a href="inference.html#eq:conf-int">(4.3)</a> are commonly used in practice, but are not always accurate—they assume that the sampling distribution of <span class="math inline">\(\widehat{\theta}\)</span> is symmetric. Later in this chapter, we discuss the <em>nonparametric bootstrap</em>, a simulation-based approach to estimating <span class="math inline">\(\widehat{SE}\left(\widehat{\theta}\right)\)</span> and computing confidence intervals that does not assume a theoretical sampling distribution for <span class="math inline">\(\widehat{\theta}\)</span>.</p>
+where <span class="math inline">\(\widehat{\theta}\)</span> is an appropriate estimate of <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\gamma_{1 - \alpha / 2}\)</span> is the <span class="math inline">\(1 - \alpha / 2\)</span> quantile from an appropriate reference distribution, and <span class="math inline">\(\widehat{SE}\left(\widehat{\theta}\right)\)</span> is the estimated standard error of <span class="math inline">\(\widehat{\theta}\)</span>. Confidence intervals of the form <a href="inference.html#eq:conf-int">(3.3)</a> are commonly used in practice, but are not always accurate—they assume that the sampling distribution of <span class="math inline">\(\widehat{\theta}\)</span> is symmetric. Later in this chapter, we discuss the <em>nonparametric bootstrap</em>, a simulation-based approach to estimating <span class="math inline">\(\widehat{SE}\left(\widehat{\theta}\right)\)</span> and computing confidence intervals that does not assume a theoretical sampling distribution for <span class="math inline">\(\widehat{\theta}\)</span>.</p>
 </div>
 </div>
 <div id="one--and-two-sample-t-tests" class="section level2">
-<h2><span class="header-section-number">4.2</span> One- and two-sample t-tests</h2>
+<h2><span class="header-section-number">3.2</span> One- and two-sample t-tests</h2>
 <p>One of the most common goals in classical statistical inference is to make inference regarding the mean of a single population (<span class="math inline">\(\theta = \mu\)</span>) or the difference in means between two populations (<span class="math inline">\(\theta = \mu_1 - \mu_2\)</span>). And the corresponding test has the form
 <span class="math display">\[
   H_0: \theta = \theta_0 \quad \text{vs.} \quad H_1: \theta \ne \theta_0,
 \]</span>
 where <span class="math inline">\(\theta_0\)</span> is the hypothesized value of the mean or difference in means.</p>
 <div id="one-sample-t-test" class="section level3">
-<h3><span class="header-section-number">4.2.1</span> One-sample t-test</h3>
+<h3><span class="header-section-number">3.2.1</span> One-sample t-test</h3>
 <p>Assume we have a random sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> from the population of interest with sample mean <span class="math inline">\(\bar{x}\)</span> and sample standard deviation <span class="math inline">\(s\)</span>. If the data are normally distributed, we can test this hypothesis using a standard <span class="math inline">\(t\)</span>-test. If the data are not normally distributed, then the <em>central limit theorem</em> (CLM) tells us that the sampling distribution of the sample mean will be approximately normal for sufficiently large <span class="math inline">\(n\)</span>. How large does <span class="math inline">\(n\)</span> need to be? The answer depends on how far the true distribution deviates from normality! A common rule of thumb, though not always sufficient, is that <span class="math inline">\(n &gt; 30\)</span> is required to invoke the CLM.</p>
 The test statistic for the one-sample <span class="math inline">\(t\)</span>-test is
 <span class="math display">\[
@@ -500,47 +562,47 @@ The test statistic for the one-sample <span class="math inline">\(t\)</span>-tes
 If the null hypothesis is true, then <span class="math inline">\(t_{obs}\)</span> comes from a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> <em>degrees of freedom</em>. We would reject the null hypothesis if <span class="math inline">\(|t_{obs}| &gt; t_{1 - \alpha / 2, n - 1}\)</span>, where <span class="math inline">\(t_{1 - \alpha / 2, n - 1}\)</span> is the <span class="math inline">\(1 - \alpha / 2\)</span> quantile from a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom. A <span class="math inline">\(100\left(1 - \alpha\right)\)</span>% confidence interval for true mean is given by
 <span class="math display" id="eq:one-sample-t-test-ci">\[\begin{equation}
   \bar{x} \pm t_{1 - \alpha / 2, n - 1} \times \frac{s}{\sqrt{n}}
-  \tag{4.4}
+  \tag{3.4}
 \end{equation}\]</span>
-Correspondingly, we would reject the null hypothesis whenever the hypothesized value <span class="math inline">\(\theta_0\)</span> is not contained within <a href="inference.html#eq:one-sample-t-test-ci">(4.4)</a>. A <span class="math inline">\(p\)</span>-value for the test can also be computes as <span class="math inline">\(p = 2 \times Pr\left(T_{n - 1} &gt; |t_{obs}|\right)\)</span>, where <span class="math inline">\(T_{n - 1}\)</span> is a random variable following a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom. In other words, the <span class="math inline">\(p\)</span>-value is the area under the curve of a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom to the right <span class="math inline">\(t_{obs}\)</span>; see Figure <a href="inference.html#fig:t-dist">4.3</a>.
+Correspondingly, we would reject the null hypothesis whenever the hypothesized value <span class="math inline">\(\theta_0\)</span> is not contained within <a href="inference.html#eq:one-sample-t-test-ci">(3.4)</a>. A <span class="math inline">\(p\)</span>-value for the test can also be computes as <span class="math inline">\(p = 2 \times Pr\left(T_{n - 1} &gt; |t_{obs}|\right)\)</span>, where <span class="math inline">\(T_{n - 1}\)</span> is a random variable following a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom. In other words, the <span class="math inline">\(p\)</span>-value is the area under the curve of a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom to the right <span class="math inline">\(t_{obs}\)</span>; see Figure <a href="inference.html#fig:t-dist">3.5</a>.
 <div class="figure" style="text-align: center"><span id="fig:t-dist"></span>
-<img src="abar_files/figure-html/t-dist-1.png" alt="$t$-distribution with $n - 1$ degrees of freedom. The shaded area corresponds to the $p$-value of the test." width="480" />
+<img src="abar_files/figure-html/t-dist-1.png" alt="$t$-distribution with $n - 1$ degrees of freedom. The shaded area corresponds to the $p$-value of the test." width="70%" />
 <p class="caption">
-Figure 4.3: <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom. The shaded area corresponds to the <span class="math inline">\(p\)</span>-value of the test.
+Figure 3.5: <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n - 1\)</span> degrees of freedom. The shaded area corresponds to the <span class="math inline">\(p\)</span>-value of the test.
 </p>
 </div>
 <p>To illustrate, the one-sample <span class="math inline">\(t\)</span>-test, we’ll use the <code>ames</code> data set. In Chapters 2–3, we provided both numerical and visual descriptions of <code>Sale_Price</code>. Below, we use R’s built-in <code>t.test</code> function to obtain a 95% confidence interval for the true mean selling price based on a random sample of size <span class="math inline">\(n = 50\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1551</span>)  <span class="co"># for reproducibility</span>
 sp50 &lt;-<span class="st"> </span><span class="kw">sample</span>(Sale_Price, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)
 <span class="kw">t.test</span>(sp50, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)
-## 
-##  One Sample t-test
-## 
-## data:  sp50
-## t = 21, df = 49, p-value &lt;2e-16
-## alternative hypothesis: true mean is not equal to 0
-## 95 percent confidence interval:
-##  158237 192246
-## sample estimates:
-## mean of x 
-##    175241</code></pre>
-<p>Based on the output, a 95% confidence interval for the mean selling price, based on a sample of size <span class="math inline">\(n = 50\)</span> is <span class="math inline">\(\left(1.5824\times 10^{5}, 1.9225\times 10^{5}\right)\)</span>. By default, the <code>t.test</code> function uses <span class="math inline">\(\theta_0 = 0\)</span>. To specify a different value, use the <code>mu</code> argument:</p>
+<span class="co">## </span>
+<span class="co">##  One Sample t-test</span>
+<span class="co">## </span>
+<span class="co">## data:  sp50</span>
+<span class="co">## t = 20.71, df = 49, p-value &lt; 2.2e-16</span>
+<span class="co">## alternative hypothesis: true mean is not equal to 0</span>
+<span class="co">## 95 percent confidence interval:</span>
+<span class="co">##  158237.0 192245.7</span>
+<span class="co">## sample estimates:</span>
+<span class="co">## mean of x </span>
+<span class="co">##  175241.4</span></code></pre>
+<p>Based on the output, a 95% confidence interval for the mean selling price, based on a sample of size <span class="math inline">\(n = 50\)</span> is <span class="math inline">\(\left(1.5823704\times 10^{5}, 1.9224572\times 10^{5}\right)\)</span>. By default, the <code>t.test</code> function uses <span class="math inline">\(\theta_0 = 0\)</span>. To specify a different value, use the <code>mu</code> argument:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(sp50, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="dt">conf.level =</span> <span class="fl">0.95</span>, <span class="dt">mu =</span> <span class="dv">600000</span>)
-## 
-##  One Sample t-test
-## 
-## data:  sp50
-## t = -50, df = 49, p-value &lt;2e-16
-## alternative hypothesis: true mean is not equal to 6e+05
-## 95 percent confidence interval:
-##  158237 192246
-## sample estimates:
-## mean of x 
-##    175241</code></pre>
+<span class="co">## </span>
+<span class="co">##  One Sample t-test</span>
+<span class="co">## </span>
+<span class="co">## data:  sp50</span>
+<span class="co">## t = -50.198, df = 49, p-value &lt; 2.2e-16</span>
+<span class="co">## alternative hypothesis: true mean is not equal to 6e+05</span>
+<span class="co">## 95 percent confidence interval:</span>
+<span class="co">##  158237.0 192245.7</span>
+<span class="co">## sample estimates:</span>
+<span class="co">## mean of x </span>
+<span class="co">##  175241.4</span></code></pre>
 <p>The resulting confidence interval is the same, but the corresponding <span class="math inline">\(p\)</span>-value now correspond to the testing whether or not the population mean significantly differs from the value $<span class="math inline">\(600,000\)</span>; in this case, we would fail to reject the null hypothesis at the <span class="math inline">\(0.05\)</span> level of significance.</p>
 </div>
 <div id="two-sample-t-test" class="section level3">
-<h3><span class="header-section-number">4.2.2</span> Two-sample t-test</h3>
+<h3><span class="header-section-number">3.2.2</span> Two-sample t-test</h3>
 <p>Assume we have a random sample <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> from one population of interest with sample mean <span class="math inline">\(\bar{x}\)</span> and sample standard deviation <span class="math inline">\(s_x\)</span> and another random sample <span class="math inline">\(y_1, y_2, \dots, y_n\)</span> from a second population of interest with sample mean <span class="math inline">\(\bar{y}\)</span> and sample standard deviation <span class="math inline">\(s_y\)</span>. For the two-sample <span class="math inline">\(t\)</span>-test, <span class="math inline">\(\theta = \mu_x - \mu_y\)</span> and <span class="math inline">\(\theta_0\)</span> is often <span class="math inline">\(0\)</span> (i.e., no difference between the population means). Of course, no two means are exactly equal! What we really care about is whether or not the true difference is small enough to say that the two means are practically the same. The more data we have, the smaller a true difference we are able to detect.</p>
 <p>In performing a two-sample <span class="math inline">\(t\)</span>-test, we have to make an assumption regarding the variance of the two populations. The assumption we make here determines which two-sample <span class="math inline">\(t\)</span>-test will be used:</p>
 <ol style="list-style-type: decimal">
@@ -551,7 +613,7 @@ sp50 &lt;-<span class="st"> </span><span class="kw">sample</span>(Sale_Price, <s
 <span class="math display">\[
   t_{obs} = \frac{\bar{x} - \bar{y}}{\sqrt{s_1 ^ 2 / n_1 + s_2 ^ 2 / n_2}}
 \]</span>
-The trouble with Welch’s <span class="math inline">\(t\)</span>-test is that the <span class="math inline">\(t_obs\)</span> does not come from a <span class="math inline">\(t\)</span>-distribution, but can be approximated by a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(v\)</span> degrees of freedom, where <span class="math inline">\(v\)</span> is given by the <strong>Satterthwaite approximation</strong>:
+The trouble with Welch’s <span class="math inline">\(t\)</span>-test is that the <span class="math inline">\(t_{obs}\)</span> does not come from a <span class="math inline">\(t\)</span>-distribution, but can be approximated by a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(v\)</span> degrees of freedom, where <span class="math inline">\(v\)</span> is given by the <strong>Satterthwaite approximation</strong>:
 <span class="math display">\[
   v = TBD.
 \]</span>
@@ -561,26 +623,28 @@ Fortunately, the degrees of freedom is computed automatically by the <code>t.tes
   \bar{x}_1 + \bar{x}_2 \pm t_{1 - \alpha / 2, v} \times \sqrt{s_1 ^ 2 / n_1 + s_2 ^ 2 / n_2},
 \]</span>
 where <span class="math inline">\(t_{1 - \alpha / 2, v}\)</span> is the <span class="math inline">\(1 - \alpha / 2\)</span> quantile from a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(v\)</span> degrees of freedom.</p>
-<p><strong>A/B test example</strong></p>
+</div>
+<div id="abtesting" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> A/B Testing</h3>
 </div>
 </div>
 <div id="tests-involving-more-than-two-means-anova-models" class="section level2">
-<h2><span class="header-section-number">4.3</span> Tests involving more than two means: ANOVA models</h2>
+<h2><span class="header-section-number">3.3</span> Tests involving more than two means: ANOVA models</h2>
 <p>TBD.</p>
 </div>
 <div id="testing-for-association-in-contingency-tables" class="section level2">
-<h2><span class="header-section-number">4.4</span> Testing for association in contingency tables</h2>
+<h2><span class="header-section-number">3.4</span> Testing for association in contingency tables</h2>
 <p>TBD.</p>
 </div>
 <div id="nonparametric-tests" class="section level2">
-<h2><span class="header-section-number">4.5</span> Nonparametric tests</h2>
+<h2><span class="header-section-number">3.5</span> Nonparametric tests</h2>
 <p>TBD.</p>
 </div>
 <div id="bootstrap" class="section level2">
-<h2><span class="header-section-number">4.6</span> The nonparametric bootstrap</h2>
+<h2><span class="header-section-number">3.6</span> The nonparametric bootstrap</h2>
 <p>The statistical tests discussed so far in this chapter assume a theoretical sampling distribution for the corresponding test statistic <span class="math inline">\(\widehat{\theta}\)</span>, which requires certain assumptions like large sample sizes (when appealing to the CLT) or normality of the population from which the sample was obtained. These assumptions are often difficult to meet in practice. The <em>bootstrap</em> technique <span class="citation">(Efron <a href="#ref-efron-bootstrap-1979">1979</a>)</span> estimates the sampling <span class="math inline">\(\widehat{\theta}\)</span> by direct simulation. In general, bootstrap methods fall into one of two categories, <em>parametric</em> and <em>nonparametric</em>. In this section, we briefly introduce the nonparametric bootstrap. A thorough introduction to the bootstrap and its use in R is provided in <span class="citation">Davison and Hinkley (<a href="#ref-davison-bootstrap-1997">1997</a>)</span>.</p>
 <p>Suppose we have a sample of data <span class="math inline">\(\boldsymbol{x} = \left\{x_1, x_2, \dots, x_n\right\}\)</span> from some population of interest. We can estimate a particular population attribute <span class="math inline">\(\theta\)</span> using a statistic that is a function of the sample, say <span class="math inline">\(\widehat{\theta} = t\left(\boldsymbol{x}\right)\)</span>. In order to make inference regarding <span class="math inline">\(\theta\)</span>, we need to know the complete sampling distribution of <span class="math inline">\(\widehat{\theta}\)</span>.</p>
-<p>The nonparametric bootstrap constructs the sampling distribution of <span class="math inline">\(\widehat{\theta}\)</span> by sampling <strong>with replacement</strong> from the original sample; that is, treating the sample as if it were the population and making repeated resamples from it, each time recomputing the statistic of interest (see Figure <a href="inference.html#fig:bootstrap-distribution">4.4</a>). This is analogous to the frequentist approach displayed in Figure <a href="inference.html#fig:sampling-distribution">4.1</a>. A single <em>bootstrap sample</em>
+<p>The nonparametric bootstrap constructs the sampling distribution of <span class="math inline">\(\widehat{\theta}\)</span> by sampling <strong>with replacement</strong> from the original sample; that is, treating the sample as if it were the population and making repeated resamples from it, each time recomputing the statistic of interest (see Figure <a href="inference.html#fig:bootstrap-distribution">3.6</a>). This is analogous to the frequentist approach displayed in Figure <a href="inference.html#fig:sampling-distribution">3.1</a>. A single <em>bootstrap sample</em>
 <span class="math display">\[
   \boldsymbol{x} ^ \star = \left\{x_1 ^ \star, x_2 ^ \star, \dots, x_n ^ \star\right\},
 \]</span>
@@ -588,7 +652,7 @@ where <span class="math inline">\(x_i ^ \star\)</span> <span class="math inline"
 <div class="figure" style="text-align: center"><span id="fig:bootstrap-distribution"></span>
 <img src="illustrations/bootstrap-distribution.png" alt="Bootstrap distirbution." width="100%" />
 <p class="caption">
-Figure 4.4: Bootstrap distirbution.
+Figure 3.6: Bootstrap distirbution.
 </p>
 </div>
 <p>With each bootstrap sample, we can compute a bootstrap replicate of the statistic <span class="math inline">\(\widehat{\theta}\)</span>
@@ -608,9 +672,9 @@ is the sample mean of the <span class="math inline">\(R\)</span> bootstrap repli
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
 <span class="kw">set.seed</span>(<span class="dv">2233</span>)  <span class="co"># for reproducibility</span>
 <span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
-##  [1]  2  4  2  6  9 10  8  5 10  4
+<span class="co">##  [1]  2  4  2  6  9 10  8  5 10  4</span>
 <span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
-##  [1]  5  7 10  4  9 10  5  4  4  9</code></pre>
+<span class="co">##  [1]  5  7 10  4  9 10  5  4  4  9</span></code></pre>
 <p>Notice how some values from the original sample get repeated in each bootstrap sample. For example, <code>4</code> shows up three times in the second bootstrap sample.</p>
 <p>To illustrate, we can bootstrap our sample of <span class="math inline">\(n = 50\)</span> values of <code>Sale_Price</code> to form a bootstrap estimate of the sampling distribution for the mean sale price. This is shown in Figure @ref{fig:bootstrap-distribution-ames} and was produced using the code chunk below.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1551</span>)  <span class="co"># for reproducibility</span>
@@ -622,26 +686,26 @@ bootreps &lt;-<span class="st"> </span>plyr<span class="op">::</span><span class
 <div class="figure" style="text-align: center"><span id="fig:bootstrap-distribution-ames"></span>
 <img src="abar_files/figure-html/bootstrap-distribution-ames-1.png" alt="Bootstrap distirbution of mean sale price based on a random sample of size 50 using $R = 10,000$ bootstrap samples." width="80%" />
 <p class="caption">
-Figure 4.5: Bootstrap distirbution of mean sale price based on a random sample of size 50 using <span class="math inline">\(R = 10,000\)</span> bootstrap samples.
+Figure 3.7: Bootstrap distirbution of mean sale price based on a random sample of size 50 using <span class="math inline">\(R = 10,000\)</span> bootstrap samples.
 </p>
 </div>
 <p>Compare this to the true sampling distributions of the mean selling price based on various sample sizes illustrated in Figure ?.</p>
 <div id="bootstrap-confidence-intervals" class="section level3">
-<h3><span class="header-section-number">4.6.1</span> Bootstrap confidence intervals</h3>
+<h3><span class="header-section-number">3.6.1</span> Bootstrap confidence intervals</h3>
 <p>Confidence intervals can be obtained directly from the bootstrap distribution of <span class="math inline">\(\widehat{\theta}\)</span>. For example, to obtain an approximate <span class="math inline">\(100\left(1 - \alpha\right)\)</span> confidence interval for <span class="math inline">\(\theta\)</span>, we can use the <span class="math inline">\(\alpha / 2\)</span> and <span class="math inline">\(1 - \alpha / 2\)</span> quantiles from the bootstrap distribution. For the above example, an approximate 95% confidence interval for the mean sale price, we get</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(bootreps<span class="op">$</span>V1, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))
-##   2.5%  97.5% 
-## 159295 191915</code></pre>
-<p>This is called the <em>percentile bootstrap interval</em>. Compare this to the results from the <span class="math inline">\(t\)</span>-test procedure, which gave <span class="math inline">\(\left(1.5824\times 10^{5}, 1.9225\times 10^{5}\right)\)</span>.</p>
+<span class="co">##     2.5%    97.5% </span>
+<span class="co">## 159294.9 191914.9</span></code></pre>
+<p>This is called the <em>percentile bootstrap interval</em>. Compare this to the results from the <span class="math inline">\(t\)</span>-test procedure, which gave <span class="math inline">\(\left(1.5823704\times 10^{5}, 1.9224572\times 10^{5}\right)\)</span>.</p>
 <p>So how many bootstrap samples are sufficient? The answer, of course, depends on the inferential objectives. Previous studies have shown that far less bootstrap replicates are required when estimating standard errors (e.g., 200) while more are required for computing confidence intervals (e.g., <span class="math inline">\(\ge 1000\)</span>). With the speed of modern computers, however, the number of bootstrap replicates should be made as large possible within reason!</p>
 </div>
 </div>
 <div id="further-reading-1" class="section level2">
-<h2><span class="header-section-number">4.7</span> Further reading</h2>
+<h2><span class="header-section-number">3.7</span> Further reading</h2>
 <p>TBD.</p>
 </div>
 <div id="exercises-2" class="section level2">
-<h2><span class="header-section-number">4.8</span> Exercises</h2>
+<h2><span class="header-section-number">3.8</span> Exercises</h2>
 <p>TBD.</p>
 
 </div>
@@ -649,7 +713,7 @@ Figure 4.5: Bootstrap distirbution of mean sale price based on a random sample o
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-student-probable-1908">
-<p>Student. 1908. “The Probable Error of a Mean.” <em>Biometrika</em> 6 (1): 1–25. <a href="https://doi.org/10.1093/biomet/6.1.1" class="uri">https://doi.org/10.1093/biomet/6.1.1</a>.</p>
+<p>Student. 1908. “The Probable Error of a Mean.” <em>Biometrika</em> 6 (1): 1–25. <a href="https://doi.org/10.1093/biomet/6.1.1">https://doi.org/10.1093/biomet/6.1.1</a>.</p>
 </div>
 <div id="ref-cohen-statistical-1988">
 <p>Cohen, Jacob. 1988. <em>Statistical Power Analysis for the Behavioral Sciences</em>. Taylor &amp; Francis.</p>
@@ -658,13 +722,13 @@ Figure 4.5: Bootstrap distirbution of mean sale price based on a random sample o
 <p>Efron, Brad. 1979. “Ames, Iowa: Alternative to the Boston Housing Data as an End of Semester Regression Project.” <em>The Annals of Statistics</em> 7 (1): 1–26.</p>
 </div>
 <div id="ref-davison-bootstrap-1997">
-<p>Davison, A. C., and D. V. Hinkley. 1997. <em>Bootstrap Methods and Their Application</em>. Cambridge Series in Statistical and Probabilistic Mathematics. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511802843" class="uri">https://doi.org/10.1017/CBO9780511802843</a>.</p>
+<p>Davison, A. C., and D. V. Hinkley. 1997. <em>Bootstrap Methods and Their Application</em>. Cambridge Series in Statistical and Probabilistic Mathematics. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511802843">https://doi.org/10.1017/CBO9780511802843</a>.</p>
 </div>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="10">
-<li id="fn10"><p>Keep in mind that a statistically significant result does not necessarilly imply a <em>practically significant</em> result (recall the importance of specifying effect sizes).<a href="inference.html#fnref10" class="footnote-back">↩</a></p></li>
+<ol start="1">
+<li id="fn1"><p>Keep in mind that a statistically significant result does not necessarilly imply a <em>practically significant</em> result (recall the importance of specifying effect sizes).<a href="inference.html#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -676,13 +740,13 @@ Figure 4.5: Bootstrap distirbution of mean sale price based on a random sample o
 <a href="unsupervised.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
-<script src="libs/gitbook/js/app.min.js"></script>
-<script src="libs/gitbook/js/lunr.js"></script>
-<script src="libs/gitbook/js/plugin-search.js"></script>
-<script src="libs/gitbook/js/plugin-sharing.js"></script>
-<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
